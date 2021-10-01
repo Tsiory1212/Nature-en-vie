@@ -1,0 +1,1490 @@
+@media (min-width: 1300px){
+	.biolife-body__home-11 .container {
+	    width: 1200px;
+	}
+}
+.home-11__elm-02{
+	margin-bottom: 20px;
+}
+.home-11__elm-03{
+	margin-bottom: 82px;
+}
+.home-11__elm-04 .biolife-title-box{
+    margin-bottom: 38px;
+}
+.home-11__elm-04 .tab-head{
+	margin-bottom: 23px;
+}
+.home-11__elm-04{
+	margin-bottom: 55px;
+}
+.home-11__elm-05{
+	background: #f6f5f1 url('../images/home-11/bg-show-case.jpg') no-repeat center top;
+	padding-top: 111px;
+	display: block;
+	margin-bottom: 61px;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.home-11__elm-05{
+		-webkit-background-size: cover;
+		background-size: cover;
+	}
+}
+.home-11__elm-05 .biolife-title-box{
+	margin-bottom: 30px;
+}
+.home-11__elm-05 .biolife-showcase{
+	margin-bottom: 67px;
+}
+.home-11__elm-05 .biolife-brands{
+	border-top: 1px solid rgba(0,0,0,0.12);
+	padding-top: 54px;
+	padding-bottom: 95px;
+}
+.home-11__elm-06{
+	margin-bottom: 64px;
+}
+.home-11__elm-07{
+	margin-bottom: 62px;
+}
+.home-11__elm-07 .biolife-title-box{
+	margin-bottom: 18px;
+}
+.home-11__elm-08{
+	margin-bottom: 83px;
+}
+.home-11__elm-09 .biolife-title-box{
+	margin-bottom: 44px;
+}
+@media (max-width: 767px) {
+	.home-11__elm-02{
+		margin-top: 15px;
+		margin-bottom: 50px;
+	}
+	.home-11__elm-03{
+		margin-bottom: 30px;
+	}
+	.home-11__elm-04{
+		margin-bottom: 0;
+	}
+	.home-11__elm-05{
+		background-size: cover;
+		margin-bottom: 30px;
+	}
+	.home-11__elm-05 .biolife-brands{
+		padding-top: 30px;
+	}
+	.home-11__elm-05 .biolife-brands__list-inline .brands li{
+		padding: 30px 0;
+	}
+	.home-11__elm-06{
+		margin-bottom: 90px;
+	}
+	.home-11__elm-07 .biolife-title-box{
+		margin-bottom: 50px;
+	}
+	.home-11__elm-09{
+		margin-bottom: 30px;
+	}
+}
+@media (max-width: 1199px) and (min-width: 992px) {
+	.home-11__elm-09{
+		margin-bottom: 80px;
+	}
+}
+.biolife-header__eleven{
+	background-color: #3d750e;
+}
+.biolife-header__eleven .header-top{
+	background-color: #35660c;
+	position: relative;
+}
+.biolife-header__eleven .header-top::after{
+	content: '';
+	display: block;
+	bottom: -4px;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background-color: #2b540a;
+	overflow: hidden;
+	z-index: 1;
+	position: absolute;
+}
+.biolife-header__eleven .header-top .left .horizontal-menu>li{
+	padding: 0 18px;
+	float: left;
+	border-left: 0;
+}
+.biolife-header__eleven .header-top .left .horizontal-menu>li:first-child{
+	padding-left: 0;
+}
+.biolife-header__eleven .header-top .text{
+	font-size: 14px;
+	line-height: 40px;
+	display: inline-block;
+	color: #fff;
+}
+.biolife-header__eleven .header-top .nice-select{
+	padding-left: 0;
+}
+.biolife-header__eleven .header-top .nice-select .current{
+    padding: 13px 0;
+}
+.biolife-header__eleven .header-top .nice-select .list{
+    border-radius: 0;
+    box-shadow: none;
+}
+.biolife-header__eleven .header-top .right .horizontal-menu>li{
+	padding: 0 18px;
+	min-width: initial;
+	border: none;
+}
+.biolife-header__eleven .header-top .right .horizontal-menu>li:last-child{
+	padding-right: 0;
+}
+.biolife-header__eleven .header-top .right .horizontal-menu>li>a{
+	font-size: 14px;
+	color: #fff;
+	line-height: 40px;
+	display: inline-block;
+}
+.biolife-header__eleven .header-top .right .horizontal-menu>li>a:hover{
+	color: #fed700;
+}
+.biolife-header__eleven .header-top .right .horizontal-menu>li>a i{
+	margin-right: 5px;
+}
+.biolife-header__eleven .header-middle{
+	padding-top: 33px;
+	padding-bottom: 31px;
+}
+.biolife-header__eleven .header-middle .biolife-logo{
+    display: inline-block;
+    margin-top: 4px;
+}
+.biolife-header__eleven .biolife-cart-info{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	margin-top: 0;
+}
+.biolife-header__eleven .questions a{
+	display: inline-block;
+	font-size: 16px;
+	line-height: 1;
+	color: #fff;
+	font-weight: 700;
+	float: left;
+}
+.biolife-header__eleven .questions a i{
+	margin-right: 8px;
+}
+.biolife-header__eleven .questions a:hover{
+	color: #fed700;
+}
+.biolife-header__eleven .search-bar{
+	width: 400px;
+}
+.biolife-header__eleven .search-bar .btn-close,
+.biolife-header__eleven .search-bar .open-searchbox{
+	display: none;
+}
+.biolife-header__eleven .search-bar .search-content{
+	background-color: #fff;
+	display: block;
+	position: relative;
+}
+.biolife-header__eleven .search-bar .form-search{
+	position: relative;
+}
+.biolife-header__eleven .search-bar .input-text{
+	font-size: 14px;
+	color: #333;
+	line-height: 46px;
+	display: inline-block;
+	width: 100%;
+	border: none;
+    padding: 10px 50px 10px 20px;
+	height: 46px;
+}
+.biolife-header__eleven .search-bar .input-text::-webkit-input-placeholder{ color: #333; }
+.biolife-header__eleven .search-bar .input-text:-ms-input-placeholder{ color: #333; }
+.biolife-header__eleven .search-bar .input-text::placeholder{ color: #333; }
+.biolife-header__eleven .search-bar .btn-submit{
+	display: inline-block;
+	background-color: #fed700;
+	border: none;
+	outline: none;
+	box-shadow: none;
+	font-size: 16px;
+	line-height: 36px;
+	padding: 2px 11px 0;
+	position: absolute;
+	top: 4px;
+	right: 4px;
+}
+.biolife-header__eleven .search-bar .btn-submit .biolife-icon{
+	color: #333333;
+}
+.biolife-header__eleven .search-bar .btn-submit:hover{
+	background-color: #333;
+}
+.biolife-header__eleven .search-bar .btn-submit:hover .biolife-icon{
+	color: #fff;
+}
+.biolife-header__eleven .minicart-block .link-cb{
+	background-color: #fed700;
+	color: #000;
+	display: inline-block;
+	font-weight: 600;
+	padding: 11px 17px;
+	min-width: 160px;
+}
+.biolife-header__eleven .minicart-block .link-cb::after{
+    content: '\f0d7';
+    font-family: 'FontAwesome', sans-serif;
+    font-size: 12px;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.biolife-header__eleven .minicart-block .link-cb>i{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+}
+.biolife-header__eleven .minicart-block .link-cb>.title{
+	font-size: 16px;
+	font-weight: 600;
+	display: inline-block;
+	vertical-align: middle;
+	color: #000;
+	text-transform: capitalize;
+}
+.biolife-header__eleven .minicart-block .link-cb>.qty{
+	font-size: 16px;
+	font-weight: 600;
+	display: inline-block;
+	background-color: #e5c300;
+	color: #000;
+	border-radius: 50%;
+	min-width: 24px;
+	vertical-align: middle;
+	text-align: center;
+	margin-left: 10px;
+}
+.biolife-header__eleven .header-bottom:not(.pre-sticky){
+	padding: 0;
+}
+.biolife-header__eleven .header-bottom:not(.pre-sticky) .primary-menu{
+	padding: 0;
+    margin: 0;
+	background-color: #e6e6e6;
+}
+.biolife-header__eleven .header-bottom:not(.pre-sticky) .primary-menu>ul{
+    line-height: 1;
+}
+.biolife-header__eleven .header-bottom:not(.pre-sticky) .primary-menu>ul>li{
+	padding: 0 21px;
+	display: inline-block;
+	margin: 0;
+}
+.biolife-header__eleven .header-bottom:not(.pre-sticky) .primary-menu>ul>li+li{
+	border-left: 1px solid #cccccc;
+}
+.biolife-header__eleven .header-bottom:not(.pre-sticky) .primary-menu>ul>li>a{
+	font-size: 16px;
+	font-weight: 600;
+	color: #000;
+	line-height: 50px;
+}
+.biolife-header__eleven .header-bottom:not(.pre-sticky) .primary-menu>ul>li>a::after{
+	content: none !important;
+	display: none !important;
+}
+.biolife-header__eleven .mobile-menu-toggle>a{
+	padding: 15px 8px;
+	background-color: #fed700;
+}
+@media (min-width: 992px){
+	.header-area.biolife-header__eleven:not(.layout-01):not(.layout-02) .primary-menu>ul .wrap-megamenu {
+	    margin-left: 0;
+	}
+}
+@media (max-width: 991px) {
+	.biolife-header__eleven .header-middle{
+		padding: 15px 0;
+	}
+	.biolife-header__eleven .minicart-block .link-cb{
+		padding: 5px 7px;
+		min-width: initial;
+	}
+	.biolife-header__eleven .minicart-block .link-cb::after{
+		content: none;
+	}
+	.biolife-header__eleven .minicart-block .link-cb>.qty,
+	.biolife-header__eleven .minicart-block .link-cb>.title{
+		display: none;
+	}
+	.biolife-header__eleven .search-bar .open-searchbox{
+		display: inline-block;
+		background-color: #fed700;
+		font-weight: 600;
+		line-height: 0;
+		font-size: 0;
+		vertical-align: middle;
+		border-radius: 0;
+		padding: 7px;
+
+	}
+	.biolife-header__eleven .search-bar .open-searchbox .biolife-icon{
+		color: #000000;
+		font-size: 20px;
+		line-height: 1;
+	}
+	.biolife-header__eleven .search-bar .search-content{
+		position: fixed;
+		z-index: 200;
+		width: 300px;
+		top: 50%;
+		left: 50%;
+		margin-left: -150px;
+		-webkit-transition: .5s;
+		-moz-transition: .5s;
+		-o-transition: .5s;
+		visibility: hidden;
+		opacity: 0;
+	}
+	body.open-mobile-search .biolife-header__eleven .search-bar .search-content{
+		visibility: visible;
+		opacity: 1;
+		margin-top: -23px;
+	}
+	.biolife-header__eleven .search-bar{
+		width: auto;
+	}
+	.biolife-header__eleven .mobile-menu-toggle span{
+		width: 20px;
+	}
+	.biolife-header__eleven .mobile-menu-toggle>a{
+		padding: 9px 7px;
+	}
+	.biolife-header.biolife-header__eleven  .biolife-cart-info > div + div{
+		margin-left: 13px;
+	}
+}
+.quick-access{
+	display: block;
+    width: 100%;
+	margin: 0;
+}
+.quick-access>*{
+	display: inline-block;
+	float: left;
+}
+.quick-access .f-title{
+	font-size: 18px;
+	color: #35660c;
+	font-weight: 700;
+	line-height: 60px;
+}
+.quick-access .f-title i{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 17px;
+}
+.quick-access .link-more{
+	font-size: 15px;
+	color: #525252;
+	font-weight: 400;
+	padding: 0;
+	line-height: 60px;
+	float: right;
+}
+.quick-access .link-more i{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 13px;
+}
+.quick-access .cats{
+	display: inline-block;
+	line-height: 60px;
+	padding: 0;
+	margin: 0;
+}
+.quick-access .cats li{
+	display: inline-block;
+	list-style: none;
+	line-height: 17px;
+	padding: 0 19px;
+}
+.quick-access .cats li+li{
+	border-left: 1px solid #e0e0e0;
+}
+.quick-access .cats li a{
+	font-size: 15px;
+	color: #525252;
+	display: inline-block;
+	line-height: inherit;
+}
+.biolife-slide__eleven{
+	display: block;
+	overflow: hidden;
+	min-height: 550px;
+	background: #ffce17 url('../images/home-11/main-slide-01.jpg') no-repeat center center ;
+	position: relative;
+	font-size: 0;
+	line-height: 1;
+	padding: 140px 30px 50px 153px;
+}
+.biolife-slide__eleven .text-content{
+	display: inline-block;
+	width: 415px;
+	text-align: left;
+}
+.biolife-slide__eleven .text-content .first-line{
+	display: block;
+	font-size: 30px;
+	color: #343434;
+    font-family: 'Playfair Display', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1;
+    margin: 0 0 1px;
+}
+.biolife-slide__eleven .text-content .second-line{
+	display: block;
+	font-size: 60px;
+	line-height: 1;
+	color: #35660c;
+	font-weight: 700;
+	margin: 0 0 14px;
+}
+.biolife-slide__eleven .text-content .third-line{
+	display: block;
+    margin: 0 0 37px;
+	font-size: 18px;
+	line-height: 1;
+	color: #333;
+	font-weight: 400;
+	padding-left: 7px;
+}
+.biolife-slide__eleven .text-content .buttons{
+	display: block;
+	margin: 0;
+	font-size: 0;
+	line-height: 1;
+}
+.biolife-slide__eleven .text-content .buttons .btn{
+	font-size: 14px;
+	display: inline-block;
+	float: none;
+	outline: none;
+	box-shadow: none;
+	color: #fff;
+	font-weight: 700;
+	text-align: center;
+    padding: 13px 33px 14px;
+	min-width: 147px;
+	border: none;
+	border-radius: 999px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+.biolife-slide__eleven .text-content .buttons .btn + .btn{
+	margin-left: 19px;
+}
+.biolife-slide__eleven .text-content .buttons .btn.btn-thin{
+	border: 2px solid #000000;
+	color: #000;
+	padding-top: 11px;
+	padding-bottom: 12px;
+	background-color: transparent;
+}
+.biolife-slide__eleven .text-content .buttons .btn:hover,
+.biolife-slide__eleven .text-content .buttons .btn.btn-thin:hover{
+	color: #fff;
+	background-color: #000;
+}
+.biolife-slide__eleven--elm-02{
+	background: #a1c547 url('../images/home-11/main-slide-02.jpg') no-repeat center center;
+    padding-left: 182px;
+}
+@media (max-width: 767px) {
+	.biolife-slide__eleven {
+		min-height: 400px;
+		padding: 50px 5px 30px;
+		text-align: center;
+	}
+	.biolife-slide__eleven .text-content{
+		padding: 15px;
+		width: auto;
+	}
+	.biolife-slide__eleven .text-content .first-line{
+		margin-bottom: 10px;
+	}
+	.biolife-slide__eleven .text-content .second-line{
+		font-size: 36px;
+	}
+	.biolife-slide__eleven .text-content .third-line{
+		padding: 0;
+		line-height: 24px;
+	}
+	.biolife-slide__eleven .text-content .buttons .btn{
+		padding: 10px 15px;
+		min-width: auto;
+	}
+	.biolife-slide__eleven .text-content .buttons .btn.btn-thin{
+		min-width: auto;
+		padding: 8px 15px;
+	}
+	.biolife-slide__eleven .text-content .buttons .btn + .btn{
+		margin-left: 10px;
+	}
+}
+.biolife-banner__style-21{
+	background: #f3f3f1 url('../images/home-11/bn-21-01.jpg') no-repeat center right;
+	display: block;
+	min-height: 260px;
+    padding-left: 13px;
+    padding-top: 53px;
+}
+.biolife-banner__style-21 .text-content{
+	text-align: left;
+	display: inline-block;
+	font-size: 0;
+	line-height: 1;
+	position: relative;
+	z-index: 5;
+    padding: 15px;
+}
+.biolife-banner__style-21 .first-line{
+	font-size: 15px;
+	line-height: 1;
+	color: #666;
+	display: block;
+	text-transform: uppercase;
+	font-weight: 400;
+	margin: 0 0 16px;
+}
+.biolife-banner__style-21 .second-line{
+	display: block;
+	margin: 0 0 3px;
+	font-size: 32px;
+	line-height: 1;
+	font-weight: 700;
+	color: #222;
+	text-transform: uppercase;
+}
+.biolife-banner__style-21 .third-line{
+	display: block;
+	margin: 0 0 16px;
+	font-size: 32px;
+	line-height: 1;
+	color: #222;
+	font-family: 'Playfair Display', sans-serif;
+	font-weight: 700;
+	font-style: italic;
+}
+.biolife-banner__style-21 .fourth-line{
+	display: block;
+	margin: 0;
+	font-size: 14px;
+	font-weight: 400;
+	text-transform: uppercase;
+	line-height: 1;
+	color: #666;
+}
+.biolife-banner__style-21--elm-02{
+	background: #f3f3f1 url('../images/home-11/bn-21-02.jpg') no-repeat center right;
+}
+@media (max-width: 767px) {
+	.biolife-banner__style-21{
+		margin-bottom: 50px;
+		padding: 53px 15px 30px;
+	}
+	.biolife-banner__style-21 .text-content{
+		background-color: rgba(255,255,255,0.8);
+	}
+}
+@media (min-width: 992px) {
+	.biolife-body__home-11 .contain-product.layout-default .info .categories{
+	    margin-top: 14px;
+	}
+	.biolife-body__home-11 .contain-product.layout-default .info .product-title{
+	    margin: 9px 0 0;
+	}
+	.biolife-body__home-11 .contain-product.layout-default .info .price {
+	    margin-top: 17px;
+	}
+}
+@media (min-width: 768px) {
+	.mixed-grid .row{
+		margin-left: -10px;
+		margin-right: -10px;
+	}
+	.mixed-grid .col-sm-1,
+	.mixed-grid .col-sm-2,
+	.mixed-grid .col-sm-3,
+	.mixed-grid .col-sm-4,
+	.mixed-grid .col-sm-5,
+	.mixed-grid .col-sm-6,
+	.mixed-grid .col-sm-7,
+	.mixed-grid .col-sm-8,
+	.mixed-grid .col-sm-9,
+	.mixed-grid .col-sm-10,
+	.mixed-grid .col-sm-11,
+	.mixed-grid .col-sm-12{
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.biolife-tab .tab-head__sample-layout--icon-contain .tabs .tab-element + .tab-element{
+		margin-left: 65px;
+	}
+	.tab-head__sample-layout--icon-contain .tab-element .tab-link{
+		padding: 0;
+		text-transform: capitalize;
+	    background: transparent !important;
+	    font-size: 0;
+	    line-height: 0;
+	    font-weight: 400;
+        min-width: initial;
+	}
+	.tab-head__sample-layout--icon-contain .tab-element .tab-link .biolife-icon{
+		display: block;
+	    margin: 0 0 9px;
+		text-align: center;
+		font-size: 40px;
+		line-height: 1;
+		color: #333333;
+	}
+	.tab-head__sample-layout--icon-contain .tab-element .tab-link .text{
+		display: block;
+		text-align: center;
+		margin: 0;
+		font-size: 17px;
+		color: #000;
+		line-height: 1;
+	}
+	.tab-head__sample-layout--icon-contain .tab-element.active .tab-link .text,
+	.tab-head__sample-layout--icon-contain .tab-element.active .tab-link .biolife-icon,
+	.tab-head__sample-layout--icon-contain .tab-element .tab-link:hover .text,
+	.tab-head__sample-layout--icon-contain .tab-element .tab-link:hover .biolife-icon{
+		color: #49a010;
+	}
+}
+@media (max-width: 767px ) {
+	.biolife-tab .tab-head__sample-layout--icon-contain .tabs .tab-element{
+		border-left: 0 !important;
+	}
+	.biolife-tab .tab-head__sample-layout--icon-contain .tabs .tab-element .tab-link i{
+		font-size: 25px;
+		margin-right: 5px;
+	}
+	.biolife-tab .tab-head__sample-layout--icon-contain .tabs .tab-element .tab-link{
+		background-color: #ddd;
+	}
+	.biolife-tab .tab-head__sample-layout--icon-contain .active .tab-link{
+		color: #000000;
+	}
+}
+.biolife-showcase{
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	padding: 0;
+	margin: 0;
+}
+.biolife-showcase .sc-row{
+	display: inline-block;
+	vertical-align: middle;
+}
+.biolife-showcase .sc-banner-center{
+    width: 43%;
+	text-align: center;
+}
+.biolife-showcase .wrap-sc-list{
+    width: 28.5%;
+	margin-top: 25px;
+}
+.biolife-showcase .sc-list{
+	display: block;
+	padding: 0;
+	margin: 0;
+	font-size: 0;
+	line-height: 0;
+	direction: ltr;
+}
+.biolife-showcase .sc-list li{
+	display: inline-block;
+	width: 100%;
+	clear: both;
+	list-style: none;
+}
+.biolife-showcase .sc-list li + li{
+	margin-top: 62px;
+}
+.biolife-showcase .sc-item{
+	display: inline-block;
+	width: 100%;
+	text-align: start;
+}
+.biolife-showcase .sc-item img{
+	width: 60px;
+	overflow: hidden;
+	border-radius: 50%;
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 8px;
+}
+.biolife-showcase .sc-item .sc-desc{
+	display: inline-block;
+	width: calc(100% - 60px);
+    margin: 0;
+    padding-left: 22px;
+    text-align: start;
+}
+.biolife-showcase .sc-item .sc-desc .sc-title{
+	display: block;
+	font-size: 22px;
+	color: #3d750e;
+	line-height: 1;
+	margin: 0 0 12px;
+	font-weight: 700;
+}
+.biolife-showcase .sc-item .sc-desc .text{
+	font-size: 15px;
+	line-height: 22px;
+	color: #686868;
+	font-weight: 400;
+	margin: 0;
+}
+@media (min-width: 768px) {
+	.biolife-showcase .sc-list.sc-list-reverse{
+		direction: rtl;
+	}
+	.biolife-showcase .sc-list.sc-list-reverse .sc-desc{
+		padding-left: 0;
+		padding-right: 22px;
+	}
+}
+@media (max-width: 1199px) {
+	.biolife-showcase .sc-item .sc-desc .sc-title{
+		font-size: 18px;
+	}
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+	.biolife-showcase .wrap-sc-list{
+		width: 37%;
+	}
+	.biolife-showcase .sc-banner-center{
+		width: 26%;
+	}
+}
+@media (max-width: 767px) {
+	.biolife-showcase .sc-banner-center{
+		display: none;
+	}
+	.biolife-showcase .wrap-sc-list{
+		width: 100%;
+	}
+	.biolife-showcase .sc-list li + li,
+	.biolife-showcase .wrap-sc-list ~ .wrap-sc-list{
+		margin-top: 50px;
+	}
+}
+.biolife-banner__promotion--08 {
+	display: block;
+}
+.biolife-banner__promotion--08 .text-containt{
+	display: block;
+	text-align: center;
+	margin-top: 13px;
+}
+.biolife-banner__promotion--08 .text-containt .sup-title{
+	display: block;
+	font-family: "Playfair Display", serif;
+	font-style: italic;
+	font-size: 15px;
+	line-height: 1;
+	color: #666666;
+	margin: 0 0 9px;
+}
+@media (max-width: 767px) {
+	.biolife-banner__promotion--08 .text-containt .sup-title{
+		margin: 0 0 15px;
+	}
+}
+.biolife-banner__promotion--08 .text-containt .b-title{
+	display: block;
+	margin: 0 0 30px;
+	font-size: 40px;
+	color: #222222;
+	text-transform: capitalize;
+	font-weight: 700;
+	line-height: 1;
+}
+@media (max-width: 767px) {
+	.biolife-banner__promotion--08 .text-containt .b-title{
+		font-size: 24px;
+		margin-bottom: 20px;
+	}
+}
+.biolife-banner__promotion--08 .text-containt .desc{
+	margin: 0;
+	font-size: 14px;
+	line-height: 22px;
+	color: #464646;
+	max-width: 450px;
+	display: inline-block;
+}
+.biolife-banner__promotion--08 .text-containt .biolife-countdown{
+	margin-top: 31px;
+}
+.biolife-banner__promotion--08 .text-containt .biolife-countdown > span{
+	min-width: 72px;
+	border: none;
+	border-radius: 14px;
+	background-color: #f6f5f1;
+	padding-top: 18px;
+	padding-bottom: 15px;
+	box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.12);
+}
+.biolife-banner__promotion--08 .text-containt .biolife-countdown > span + span{
+	margin-left: 10px;
+}
+@media (max-width: 767px) {
+	.biolife-banner__promotion--08 .text-containt .biolife-countdown > span{
+		min-width: 60px;
+	}
+}
+.biolife-banner__promotion--08 .text-containt .biolife-countdown .number{
+	font-size: 26px;
+	color: #49a010;
+}
+.biolife-banner__promotion--08 .text-containt .biolife-countdown .text {
+	font-size: 12px;
+	color: #626262;
+	margin-top: 8px;
+}
+.biolife-banner__promotion--08 .text-containt .btn-add-to-cart:hover {
+	background-color: #333333;
+}
+.biolife-banner__promotion--08 .text-containt .btn-add-to-cart {
+	display: inline-block;
+	padding: 0;
+	margin: 44px 0 0;
+	font-size: 13px;
+	line-height: 42px;
+	color: #ffffff;
+	text-transform: uppercase;
+	font-weight: 700;
+	background-color: #49a010;
+	outline: none;
+	box-shadow: none;
+	min-width: 146px;
+	border-radius: 999px;
+	border: none;
+	height: 44px;
+}
+.biolife-title-box__bold-left{
+	display: inline-block;
+	width: 100%;
+	clear: both;
+}
+.biolife-title-box__bold-left .subtitle{
+	margin: 0 0 4px;
+	display: inline-block;
+	float: left;
+}
+.biolife-title-box__bold-left .main-title{
+	margin: 0;
+	display: inline-block;
+	float: left;
+	clear: left;
+	line-height: 1;
+	font-size: 40px;
+}
+.biolife-title-box__link-contain .link-to{
+	display: inline-block;
+	float: right;
+	font-size: 15px;
+	color: #565656;
+	position: relative;
+	line-height: 1;
+	margin-top: 21px;
+}
+.biolife-title-box__link-contain .link-to::after{
+	content: '';
+	display: block;
+	height: 1px;
+	background-color: #8b8b8b;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -1px;
+}
+@media (max-width: 767px) {
+	.biolife-title-box__bold-left .subtitle{
+		display: block;
+		text-align: center;
+		float: initial;
+	}
+	.biolife-title-box__bold-left .main-title{
+		display: block;
+		text-align: center;
+		float: initial;
+		font-size: 30px;
+	}
+	.biolife-title-box__link-contain .link-to{
+		display: none;
+	}
+}
+.biolife-banner__style-22{
+	display: block;
+	position: relative;
+}
+.biolife-banner__style-22 .media{
+	display: block;
+	height: 295px;
+	background: #d8edce url("../images/home-11/bn-22.jpg") no-repeat center;
+	position: relative;
+	font-size: 0;
+	line-height: 0;
+}
+.biolife-banner__style-22 .text-content{
+	display: inline-block;
+	position: absolute;
+	top: 124px;
+	left: 38px;
+	padding: 15px;
+	z-index: 10;
+}
+@media (max-width: 767px) {
+	.biolife-banner__style-22 .text-content{
+		top: 57px;
+	}
+}
+.biolife-banner__style-22 .text-content .f-title{
+	font-size: 32px;
+	display: block;
+	line-height: 1;
+	text-transform: uppercase;
+	color: #222222;
+	font-weight: 700;
+	margin: 0 0 3px;
+	-webkit-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	transition: all 0.4s ease-out;
+}
+.biolife-banner__style-22 .text-content .s-title{
+	display: block;
+	font-size: 32px;
+	line-height: 1;
+	color: #222222;
+	font-family: 'Playfair Display', sans-serif;
+	font-weight: 700;
+	margin: 0 0 26px;
+	-webkit-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	transition: all 0.4s ease-out;
+}
+.biolife-banner__style-22 .text-content .thr-title{
+	display: block;
+	margin: 0;
+	font-size: 14px;
+	text-transform: uppercase;
+	line-height: 1;
+	color: #666666;
+	-webkit-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	transition: all 0.4s ease-out;
+}
+@media (max-width: 767px) {
+	.biolife-banner__style-22{
+		margin-bottom: 50px;
+	}
+}
+.biolife-banner__style-23{
+	display: block;
+}
+.biolife-banner__style-23 .media{
+	display: block;
+	height: 295px;
+	background: #fbf0a1 url("../images/home-11/bn-23.jpg") no-repeat center;
+	position: relative;
+	font-size: 0;
+	line-height: 0;
+}
+.biolife-banner__style-23 .text-content{
+	display: inline-block;
+	position: absolute;
+	padding: 15px;
+	z-index: 10;
+	top: 74px;
+	left: 29px;
+}
+.biolife-banner__style-23 .text-content .f-title{
+	display: block;
+	margin: 0 0 16px;
+	font-size: 15px;
+	text-transform: uppercase;
+	font-weight: 400;
+	color: #666666;
+	line-height: 1;
+	-webkit-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	transition: all 0.4s ease-out;
+}
+.biolife-banner__style-23 .text-content .s-title{
+	display: block;
+	margin: 0 0 3px;
+	font-size: 32px;
+	line-height: 1;
+	color: #222222;
+	text-transform: uppercase;
+	font-weight: 700;
+	-webkit-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	transition: all 0.4s ease-out;
+}
+.biolife-banner__style-23 .text-content .thr-title{
+	display: block;
+	margin: 0 0 16px;
+	font-size: 32px;
+	font-family: 'Playfair Display', sans-serif;
+	line-height: 1;
+	font-weight: 700;
+	color: #222222;
+	-webkit-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	transition: all 0.4s ease-out;
+}
+.biolife-banner__style-23 .text-content .fth-title{
+	font-size: 14px;
+	color: #666666;
+	line-height: 1;
+	font-weight: 400;
+	display: block;
+	margin: 0;
+	text-transform: uppercase;
+	-webkit-transition: all 0.4s ease-out;
+	-o-transition: all 0.4s ease-out;
+	transition: all 0.4s ease-out;
+}
+
+@media (min-width: 1200px) {
+	.biolife-banner__style-21 .bn-link::before,
+	.biolife-banner__style-23 .media::before,
+	.biolife-banner__style-22 .media::before{
+		position: absolute;
+		content: "";
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		-webkit-transition: all 0.4s ease-out;
+		-o-transition: all 0.4s ease-out;
+		transition: all 0.4s ease-out;
+		background-color: #262626;
+		opacity: 0;
+		visibility: hidden;
+		-webkit-transform: scale(0.9);
+		-ms-transform: scale(0.9);
+		transform: scale(0.9);
+		pointer-events: none;
+		z-index: 2;
+	}
+	.biolife-banner__style-21:hover .bn-link::before,
+	.biolife-banner__style-23:hover .media::before,
+	.biolife-banner__style-22:hover .media::before{
+		-webkit-transform: scale(1);
+		-ms-transform: scale(1);
+		transform: scale(1);
+		opacity: .2;
+		visibility: visible;
+	}
+	.biolife-banner__style-22:hover .text-content .f-title,
+	.biolife-banner__style-22:hover .text-content .s-title,
+	.biolife-banner__style-22:hover .text-content .thr-title,
+	.biolife-banner__style-23:hover .text-content .f-title,
+	.biolife-banner__style-23:hover .text-content .s-title,
+	.biolife-banner__style-23:hover .text-content .thr-title,
+	.biolife-banner__style-23:hover .text-content .fth-title{
+		color: #ffffff;
+	}
+}
+.biolife-blogs{
+	display: block;
+	padding: 0;
+	margin: 0;
+	font-size: 0;
+	line-height: 0;
+}
+.biolife-blogs li{
+	list-style: none;
+	display: block;
+}
+.biolife-blog__style-side-media{
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-flow: wrap;
+	flex-flow: wrap;
+}
+.biolife-blog__style-side-media .media{
+	width: 50%;
+	text-align: center;
+	overflow: hidden;
+	position: relative;
+}
+.biolife-blog__style-side-media .content{
+	text-align: left;
+	width: 50%;
+	padding-left: 86px;
+	padding-top: 57px;
+}
+.biolife-blog__style-side-media .post-title{
+	display: block;
+	margin: 0 0 12px;
+	padding: 0;
+}
+.biolife-blog__style-side-media .post-title a{
+	display: inline-block;
+	font-size: 20px;
+	line-height: 24px;
+	color: #222222;
+	font-weight: 700;
+}
+.biolife-blog__style-side-media .post-date::before{
+	content: '';
+	display: inline-block;
+	width: 15px;
+	height: 16px;
+	background: transparent url(../images/home-11/date-icon.png) no-repeat center center;
+	background-size: cover;
+	vertical-align: top;
+	margin-top: -2px;
+	margin-right: 10px;
+}
+.biolife-blog__style-side-media .post-date{
+	font-size: 15px;
+	color: #49a010;
+	line-height: 1;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+.biolife-blog__style-side-media .excerpt{
+	display: block;
+	margin: 33px 0 0;
+	font-size: 15px;
+	line-height: 24px;
+	color: #858585;
+	font-weight: 400;
+}
+.biolife-blog__style-side-media .wrap-btn{
+	display: block;
+	margin: 40px 0 0;
+}
+.biolife-blog__style-side-media .wrap-btn .btn{
+	display: inline-block;
+	font-size: 13px;
+	line-height: 1;
+	text-transform: uppercase;
+	color: #49a010;
+	font-weight: 700;
+	border: none;
+	border-radius: 0;
+	outline: none;
+	box-shadow: none;
+	padding: 0;
+	position: relative;
+}
+.biolife-blog__style-side-media .wrap-btn .btn::after{
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -1px;
+	height: 1px;
+	background-color: #49a010;
+}
+.biolife-blog__style-side-media .wrap-btn .btn:hover::after{
+	background-color: #333333;
+}
+.biolife-blog__style-side-media .wrap-btn .btn:hover{
+	color: #333333;
+}
+@media ( min-width: 1200px ) {
+	.biolife-blog__style-side-media .media img{
+		display: inline-block;
+		-webkit-transition: 0.4s;
+		-o-transition: 0.4s;
+		transition: 0.4s;
+	}
+	.biolife-blog__style-side-media .media a::before{
+		position: absolute;
+		content: "";
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		-webkit-transition: 0.4s;
+		-o-transition: 0.4s;
+		transition: 0.4s;
+		background-color: #262626;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		z-index: 2;
+	}
+	.biolife-blog__style-side-media:hover .media img{
+		-webkit-transform: scale(1.1);
+		-ms-transform: scale(1.1);
+		transform: scale(1.1);
+	}
+	.biolife-blog__style-side-media:hover .media a::before{
+		opacity: .4;
+		visibility: visible;
+	}
+}
+@media ( min-width: 1200px ) {
+	.biolife-blogs li:nth-child(even) .biolife-blog__style-side-media .content{
+		padding-top: 79px;
+	}
+}
+@media ( min-width: 768px ) {
+	.biolife-blogs li:nth-child(even) .biolife-blog__style-side-media .content{
+		order: 1;
+		padding-left: 0;
+		padding-right: 86px;
+	}
+	.biolife-blogs li:nth-child(even) .biolife-blog__style-side-media .media{
+		order: 2;
+	}
+}
+@media (min-width: 768px) and (max-width: 1199px ) {
+	.biolife-blog__style-side-media .content{
+		padding-top: 30px;
+		padding-left: 30px;
+	}
+	.biolife-blogs li:nth-child(even) .biolife-blog__style-side-media .content{
+		padding-right: 30px;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px ) {
+	.biolife-blog__style-side-media .content{
+		padding-top: 0;
+	}
+	.biolife-blog__style-side-media .wrap-btn{
+		display: none;
+	}
+	.biolife-blog__style-side-media .excerpt{
+		margin-top: 20px;
+	}
+	.biolife-blogs li{
+		margin-bottom: 50px;
+	}
+}
+@media (max-width: 767px){
+	.biolife-blog__style-side-media .media{
+		width: 100%;
+		text-align: left;
+	}
+	.biolife-blog__style-side-media .content{
+		width: 100%;
+		padding-left: 0;
+		padding-top: 25px;
+	}
+	.biolife-blog__style-side-media .post-title{
+		margin-bottom: 30px;
+	}
+	.biolife-blogs li{
+		margin-bottom: 50px;
+	}
+}
+.biolife-footer__eleven{
+	display: block;
+}
+@media (min-width: 1200px) {
+	.biolife-footer__eleven{
+		margin-top: 4px;
+	}
+	.biolife-footer__eleven::before{
+		display: block;
+		content: '';
+		height: 156px;
+		font-size: 0;
+		line-height: 0;
+		background: #ffffff url("../images/home-11/bg-top-footer.jpg") no-repeat center top;
+	}
+}
+.biolife-footer__eleven .footer-content{
+	padding-top: 72px;
+	background-color: #f3f3f3;
+}
+@media (max-width: 1199px) {
+	.biolife-footer__eleven .footer-content{
+		padding-top: 40px;
+	}
+}
+.biolife-footer__eleven .botton-info{
+	background-color: #3d750e;
+	margin-top: 50px;
+}
+@media (max-width: 767px) {
+	.biolife-footer__eleven .botton-info{
+		padding-top: 15px;
+		padding-bottom: 15px;
+		margin-top: 30px;
+	}
+}
+.biolife-footer__eleven .botton-info .copy-right-text{
+	margin: 0;
+}
+.biolife-footer__eleven .botton-info .copy-right-text p{
+	font-size: 15px;
+	color: #ffffff;
+	line-height: 1;
+	padding: 17px 0 16px;
+}
+.biolife-footer__eleven .botton-info .payment-methods ul{
+	font-size: 0;
+	line-height: 0;
+}
+.biolife-footer__eleven .botton-info .payment-methods ul li{
+	padding: 14px 0 13px;
+}
+.biolife-footer__eleven .footer-logo{
+	margin-bottom: 32px;
+	display: inline-block;
+	margin-top: 8px;
+}
+@media (min-width: 768px) {
+	.biolife-footer__eleven .sm-pl-0{
+		padding-left: 0;
+	}
+}
+.text-eleven-info{
+	display: block;
+	font-size: 15px;
+	line-height: 22px;
+	color: #000000;
+	font-weight: 400;
+	margin: 0;
+}
+.text-eleven-info + .text-eleven-info{
+	margin-top: 28px;
+}
+.vertical-menu-3 ul{
+	display: block;
+	padding: 0;
+	font-size: 0;
+	line-height: 0;
+}
+.vertical-menu-3 ul li{
+	display: block;
+	list-style: none;
+	font-size: 16px;
+	line-height: 52px;
+	font-weight: 700;
+}
+.vertical-menu-3 ul li a{
+	display: inline-block;
+	color: #000000;
+}
+@media (max-width: 767px) {
+	.vertical-menu-3 ul li{
+		line-height: 42px;
+	}
+}
+.newsletter-eleven-footer{
+	display: inline-block;
+	width: 100%;;
+	max-width: 310px;
+	margin-top: 10px;
+}
+.newsletter-eleven-footer .title{
+	display: block;
+	font-size: 24px;
+	line-height: 1;
+	color: #000000;
+	font-weight: 400;
+	margin: 0;
+}
+.newsletter-eleven-footer .form-content{
+	display: block;
+	margin-top: 50px;
+}
+.newsletter-eleven-footer .desc{
+	display: block;
+	margin: 0 0 29px;
+	font-size: 15px;
+	line-height: 22px;
+	color: #000000;
+}
+.newsletter-eleven-footer form{
+	display: inline-block;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 1px solid;
+	font-size: 0;
+	line-height: 1;
+}
+.newsletter-eleven-footer form .input-text{
+	background: transparent;
+	border: none;
+	display: inline-block;
+	width: 100%;
+	font-size: 14px;
+	color: #000000;
+	line-height: 1;
+	height: 33px;
+	padding: 0 33px 7px 0;
+}
+.newsletter-eleven-footer form .input-text::-webkit-input-placeholder { color: rgba(0,0,0,0.4); }
+.newsletter-eleven-footer form .input-text:-ms-input-placeholder { color: rgba(0,0,0,0.4); }
+.newsletter-eleven-footer form .input-text::placeholder { color: rgba(0,0,0,0.4); }
+.newsletter-eleven-footer form .bnt-submit{
+	display: inline-block;
+	border: none;
+	background: transparent;
+	outline: none;
+	box-shadow: none;
+	padding: 7px;
+	color: #404040;
+	font-size: 19px;
+	line-height: 1;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.biolife-header__eleven .biolife-cart-info .minicart-block .cart-inner{
+	border-top-color: #fed700;
+}
+@media (max-width: 767px) {
+	.newsletter-eleven-footer{
+		max-width: 100%;
+		padding-right: 15px;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.biolife-footer__eleven .footer-content .col-sm-12{
+		margin-bottom: 40px;
+	}
+}
+@media (max-width: 767px) {
+	.biolife-footer__eleven .footer-content>.container .col-xs-12{
+		margin-bottom: 40px;
+	}
+}

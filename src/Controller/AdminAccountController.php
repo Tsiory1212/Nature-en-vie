@@ -15,7 +15,6 @@ use Knp\Component\Pager\PaginatorInterface;
 class AdminAccountController extends AbstractController
 {
     protected $paginator;
-
     protected $repoProduct;
 
     public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct)

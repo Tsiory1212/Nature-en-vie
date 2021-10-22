@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .panier_body{
+            margin-top: 300px
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container panier_body">
+        
+        <div class="bg-light p-3">
+            <h1>Votre panier</h1>
+        </div>
+
+        
+        {% if items|length > 0 %}
+            <table class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th></th>
+                        <th>Produit</th>
+                        <th>Prix</th>
+                        <th>Quatité</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                {% if item.product.imageName %}
+                                    <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
+                                {% else %}
+                                    <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
+                                {% endif %}
+                            </td>
+
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.product.price * item.quantity }}</td>
+                            <td>
+                                <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success">
+                                    <i class="bi bi-cart-plus"></i>
+                                </a>
+                                <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning">
+                                    <i class="bi bi-cart-dash"></i>
+                                </a>
+                                <a href="{{path('panier_remove', {id: item.product.id})}}" class="btn btn-danger">
+                                    <i class="bi bi-cart-x"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right">Total :</td>
+                        <td colspan="3" class="text-right">
+                            <a href="{{path('panier_delete_all')}}" class="btn btn-danger">
+                                <i class="bi bi-cart-x"></i>
+                            </a>
+                        </td>
+                        <td>{{ total }}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        {% else %}
+            <p>Surprise, c'est vide !</p>
+        {% endif %}
+    </div>
+{% endblock %}

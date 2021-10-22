@@ -3,10 +3,10 @@
 {% block title %}Login !{% endblock %}
 
 {% block body %}
-
-				{{ form_start(formReg)}}
-				{{ form_row(formReg)}}
-					<button class="btn btn-success mt-5" type="submit"> S'inscrire</button>
-
-				{{ form_end(formReg)}}
+	<div class="container">
+		{{ form_start(formReg)}}
+		{{ form_row(formReg)}}
+			<button class="btn btn-success mt-5" type="submit"> S'inscrire</button>
+		{{ form_end(formReg)}}
+	</div>
 {% endblock %}

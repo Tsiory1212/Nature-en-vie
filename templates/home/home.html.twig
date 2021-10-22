@@ -30,7 +30,13 @@
                                 <option value="usd">¥ JPY (Yen)</option>
                             </select>
                         </li>
-                        <li><a href="login.html" class="login-link"><i class="biolife-icon icon-login"></i>My Account</a></li>
+                        {% if app.user %}
+                             <li><a href="login.html" class="login-link"><i class="biolife-icon icon-login"></i>My Account</a></li>
+                        {% else %}
+                             <li><a href="{{path('inscription')}}" class="login-link"><i class="biolife-icon icon-login"></i>S'inscrire</a></li>
+                             <li><a href="{{path('security_login')}}" class="login-link"><i class="biolife-icon icon-login"></i>Login</a></li>
+                        {% endif %}
+                        
                     </ul>
                 </div>
             </div>
@@ -39,7 +45,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-2 col-md-6 col-xs-6">
-                        <a href="home-01.html" class="biolife-logo"><img src="assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="36"></a>
+                        <a href="home-01.html" class="biolife-logo"><img src="/biolife/assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="36"></a>
                     </div>
                     <div class="col-lg-9 col-md-10 padding-top-2px">
                         <div class="header-search-bar layout-01 no-product-cat">
@@ -118,7 +124,7 @@
                                                                     <div class="contain-product none-overlay">
                                                                         <div class="product-thumb">
                                                                             <a href="#" class="link-to-product">
-                                                                                <img src="assets/images/products/p-08.jpg" alt="dd" width="270" height="270" class="product-thumnail">
+                                                                                <img src="/biolife/assets/images/products/p-08.jpg" alt="dd" width="270" height="270" class="product-thumnail">
                                                                             </a>
                                                                         </div>
                                                                         <div class="info">
@@ -135,7 +141,7 @@
                                                                     <div class="contain-product none-overlay">
                                                                         <div class="product-thumb">
                                                                             <a href="#" class="link-to-product">
-                                                                                <img src="assets/images/products/p-11.jpg" alt="dd" width="270" height="270" class="product-thumnail">
+                                                                                <img src="/biolife/assets/images/products/p-11.jpg" alt="dd" width="270" height="270" class="product-thumnail">
                                                                             </a>
                                                                         </div>
                                                                         <div class="info">
@@ -152,7 +158,7 @@
                                                                     <div class="contain-product none-overlay">
                                                                         <div class="product-thumb">
                                                                             <a href="#" class="link-to-product">
-                                                                                <img src="assets/images/products/p-15.jpg" alt="dd" width="270" height="270" class="product-thumnail">
+                                                                                <img src="/biolife/assets/images/products/p-15.jpg" alt="dd" width="270" height="270" class="product-thumnail">
                                                                             </a>
                                                                         </div>
                                                                         <div class="info">
@@ -173,10 +179,10 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 md-margin-top-9">
                                                         <div class="biolife-brand" >
                                                             <ul class="brands">
-                                                                <li><a href="#"><img src="assets/images/megamenu/brand-organic.png" width="161" height="136" alt="organic"></a></li>
-                                                                <li><a href="#"><img src="assets/images/megamenu/brand-explore.png" width="160" height="136" alt="explore"></a></li>
-                                                                <li><a href="#"><img src="assets/images/megamenu/brand-organic-2.png" width="99" height="136" alt="organic 2"></a></li>
-                                                                <li><a href="#"><img src="assets/images/megamenu/brand-eco-teas.png" width="164"  height="136" alt="eco teas"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/brand-organic.png" width="161" height="136" alt="organic"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/brand-explore.png" width="160" height="136" alt="explore"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/brand-organic-2.png" width="99" height="136" alt="organic 2"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/brand-eco-teas.png" width="164"  height="136" alt="eco teas"></a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -225,10 +231,10 @@
                                                         <div class="biolife-brand vertical md-boder-left-30">
                                                             <h4 class="menu-title">Hot Brand</h4>
                                                             <ul class="brands">
-                                                                <li><a href="#"><img src="assets/images/megamenu/v-brand-organic.png" width="167" height="74" alt="organic"></a></li>
-                                                                <li><a href="#"><img src="assets/images/megamenu/v-brand-explore.png" width="167" height="72" alt="explore"></a></li>
-                                                                <li><a href="#"><img src="assets/images/megamenu/v-brand-organic-2.png" width="167" height="99" alt="organic 2"></a></li>
-                                                                <li><a href="#"><img src="assets/images/megamenu/v-brand-eco-teas.png" width="167" height="67" alt="eco teas"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/v-brand-organic.png" width="167" height="74" alt="organic"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/v-brand-explore.png" width="167" height="72" alt="explore"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/v-brand-organic-2.png" width="167" height="99" alt="organic 2"></a></li>
+                                                                <li><a href="#"><img src="/biolife/assets/images/megamenu/v-brand-eco-teas.png" width="167" height="67" alt="eco teas"></a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -524,7 +530,7 @@
                                                     <ul class="posts">
                                                         <li>
                                                             <div class="block-post-item">
-                                                                <div class="thumb"><a href="#"><img src="assets/images/megamenu/thumb-05.jpg" width="100" height="73" alt=""></a></div>
+                                                                <div class="thumb"><a href="#"><img src="/biolife/assets/images/megamenu/thumb-05.jpg" width="100" height="73" alt=""></a></div>
                                                                 <div class="left-info">
                                                                     <h4 class="post-name"><a href="#">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                                                     <span class="p-date">Jan 05, 2019</span>
@@ -534,7 +540,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="block-post-item">
-                                                                <div class="thumb"><a href="#"><img src="assets/images/megamenu/thumb-06.jpg" width="100" height="73" alt=""></a></div>
+                                                                <div class="thumb"><a href="#"><img src="/biolife/assets/images/megamenu/thumb-06.jpg" width="100" height="73" alt=""></a></div>
                                                                 <div class="left-info">
                                                                     <h4 class="post-name"><a href="#">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                                                     <span class="p-date">May 15, 2019</span>
@@ -544,7 +550,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="block-post-item">
-                                                                <div class="thumb"><a href="#"><img src="assets/images/megamenu/thumb-07.jpg" width="100" height="73" alt=""></a></div>
+                                                                <div class="thumb"><a href="#"><img src="/biolife/assets/images/megamenu/thumb-07.jpg" width="100" height="73" alt=""></a></div>
                                                                 <div class="left-info">
                                                                     <h4 class="post-name"><a href="#">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                                                     <span class="p-date">Apr 26, 2019</span>
@@ -564,7 +570,7 @@
                     </div>
                     <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
                         <div class="logo-for-mobile hidden-lg hidden-md">
-                            <a href="home-01.html" class="biolife-logo"><img src="assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="36"></a>
+                            <a href="home-01.html" class="biolife-logo"><img src="/biolife/assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="36"></a>
                         </div>
                         <div class="biolife-cart-info center-align-mobile">
                             <div class="mobile-search">
@@ -605,7 +611,7 @@
                                                 <li>
                                                     <div class="minicart-item">
                                                         <div class="thumb">
-                                                            <a href="#"><img src="assets/images/minicart/pr-01.jpg" width="90" height="90" alt="National Fresh"></a>
+                                                            <a href="#"><img src="/biolife/assets/images/minicart/pr-01.jpg" width="90" height="90" alt="National Fresh"></a>
                                                         </div>
                                                         <div class="left-info">
                                                             <div class="product-title"><a href="#" class="product-name">National Fresh Fruit</a></div>
@@ -627,7 +633,7 @@
                                                 <li>
                                                     <div class="minicart-item">
                                                         <div class="thumb">
-                                                            <a href="#"><img src="assets/images/minicart/pr-02.jpg" width="90" height="90" alt="National Fresh"></a>
+                                                            <a href="#"><img src="/biolife/assets/images/minicart/pr-02.jpg" width="90" height="90" alt="National Fresh"></a>
                                                         </div>
                                                         <div class="left-info">
                                                             <div class="product-title"><a href="#" class="product-name">National Fresh Fruit</a></div>
@@ -649,7 +655,7 @@
                                                 <li>
                                                     <div class="minicart-item">
                                                         <div class="thumb">
-                                                            <a href="#"><img src="assets/images/minicart/pr-03.jpg" width="90" height="90" alt="National Fresh"></a>
+                                                            <a href="#"><img src="/biolife/assets/images/minicart/pr-03.jpg" width="90" height="90" alt="National Fresh"></a>
                                                         </div>
                                                         <div class="left-info">
                                                             <div class="product-title"><a href="#" class="product-name">National Fresh Fruit</a></div>
@@ -671,7 +677,7 @@
                                                 <li>
                                                     <div class="minicart-item">
                                                         <div class="thumb">
-                                                            <a href="#"><img src="assets/images/minicart/pr-04.jpg" width="90" height="90" alt="National Fresh"></a>
+                                                            <a href="#"><img src="/biolife/assets/images/minicart/pr-04.jpg" width="90" height="90" alt="National Fresh"></a>
                                                         </div>
                                                         <div class="left-info">
                                                             <div class="product-title"><a href="#" class="product-name">National Fresh Fruit</a></div>
@@ -693,7 +699,7 @@
                                                 <li>
                                                     <div class="minicart-item">
                                                         <div class="thumb">
-                                                            <a href="#"><img src="assets/images/minicart/pr-05.jpg" width="90" height="90" alt="National Fresh"></a>
+                                                            <a href="#"><img src="/biolife/assets/images/minicart/pr-05.jpg" width="90" height="90" alt="National Fresh"></a>
                                                         </div>
                                                         <div class="left-info">
                                                             <div class="product-title"><a href="#" class="product-name">National Fresh Fruit</a></div>
@@ -899,7 +905,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-11.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-11.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -925,7 +931,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -951,7 +957,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-10.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-10.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -977,7 +983,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-09.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-09.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1003,7 +1009,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1029,7 +1035,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1055,7 +1061,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1081,7 +1087,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1107,7 +1113,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1133,7 +1139,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1163,7 +1169,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1189,7 +1195,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1215,7 +1221,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1241,7 +1247,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1267,7 +1273,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1293,7 +1299,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1319,7 +1325,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1345,7 +1351,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1371,7 +1377,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1397,7 +1403,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1427,7 +1433,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1453,7 +1459,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1479,7 +1485,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1505,7 +1511,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1531,7 +1537,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1557,7 +1563,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1583,7 +1589,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1609,7 +1615,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1635,7 +1641,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1661,7 +1667,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1691,7 +1697,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1717,7 +1723,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1743,7 +1749,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1769,7 +1775,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1795,7 +1801,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1821,7 +1827,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1847,7 +1853,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1873,7 +1879,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1899,7 +1905,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1925,7 +1931,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -1960,7 +1966,7 @@
                     <div class="container">
                         <div class="banner-contain">
                             <div class="thumb">
-                                <a href="#" class="link"><img src="assets/images/home-01/thumb-bn-special-02.jpg" width="753" height="517" alt=""></a>
+                                <a href="#" class="link"><img src="/biolife/assets/images/home-01/thumb-bn-special-02.jpg" width="753" height="517" alt=""></a>
                             </div>
                             <div class="text-content">
                                 <i class="text01">Organic</i>
@@ -1990,11 +1996,11 @@
                         <div class="media">
                             <div class="img-moving position-1">
                                 <a href="#" class="banner-link">
-                                    <img src="assets/images/home-01/bn-promotion-6-child-01.png" width="568" height="760" alt="img msv">
+                                    <img src="/biolife/assets/images/home-01/bn-promotion-6-child-01.png" width="568" height="760" alt="img msv">
                                 </a>
                             </div>
                             <div class="img-moving position-2">
-                                <img src="assets/images/home-01/bn-promotion-6-child-02.png" width="745" height="682" alt="img msv">
+                                <img src="/biolife/assets/images/home-01/bn-promotion-6-child-02.png" width="745" height="682" alt="img msv">
                             </div>
                         </div>
                         <div class="text-content">
@@ -2037,7 +2043,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2063,7 +2069,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-14.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-14.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2089,7 +2095,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-17.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-17.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2115,7 +2121,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-13.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-13.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2141,7 +2147,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-16.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-16.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2167,7 +2173,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2193,7 +2199,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-15.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-15.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2219,7 +2225,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-12.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-12.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2245,7 +2251,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2271,7 +2277,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-10.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-10.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2301,7 +2307,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2327,7 +2333,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2353,7 +2359,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2379,7 +2385,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2405,7 +2411,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2431,7 +2437,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2457,7 +2463,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2483,7 +2489,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2509,7 +2515,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2535,7 +2541,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2565,7 +2571,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2591,7 +2597,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-02.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2617,7 +2623,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-05.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2643,7 +2649,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-06.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2669,7 +2675,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-07.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2695,7 +2701,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-18.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2721,7 +2727,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-20.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2747,7 +2753,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-22.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2773,7 +2779,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-19.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2799,7 +2805,7 @@
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
                                                 <a href="#" class="link-to-product">
-                                                    <img src="assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                    <img src="/biolife/assets/images/products/p-03.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                                 </a>
                                                 <a class="lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
                                             </div>
@@ -2839,7 +2845,7 @@
                         <li>
                             <div class="post-item effect-01 style-bottom-info layout-02 ">
                                 <div class="thumbnail">
-                                    <a href="#" class="link-to-post"><img src="assets/images/our-blog/post-thumb-01.jpg" width="370" height="270" alt=""></a>
+                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-01.jpg" width="370" height="270" alt=""></a>
                                     <div class="post-date">
                                         <span class="date">26</span>
                                         <span class="month">dec</span>
@@ -2848,7 +2854,7 @@
                                 <div class="post-content">
                                     <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                     <div class="post-meta">
-                                        <a href="#" class="post-meta__item author"><img src="assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
                                         <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
                                         <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
                                         <div class="post-meta__item post-meta__item-social-box">
@@ -2874,7 +2880,7 @@
                         <li>
                             <div class="post-item effect-01 style-bottom-info layout-02">
                                 <div class="thumbnail">
-                                    <a href="#" class="link-to-post"><img src="assets/images/our-blog/post-thumb-02.jpg" width="370" height="270" alt=""></a>
+                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-02.jpg" width="370" height="270" alt=""></a>
                                     <div class="post-date">
                                         <span class="date">26</span>
                                         <span class="month">dec</span>
@@ -2883,7 +2889,7 @@
                                 <div class="post-content">
                                     <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                     <div class="post-meta">
-                                        <a href="#" class="post-meta__item author"><img src="assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
                                         <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
                                         <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
                                         <div class="post-meta__item post-meta__item-social-box">
@@ -2909,7 +2915,7 @@
                         <li>
                             <div class="post-item effect-01 style-bottom-info layout-02">
                                 <div class="thumbnail">
-                                    <a href="#" class="link-to-post"><img src="assets/images/our-blog/post-thumb-04.jpg" width="370" height="270" alt=""></a>
+                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-04.jpg" width="370" height="270" alt=""></a>
                                     <div class="post-date">
                                         <span class="date">26</span>
                                         <span class="month">dec</span>
@@ -2918,7 +2924,7 @@
                                 <div class="post-content">
                                     <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                     <div class="post-meta">
-                                        <a href="#" class="post-meta__item author"><img src="assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
                                         <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
                                         <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
                                         <div class="post-meta__item post-meta__item-social-box">
@@ -2944,7 +2950,7 @@
                         <li>
                             <div class="post-item effect-01 style-bottom-info layout-02">
                                 <div class="thumbnail">
-                                    <a href="#" class="link-to-post"><img src="assets/images/our-blog/post-thumb-03.jpg" width="370" height="270" alt=""></a>
+                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-03.jpg" width="370" height="270" alt=""></a>
                                     <div class="post-date">
                                         <span class="date">26</span>
                                         <span class="month">dec</span>
@@ -2953,7 +2959,7 @@
                                 <div class="post-content">
                                     <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                     <div class="post-meta">
-                                        <a href="#" class="post-meta__item author"><img src="assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
                                         <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
                                         <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
                                         <div class="post-meta__item post-meta__item-social-box">
@@ -2979,7 +2985,7 @@
                         <li>
                             <div class="post-item effect-01 style-bottom-info layout-02">
                                 <div class="thumbnail">
-                                    <a href="#" class="link-to-post"><img src="assets/images/our-blog/post-thumb-05.jpg" width="370" height="270" alt=""></a>
+                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-05.jpg" width="370" height="270" alt=""></a>
                                     <div class="post-date">
                                         <span class="date">26</span>
                                         <span class="month">dec</span>
@@ -2988,7 +2994,7 @@
                                 <div class="post-content">
                                     <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                     <div class="post-meta">
-                                        <a href="#" class="post-meta__item author"><img src="assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
                                         <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
                                         <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
                                         <div class="post-meta__item post-meta__item-social-box">
@@ -3014,7 +3020,7 @@
                         <li>
                             <div class="post-item effect-01 style-bottom-info layout-02">
                                 <div class="thumbnail">
-                                    <a href="#" class="link-to-post"><img src="assets/images/our-blog/post-thumb-06.jpg" width="370" height="270" alt=""></a>
+                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-06.jpg" width="370" height="270" alt=""></a>
                                     <div class="post-date">
                                         <span class="date">26</span>
                                         <span class="month">dec</span>
@@ -3023,7 +3029,7 @@
                                 <div class="post-content">
                                     <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
                                     <div class="post-meta">
-                                        <a href="#" class="post-meta__item author"><img src="assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
                                         <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
                                         <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
                                         <div class="post-meta__item post-meta__item-social-box">
@@ -3063,7 +3069,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3089,7 +3095,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3115,7 +3121,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3141,7 +3147,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3167,7 +3173,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3193,7 +3199,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3219,7 +3225,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3245,7 +3251,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3271,7 +3277,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3297,7 +3303,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3323,7 +3329,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-29.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3349,7 +3355,7 @@
                                     <div class="contain-product contain-product__right-info-layout3">
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
-                                                <img src="assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                                <img src="/biolife/assets/images/products/p-30.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
@@ -3389,7 +3395,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-capacity-about"></span>
-                                    <img src="assets/images/home-02/instag-inline-01.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-01.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3397,7 +3403,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-fresh-drink"></span>
-                                    <img src="assets/images/home-02/instag-inline-02.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-02.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3405,7 +3411,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-green-safety"></span>
-                                    <img src="assets/images/home-02/instag-inline-03.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-03.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3413,7 +3419,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-healthy-about"></span>
-                                    <img src="assets/images/home-02/instag-inline-04.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-04.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3421,7 +3427,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-honey"></span>
-                                    <img src="assets/images/home-02/instag-inline-05.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-05.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3429,7 +3435,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-fruits"></span>
-                                    <img src="assets/images/home-02/instag-inline-06.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-06.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3437,7 +3443,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-broccoli-1"></span>
-                                    <img src="assets/images/home-02/instag-inline-07.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-07.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3445,7 +3451,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-grape"></span>
-                                    <img src="assets/images/home-02/instag-inline-08.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-08.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3453,7 +3459,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-avocado"></span>
-                                    <img src="assets/images/home-02/instag-inline-09.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-09.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3461,7 +3467,7 @@
                             <div class="instagram-ltl-item">
                                 <a href="#" class="link-to">
                                     <span class="show-on-hover biolife-icon icon-fresh-juice"></span>
-                                    <img src="assets/images/home-02/instag-inline-10.jpg" width="320" height="320" alt="">
+                                    <img src="/biolife/assets/images/home-02/instag-inline-10.jpg" width="320" height="320" alt="">
                                 </a>
                             </div>
                         </li>
@@ -3476,56 +3482,56 @@
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/biolife/assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
@@ -3545,7 +3551,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-xs-12">
                         <section class="footer-item">
-                            <a href="home-01.html" class="logo footer-logo"><img src="assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="34"></a>
+                            <a href="home-01.html" class="logo footer-logo"><img src="/biolife/assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="34"></a>
                             <div class="footer-phone-info mode-03">
                                 <i class="biolife-icon icon-head-phone"></i>
                                 <p class="r-info">
@@ -3556,7 +3562,7 @@
                             <div class="contact-info-block footer-layout simple-info">
                                 <h4 class="title">Contact info</h4>
                                 <div class="info-item">
-                                    <img src="assets/images/location-icon.png" width="22" height="26" alt="" class="icon">
+                                    <img src="/biolife/assets/images/location-icon.png" width="22" height="26" alt="" class="icon">
                                     <p class="desc">7563 St. Vicent Place, Glasgow, Greater Newyork NH7689, UK </p>
                                 </div>
                             </div>
@@ -3652,11 +3658,11 @@
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="payment-methods">
                                 <ul>
-                                    <li><a href="#" class="payment-link"><img src="assets/images/card1.jpg" width="51" height="36" alt=""></a></li>
-                                    <li><a href="#" class="payment-link"><img src="assets/images/card2.jpg" width="51" height="36" alt=""></a></li>
-                                    <li><a href="#" class="payment-link"><img src="assets/images/card3.jpg" width="51" height="36" alt=""></a></li>
-                                    <li><a href="#" class="payment-link"><img src="assets/images/card4.jpg" width="51" height="36" alt=""></a></li>
-                                    <li><a href="#" class="payment-link"><img src="assets/images/card5.jpg" width="51" height="36" alt=""></a></li>
+                                    <li><a href="#" class="payment-link"><img src="/biolife/assets/images/card1.jpg" width="51" height="36" alt=""></a></li>
+                                    <li><a href="#" class="payment-link"><img src="/biolife/assets/images/card2.jpg" width="51" height="36" alt=""></a></li>
+                                    <li><a href="#" class="payment-link"><img src="/biolife/assets/images/card3.jpg" width="51" height="36" alt=""></a></li>
+                                    <li><a href="#" class="payment-link"><img src="/biolife/assets/images/card4.jpg" width="51" height="36" alt=""></a></li>
+                                    <li><a href="#" class="payment-link"><img src="/biolife/assets/images/card5.jpg" width="51" height="36" alt=""></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -3724,10 +3730,10 @@
             <div class="glb-item languages">
                 <b class="title">Language</b>
                 <ul class="list inline">
-                    <li class="list-item"><a href="#"><img src="assets/images/languages/us.jpg" alt="flag" width="24" height="18"></a></li>
-                    <li class="list-item"><a href="#"><img src="assets/images/languages/fr.jpg" alt="flag" width="24" height="18"></a></li>
-                    <li class="list-item"><a href="#"><img src="assets/images/languages/ger.jpg" alt="flag" width="24" height="18"></a></li>
-                    <li class="list-item"><a href="#"><img src="assets/images/languages/jap.jpg" alt="flag" width="24" height="18"></a></li>
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/us.jpg" alt="flag" width="24" height="18"></a></li>
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/fr.jpg" alt="flag" width="24" height="18"></a></li>
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/ger.jpg" alt="flag" width="24" height="18"></a></li>
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/jap.jpg" alt="flag" width="24" height="18"></a></li>
                 </ul>
             </div>
         </div>
@@ -3766,22 +3772,22 @@
             <div class="biolife-quickview-inner">
                 <div class="media">
                     <ul class="biolife-carousel quickview-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".quickview-nav"}'>
-                        <li><img src="assets/images/details-product/detail_01.jpg" alt="" width="500" height="500"></li>
-                        <li><img src="assets/images/details-product/detail_02.jpg" alt="" width="500" height="500"></li>
-                        <li><img src="assets/images/details-product/detail_03.jpg" alt="" width="500" height="500"></li>
-                        <li><img src="assets/images/details-product/detail_04.jpg" alt="" width="500" height="500"></li>
-                        <li><img src="assets/images/details-product/detail_05.jpg" alt="" width="500" height="500"></li>
-                        <li><img src="assets/images/details-product/detail_06.jpg" alt="" width="500" height="500"></li>
-                        <li><img src="assets/images/details-product/detail_07.jpg" alt="" width="500" height="500"></li>
+                        <li><img src="/biolife/assets/images/details-product/detail_01.jpg" alt="" width="500" height="500"></li>
+                        <li><img src="/biolife/assets/images/details-product/detail_02.jpg" alt="" width="500" height="500"></li>
+                        <li><img src="/biolife/assets/images/details-product/detail_03.jpg" alt="" width="500" height="500"></li>
+                        <li><img src="/biolife/assets/images/details-product/detail_04.jpg" alt="" width="500" height="500"></li>
+                        <li><img src="/biolife/assets/images/details-product/detail_05.jpg" alt="" width="500" height="500"></li>
+                        <li><img src="/biolife/assets/images/details-product/detail_06.jpg" alt="" width="500" height="500"></li>
+                        <li><img src="/biolife/assets/images/details-product/detail_07.jpg" alt="" width="500" height="500"></li>
                     </ul>
                     <ul class="biolife-carousel quickview-nav" data-slick='{"arrows":true,"dots":false,"centerMode":false,"focusOnSelect":true,"slidesMargin":10,"slidesToShow":3,"slidesToScroll":1,"asNavFor":".quickview-for"}'>
-                        <li><img src="assets/images/details-product/thumb_01.jpg" alt="" width="88" height="88"></li>
-                        <li><img src="assets/images/details-product/thumb_02.jpg" alt="" width="88" height="88"></li>
-                        <li><img src="assets/images/details-product/thumb_03.jpg" alt="" width="88" height="88"></li>
-                        <li><img src="assets/images/details-product/thumb_04.jpg" alt="" width="88" height="88"></li>
-                        <li><img src="assets/images/details-product/thumb_05.jpg" alt="" width="88" height="88"></li>
-                        <li><img src="assets/images/details-product/thumb_06.jpg" alt="" width="88" height="88"></li>
-                        <li><img src="assets/images/details-product/thumb_07.jpg" alt="" width="88" height="88"></li>
+                        <li><img src="/biolife/assets/images/details-product/thumb_01.jpg" alt="" width="88" height="88"></li>
+                        <li><img src="/biolife/assets/images/details-product/thumb_02.jpg" alt="" width="88" height="88"></li>
+                        <li><img src="/biolife/assets/images/details-product/thumb_03.jpg" alt="" width="88" height="88"></li>
+                        <li><img src="/biolife/assets/images/details-product/thumb_04.jpg" alt="" width="88" height="88"></li>
+                        <li><img src="/biolife/assets/images/details-product/thumb_05.jpg" alt="" width="88" height="88"></li>
+                        <li><img src="/biolife/assets/images/details-product/thumb_06.jpg" alt="" width="88" height="88"></li>
+                        <li><img src="/biolife/assets/images/details-product/thumb_07.jpg" alt="" width="88" height="88"></li>
                     </ul>
                 </div>
                 <div class="product-attribute">

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1>Ajout produit ✅</h1>
+       {{ include ('admin/product/_product_form.html.twig', {btn_class : 'btn-primary'}) }}
+</div>
+{% endblock %}

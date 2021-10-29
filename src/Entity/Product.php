@@ -15,6 +15,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Product
 {
+    const GAMME = [
+        0 => 'Bio',
+        1 => 'Demeter'
+    ];
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -33,7 +38,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $weight;
 
@@ -72,9 +77,25 @@ class Product
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $gamme;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Classement::class, inversedBy="products")
+     */
+    private $classement;
+
     public function __construct()
     {
         $this->updated_at = new \DateTime();
+        $this->quantity = 1;
     }
 
     public function getId(): ?int
@@ -124,7 +145,7 @@ class Product
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): self
+    public function setQuantity(?int $quantity): self
     {
         $this->quantity = $quantity;
 
@@ -200,6 +221,48 @@ class Product
         if ($this->imageFile instanceof UploadedFile) {
             $this->updated_at = new \DateTime();
         }
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getGammetType(): string
+    {
+        return self::GAMME[$this->gamme];
+    }
+
+
+    public function getGamme(): ?int
+    {
+        return $this->gamme;
+    }
+
+    public function setGamme(int $gamme): self
+    {
+        $this->gamme = $gamme;
+
+        return $this;
+    }
+
+    public function getClassement(): ?Classement
+    {
+        return $this->classement;
+    }
+
+    public function setClassement(?Classement $classement): self
+    {
+        $this->classement = $classement;
+
         return $this;
     }
 }

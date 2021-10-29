@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,24 +13,29 @@ class HomeController extends AbstractController
 {
     protected $paginator;
     protected $repoProduct;
+    protected $repoCategory;
 
-    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct)
+    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, CategoryRepository $repoCategory)
     {
         $this->paginator = $paginator;
         $this->repoProduct = $repoProduct;
+        $this->repoCategory = $repoCategory;
     }
+
     
     /**
      * @Route("/", name="home")
      *
      * @return Response
      */
-    public function index(): Response
+    public function home(): Response
     {
         $produits = $this->repoProduct->findAll();
+        $categories = $this->repoCategory->findAll();
 
         return $this->render('home/home.html.twig', [
-            'produits' => $produits
+            'produits' => $produits,
+            'categories' => $categories
         ]);
     }
 }

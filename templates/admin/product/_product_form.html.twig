@@ -1,4 +1,26 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn {{btn_class}}">{{ button|default('Ajouter') }}</button>
-{{ form_end(form) }}
+<div class="container">
+
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-8">
+                {{ form_row(form.name) }}
+                {{ form_row(form.price) }}
+                {{ form_row(form.weight) }}
+                {{ form_row(form.quantity) }}
+                {{ form_row(form.detail) }}
+                {{ form_row(form.description) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.category) }}
+                {{ form_row(form.classement) }}
+                {{ form_row(form.gamme) }}
+            </div>
+        </div>
+    
+        <div class="row">
+            {{ form_rest(form) }}
+        </div>
+        
+        <button class="btn {{btn_class}}">{{ button|default('Ajouter') }}</button>
+    {{ form_end(form) }}
+</div>

@@ -1,0 +1,59 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste des classements{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+    
+	{% for label, messages in app.flashes %}
+        <div class="alert alert-{{label}} text-center">
+            {% for message in messages %}
+                {{message | raw}}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Ajout produit</a>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Ajout produit &raquo; </a>
+                <ul class="submenu dropdown-menu">
+                    {% for classement in classements %}
+                        <li><a class="dropdown-item" href="{{path('admin_class_addProduct', {id: classement.id})}}">{{ classement.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            </ul>
+        </li>
+    </ul>
+        
+    <h1 class="text-center">Liste des classements</h1>
+    <a href="{{path('admin_class_add')}}" class="btn btn-primary">Ajouter</a>
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-center">
+                <th scope="col">Classe</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for classement in classements %}
+                <tr>
+                    <th scope="row">{{classement.name}}</th>
+                    <td>
+                        <a href="{{path('admin_class_edit', {id: classement.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
+                        <form method="post" action="{{path('admin_class_delete', {id: classement.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ classement.id) }}">
+                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

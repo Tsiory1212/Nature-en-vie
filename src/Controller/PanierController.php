@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PanierController extends AbstractController
 {
 
- /**
+    /**
      * @Route("/panier", name="panier")
      */
     public function panier(PanierService $panierService)

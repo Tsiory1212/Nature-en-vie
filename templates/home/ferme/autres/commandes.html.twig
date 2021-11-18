@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ferme!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        
+        .fond-ruban{
+            float: left;
+            background-size: auto;
+        
+            background: url('/images/fond-article.png')no-repeat center top;
+            background-color: #a3a276;
+            background-size: contain;
+            width: 100%;  
+            padding: 20px 170px;
+        }
+        .fond-ruban .content-text{
+            background-color: rgb(255, 255, 255);   
+        }
+
+        .content-text h1{
+            font-family: 'Amatic SC', cursive;
+            color: #89b17a;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content-text h3{
+            color: #89b17a;
+        }
+
+        .content-text h3{
+            color: #89b17a;
+            text-transform: uppercase;
+        }
+
+        
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="container">
+            <div class="fond-ruban">
+                <div class="content-text" style="padding: 30px;">
+                  <h1>Commandes</h1>
+                  <p>Accédez à notre boutique en ligne :</p>
+                  <p>Accès particuliers </p>
+                  <p>Accès professionnels</p>
+                </div>
+            </div>
+        </div>     
+    </body>
+ 
+{% endblock %}
+

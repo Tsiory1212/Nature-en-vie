@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ferme!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        
+        .fond-ruban{
+            float: left;
+            background-size: auto;
+        
+            background: url('/images/fond-article.png')no-repeat center top;
+            background-color: #a3a276;
+            background-size: contain;
+            width: 100%;  
+            padding: 20px 170px;
+        }
+        .fond-ruban .content-text{
+            background-color: rgb(255, 255, 255);   
+        }
+
+        .content-text h1{
+            font-family: 'Amatic SC', cursive;
+            color: #89b17a;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content-text h3{
+            color: #89b17a;
+        }
+
+        .content-text h3{
+            color: #89b17a;
+            text-transform: uppercase;
+        }
+
+        .col-md-6 h2{
+            color: #89b17a;
+            text-transform: uppercase;
+        }
+
+        
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="container">
+            <div class="fond-ruban">
+                <div class="content-text" style="padding: 30px;">
+                <h1>Où nous trouver ? </h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Le magasin :</h2>
+                        <h4>15 rue Laussedat</h4>
+                        <h4>03000 Moulins – Allier</h4>
+                        <p>Tél. : 04 70 35 08 96</p>
+                        <a href="magasin@au-coin-nature.com">magasin@au-coin-nature.com</a>
+
+                        <h4 style="color: red;">Horaires d’ouverture PENDANT LE CONFINEMENT :</h4>
+                        <p>DU mardi au vendredi de 8h00 à 13h00</p>
+                        <p>Le samedi de 9h00 à 12h30 puis de 15h00 à 18h00</p>
+                        <p>Fermé le lundi et dimanche</p>
+                        
+                        <p>
+                            Horaires d’ouverture ordinaires : <br>
+                            Du mardi au jeudi de 8h30 à 12h30 et 15h00 à 19h00 <br>
+                            Le vendredi de 7h30 à 13h00 et 15h00 à 19h00 <br>
+                            Le samedi de 9h00 à 12h30 et 15h00 à 18h30 <br>
+                            Fermé le lundi et le dimanche <br>
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h2>Les marchés :</h2>
+                        <p>Le marché de Bourbon l’Archambault – le samedi matin</p>
+                        <p>Le marché de Saint Amand Montrond – le samedi matin</p>
+                        <p>Le marché Boulevard des Batignolles à Paris – le samedi matin (suspendu durant le confinement)</p>
+                        <p>Le marché Boulevard Raspail à Paris – le dimanche matin (suspendu durant le confinement)</p>
+                        <p>Le marché de Cosne-d’Allier – le mardi matin</p>
+                        <p>Le marché de Neuvy – le mercredi matin</p>
+                        <p>Le marché de Souvigny – le jeudi matin</p>
+                        <p>A Villefranche (parking SOCOPA) – le vendredi matin</p>
+                        <p>Le marché de Tronget – le vendredi 17h-20h</p>
+                        <a href="">Aller à la page des Marchés</a>
+                    </div>
+                </div>
+
+                <h1>Contactez-nous</h1>
+                <p>Pour toute demande d’information, vous pouvez utiliser notre formulaire de contact ci-dessous.</p>
+                <p>Nous répondrons à votre demande dans les plus brefs délais.</p>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <p>Ce formulaire collecte votre identité et votre adresse mail afin de vous recontacter. Consultez notre page politique de confidentialité pour comprendre comment nous protégeons et traitons vos données.</p>
+                </div>
+            </div>
+        </div>     
+    </body>
+ 
+{% endblock %}
+

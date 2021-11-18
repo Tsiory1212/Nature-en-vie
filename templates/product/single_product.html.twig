@@ -64,50 +64,56 @@
                             <ins><span class="price-amount">{{produit.price}} <span class="currencySymbol">€</span></span></ins>
                         </div>
                     </div>
-                    <div class="action-form">
-                        <div class="quantity-box">
-                            <span class="title">Quantité:</span>
-                            <div class="qty-input">
-                                <input type="text" name="qty12554" value="1" data-max_value="20" data-min_value="1" data-step="1">
-                                <a href="#" class="qty-btn btn-up"><i class="fa fa-caret-up" aria-hidden="true"></i></a>
-                                <a href="#" class="qty-btn btn-down"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                    {% if app.user %}
+                        <div class="action-form">
+                            <div class="quantity-box">
+                                <span class="title">Quantité:</span>
+                                <div class="qty-input">
+                                    <input id="js-quantity-item" type="text" name="qty12554" value="{{quantity_item}}" data-max_value="20" data-min_value="1" data-step="1">
+                                    <a href="#" class="qty-btn btn-up"><i class="fa fa-caret-up" aria-hidden="true"></i></a>
+                                    <a href="#" class="qty-btn btn-down"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                                </div>
                             </div>
+                            <div class="buttons">
+                                <a href="{{path('panier_quantity_edit', {id: produit.id})}}" class="btn add-to-cart-btn" id="js-add-cart-with-quantity">Modifier</a>
+                                {# <p class="pull-row">
+                                    <a href="#" class="btn wishlist-btn">wishlist</a>
+                                    <a href="#" class="btn compare-btn">compare</a>
+                                </p> #}
+                            </div>
+                            {# <div class="location-shipping-to">
+                                <span class="title">Ship to:</span>
+                                <select name="shipping_to" class="country">
+                                    <option value="-1">Select Country</option>
+                                    <option value="america">America</option>
+                                    <option value="france">France</option>
+                                    <option value="germany">Germany</option>
+                                    <option value="japan">Japan</option>
+                                </select>
+                            </div>
+                            <div class="social-media">
+                                <ul class="social-list">
+                                    <li><a href="#" class="social-link"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li><a href="#" class="social-link"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="#" class="social-link"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                    <li><a href="#" class="social-link"><i class="fa fa-share-alt" aria-hidden="true"></i></a></li>
+                                    <li><a href="#" class="social-link"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div> #}
+                            {# <div class="acepted-payment-methods">
+                                <ul class="payment-methods">
+                                    <li><img src="assets/images/card1.jpg" alt="" width="51" height="36"></li>
+                                    <li><img src="assets/images/card2.jpg" alt="" width="51" height="36"></li>
+                                    <li><img src="assets/images/card3.jpg" alt="" width="51" height="36"></li>
+                                    <li><img src="assets/images/card4.jpg" alt="" width="51" height="36"></li>
+                                </ul>
+                            </div> #}
                         </div>
-                        <div class="buttons">
-                            <a href="{{path('panier_add', {id: produit.id})}}" class="btn add-to-cart-btn">Ajouter au panier</a>
-                            {# <p class="pull-row">
-                                <a href="#" class="btn wishlist-btn">wishlist</a>
-                                <a href="#" class="btn compare-btn">compare</a>
-                            </p> #}
+                    {% else %}
+                        <div class="action-form">
+                            {{produit.description}}
                         </div>
-                        {# <div class="location-shipping-to">
-                            <span class="title">Ship to:</span>
-                            <select name="shipping_to" class="country">
-                                <option value="-1">Select Country</option>
-                                <option value="america">America</option>
-                                <option value="france">France</option>
-                                <option value="germany">Germany</option>
-                                <option value="japan">Japan</option>
-                            </select>
-                        </div>
-                        <div class="social-media">
-                            <ul class="social-list">
-                                <li><a href="#" class="social-link"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                <li><a href="#" class="social-link"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#" class="social-link"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                                <li><a href="#" class="social-link"><i class="fa fa-share-alt" aria-hidden="true"></i></a></li>
-                                <li><a href="#" class="social-link"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div> #}
-                        {# <div class="acepted-payment-methods">
-                            <ul class="payment-methods">
-                                <li><img src="assets/images/card1.jpg" alt="" width="51" height="36"></li>
-                                <li><img src="assets/images/card2.jpg" alt="" width="51" height="36"></li>
-                                <li><img src="assets/images/card3.jpg" alt="" width="51" height="36"></li>
-                                <li><img src="assets/images/card4.jpg" alt="" width="51" height="36"></li>
-                            </ul>
-                        </div> #}
-                    </div>
+                    {% endif %}
                 </div>
 
                 <!-- Tab info -->
@@ -380,7 +386,7 @@
                                 <li class="product-item">
                                     <div class="contain-product layout-default">
                                         <div class="product-thumb">
-                                            <a href="{{path('product_show', {id: produit.id})}}" class="link-to-product">
+                                            <a href="{{path('product_show', {id: relatedProduct.id})}}" class="link-to-product">
                                                 {% if relatedProduct.imageName %}
                                                     <img src="{{ vich_uploader_asset(relatedProduct, 'imageFile') }}" alt="card-img-top" width="270" height="270">
                                                 {% else %}
@@ -417,4 +423,35 @@
         </div>
     </div>
 
+{% endblock %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        
+            function onClickBtn(event){
+                event.preventDefault();
+
+                var valueInput = $("#js-quantity-item").val();
+                const url_panier_show = "{{path('panier_show')}}";
+                const url_with_params = this.href + "?quantity="+valueInput;
+
+
+                axios.post(
+                    url_with_params,
+                    {},
+                ).then(function (response) {
+                        const status = JSON.parse(response.status);
+
+                        //redirect logic
+                        if (status == '200') {
+                            window.location.replace(url_panier_show);
+                        }
+                })
+            }
+
+            document.querySelectorAll('a#js-add-cart-with-quantity').forEach(function(link){
+                // link représente tout les éléments => a 
+                link.addEventListener('click', onClickBtn)
+            })
+    </script>
 {% endblock %}

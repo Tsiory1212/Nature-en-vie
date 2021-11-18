@@ -38,11 +38,11 @@
                             <form action="{{ path('security_login')}}" method="post">
                                 <p class="form-row">
                                     <label for="fid-name">Adresse email:<span class="requite">*</span></label>
-                                    <input type="text" id="fid-name" name="_username" value="{{ lastUser }}" class="txt-input">
+                                    <input type="email" id="fid-name" name="_username" value="{{ lastUser }}" class="txt-input">
                                 </p>
                                 <p class="form-row">
                                     <label for="fid-pass">Mot de passe:<span class="requite">*</span></label>
-                                    <input type="email" id="fid-pass" name="_password" value="" class="txt-input">
+                                    <input type="password" id="fid-pass" name="_password" value="" class="txt-input">
                                 </p>
                                 <p class="form-row wrap-btn">
                                     <button type="submit" class="btn btn-primary"> Se connecter</button>

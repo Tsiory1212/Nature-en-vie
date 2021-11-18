@@ -30,7 +30,7 @@ class AdminProductController extends AbstractController
     /**
      * @Route("/admin/produit/liste", name="admin_product_list")
      */
-    public function admin_product_list(Request $request, PaginatorInterface $paginator,): Response
+    public function admin_product_list(Request $request, PaginatorInterface $paginator): Response
     {
         $search = new ProductSearch();
         $form = $this->createForm(ProductSearchType::class, $search);

@@ -24,14 +24,16 @@
                 <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
                     <li>
                         <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
+
+                            <!-- Image bannière  -->
                             <div class="media"></div>
-                            <div class="text-content">
-                                <i class="first-line">Pomegranate</i>
-                                <h3 class="second-line">Fresh Juice. 100% Organic</h3>
-                                <p class="third-line">A blend of freshly squeezed green apple & fruits</p>
+
+                            <div class="text-content">     
+                                <h6 class="third-line" >Frais et bio... Les produits de nos commerces au Lieu-dit Les Rondards </h6>
+                                <!-- <p class="third-line">Découvrez nos produits maraîchers et demeter qui nourrissent et le corps et l'esprit</p> -->
                                 <p class="buttons">
-                                    <a href="#" class="btn btn-bold">Shop now</a>
-                                    <a href="#" class="btn btn-thin">View lookbook</a>
+                                    <a href="#" class="btn btn-bold">Commander mon Panier Bio</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
                         </div>
@@ -41,12 +43,12 @@
                             <div class="media">
                             </div>
                             <div class="text-content">
-                                <i class="first-line">Pomegranate</i>
-                                <h3 class="second-line">Fresh Juice. 100% Organic</h3>
-                                <p class="third-line">A blend of freshly squeezed green apple & fruits</p>
+                                <!-- <i class="first-line">Pomegranate</i>
+                                <h3 class="second-line">Fresh Juice. 100% Organic</h3> -->
+                                <p class="third-line">Des vins biodynamiques, des produits d'épicerie et divers articles Made in Bio</p>
                                 <p class="buttons">
-                                    <a href="#" class="btn btn-bold">Shop now</a>
-                                    <a href="#" class="btn btn-thin">View lookbook</a>
+                                    <a href="#" class="btn btn-bold">Commander mon Panier Bio</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
                         </div>
@@ -56,12 +58,12 @@
                             <div class="media">
                             </div>
                             <div class="text-content">
-                                <i class="first-line">Pomegranate</i>
-                                <h3 class="second-line">Fresh Juice. 100% Organic</h3>
-                                <p class="third-line">A blend of freshly squeezed green apple & fruits</p>
+                                <!-- <i class="first-line">Pomegranate</i>
+                                <h3 class="second-line">Fresh Juice. 100% Organic</h3> -->
+                                <p class="third-line">Des fruits & légumes bio et demeter de nos producteurs maraîchers</p>
                                 <p class="buttons">
-                                    <a href="#" class="btn btn-bold">Shop now</a>
-                                    <a href="#" class="btn btn-thin">View lookbook</a>
+                                    <a href="#" class="btn btn-bold">Commander mon panier Bio</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
                         </div>
@@ -197,7 +199,7 @@
                                                         <p class="message">All products are carefully selected to ensure food safety.</p>
                                                         <div class="buttons">
                                                             <a href="#" class="btn wishlist-btn"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                                                            <a href="{{path('panier_add', {id: produit.id})}}" class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Ajouter au panier</a>
+                                                            <a href="{{path('panier_add', {id: produit.id})}}" class="btn add-to-cart-btn js-add-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Ajouter au panier</a>
                                                             <a href="#" class="btn compare-btn"><i class="fa fa-random" aria-hidden="true"></i></a>
                                                         </div>
                                                     </div>
@@ -1024,7 +1026,7 @@
                                     </div>
                                     <p class="measure">per kilogram</p>
                                     <div class="buttons">
-                                        <a href="#" class="btn add-to-cart-btn" tabindex="-1">Ajouter au panier</a>
+                                        <a href="#" class="btn add-to-cart-btn js-add-cart" tabindex="-1">Ajouter au panier</a>
                                     </div>
                                 </div>
                             </div>
@@ -1107,7 +1109,7 @@
                                                         <p class="message">All products are carefully selected to ensure food safety.</p>
                                                         <div class="buttons">
                                                             <a href="#" class="btn wishlist-btn"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                                                            <a href="{{path('panier_add', {id: produit.id})}}" class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Ajouter au panier</a>
+                                                            <a href="{{path('panier_add', {id: produit.id})}}" class="btn add-to-cart-btn js-add-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Ajouter au panier</a>
                                                             <a href="#" class="btn compare-btn"><i class="fa fa-random" aria-hidden="true"></i></a>
                                                         </div>
                                                     </div>
@@ -2368,19 +2370,19 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-xs-12">
                         <section class="footer-item">
-                            <a href="home-01.html" class="logo footer-logo"><img src="/biolife/assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="34"></a>
+                            <a href="home-01.html" class="logo footer-logo"><img src="/biolife/assets/images/logo-bio.jpeg" alt="biolife logo" width="135" height="34"></a>
                             <div class="footer-phone-info mode-03">
                                 <i class="biolife-icon icon-head-phone"></i>
                                 <p class="r-info">
-                                    <span>Got Questions ?</span>
-                                    <span class="number">(700)  9001-1909  (900) 689 -66</span>
+                                    <span>Vous avez des questions?</span>
+                                    <span class="number">04 70 35 08 96</span>
                                 </p>
                             </div>
                             <div class="contact-info-block footer-layout simple-info">
                                 <h4 class="title">Contact info</h4>
                                 <div class="info-item">
                                     <img src="/biolife/assets/images/location-icon.png" width="22" height="26" alt="" class="icon">
-                                    <p class="desc">7563 St. Vicent Place, Glasgow, Greater Newyork NH7689, UK </p>
+                                    <p class="desc">Les Rondard 03210 Marigny </p>
                                 </div>
                             </div>
                             <div class="biolife-social inline circle-hover">
@@ -2462,7 +2464,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                <!-- </div> -->
 
             </div>
 
@@ -2470,7 +2472,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <div class="copy-right-text"><p>Copyright © 2019 <b>Biolife</b> HTML template. All rights reserved</p></div>
+                            <div class="copy-right-text">
+                                <img src="/images/demeter.jpeg" alt="">
+                                <p>Copyright ©️ 2021 <b>Christophe Regnault.</b>Tous droits réservés. Conception et marketing Pixelsior.</p>
+                            </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="payment-methods">
@@ -2675,3 +2680,9 @@
     <a class="btn-scroll-top"><i class="biolife-icon icon-left-arrow"></i></a>
 </body>
 {% endblock %}
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ asset('/js/add-cart-pageNotCharging.js')}}"></script>
+{% endblock %}
+

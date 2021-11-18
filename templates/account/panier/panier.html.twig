@@ -2,8 +2,6 @@
 
 {% block title %}Mon Panier!{% endblock %}
 
-
-
 {% block body %}
     <div class="container panier_body">
         
@@ -28,22 +26,23 @@
                     {% for item in items %}
                         <tr>
                             <td>
-                                {% if item.product.imageName %}
-                                    <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
-                                {% else %}
-                                    <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
-                                {% endif %}
+                                <a href="{{path('product_show', {id: item.product.id})}}">
+                                    {% if item.product.imageName %}
+                                        <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
+                                    {% else %}
+                                        <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
+                                    {% endif %}
+                                </a>
                             </td>
-
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.product.price }}</td>
-                            <td>{{ item.quantity }}</td>
+                            <td> {{ item.quantity }}</td>
                             <td>{{ item.product.price * item.quantity }}</td>
                             <td>
-                                <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success">
+                                <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-like">
                                     <i class="bi bi-cart-plus"></i>
                                 </a>
-                                <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning">
+                                <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-like">
                                     <i class="bi bi-cart-dash"></i>
                                 </a>
                                 <a href="{{path('panier_remove', {id: item.product.id})}}" class="btn btn-danger">
@@ -61,7 +60,7 @@
                                 <i class="bi bi-cart-x"></i>
                             </a>
                         </td>
-                        <td>{{ total }}</td>
+                        <td class="total-general">{{ total }}</td>
                         <td></td>
                     </tr>
                 </tfoot>
@@ -70,4 +69,35 @@
             <p>Surprise, c'est vide !</p>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function onClickBtn(event){
+            //on utilise preventDefault() pour dire au navigateur de ne pas se recharger
+            event.preventDefault();
+
+            // this repésente l'élément => a 
+            const url = this.href;
+
+            //l'élement précedent de l'élément frère
+            const quantity_item =  $(this)[0].parentNode.previousElementSibling.previousElementSibling
+            const total_item =  $(this)[0].parentNode.previousElementSibling
+            const total =  $('td.total-general')[0]
+
+            axios.get(url).then(function(response){
+                quantity_item.textContent = response.data.quantity;
+
+                // toFixed(2) pour formater le float type en deux chiffre après la virgule 
+                total_item.textContent = response.data.total_item.toFixed(2);
+                total.textContent = response.data.total.toFixed(2);
+            })
+        }
+
+        document.querySelectorAll('a.js-like').forEach(function(link){
+            // link représente tout les éléments => a 
+            link.addEventListener('click', onClickBtn)
+        })
+    
+    </script>
 {% endblock %}

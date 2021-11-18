@@ -31,19 +31,19 @@ class PanierService {
         $this->session->set('panier', $panier);
     }
 
-    public function addOne(int $id)
+    public function panier_quantity_edit(int $quantity, int $id)
     {
-         // On récupère le panier actuel
-         $panier = $this->session->get("panier", []);
+        $panier = $this->session->get('panier', []);
+        $panier[$id] = $quantity;
 
-         if(!empty($panier[$id])){
-             $panier[$id]++;
-         }else{
-             $panier[$id] = 1;
-         }
- 
-         // On sauvegarde dans la session
-         $this->session->set("panier", $panier);
+        // if (!empty($panier[$id])) {
+        //     $panier[$id]++;
+        // }else {
+        //     $panier[$id] = 1;
+        // }
+
+        //ce set() fait cummuler les données dans la session (pas changer la donnée déjà existée)
+        $this->session->set('panier', $panier);
     }
 
     public function remove(int $id)
@@ -103,5 +103,18 @@ class PanierService {
             $total += $item['product']->getPrice() * $item['quantity'];
         }
         return $total;
+    }
+
+    public function allQuantityItem() : int
+    {
+        $panier = $this->session->get('panier', []);
+
+        $allQuantityItem = 0;
+
+        foreach ($panier as $quantity ) {
+            $allQuantityItem += $quantity ;
+        }
+
+        return $allQuantityItem;
     }
 }

@@ -8,10 +8,18 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * 
  * @Vich\Uploadable()
+ * 
+ * @UniqueEntity(
+ *      fields={"name"},
+ *      message="Produit déjà en stock, pensez juste à modifier sa quantité"
+ * )
  */
 class Product
 {

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ferme!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        
+        .fond-ruban{
+            float: left;
+            background-size: auto;
+        
+            background: url('/images/fond-article.png')no-repeat center top;
+            background-color: #a3a276;
+            background-size: contain;
+            width: 100%;  
+            padding: 20px 170px;
+        }
+        .fond-ruban .content-text{
+            background-color: rgb(255, 255, 255);   
+        }
+
+        .content-text h1{
+            font-family: 'Amatic SC', cursive;
+            color: #89b17a;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content-text h3{
+            color: #89b17a;
+        }
+
+        .content-text h3{
+            color: #89b17a;
+            text-transform: uppercase;
+        }
+
+        
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="container">
+            <div class="fond-ruban">
+                <div class="content-text" style="padding: 30px;">
+                   <h1>Commerce de gros et demi-gros</h1>
+                   <p>Nous tenons à ce que notre site soit également un point d’information et de contact pour les professionnels, nous faisons du commerce de gros et demi-gros.</p>
+
+                   <h3>Livraisons sur le MIN de Rungis chez les grossistes :</h3>
+                   <p>En effet, notre production est également commercialisée auprès de plusieurs grossistes du MIN de Rungis depuis quasiment le tout début de notre activité maraîchère.</p>
+                   <p>A l’aide de notre semi-remorque, nous effectuons nos livraisons sur le MIN de Rungis tous les jeudis et samedis matin. Notre équipe compte un chauffeur, Pascal, et un acheteur, Christophe. Le jeudi Christophe se charge de faire des achats à vue pendant que Pascal gère les livraisons.</p>
+
+                   <h3>Livraisons en demi-gros :</h3>
+                   <p>Si vous êtes commerçants et souhaitez passer commande, nous proposons également un service de livraison sur le MIN mais également sur les marchés bio de Batignolles et  Raspail.</p>
+                   <a href="https://professionnels.aucoinnature.com/">https://professionnels.aucoinnature.com/</a>
+
+                   <h3>Fruits, légumes mais aussi plants :</h3>
+                   <p>Nous approvisionnons également les collègues détaillants (fruits et légumes mais aussi en plantes), tant sur Paris que localement, sur notre lieu de production.</p>
+                   <p>Nous nous efforçons de fournir des produits cueillis de la veille (fraîcheur garantie) en travaillant constamment sur leur présentation  afin de satisfaire les critères de qualité de nos clients les plus exigeants.</p>
+                   <p>Nous proposons une mercuriale  hebdomadaire de notre production complétée par des produits de collègues avec qui nous travaillons en direct.</p>
+
+                   <h3>Le siège social Les sabots d’argile et Au coin nature :</h3>
+                   <p>LIEU DIT LES RONDARDS</p>
+                   <p>03210 MARIGNY</p>
+                   <p>Tél. : 04 70 43 95 00</p>
+                   <p>contact@au-coin-nature.co</p>
+                   <p>contact@les-sabots-d-argile.com</p>
+
+                   <h4>Ouvertures des bureaux</h4>
+                   <p>Du lundi au vendredi de 8h30 à 12h00 et de 13h00 à 16h30</p>
+
+                   <h3>Contactez-nous</h3>
+                   <p>Pour toute demande d’information, vous pouvez utiliser notre formulaire de contact ci-dessous.</p>
+                   <p>Nous répondrons à votre demande dans les plus brefs délais.</p>
+
+
+                </div>
+            </div>
+        </div>     
+    </body>
+ 
+{% endblock %}
+

@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ferme!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        
+        .fond-ruban{
+            float: left;
+            background-size: auto;
+        
+            background: url('/images/fond-article.png')no-repeat center top;
+            background-color: #a3a276;
+            background-size: contain;
+            width: 100%;  
+            padding: 20px 170px;
+        }
+        .fond-ruban .content-text{
+            background-color: rgb(255, 255, 255);   
+        }
+
+        .content-text h1{
+            font-family: 'Amatic SC', cursive;
+            color: #89b17a;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content-text h3{
+            color: #89b17a;;
+        }
+
+        
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="container">
+            <div class="fond-ruban">
+                <div class="content-text" style="padding: 30px;">
+                    <h1>Qui sommes-nous ?</h1>
+                    <p class="text-center">Présentation des  5 responsables</p>
+
+                    <h2 class="text-center">Le commerce</h1>
+
+                    <h1>Comment ça fonctionne</h1>
+                    <p>De 1976 à 2000 Alain et Christine étaient présents sous l’ancien marché couvert de Moulins (commerce qui a été ensuite transféré Rue Laussedat, dans l’actuel magasin Au Coin Nature) et sur les marchés de St Menoux et Bourbon l’Archambault. Ils vendaient déjà leurs produits au marché au gros à Rungis.</p>
+                    
+                    <h3>La création de la SARL puis de la SAS :</h3>
+                    <p>La SARL Au Coin Nature a été créée en 2003 entre différents associés, intéressés par l’aventure afin de capitaliser et développer l’activité commerciale. Elle permet d’offrir à nos consommateurs une gamme très élargie d’aliments bio choisis par nos soins afin de compléter nos productions très insuffisantes tant par la variété que la saisonnalité. </p>
+                    <p>En 2018, la SARL est transformée en SAS unipersonnelle suite au départ en retraite de Christine, c’est Christophe qui a repris le flambeau.</p>
+ 
+                    <h3>Boutique bio et marchés bios :</h3>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Les points de vente de la SAS sont :</p>
+                    <ul>
+                        <li>La boutique moulinoise du même nom tenue d’une main de maître par Sylvie. </li>
+                        <li>Les marchés de Bourbon-l’Archambault(03) et Saint Amand-Montrond (18) tous les samedis.</li>
+                        <li>MARCHÉ DE COSNE-D’ALLIER : Mardi matin</li>
+                        <li>MARCHE DE NEUVY : Mercredi matin</li>
+                        <li>MARCHE DE SOUVIGNY : Jeudi matin</li>
+                        <li>MARCHÉ DE VILLEFRANCHE : Vendredi matin sur la place de la boucherie Socopa</li>
+                        <li>MARCHE DE TRONGET : Vendredi après-midi : 17h00 – 20h00</li>
+                        <li>Le marché du boulevard des Batignolles (75017) tous les samedis et celui du boulevard Raspail (75006) tous les dimanches.</li>
+                    </ul>
+
+                    <p>C’est Alain et Christine qui ont inaugurés le marché de Bourbon en  marché et celui de St Amand Montrond en mars 2004.</p>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Christophe quant à lui a démarré ceux de Paris en janvier 2005.</p>
+                    <p>Christine a été cogérante de la SARL de 2008 à 2018, elle a été également responsable de la collecte des commandes hebdomadaires et de réaliser les achats en gros sur le MIN de Rungis.</p>
+                    <p>A son départ en retraite en 2018, Christophe a repris ce poste en plus de celui de gérant de la société.</p>
+                    <p>La SAS emploie en tout une douzaine de salariés tant à la boutique que sur ses marchés.</p>
+                    <p>En plus de la production maraîchère des sabots d’argile, la SAS s’approvisionne en direct chez des producteurs et des groupements de producteurs français en privilégiant les produits DEMETER.</p>
+                    <p>La SAS s’approvisionne également auprès de certains grossistes sur le MIN de Rungis  toujours privilégiant les achats de produits Demeter et pas trop décalés dans la saison.</p>
+                    <p>Les distances sont évidemment prises en compte pour les raisons écologiques que l’on sait, mais nous rappelons que le « local » n’est pas un critère ni une garantie de qualité contrairement à la tendance insinuée.</p>
+
+                    <h3>Achats internationaux :</h3>
+                    <p>Grâce à la pratique de la langue Italienne de notre collaboratrice Amélie, nous nous approvisionnons auprès de producteurs italiens tels que Biosybaris, Agrilatina, Biolatina, Agroviva, principalement en hiver et en début de printemps.</p>
+                </div>
+            </div>
+        </div>     
+    </body>
+ 
+{% endblock %}
+

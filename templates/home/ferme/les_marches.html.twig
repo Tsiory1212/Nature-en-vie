@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ferme!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        
+        .fond-ruban{
+            float: left;
+            background-size: auto;
+        
+            background: url('/images/fond-article.png')no-repeat center top;
+            background-color: #a3a276;
+            background-size: contain;
+            width: 100%;  
+            padding: 20px 170px;
+        }
+        .fond-ruban .content-text{
+            background-color: rgb(255, 255, 255);   
+        }
+
+        .content-text h1{
+            font-family: 'Amatic SC', cursive;
+            color: #89b17a;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content-text h3{
+            color: #89b17a;;
+        }
+
+        .block-marches h2{
+            text-transform: uppercase;
+        }
+
+      
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="container">
+            <div class="fond-ruban">
+                <div class="content-text" style="padding: 30px;">
+                    <div class="block-marches">
+                        <h1>Les marchés</h1>
+                        <h2> Le marché de Cosne-d’Allier : le mardi matin </h2>
+                        <h2> Le marché de Neuvy : Le mercredi matin </h2>
+                        <h2> Le marché de Souvigny : Le jeudi matin</h2>
+                        <h2> Villefranche, sur le parking de SOCOPA : Le vendredi matin</h2>
+                        <h2> Le Marché de Tronget : Le vendredi de 17h à 20h </h2>
+
+                        <h2>Le marché de Bourbon : le samedi matin de 8h00 à 13h00</h2>
+                        <p>Vous y retrouverez la même équipe tous les samedis.</p>
+                        <p>Bourbon a été un des premiers marchés de Christine et Alain, depuis, le relais a été pris par Katy, Christine et Stéphane, nos fidèles partenaires.</p>
+                        
+                        <h2>Le marché de Saint Amand : le samedi matin</h2>
+                        <p>C’est Alain et Christine qui ont fait notre place sur le marché couvert de St Amand, ils ont débuté les ventes en 2003 et ont su le faire prospérer.</p>
+                        <p>Vous retrouverez Alain tous les samedis matin dès 8h jusqu’à 13h avec son équipe.</p>
+                    </div>
+
+                    <div class="block-marches-de-paris">
+                        <h1>Les marchés de Paris :</h1>
+                        <h4 class="text-uppercase">Les marchés de Paris ont été suspendus pour la période du confinement, nous vous tiendrons informés de la date de reprise d’activité.</h4>
+                        <h4 class="text-uppercase">Pour toute information sur les commandes de paniers avec livraison, veuillez nous contacter : contact@au-coin-nature.com</h4>
+
+                        <a href="https://boutique.aucoinnature.com/" class="text-center"><h4>https://boutique.aucoinnature.com/</h4></a>
+                        <h2 class="text-uppercase">Merci et prenez soin de vous.</h2>
+                        <p>Christophe Regnault a initié les marchés de Paris en 2005 (Batignolles et Raspail), il a fidélisé une clientèle très exigeante en proposant nos légumes de grande fraîcheur mais aussi grâce à son omniprésence.</p>
+                        <p>En effet, Christophe met un point d’honneur à ce que notre stand soit ouvert chaque week-end peu importe les conditions météorologiques ou les jours fériés.</p>
+                        <p>Constance et rigueur ont permis de développer notre activité à Paris.</p>
+
+                        <h4 class="text-uppercase">Boulevard des Batignolles à Paris le samedi de 8h00 à 14h00</h4>
+                        <h4 class="text-uppercase">Boulevard Raspail le dimanche de 8h00 à 14h00.</h4>
+
+                        
+                        
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>     
+    </body>
+ 
+{% endblock %}
+

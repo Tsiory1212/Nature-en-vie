@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ferme!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        
+        .fond-ruban{
+            float: left;
+            background-size: auto;
+        
+            background: url('/images/fond-article.png')no-repeat center top;
+            background-color: #a3a276;
+            background-size: contain;
+            width: 100%;  
+            padding: 20px 170px;
+        }
+        .fond-ruban .content-text{
+            background-color: rgb(255, 255, 255);   
+        }
+
+        .content-text h1{
+            font-family: 'Amatic SC', cursive;
+            color: #89b17a;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content-text h3{
+            color: #89b17a;;
+        }
+
+        
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="container">
+            <div class="fond-ruban">
+                <div class="content-text" style="padding: 30px;">
+                    <h1>Les produits de notre boutique Bio</h1>
+                    <h2 class="text-center">Nos Produits bios et/ou demeter</h1>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+
+
+                    <h3>ÉPICERIE SALÉE</h3>
+                    <p>Céréales : une large gamme de céréales et de produits dérivés (couscous d’épeautre, de maïs, flocons de toutes sortes…)</p>
+                    <p>Légumes secs : Flageolets, pois chiches, azukis…</p>
+                    <p>Pâtes : blanches, ½ complètes ou complètes, de petites épeautres…</p>
+                    <p>Huiles : d’olive, de tournesol, de colza, de chanvre, de noisettes, de lin…</p>
+                    <p>Conserves : haricots verts, tomates, lentilles, raviolis végétariens…</p>
+                    <p>Farines : blé, kamut, épeautre, seigle…</p>
+                    
+                    <h3>ÉPICERIE SUCRÉE</h3>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Fruits secs en vrac ou conditionnés : amandes, noisettes, pistaches, raisins…</p>
+                    <p>Chocolat : artisanal sans lécithine de soja sans conservateur, cru, pâtes à tartiner…</p>
+                    <p>Café, thé, tisanes locales.</p>
+                    <p>Sucre : de canne mais aussi sirop d’agave, sucre de coco, sirop d’érable, sucre de bouleau.</p>
+                    <p>Confiture et compote : avec ou sans sucre ajouté</p>
+                    <p>Purées d’oléagineux : amande, noix de cajou, noisette, pistache…</p>
+
+                    <h3>ÉPICERIE SUCRÉE</h3>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Yaourts brebis, chèvre, vache, soja</p>
+                    <p>Crèmes dessert à base de laits végétaux mais aussi de lait de vache ou brebis</p>
+                    <p>Viandes : volailles, bœufs</p>
+                    <p>Spécialités végétariennes : galettes de légumes, saucisses…</p>
+                    <p>Poisson : saumon</p>
+
+                    <h3>COMPLÉMENT ALIMENTAIRE</h3>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Huiles essentielles : une gamme complète (tea tree, hélichryse italienne, lavande, eucalyptus…)</p>
+                    <p>Gemmothérapie : le bien être par les bourgeons</p>
+                    <p>Fleurs de Bach</p>
+
+                    <h3>COSMÉTIQUE</h3>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Huiles végétales : rosier muscat, argan, calophylle…</p>
+                    <p>Eaux florales : rose, lavande, géranium bourbon, tilleul…</p>
+                    <p>Pour le corps : lait pour le corps, crème pour le visage, après rasage, démaquillant, déodorant pierre d’Alun…</p>
+                    <p>Gel douche et shampoing.</p>
+
+                    <h3>PRODUITS BÉBÉS</h3>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Petits pots : purée de légumes avec ou sans viande, fruits</p>
+                    <p>Lait : 1er, 2ème, 3ème âge, bouillie de céréales…</p>
+                    <p>Couches, lait pour le corps, crème pour le change…</p>
+
+                    <h3>BOISSONS</h3>
+                    <img src="/biolife/assets/images/logo-bio.jpeg" alt="" width="500">
+                    <p>Vins : rouge, blanc, rosé</p>
+                    <p>Champagne</p>
+                    <p>Bières locales</p>
+                    <p>Jus de fruits : orange, pomme cassis, pomme mangue, cranberries…</p>
+                    <p>Jus de légumes : tomates, betteraves, carottes…</p>
+                    <p>Laits végétaux : amande, avoine, riz, noisettes…</p>
+
+                    <h3>RAYONS SANS SEL SANS GLUTEN</h3>
+                    <p>Céréales, gâteaux, conserves, thon, pain…</p>
+
+                    <h3>PRODUITS D’ENTRETIEN</h3>
+                    <p>Lessive : poudre, liquide, savon d’Alep, assouplissant…</p>
+                    <p>Vaisselle : liquide main, pastilles lave vaisselle…</p>
+                    <p>Entretien de la maison : savon noir, bicarbonate, spray purifiant, anticalcaire…</p>
+                </div>
+            </div>
+        </div>     
+    </body>
+ 
+{% endblock %}
+

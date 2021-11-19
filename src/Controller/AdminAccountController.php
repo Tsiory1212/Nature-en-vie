@@ -38,7 +38,7 @@ class AdminAccountController extends AbstractController
         $produits = $this->paginator->paginate(
             $this->repoProduct->findAllVisibleQuery($search),
             $request->query->getInt('page', 1),
-            10
+            30
         );
 
         return $this->render('admin/dashboard_admin.html.twig', [

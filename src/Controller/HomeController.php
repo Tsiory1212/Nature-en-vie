@@ -32,7 +32,7 @@ class HomeController extends AbstractController
      */
     public function home(PanierService $panierService): Response
     {
-        $produits = $this->repoProduct->findAll();
+        $produits = $this->repoProduct->findBy([], null, 20);
         $categories = $this->repoCategory->findAll();
 
         return $this->render('home/home.html.twig', [

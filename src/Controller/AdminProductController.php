@@ -39,7 +39,7 @@ class AdminProductController extends AbstractController
         $produits = $paginator->paginate(
             $this->repoProduct->findAllVisibleQuery($search),
             $request->query->getInt('page', 1),
-            10
+            30
         );
 
         return $this->render('admin/product/list_product.html.twig', [

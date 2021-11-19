@@ -24,7 +24,8 @@ class ProductController extends AbstractController
      */
     public function product_show(Product $produit, SessionInterface $session): Response
     {
-        $relatedProducts = $this->repoProduit->findBy(['category' => $produit->getCategory()]);
+        
+        $relatedProducts = $this->repoProduit->findBy(['category' => $produit->getCategory()], null, 11);
         
         $panier = $session->get('panier', []);
         if (!empty($panier)) {

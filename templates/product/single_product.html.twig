@@ -59,7 +59,7 @@
                             <b class="category">By: Natural food</b>
                         </div> #}
                         <span class="sku">Num: #{{produit.id}}</span>
-                        <p class="excerpt">{{produit.description}}</p>
+                        <p class="excerpt">{{produit.detail}}</p>
                         <div class="price">
                             <ins><span class="price-amount">{{produit.price}} <span class="currencySymbol">€</span></span></ins>
                         </div>
@@ -128,8 +128,9 @@
                     </div>
                     <div class="tab-content">
                         <div id="tab_1st" class="tab-contain desc-tab active">
-                            <p class="desc">Quisque quis ipsum venenatis, fermentum ante volutpat, ornare enim. Phasellus molestie risus non aliquet cursus. Integer vestibulum mi lorem, id hendrerit ante lobortis non. Nunc ante ante, lobortis non pretium non, vulputate vel nisi. Maecenas dolor elit, fringilla nec turpis ac, auctor vulputate nulla. Phasellus sed laoreet velit.
-                                Proin fringilla urna vel mattis euismod. Etiam sodales, massa non tincidunt iaculis, mauris libero scelerisque justo, ut rutrum lectus urna sit amet quam. Nulla maximus vestibulum mi vitae accumsan. Donec sit amet ligula et enim semper viverra a in arcu. Vestibulum enim ligula, varius sed enim vitae, posuere molestie velit. Morbi risus orci, congue in nulla at, sodales fermentum magna.</p>
+                            <p class="desc">
+                                {{produit.description}}
+                            </p>
                             <div class="desc-expand">
                                 <span class="title">Organic Fresh Fruit</span>
                                 <ul class="list">

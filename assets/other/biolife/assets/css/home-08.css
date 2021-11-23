@@ -1,0 +1,65 @@
+.home-08__elm-01 {
+  margin-bottom: 61px; }
+.home-08__elm-02 {
+  margin-bottom: 73px; }
+  .home-08__elm-02 .box-title {
+    margin-bottom: 33px; }
+    @media (max-width: 767px) {
+      .home-08__elm-02 .box-title {
+        margin-bottom: 0; } }
+.home-08__elm-03 {
+  margin-bottom: 74px; }
+  @media (min-width: 1200px) {
+    .home-08__elm-03 .biolife-banner__style-12 .text2{
+      font-size: 35px;
+      line-height: 35px; } }
+.home-08__elm-04 {
+  background: #ffffff url(../images/home-08/bg-elm-04.png) no-repeat center top;
+  padding-top: 83px;
+  padding-bottom: 157px;
+  margin-bottom: 89px; }
+  .home-08__elm-04 .tab-head__default {
+    margin-top: 26px; }
+  @media (min-width: 479px) {
+    .home-08__elm-04 .tab-head__default .tab-element .tab-link::before{
+      bottom: -6px;
+      left: 9px;
+      right: 9px; } }
+  @media (max-width: 1199px) {
+    .home-08__elm-04 {
+      padding-bottom: 0; } }
+  @media (max-width: 767px) {
+    .home-08__elm-04 {
+      margin-bottom: 40px; } }
+.home-08__elm-05 {
+  margin-bottom: 83px; }
+  .home-08__elm-05.why-choose-us-block {
+    background: transparent; }
+  @media (max-width: 767px) {
+    .home-08__elm-05 {
+      margin-bottom: 60px; } }
+.home-08__elm-06 {
+  margin-bottom: 80px; }
+  .home-08__elm-06 .biolife-banner__style-17 {
+    margin-top: 20px; }
+  .home-08__elm-06 .biolife-title-box {
+    margin-bottom: 34px; }
+  @media (max-width: 767px) {
+    .home-08__elm-06 .biolife-banner__style-16,
+    .home-08__elm-06 .biolife-banner__style-17 {
+      margin-top: 40px; } }
+@media (max-width: 767px) {
+  .home-08__elm-07 .col-xs-12 + .col-xs-12 {
+    margin-top: 54px; } }
+.home-08__elm-08 {
+  margin-top: 73px; }
+  .home-08__elm-08 .biolife-title-box .main-title {
+    font-size: 40px;
+    margin-top: 6px; }
+.home-08__elm-09 {
+  background-color: #fcfcfc;
+  padding-top: 35px;
+  padding-bottom: 35px;
+  margin-top: 54px; }
+
+/*# sourceMappingURL=home-08.css.map */

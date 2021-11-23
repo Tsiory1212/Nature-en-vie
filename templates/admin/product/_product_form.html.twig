@@ -1,5 +1,11 @@
 <div class="container">
 
+            {% if produit is defined and produit.imageName %}
+                <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="img-{{produit.name}}" width="100">
+            {% else %}
+                <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top" class="product-thumnail" width="300">        
+            {% endif %}
+
     {{ form_start(form) }}
         <div class="row">
             <div class="col-md-8">

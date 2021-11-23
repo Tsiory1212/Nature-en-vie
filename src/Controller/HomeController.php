@@ -32,12 +32,35 @@ class HomeController extends AbstractController
      */
     public function home(PanierService $panierService): Response
     {
-        $produits = $this->repoProduct->findBy([], null, 20);
-        $categories = $this->repoCategory->findAll();
+
+        $cat_legume = $this->repoCategory->findOneBy(['id' => 1]);
+        $produits_legumes = $this->repoProduct->findBy(['category' => $cat_legume], null, 10, rand(0, 10));
+                
+        $cat_fruit = $this->repoCategory->findOneBy(['id' => 5]);
+        $produits_fruits = $this->repoProduct->findBy(['category' => $cat_fruit], null, 10, rand(0, 10));
+
+        $cat_epicerie = $this->repoCategory->findOneBy(['id' => 12]);
+        $produits_epiceries = $this->repoProduct->findBy(['category' => $cat_epicerie], null, 10, rand(0, 10));
+
+        $cat_boisson = $this->repoCategory->findOneBy(['id' => 6]);
+        $produits_boissons = $this->repoProduct->findBy(['category' => $cat_boisson], null, 10, rand(0, 10));
+
+        $categories_in_navbar = $this->repoCategory->findAll();
 
         return $this->render('home/home.html.twig', [
-            'produits' => $produits,
-            'categories' => $categories,
+            'fruits' => $produits_fruits,
+            'legumes' => $produits_legumes,
+            'epiceries' => $produits_epiceries,
+            'boissons' => $produits_boissons,
+            'categories_in_navbar' => $categories_in_navbar,
+
+
+            // 'fruits' => [],
+            // 'legumes' => [],
+            // 'epiceries' => [],
+            // 'boissons' => [],
+            // 'categories_in_navbar' => [],
+
             'items' => $panierService->getFullcart(),
             'total' => $panierService->getTotal(),
             'allQuantityItem' => $panierService->allQuantityItem(),

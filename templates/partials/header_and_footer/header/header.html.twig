@@ -238,7 +238,7 @@
                         </div>
                     </div>
                 </div>
-                {% if categories is defined %}
+                {% if categories_in_navbar is defined %}
                     <div class="row">
                         <div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
                             <div class="vertical-menu vertical-category-block ">
@@ -253,11 +253,12 @@
                                 </div>
                                 <div class="wrap-menu">
                                     <ul class="menu clone-main-menu">
-                                        {% for category in categories %}
+                                        {% for category in categories_in_navbar %}
                                             <li class="menu-item menu-item-has-children has-child">
                                                 <a href="#" class="menu-name" data-title="Butter & Eggs"><i class="biolife-icon icon-honey"></i>{{category.name}}</a>
                                                 <ul class="sub-menu">
-                                                    {% for produit in category.products %}
+                                                    {# on prend 10 produits au hasard #}
+                                                    {% for produit in category.products|slice(random(category.products|length), 10) %}
                                                         <li class="menu-item"><a href="{{path('product_show', {id: produit.id})}}">{{produit.name}}</a></li>
                                                     {% endfor %}
                                                 </ul>

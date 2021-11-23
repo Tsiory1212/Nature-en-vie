@@ -31,9 +31,9 @@
                         <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
                             <li>
                                 {% if produit.imageName %}
-                                    <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="card-img-top" width="500" height="500">
+                                    <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="img-{{produit.category.name}}" style="width:200; height:200">
                                 {% else %}
-                                    <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="500" height="500" >
+                                    <img src=" {{ asset('/uploads/produit/images/defaultImage.png')}}" alt="img-{{produit.category.name}}"  >
                                 {% endif %}
                             </li>
                             {# <li><img src="assets/images/details-product/p01.jpg" alt="" width="500" height="500"></li>
@@ -59,7 +59,7 @@
                             <b class="category">By: Natural food</b>
                         </div> #}
                         <span class="sku">Num: #{{produit.id}}</span>
-                        <p class="excerpt">{{produit.detail}}</p>
+                        <p class="excerpt">{{produit.detail|nl2br}}</p>
                         <div class="price">
                             <ins><span class="price-amount">{{produit.price}} <span class="currencySymbol">€</span></span></ins>
                         </div>
@@ -389,7 +389,7 @@
                                         <div class="product-thumb">
                                             <a href="{{path('product_show', {id: relatedProduct.id})}}" class="link-to-product">
                                                 {% if relatedProduct.imageName %}
-                                                    <img src="{{ vich_uploader_asset(relatedProduct, 'imageFile') }}" alt="card-img-top" width="270" height="270">
+                                                    <img src="{{ vich_uploader_asset(relatedProduct, 'imageFile')  }}" alt="img-{{relatedProduct.name}}" width="270" height="270">
                                                 {% else %}
                                                     <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="270" height="270" class="product-thumnail">        
                                                 {% endif %}
@@ -397,7 +397,7 @@
                                         </div>
                                         <div class="info">
                                             <b class="categories">{{relatedProduct.category.name}}</b>
-                                            <h4 class="product-title"><a href="#" class="pr-name">{{relatedProduct.name}}</a></h4>
+                                            <h4 class="product-title"><a href="{{path('product_show', {id: relatedProduct.id})}}" class="pr-name">{{relatedProduct.name}}</a></h4>
                                             <div class="price">
                                                 <ins><span class="price-amount">{{relatedProduct.price}} <span class="currencySymbol">£</span></span></ins>
                                                 <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
@@ -406,7 +406,7 @@
                                                 <p class="message">All products are carefully selected to ensure food safety.</p>
                                                 <div class="buttons">
                                                     <a href="#" class="btn wishlist-btn"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                                                    <a href="{{path('panier_add', {id: produit.id})}}" class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Ajouter au panier</a>
+                                                    <a href="{{path('panier_add', {id: relatedProduct.id})}}" class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Ajouter au panier</a>
                                                     <a href="#" class="btn compare-btn"><i class="fa fa-random" aria-hidden="true"></i></a>
                                                 </div>
                                             </div>

@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * 
  * @UniqueEntity(
  *      fields={"name"},
- *      message="Produit déjà en stock, pensez juste à modifier sa quantité"
+ *      message="Produit déjà en stock. (Modifier son nom si nécessaire. Ex: Tomate (Bio) ... ou modifier la quantité du produit existant )"
  * )
  */
 class Product
@@ -73,7 +73,8 @@ class Product
     /**
      * @var File|null
      * @Assert\Image(
-     * mimeTypes = {"image/png", "image/jpeg"},
+     *      maxSize = "2M",
+     *      mimeTypes = {"image/png", "image/jpeg", "image/jpg"},
      * )
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
      */
@@ -86,7 +87,7 @@ class Product
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products", fetch="EAGER")
      */
     private $category;
 

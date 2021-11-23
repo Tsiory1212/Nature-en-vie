@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,7 +27,7 @@ class ProductType extends AbstractType
             ->add('quantity', IntegerType::class, [
                 'required' => false
             ])
-            ->add('detail')
+            ->add('detail', TextareaType::class)
             ->add('description')
             ->add('category', EntityType::class, [
                 'class' => Category::class,

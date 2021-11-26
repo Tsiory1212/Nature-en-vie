@@ -52,7 +52,7 @@ class PanierController extends AbstractController
     }
 
     /**
-     * @Route("/panier/remove/{id}", name="panier_remove")
+     * @Route("/panier/{id}/remove", name="panier_remove")
      */
     public function panier_remove($id, PanierService $panierService )
     {
@@ -64,6 +64,16 @@ class PanierController extends AbstractController
             'allQuantityItem' => $panierService->allQuantityItem(),
             'totalPrice' => $panierService->getTotal()
         ]);
+    }
+
+        /**
+     * @Route("/panier/{id}/remove/charging", name="panier_remove_charging_page")
+     */
+    public function panier_remove_charging_page($id, PanierService $panierService )
+    {
+        $panierService->remove($id);
+
+        return $this->redirectToRoute('panier_show');
     }
 
 

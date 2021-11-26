@@ -39,13 +39,13 @@
                             <td> {{ item.quantity }}</td>
                             <td>{{ item.product.price * item.quantity }}</td>
                             <td>
-                                <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-like">
+                                <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-cart-product">
                                     <i class="bi bi-cart-plus"></i>
                                 </a>
-                                <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-like">
+                                <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-product">
                                     <i class="bi bi-cart-dash"></i>
                                 </a>
-                                <a href="{{path('panier_remove', {id: item.product.id})}}" class="btn btn-danger">
+                                <a href="{{path('panier_remove_charging_page', {id: item.product.id})}}" class="btn btn-danger">
                                     <i class="bi bi-cart-x"></i>
                                 </a>
                             </td>
@@ -94,7 +94,7 @@
             })
         }
 
-        document.querySelectorAll('a.js-like').forEach(function(link){
+        document.querySelectorAll('a.js-cart-product').forEach(function(link){
             // link représente tout les éléments => a 
             link.addEventListener('click', onClickBtn)
         })

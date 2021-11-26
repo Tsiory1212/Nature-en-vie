@@ -164,8 +164,6 @@
                             </div>
 
                             {# MINI PANIER #}
-
-
                             {% if app.user and app.request.get('_route') == 'home' %}
                                 <div class="minicart-block layout-02">
                                     <div class="minicart-contain">
@@ -208,7 +206,7 @@
                                                                 </div>
                                                                 <div class="action">
                                                                     <a href="#" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                                    <a href="{{path('panier_remove', {id: item.product.id})}}" class="remove"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                                    <a href="{{path('panier_remove', {id: item.product.id})}}" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                                 </div>
                                                             </div>
                                                         </li>

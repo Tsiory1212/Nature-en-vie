@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos paniers!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .container{
+            min-height: 1500
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="container">
+            <div class="row">
+                {% for panier in nosPaniers %}
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem;">
+                            {# <img src="/biolife/assets/images/logo-bio.jpeg" class="card-img-top" alt="..."> #}
+                            <div class="card-body">
+                          
+                                <h5 class="card-title">{{ panier.nameSubscriptionPlan }}</h5>
+                                <p class="card-text">{{ panier.descriptionSubscriptionPlan }}</p>
+                                <p class="card-text">{{ panier.priceSubscription }} €</p>
+
+                                <a href="{{ path('cart_subscription_show', {id: panier.id}) }}" class="btn btn-primary">Plus de détails</a>
+
+                              
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>     
+    </body>
+
+  <div id="paypal-button-container"></div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+  
+
+
+
+
+
+
+<!-- 
+
+<div id="paypal-button-container-P-179440294N734110DMGSAHTI"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=ARSTQbtgKeoNm6KrANMC-kFabQEBKmVQMKlI_chSOVuazehPZdIbFFKsSJpw4By4IlXcwtfNnm_5hm-5&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+<script>
+  paypal.Buttons({
+      style: {
+          shape: 'rect',
+          color: 'gold',
+          layout: 'horizontal',
+          label: 'subscribe'
+      },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          /* Creates the subscription */
+          plan_id: 'P-179440294N734110DMGSAHTI'
+        });
+      },
+      onApprove: function(data, actions) {
+        alert(data.subscriptionID); // You can add optional success message for the subscriber here
+      }
+  }).render('#paypal-button-container-P-179440294N734110DMGSAHTI'); // Renders the PayPal button
+</script> -->
+
+
+    
+{% endblock %}
+

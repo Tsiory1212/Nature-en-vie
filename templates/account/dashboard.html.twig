@@ -2,11 +2,34 @@
 
 {% block title %}Dashboard!{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .fa-exclamation-circle{
+            color: red
+        }
+    </style>
+        
+{% endblock %}
+
 {% block body %}
 
 
 <div class="example-wrapper">
-    <h1>Hello {{ app.user.lastname }} ! ✅</h1>
+    <div class="container">
+        <h1>Mes abonnement ✅</h1>
+        {# <pre>
+            {{ dump(mesFactures) }}
+        </pre> #}
+
+        {% for facture in mesFactures %}
+             - {{ facture.cartSubscription.nameSubscriptionPlan }} <a href="{{path('account_livraison_suspendre', {id: facture.id})}}">Suspendre</a>
+             {% if facture.isPaused %}
+                <i class="fas fa-exclamation-circle"></i>
+             {% endif %}
+             
+            </br>
+        {% endfor %}
+    </div>
 
 
 </div>

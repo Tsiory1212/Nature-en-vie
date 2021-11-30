@@ -125,6 +125,12 @@
     "nikic/php-parser": {
         "version": "v4.13.0"
     },
+    "paypal/paypal-checkout-sdk": {
+        "version": "1.0.2"
+    },
+    "paypal/paypalhttp": {
+        "version": "1.0.1"
+    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },

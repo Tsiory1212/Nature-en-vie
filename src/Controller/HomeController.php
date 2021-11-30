@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Repository\CartSubscriptionRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Service\Panier\PanierService;
+use App\Service\Paypal\PaypalService;
+use App\Service\Paypal\PaypalSubscription;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Sample\PayPalClient;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class HomeController extends AbstractController
@@ -123,6 +127,5 @@ class HomeController extends AbstractController
     {
         return $this->render('home/ferme/autres/contact.html.twig');
     }
-
 
 }

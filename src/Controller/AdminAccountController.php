@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\ProductSearch;
 use App\Form\ProductSearchType;
+use App\Repository\CartSubscriptionRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,13 +16,17 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class AdminAccountController extends AbstractController
 {
-    protected $paginator;
-    protected $repoProduct;
+    private $paginator;
+    private $repoProduct;
+    private $repoUser;
+    private $repoSubscription;
 
-    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct)
+    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, UserRepository $repoUser, CartSubscriptionRepository $repoSubscription)
     {
         $this->paginator = $paginator;
         $this->repoProduct = $repoProduct;
+        $this->repoUser = $repoUser;
+        $this->repoSubscription = $repoSubscription;
     }
 
 
@@ -31,19 +37,14 @@ class AdminAccountController extends AbstractController
      */
     public function admin_dashboard(Request $request)
     {
-        $search = new ProductSearch();
-        $form = $this->createForm(ProductSearchType::class, $search);
-        $form->handleRequest($request);
-
-        $produits = $this->paginator->paginate(
-            $this->repoProduct->findAllVisibleQuery($search),
-            $request->query->getInt('page', 1),
-            30
-        );
+        $products = $this->repoProduct->findAll();
+        $users = $this->repoUser->findAll();
+        $subscriptions = $this->repoSubscription->findAll();
 
         return $this->render('admin/dashboard_admin.html.twig', [
-            'produits' => $produits,
-            'form' => $form->createView()
+            'products' => $products,
+            'users' => $users,
+            'subscriptions' => $subscriptions,
         ]);
     }
     

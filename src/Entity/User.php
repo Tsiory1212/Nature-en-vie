@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -49,6 +51,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FactureAbonnement::class, mappedBy="user")
+     */
+    private $factureAbonnements;
+
+    public function __construct()
+    {
+        $this->factureAbonnements = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,6 +183,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FactureAbonnement[]
+     */
+    public function getFactureAbonnements(): Collection
+    {
+        return $this->factureAbonnements;
+    }
+
+    public function addFactureAbonnement(FactureAbonnement $factureAbonnement): self
+    {
+        if (!$this->factureAbonnements->contains($factureAbonnement)) {
+            $this->factureAbonnements[] = $factureAbonnement;
+            $factureAbonnement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFactureAbonnement(FactureAbonnement $factureAbonnement): self
+    {
+        if ($this->factureAbonnements->removeElement($factureAbonnement)) {
+            // set the owning side to null (unless already changed)
+            if ($factureAbonnement->getUser() === $this) {
+                $factureAbonnement->setUser(null);
+            }
+        }
 
         return $this;
     }

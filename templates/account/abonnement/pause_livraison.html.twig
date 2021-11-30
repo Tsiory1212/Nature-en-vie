@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modification du profil
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <div class="container" style="margin-top: 100px;">
+        <h2 class="text-center">Mettre en pause la livraison</h2>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.start_date) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.end_date) }}
+                </div>
+            </div>
+        </div>
+            <button class="btn btn-success" type="submit">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+
+    {% block javascripts %}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script src="{{ asset('/js/bootstrap-datepicker.min.js')}}"></script>
+
+        <script>
+            $(document).ready(function () {          
+                $('#pause_livraison_end_date').datepicker({
+                    format: 'dd/mm/yyyy',
+                });
+                $('#pause_livraison_start_date').datepicker({
+                    format: 'dd/mm/yyyy',
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

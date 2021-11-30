@@ -1,0 +1,136 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+	Les abonnés
+{% endblock %}
+
+
+{% block body %}
+    <div class="container mt-5">
+
+		<div class="container mt-5">
+			<div class="container">
+				{# {{form_start(form)}}
+				<div class="row align-items-end">
+					<div class="col">
+						{{form_row(form.nom)}}
+					</div>
+					<div class="col">
+						<button class="btn btn-primary">Recherche</button>
+					</div>
+				{{form_end(form)}}
+			</div> #}
+
+			{% for label, messages in app.flashes %}
+				<div class="alert alert-{{label}} text-center">
+					{% for message in messages %}
+						{{message | raw}}
+					{% endfor %}
+				</div>
+			{% endfor %}
+
+
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr class="text-center">
+						<th scope="col">Abonné</th>
+						<th scope="col">Abonnement</th>
+						<th scope="col">Prix</th>
+						<th scope="col">Date debut</th>
+						<th scope="col">Date fin</th>
+						<th scope="col">N° abonnement (Paypal)</th>
+						<th scope="col">Pause</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for facture in factures %}
+						<tr>
+							<td>{{facture.user.lastname}}</td>
+							<td>{{facture.cartSubscription.nameSubscriptionPlan}}</td>
+							<td>{{facture.cartSubscription.priceSubscription}} €</td>
+							<td>{{facture.createdAt|date('d/m/Y')}}</td>
+							<td>{{facture.subscriptionEnd|date('d/m/Y')}}</td>
+							<td>{{facture.subscriptionId}}</td>
+							<td>
+							 	{% if facture.pauseLivraison %}
+								 	<i class="fas fa-exclamation-circle" style="color: red" data-bs-toggle="modal" data-bs-target="#pauseDate"></i>
+								{% else %}
+									-
+								{% endif %}
+
+								<div class="d-none hidden-pause-livraison">
+									{% if facture.pauseLivraison %}
+										<p class="hidden-start-date" > {{ facture.pauseLivraison.startDate|date('d/m/Y') }} </p>
+										<p class="hidden-end-date" > {{ facture.pauseLivraison.endDate|date('d/m/Y') }} </p>
+									{% endif %}
+								</div>
+							</td>
+		
+							{# <td>
+								<a href="{{path('admin_product_edit', {id: subscription.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
+								<form method="post" action="{{path('admin_product_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+									<input type="hidden" name="_method" value="DELETE">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ subscription.id) }}">
+									<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+								</form>
+							</td> #}
+						</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+
+			{# <div class="pagination d-flex justify-content-center">
+				{{ knp_pagination_render(subscriptions)}}
+			</div> #}
+
+
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="pauseDate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Intervalle de temps</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row text-center">
+						<div class="col-md-4" >Debut</div>
+						<div class="col-md-4" ></div>
+						<div class="col-md-4" >Fin</div>
+					</div>
+					<div class="row text-center">
+						<div class="col-md-4" id="start-date" style="color:blue">00/00/00</div>
+						<div class="col-md-4">à</div>
+						<div class="col-md-4" id="end-date" style="color:blue">00/00/00</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+				</div>
+				</div>
+			</div>
+			</div>
+
+		</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		$('.fa-exclamation-circle').click(function(){
+			// in modal
+			var modal_start_date =  $('#pauseDate .modal-body #start-date')
+			var modal_end_date =  $('#pauseDate .modal-body #end-date')
+
+			// in table			
+			var hidden_start_date =  $(this).next().children('.hidden-start-date').text()
+			var hidden_end_date = $(this).next().children('.hidden-end-date').text()
+
+			modal_start_date.text(hidden_start_date);
+			modal_end_date.text(hidden_end_date);
+		})
+	</script>
+{% endblock %}

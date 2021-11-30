@@ -79,7 +79,7 @@ document.querySelectorAll('.action a.remove-product-js').forEach(function(link){
 
 
 
-//After click (Loupe) quick-view-block
+//After click (Loupe modal) quick-view-block
 function onClickBtnQuickViewProduct(event){
     // in quick_view_block (pop-up)
     const product_name_quick_view =  $('#biolife-quickview-block .product-attribute .title')[0]

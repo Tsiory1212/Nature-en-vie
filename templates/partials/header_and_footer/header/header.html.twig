@@ -157,6 +157,30 @@
                                         <div class="cart-content">
                                             <div class="cart-inner">
                                                 <ul class="products">
+                                                     <li id="hidden-li-item-mini-cart">
+                                                        <div class="minicart-item">
+                                                            <div class="thumb">
+                                                                <a href="#">
+                                                                    <img src="/uploads/produit/images/defaultImage.png"  width="90" height="90">
+                                                                </a>
+                                                            </div>
+                                                            <div class="left-info">
+                                                                <div class="product-title"><a href="#" class="product-name">Product name</a></div>
+                                                                <div class="price">
+                                                                    <ins><span class="price-amount">Product price <span class="currencySymbol">€</span></span></ins>
+                                                                    {# <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del> #}
+                                                                </div>
+                                                                <div class="qty">
+                                                                    <label for="cart-qty">Qté:</label>
+                                                                    <input type="number" class="input-qty" name="cart-qty" value="0" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="action">
+                                                                <a href="#" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                                <a href="#" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
                                                     {% for item in items %}
                                                         <li>
                                                             <div class="minicart-item">

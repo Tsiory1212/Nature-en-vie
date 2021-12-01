@@ -3,10 +3,18 @@
 {% block title %}Mon Panier!{% endblock %}
 
 {% block body %}
-    <div class="container panier_body">
+    <div class="container panier_body shadow-lg p-3 mb-5 bg-body rounded">
         
-        <div class="bg-light p-3">
-            <h1>Votre panier</h1>
+        <div class="bg-light p-3 text-center">
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>Votre panier</h1> 
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Favoris</button>
+                </div>
+            </div>
+
         </div>
 
         
@@ -65,13 +73,140 @@
                     </tr>
                 </tfoot>
             </table>
+            <div class="text-center">
+                <div id="paypal-boutons"></div>
+            </div>
         {% else %}
             <p>Surprise, c'est vide !</p>
         {% endif %}
+        
     </div>
+
+
+
+
+
+  
+
+
+
+<div class="modal " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        {{ form_start(formFavCart) }}
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Enregistrement du panier</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Nom:</label>
+                {{ form_widget(formFavCart.name) }}
+            </div>
+            <div class="mb-3">
+                <label for="message-text" class="col-form-label">Description:</label>
+                {{ form_widget(formFavCart.description) }}
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Enregistrer le panier</button>
+        </div>
+        {{ form_end(formFavCart) }}
+    </div>
+  </div>
+
+</div>
+
+
+
+    {# On converti le format du tableau produit pour que paypal le prend en charge #}
+    {% set product_convert_in_paypal = {} %}
+    {% for  item in items %}
+        {% set product_convert_in_paypal = product_convert_in_paypal|merge([
+                {
+                    'name' : item.product.name , 
+                    'quantity' :item.quantity, 
+                    'unit_amount' :{ 
+                        'currency_code' : 'EUR', 
+                        'value' :item.product.price
+                }
+            } 
+        ]) %}
+    {% endfor %}
+
+    {# On transforme ensuite le tableau en json,  #}
+    {# mettre ses valeurs dans un DOM, afin qu'on puisse les recupérés dans JS  #}
+    <span class="d-none" data-id="{{ product_convert_in_paypal|json_encode }}" id="some-link">Link</span>
+
 {% endblock %}
 
 {% block javascripts %}
+        <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR"> </script>
+		<script>
+
+			paypal.Buttons({
+				env: 'sandbox',
+                style: {
+                    shape: 'rect',
+                    color: 'gold',
+                    layout: 'horizontal',
+                },
+
+				createOrder : function (data, actions) {
+
+                    // Les produits à payer avec leurs details
+                    var product_convert_in_paypal = $('#some-link').data('id');
+                    var produits = product_convert_in_paypal;
+
+                    // Le total des produits
+                    var total_amount = produits.reduce(function (total, product) {
+                        return total + product.unit_amount.value * product.quantity;
+                    }, 0);
+                   
+                    
+                    total_amount = Math.round(total_amount*100)/100;
+
+                    // La transaction
+                    return actions.order.create({
+                        purchase_units : [{
+                            items : produits,
+                            amount : {
+                                value : total_amount,
+                                currency_code : "EUR",
+                                breakdown : {
+                                    item_total : { value : total_amount, currency_code : "EUR" }
+                                }
+                            }
+                        }]
+                    });
+				},
+				onApprove: function (data, actions) {
+                  
+				},
+				onCancel: function (data) {
+					alert("Abonnement annulé : vous avez fermé la fenêtre de paiement.");
+				},
+				onError: function (err) {
+					alert("Abonnement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+				}
+			}).render('#paypal-boutons');
+		</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script>
         function onClickBtn(event){
             //on utilise preventDefault() pour dire au navigateur de ne pas se recharger

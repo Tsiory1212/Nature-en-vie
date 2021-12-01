@@ -4,78 +4,68 @@ namespace App\Controller;
 
 use App\Entity\FavoriteCart;
 use App\Entity\Product;
-use App\Form\FavoriteCartType;
 use App\Repository\FavoriteCartRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/account")
  */
-
-class PanierController extends AbstractController
+class FavoriteCartController extends AbstractController
 {
-    protected $session;
     protected $em;
 
-    public function __construct(SessionInterface $session, EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->session = $session;
         $this->em = $em;
     }
 
-
     /**
-     * @Route("/panier", name="panier_show")
+     * @Route("/panier-favori/{id}", name="accout_favorite_cart_show")
      */
-    public function panier_show(PanierService $panierService, Request $request)
+    public function accout_favorite_cart_show(FavoriteCart $favoriteCart, PanierService $panierService): Response
     {
-        $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
+        $cart = $favoriteCart->getCart();
 
-        $favoriteCart = new FavoriteCart();
-        $currentCart = $this->session->get('panier', []);
-
-        $formFavCart = $this->createForm(FavoriteCartType::class, $favoriteCart);
-        $formFavCart->handleRequest($request);
-
-        if ($formFavCart->isSubmitted() && $formFavCart->isValid()) {
-            $favoriteCart->setUser($this->getUser());
-            $favoriteCart->setCart($currentCart);
-            $this->em->persist($favoriteCart);
-            $this->em->flush();
-            $this->addFlash(
-               'success',
-               'Panier ajouté dans la lite des paniers favoris'
-            );
-            return $this->redirectToRoute('panier_show', ['cart' => 'save']);;
-        }
-
-        return $this->render('/account/panier/panier.html.twig', [
-            'items' => $panierService->getFullcart(),
-            'total' => $panierService->getTotal(),
-            'allQuantityItem' => $panierService->allQuantityItem(),
-            'formFavCart' => $formFavCart->createView(),
-            'paypal_client_id' => $paypal_client_id
-        ]);
+        return $this->render('/account/panier/favorite_cart.html.twig', [
+            'favoriteCart' => $favoriteCart,
+            'items' => $panierService->getFullFavoriteCart($cart),
+            'total' => $panierService->getTotalFavoriteCart($cart) ,
+            'allQuantityItem' => $panierService->allQuantityItemInFavoriteCart($cart)
+        ]);    
     }
 
+
+
     /**
-     * @Route("/panier/add/{id}", name="panier_add")
+     * @Route("/panier-favori/{fav}/add/product/{id}", name="favorite_cart_add")
      */
-    public function panier_add($id, PanierService $panierService)
+    public function favorite_cart_add_one(Product $product, $fav, $id, PanierService $panierService, FavoriteCartRepository $repoFavoriteCart)
     {
-        $panierService->add($id);
+        $favoriteCartEntity = $repoFavoriteCart->find($fav);
+        $cart = $favoriteCartEntity->getCart();
+        $favoriteCartEntity->setCart( $panierService->addFC($id, $cart) );
+        $this->em->persist($favoriteCartEntity);
+        $this->em->flush();
+
+        // dd($cart[$id] );
+
+        // ici, on doit prendre $favoriteCartEntity à nouveau après flush() 
+        $product_item_quantity = $favoriteCartEntity->getCart()[$id];
+        $price = $product->getPrice($id);
+        $product_item_total = $product_item_quantity * $price;
+        $product_total = $panierService->getTotalFavoriteCart($cart);
         
         return $this->json([
             'code' => 200, 
-            'message' => 'produit ajouté',
-            'allQuantityItem' => $panierService->allQuantityItem(),
-            'totalPrice' => $panierService->getTotal()
+            'message' => 'produit incrémenté',
+            'quantity' => $product_item_quantity,
+            'total_item' => $product_item_total,
+            'total' => $product_total
         ]);
     }
 

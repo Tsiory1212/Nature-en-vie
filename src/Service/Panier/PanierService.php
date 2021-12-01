@@ -117,4 +117,61 @@ class PanierService {
 
         return $allQuantityItem;
     }
+
+
+    // FAVORITE CART (in database)
+
+    
+    public function addFC(int $id, $favoriteCart) :array
+    {
+        // Lors du premier visite dans le magasin, notre panier est vide
+        // donc, si je n'ai pas encore de données dans panier, je le met un tableau vide
+        $panier = $favoriteCart;
+        if (!empty($panier[$id])) {
+            $panier[$id]++;
+        }else {
+            $panier[$id] = 1;
+        }
+        return $panier;
+    }
+
+    public function getFullFavoriteCart($favoriteCart) : array
+    {
+        $panier = $favoriteCart;
+
+        $panierWithData = [];
+
+        foreach ($panier as $id => $quantity ) {
+            $panierWithData[] = [
+                'product' => $this->productRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+
+        return $panierWithData;
+    }
+
+    
+    public function getTotalFavoriteCart($favoriteCart) : float
+    {
+        $total = 0;
+
+        foreach ($this->getFullFavoriteCart($favoriteCart) as $item ) {
+            $total += $item['product']->getPrice() * $item['quantity'];
+        }
+        return $total;
+    }
+
+    public function allQuantityItemInFavoriteCart($favoriteCart) : int
+    {
+        $panier = $favoriteCart;
+
+        $allQuantityItem = 0;
+
+        foreach ($panier as $quantity ) {
+            $allQuantityItem += $quantity ;
+        }
+
+        return $allQuantityItem;
+    }
 }

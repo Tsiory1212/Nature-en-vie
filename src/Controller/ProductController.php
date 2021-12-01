@@ -22,21 +22,21 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{id}/show", name="product_show")
      */
-    public function product_show(Product $produit, SessionInterface $session): Response
+    public function product_show(Product $currentProduct, SessionInterface $session): Response
     {
         
-        $relatedProducts = $this->repoProduit->findBy(['category' => $produit->getCategory()], null, 11);
+        $relatedProducts = $this->repoProduit->findBy(['category' => $currentProduct->getCategory()], null, 11);
         
         $panier = $session->get('panier', []);
         if (!empty($panier)) {
-           $quantity_item = $panier[$produit->getId()];
+           $quantity_item = $panier[$currentProduct->getId()];
         } else {
             $quantity_item = 0;
         }
         
 
         return $this->render('product/single_product.html.twig', [
-            'produit' => $produit,
+            'currentProduct' => $currentProduct,
             'relatedProducts' => $relatedProducts ,
             'quantity_item' => $quantity_item
         ]);

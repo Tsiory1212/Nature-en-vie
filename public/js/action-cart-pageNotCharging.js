@@ -9,9 +9,10 @@ function onClickBtnAddItem(event){
     var allQuantityItem =  $('.minicart-block .sub-total .quantity-item')[0]
     var total_price =  $('.minicart-block .sub-total .total-price')[0]
     var product_element_dom_mini_cart = $('.minicart-block .cart-content .products')[0];
-    var last_li_in_mini_cart =  $('.minicart-block .cart-content .products li:last')[0];
     
-    var cln = last_li_in_mini_cart.cloneNode(true).text("Hello World");
+    var hidden_li_item_mini_cart =  $('#hidden-li-item-mini-cart')[0];
+    
+    // var cln = last_li_in_mini_cart.cloneNode(true).text("Hello World");
 
 
 
@@ -27,8 +28,11 @@ function onClickBtnAddItem(event){
     
     axios.get(url)
         .then(function(response){
+            // hidden_li_item_mini_cart.appendChild(hidden_li_item_mini_cart);
+
+
             // last_li_in_mini_cart.after(last_li_in_mini_cart);
-            last_li_in_mini_cart.appendChild(cln);
+            // last_li_in_mini_cart.appendChild(cln);
 
 
             // On modifie les textes dans le mini-panier 

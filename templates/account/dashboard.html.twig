@@ -16,19 +16,33 @@
 
 <div class="example-wrapper">
     <div class="container">
-        <h1>Mes abonnement ✅</h1>
-        {# <pre>
-            {{ dump(mesFactures) }}
-        </pre> #}
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Mes abonnements ✅</h1>
+        
+                {% for facture in mesFactures %}
+                     - {{ facture.cartSubscription.nameSubscriptionPlan }} <a href="{{path('account_livraison_suspendre', {id: facture.id})}}">Suspendre</a>
+                     {% if facture.isPaused %}
+                        <i class="fas fa-exclamation-circle"></i>
+                     {% endif %}
+                     
+                    </br>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <h1>Mes paniers sur mésure </h1>
+        
+                {% for favoriteCart in mesFavoriteCarts %}
+                     - {{ favoriteCart.name }} <a href="{{path('accout_favorite_cart_show', {id: favoriteCart.id})}}">Explorer</a>
+                    </br>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
 
-        {% for facture in mesFactures %}
-             - {{ facture.cartSubscription.nameSubscriptionPlan }} <a href="{{path('account_livraison_suspendre', {id: facture.id})}}">Suspendre</a>
-             {% if facture.isPaused %}
-                <i class="fas fa-exclamation-circle"></i>
-             {% endif %}
-             
-            </br>
-        {% endfor %}
     </div>
 
 

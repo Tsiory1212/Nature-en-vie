@@ -61,7 +61,7 @@ class SubscriptionController extends AbstractController
         $currentCartSubscription = $repoCartSubscription->find($id);
         
         $facture = new FactureAbonnement();
-        $facture->setSubcriptionId($subcriptionId);
+        $facture->setSubscriptionId($subcriptionId);
         $facture->setUser($user);
         $facture->setCartSubscription($currentCartSubscription);
 

@@ -57,9 +57,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $factureAbonnements;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FavoriteCart::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $favoriteCarts;
+
     public function __construct()
     {
         $this->factureAbonnements = new ArrayCollection();
+        $this->favoriteCarts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($factureAbonnement->getUser() === $this) {
                 $factureAbonnement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FavoriteCart[]
+     */
+    public function getFavoriteCarts(): Collection
+    {
+        return $this->favoriteCarts;
+    }
+
+    public function addFavoriteCart(FavoriteCart $favoriteCart): self
+    {
+        if (!$this->favoriteCarts->contains($favoriteCart)) {
+            $this->favoriteCarts[] = $favoriteCart;
+            $favoriteCart->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteCart(FavoriteCart $favoriteCart): self
+    {
+        if ($this->favoriteCarts->removeElement($favoriteCart)) {
+            // set the owning side to null (unless already changed)
+            if ($favoriteCart->getUser() === $this) {
+                $favoriteCart->setUser(null);
             }
         }
 

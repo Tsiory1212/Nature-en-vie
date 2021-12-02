@@ -1,25 +1,25 @@
 <?php
-namespace App\Entity;
+namespace App\Entity\SearchEntity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-class ProductSearch {
+class UserSearch {
 
     /**
      * @var int|null
      */
-    private $nom;
+    private $name;
     
     /**
      * Get the value of nom
      *
      * @return  int|null
      */ 
-    public function getNom()
+    public function getName()
     {
-        return $this->nom;
+        return $this->name;
     }
 
     /**
@@ -29,9 +29,9 @@ class ProductSearch {
      *
      * @return  self
      */ 
-    public function setNom($nom)
+    public function setName($name)
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }

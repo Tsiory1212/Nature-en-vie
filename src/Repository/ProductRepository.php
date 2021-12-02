@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\SearchEntity\ProductSearch;
 use App\Entity\Product;
-use App\Entity\ProductSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
@@ -30,10 +30,10 @@ class ProductRepository extends ServiceEntityRepository
     {
         $query = $this->findVisibleQuery();
 
-        if ($search->getNom()) {
+        if ($search->getName()) {
             $query = $query
-            ->andwhere('p.name LIKE :nom')
-            ->setParameter('nom', '%'.$search->getNom().'%');
+            ->andwhere('p.name LIKE :name')
+            ->setParameter('name', '%'.$search->getName().'%');
         }
                 
         return $query->getQuery();

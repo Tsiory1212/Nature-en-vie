@@ -20,10 +20,16 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/product/{id}/show", name="product_show")
+     * @Route("/product/{id}/show/{slug}", name="product_show", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function product_show(Product $currentProduct, SessionInterface $session): Response
+    public function product_show(Product $currentProduct, string $slug, SessionInterface $session): Response
     {
+        if ($currentProduct->getSlug() !== $slug) {
+            return $this->redirectToRoute('product_show', [
+                'id' => $currentProduct->getId(),
+                'slug' => $currentProduct->getSlug()
+            ], 301);
+        }
         
         $relatedProducts = $this->repoProduit->findBy(['category' => $currentProduct->getCategory()], null, 11);
         

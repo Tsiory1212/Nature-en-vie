@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Cocur\Slugify\Slugify;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
@@ -274,4 +275,10 @@ class Product
 
         return $this;
     }
+    
+    public function getSlug(): ?string  
+    {
+        return (new Slugify())->slugify($this->name);
+    }
+    
 }

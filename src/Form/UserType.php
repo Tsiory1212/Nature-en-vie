@@ -12,11 +12,11 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname')
-            ->add('lastname')
-            ->add('phone')
-            ->add('email')
-            ->add('password')
+            ->add('lastname', null, ['attr' => ['placeholder' => 'Votre nom de famille']])
+            ->add('firstname', null, ['attr' => ['placeholder' => 'Votre prénom']])
+            ->add('phone', null, ['attr' => ['placeholder' => 'Votre téléphone']])
+            ->add('email', null, ['attr' => ['placeholder' => 'Votre adresse e-mail']])
+            ->add('password', null, ['attr' => ['placeholder' => 'Votre mot de passe']])
         ;
     }
 
@@ -24,6 +24,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

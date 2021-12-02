@@ -30,6 +30,7 @@ class FavoriteCartType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FavoriteCart::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

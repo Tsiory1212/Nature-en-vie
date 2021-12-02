@@ -257,7 +257,7 @@
                                                 <ul class="sub-menu">
                                                     {# on prend 10 produits au hasard #}
                                                     {% for produit in category.products|slice(random(category.products|length), 10) %}
-                                                        <li class="menu-item"><a href="{{path('product_show', {id: produit.id})}}">{{produit.name}}</a></li>
+                                                        <li class="menu-item"><a href="{{path('product_show', {id: produit.id, slug: produit.slug})}}">{{produit.name}}</a></li>
                                                     {% endfor %}
                                                 </ul>
                                             </li>

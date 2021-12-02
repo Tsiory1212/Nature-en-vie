@@ -20,6 +20,7 @@ class ClassementType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Classement::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

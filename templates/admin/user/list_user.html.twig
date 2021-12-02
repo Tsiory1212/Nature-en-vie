@@ -1,0 +1,75 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+	Liste des utilisateurs
+{% endblock %}
+
+
+{% block body %}
+    <div class="container mt-5">
+	    <div class="container">
+            {{form_start(form)}}
+            <div class="row align-items-end">
+                <div class="col">
+                    {{form_row(form.name)}}
+                </div>
+				<div class="col">
+                    <button class="btn btn-primary">Recherche</button>
+                </div>
+            {{form_end(form)}}
+        </div>
+
+		{% for label, messages in app.flashes %}
+            <div class="alert alert-{{label}} text-center">
+                {% for message in messages %}
+                    {{message | raw}}
+                {% endfor %}
+            </div>
+		{% endfor %}
+
+        {# <a href="{{path('admin_product_add')}}" class="btn btn-primary my-4">Ajout produit</a> #}
+
+        <table class="table table-striped table-hover mt-3">
+			<thead>
+				<tr class="text-center">
+					<th scope="col">Nom</th>
+					<th scope="col">Prénom</th>
+					<th scope="col">E-mail</th>
+					<th scope="col">Téléphone</th>
+					<th scope="col">ACTION</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+
+					{% if user == app.user %}
+					
+					{% else %}
+						<tr>
+							<td>{{user.lastname}}</td>
+							<td>{{user.firstname}} €</td>
+							<td>{{user.email}}</td>
+							<td>{{user.phone}}</td>
+							
+							{# <td>
+								<a href="{{path('admin_product_edit', {id: produit.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
+								<form method="post" action="{{path('admin_product_delete', {id: produit.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+									<input type="hidden" name="_method" value="DELETE">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
+									<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+								</form>
+							</td> #}
+						</tr>
+					
+					{% endif %}
+					
+				{% endfor %}
+
+			</tbody>
+		</table>
+
+		<div class="pagination d-flex justify-content-center">
+            {{ knp_pagination_render(users)}}
+        </div>
+    </div>
+{% endblock %}

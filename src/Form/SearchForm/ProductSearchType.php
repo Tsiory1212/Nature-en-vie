@@ -2,8 +2,14 @@
 
 namespace App\Form\SearchForm;
 
+use App\Entity\Category;
+use App\Entity\Classement;
+use App\Entity\Product;
 use App\Entity\SearchEntity\ProductSearch;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +26,33 @@ class ProductSearchType extends AbstractType
                     'placeholder' =>  'Nom du produit'
                 ]
             ])
-        ;
+            ->add('category', EntityType::class, [
+                'required' => false,
+                'label' => false,
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'choice_value' => 'name',
+                
+            ])
+            ->add('classement', EntityType::class, [
+                'required' => false,
+                'label' => false,
+                'class' => Classement::class,
+                'choice_label' => 'name',
+                'choice_value' => 'name',
+            ])
+            ->add('gamme', ChoiceType::class, [
+                'required' => false,
+                'label' => false,
+                'choices' => $this->getGammeChoices()
+            ])
+            ->add('maxPrice', IntegerType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' =>  'Prix maximal'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -36,5 +68,16 @@ class ProductSearchType extends AbstractType
     public function getBlockPrefix()
     {
         return '';
+    }
+
+
+    private function getGammeChoices()
+    {
+        $choices = Product::GAMME;
+        $output = [];
+        foreach ($choices as $k => $v) {
+            $output[$v] = $k;
+        }
+        return $output;
     }
 }

@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les produits!{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+        /* Style for positioning toast */
+        .toast{
+            position: fixed;
+            width: 180px;
+            top: 250px;
+            right: 10px;
+            z-index: 20;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+
+
+  <!-- Toast message  -->
+  <div class="toast" id="Toast-add-product">
+      <div class="toast-header">
+          <strong class="me-auto"><i class="fas fa-cart-plus"></i> Produit ajouté</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+          Consulter le panier <a href="{{path('account_pass_to_order')}}">Cliquer ici!</a>
+      </div>
+  </div>
+
+
+
+    <!--Hero Section-->
+    <div class="hero-section hero-background">
+        <h1 class="page-title">Bio</h1>
+    </div>
+
+    <!--Navigation section-->
+    <div class="container">
+        <nav class="biolife-nav">
+            <ul>
+                <li class="nav-item"><a href="{{path('home')}}" class="permal-link">Accueil</a></li>
+                <li class="nav-item"><a href="#" class="permal-link">Panier</a></li>
+                <li class="nav-item"><span class="current-page">Panier sur mésure</span></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="page-contain category-page no-sidebar">
+        <div class="container">
+            <div class="row">
+
+                <!-- Main content -->
+                <div id="main-content" class="main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="product-category grid-style">
+
+                        <div id="top-functions-area">
+                            <div class=" to-left group-on-mobile">
+                                <span class="flt-title">Trier</span>
+                                <a href="#" class="icon-for-mobile">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </a>
+                                <div class="wrap-selectors">
+                                    {{form_start(form)}}
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                {{form_widget(form.name)}}
+                                            </div>
+                                            <div class="col-md-2">
+                                                {{form_widget(form.category)}}
+                                            </div>
+                                            <div class="col-md-2">
+                                                {{form_widget(form.classement)}}
+                                            </div>
+                                            <div class="col-md-2">
+                                                {{form_widget(form.gamme)}}
+                                            </div>
+                                            <div class="col-md-1">
+                                                {{form_widget(form.maxPrice)}}
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-primary">Trier</button>
+                                            </div>
+                                        </div>
+                                    {{form_end(form)}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <ul class="products-list">
+                                {% for product in products %}
+                                    <li class="product-item col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                        <div class="contain-product layout-default">
+                                            <div class="product-thumb">
+{# {% set runtimeConfig = {"thumbnail": {"size": [50, 50] }} %} #}
+                                                <a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="link-to-product">
+                                                    {% if product.imageName %}
+                                                        <img src="{{ vich_uploader_asset(product, 'imageFile')|imagine_filter('thumb') }}" alt="dd" width="270" height="270">
+                                                    {% else %}
+                                                        <img src="/uploads/produit/images/defaultImage.png" alt="dd"   width="270" height="270" >
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                            <div class="info">
+                                                <b class="categories">{{ product.name}}</b>
+                                                <h4 class="product-title"><a href="#" class="pr-name">{{ product.category.name}}</a></h4>
+                                                <div class="price">
+                                                    <ins><span class="price-amount">{{ product.price}} €</span></ins>
+                                                </div>
+                                                <div class="shipping-info">
+                                                    {# <p class="shipping-day">3-Day Shipping</p> #}
+                                                    {# <p class="for-today">{{ product.detail}}</p> #}
+                                                </div>
+                                                <div class="slide-down-box">
+                                                    <p class="message">{{ product.detail}}</p>
+
+                                                    <div class="buttons">
+                                                        <a id="btn-show-toast-js" href="#" class="btn wishlist-btn"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                                        {% if app.user %}
+                                                            <a   href="{{path('panier_add', {id: product.id})}}" class="btn add-to-cart-btn js-add-cart-and-toast"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Ajouter au panier</a>
+                                                        {% else %}
+                                                            <a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Plus de détail</a>
+                                                        {% endif %}
+                                                        <a href="#" class="btn compare-btn"><i class="fa fa-random" aria-hidden="true"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                       
+                        <div class="pagination d-flex justify-content-center">
+                            {{ knp_pagination_render(products)}}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+    <script src="{{ asset('/js/custom_select2.js')}}"></script>
+
+    <script>
+    $( document ).ready(function() {
+        $('.js-add-cart-and-toast').click(function() {
+            event.preventDefault();
+
+            // this repésente l'élément => a 
+            const url = $(this)[0].href;
+            
+            var allQuantityItem =  $('.minicart-block .sub-total .quantity-item')[0]
+            var total_price =  $('.minicart-block .sub-total .total-price')[0]
+            var product_element_dom_mini_cart = $('.minicart-block .cart-content .products')[0];
+            
+            var hidden_li_item_mini_cart =  $('#hidden-li-item-mini-cart')[0];
+            const a = $(this)
+
+            a.text("...") ;
+            a.addClass("disabled");
+            
+            axios.get(url)
+                .then(function(response){
+
+                    allQuantityItem.textContent = response.data.allQuantityItem;
+                    total_price.textContent = response.data.totalPrice.toFixed(2);
+                    
+                    // On anime le bouton 
+                    a.text("Ajouté") ;
+                    setTimeout(function(){
+                        a.removeClass("disabled");
+                        a.text("Ajouter au panier");
+                    }, 500)
+
+                    $("#Toast-add-product").toast("show").removeClass("fade");
+                })
+        })
+    });
+
+
+
+    </script>
+{% endblock %}

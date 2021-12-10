@@ -18,8 +18,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @Vich\Uploadable()
  * 
  * @UniqueEntity(
- *      fields={"name"},
- *      message="Produit déjà en stock. (Modifier son nom si nécessaire. Ex: Tomate (Bio) ... ou modifier la quantité du produit existant )"
+ *      fields={"referenceId"},
+ *      message="{{ value }} existe déjà"
  * )
  */
 class Product
@@ -101,6 +101,11 @@ class Product
      * @ORM\ManyToOne(targetEntity=Classement::class, inversedBy="products")
      */
     private $classement;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $referenceId;
 
     public function __construct()
     {
@@ -246,7 +251,7 @@ class Product
         return $this;
     }
 
-    public function getGammetType(): string
+    public function getGammeType(): string
     {
         return self::GAMME[$this->gamme];
     }
@@ -279,6 +284,18 @@ class Product
     public function getSlug(): ?string  
     {
         return (new Slugify())->slugify($this->name);
+    }
+
+    public function getReferenceId(): ?string
+    {
+        return $this->referenceId;
+    }
+
+    public function setReferenceId(string $referenceId): self
+    {
+        $this->referenceId = $referenceId;
+
+        return $this;
     }
     
 }

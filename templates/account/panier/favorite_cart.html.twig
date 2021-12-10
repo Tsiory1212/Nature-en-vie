@@ -34,7 +34,7 @@
                     {% for item in items %}
                         <tr>
                             <td>
-                                <a href="{{path('product_show', {id: item.product.id})}}">
+                                <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
                                     {% if item.product.imageName %}
                                         <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
                                     {% else %}

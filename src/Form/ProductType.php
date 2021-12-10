@@ -19,15 +19,19 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('referenceId')
             ->add('name')
             ->add('price')
             ->add('weight', null, [
                 'required' => false
             ])
             ->add('quantity', IntegerType::class, [
+                'required' => false,
+                'attr' => ['min' => 0]
+            ])
+            ->add('detail', TextareaType::class, [
                 'required' => false
             ])
-            ->add('detail', TextareaType::class)
             ->add('description')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
@@ -56,14 +60,14 @@ class ProductType extends AbstractType
         ]);
     }
 
-        // ici on inverse la value et le key dans la rendu 
-        private function getGammeChoices()
-        {
-            $choices = Product::GAMME;
-            $output = [];
-            foreach ($choices as $k => $v) {
-                $output[$v] = $k;
-            }
-            return $output;
+    // ici on inverse la value et le key dans le rendu 
+    private function getGammeChoices()
+    {
+        $choices = Product::GAMME;
+        $output = [];
+        foreach ($choices as $k => $v) {
+            $output[$v] = $k;
         }
+        return $output;
+    }
 }

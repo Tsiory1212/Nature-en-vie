@@ -8,12 +8,11 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
-// import './other/biolife/assets/js/jquery-3.4.1.min.js';
-// import './other/biolife/assets/js/bootstrap.min.js';
-// import './other/biolife/assets/js/jquery.countdown.min.js';
-// import './other/biolife/assets/js/jquery.nice-select.min.js';
-// import './other/biolife/assets/js/jquery.nicescroll.min.js';
-// import './other/biolife/assets/js/slick.min.js';
+// import './other/biolife/assets/js/jquery-3.4.1.js';
+// import './other/biolife/assets/js/bootstrap.js';
+// import './other/biolife/assets/js/jquery.countdown.js';
+// import './other/biolife/assets/js/jquery.nicescroll.js';
+// import './other/biolife/assets/js/slick.js';
 // import './other/biolife/assets/js/biolife.framework.js';
 // import './other/biolife/assets/js/functions.js';
 

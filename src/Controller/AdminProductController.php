@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Entity\SearchEntity\ProductSearch;
 use App\Form\SearchForm\ProductSearchType;
 use App\Repository\ProductRepository;
+use App\Service\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,13 +52,15 @@ class AdminProductController extends AbstractController
     /**
      * @Route("/admin/product/add", name="admin_product_add")
      */
-    public function admin_product_add(Request $request): Response
+    public function admin_product_add(Request $request, ProductService $productService): Response
     {
-        $produit = new Product();
+        // On génère un nouveau "referenceId"        
+        $lastProduct = $this->repoProduct->findBy(array(),array('id'=>'DESC'),1,0)[0];
+        $newRefId = $productService->generateNewRefId($lastProduct);
 
+        $produit = new Product();
         $form = $this->createForm(ProductType::class, $produit);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($produit);
             $this->em->flush();
@@ -67,8 +70,10 @@ class AdminProductController extends AbstractController
             );
             return $this->redirectToRoute('admin_product_list');
         }
+
         return $this->render('admin/product/add_product.html.twig', [
             'form' => $form->createView(),
+            'newRefId' => $newRefId
         ]);
     }
 

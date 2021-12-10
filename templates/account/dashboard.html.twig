@@ -7,44 +7,109 @@
         .fa-exclamation-circle{
             color: red
         }
+        .custom-fade{
+            transition: opacity .15s linear;
+        }
     </style>
         
 {% endblock %}
 
 {% block body %}
 
-
-<div class="example-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>Mes abonnements ✅</h1>
-        
-                {% for facture in mesFactures %}
-                     - {{ facture.cartSubscription.nameSubscriptionPlan }} <a href="{{path('account_livraison_suspendre', {id: facture.id})}}">Suspendre</a>
-                     {% if facture.isPaused %}
-                        <i class="fas fa-exclamation-circle"></i>
-                     {% endif %}
-                     
-                    </br>
-                {% endfor %}
+    <!-- Modal -->
+    <div id="myModal" class="modal custom-fade" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Choisissez votre livraison</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-6">
-                <h1>Mes paniers sur mésure </h1>
-        
-                {% for favoriteCart in mesFavoriteCarts %}
-                     - {{ favoriteCart.name }} <a href="{{path('accout_favorite_cart_show', {id: favoriteCart.id})}}">Explorer</a>
-                    </br>
-                {% endfor %}
+            <div class="modal-body">
+                <a href="{{path('account_delivry_create')}}" class="btn btn-primary">Definir</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6"></div>
-            <div class="col-md-6"></div>
-        </div>
-
     </div>
 
 
-</div>
+    <div class="example-wrapper">
+        <div class="container">
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-{{label}} text-center">
+                    {% for message in messages %}
+                        {{message | raw}}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <div class="row bg-secondary text-white">
+                <div class="col-md-4">
+                    <h1>Mes abonnements ✅</h1>
+            
+                    {% for facture in mesFactures %}
+                        - {{ facture.cartSubscription.nameSubscriptionPlan }} <a href="{{path('account_livraison_suspendre', {id: facture.id})}}">Suspendre</a>
+                        {% if facture.isPaused %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% endif %}
+                        
+                        </br>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <h1>Mes paniers favoris ✅</h1>
+            
+                    {% for favoriteCart in mesFavoriteCarts %}
+                        - {{ favoriteCart.name }} <a href="{{path('accout_favorite_cart_show', {id: favoriteCart.id})}}">Explorer</a>
+                        </br>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <h1>Mes commandes ✅</h1>
+                    <a href="{{path('account_order_show')}}">Voir l'historique</a>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-6 bg-warning">
+                    <h1>Livraison</h1>
+                
+                    {% if app.user.delivry %}
+                        <a href="{{path('account_delivry_edit')}}" class="btn btn-primary">Modifier</a>
+
+                        <div class="row">
+                            <div class="col">{{ maLivraison.delivryType }}</div>
+                            <div class="col">{{ maLivraison.delivryTimeSlot }}</div>
+                            <div class="col">{{ maLivraison.delivryDaySlot }}</div>
+                        </div>
+                    {% else %}            
+                        <a href="{{path('account_delivry_create')}}" class="btn btn-primary">Definir</a>
+                    {% endif %}
+                    
+                    
+                </div>
+                <div class="col-md-6 bg-primary">
+                    <h1> Personnaliser mon panier sur mésure </h1>
+                    <a href="{{path('all_products')}}" class="btn btn-warning"> <h4 class="text-center text-white"> Personnaliser </h4> </a>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {% if app.user.delivry is null %}
+        <script type="text/javascript">
+            $(window).on('load', function() {
+                $('#myModal').modal('show');
+            });
+        </script>
+    {% endif %}
+
 {% endblock %}

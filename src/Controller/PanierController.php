@@ -52,7 +52,7 @@ class PanierController extends AbstractController
                'success',
                'Panier ajouté dans la lite des paniers favoris'
             );
-            return $this->redirectToRoute('panier_show', ['cart' => 'save']);;
+            return $this->redirectToRoute('panier_show', ['cart' => 'saved']);;
         }
 
         return $this->render('/account/panier/panier.html.twig', [
@@ -67,9 +67,10 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/add/{id}", name="panier_add")
      */
-    public function panier_add($id, PanierService $panierService)
+    public function panier_add(Product $product, PanierService $panierService)
     {
-        $panierService->add($id);
+        $refId =  $product->getReferenceId();
+        $panierService->add($refId);
         
         return $this->json([
             'code' => 200, 
@@ -82,9 +83,10 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/{id}/remove", name="panier_remove")
      */
-    public function panier_remove($id, PanierService $panierService )
+    public function panier_remove( Product $product, PanierService $panierService )
     {
-        $panierService->remove($id);
+        $refId =  $product->getReferenceId();
+        $panierService->remove($refId);
 
         return $this->json([
             'code' => 200, 
@@ -94,12 +96,13 @@ class PanierController extends AbstractController
         ]);
     }
 
-        /**
+    /**
      * @Route("/panier/{id}/remove/charging", name="panier_remove_charging_page")
      */
-    public function panier_remove_charging_page($id, PanierService $panierService )
+    public function panier_remove_charging_page(Product $product, PanierService $panierService )
     {
-        $panierService->remove($id);
+        $refId =  $product->getReferenceId();
+        $panierService->remove($refId);
 
         return $this->redirectToRoute('panier_show');
     }
@@ -108,12 +111,14 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/add/one/{id}", name="panier_add_one")
      */
-    public function panier_add_one($id, Product $product, PanierService $panierService)
+    public function panier_add_one(Product $product, PanierService $panierService)
     {
-        $panierService->add($id);
+        $refId =  $product->getReferenceId();
+        $panierService->add($refId);
 
-        $product_item_quantity = $this->session->get('panier', [])[$id];
-        $price = $product->getPrice($id);
+        $product_item_quantity = $this->session->get('panier', [])[$refId];
+        // $price = $product->getPrice($id);
+        $price = $product->getPrice();
         $product_item_total = $product_item_quantity * $price;
         $product_total = $panierService->getTotal();
 
@@ -131,10 +136,11 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/add_with_quantity/product/{id}", name="panier_quantity_edit")
      */
-    public function panier_quantity_edit(Request $request, $id, PanierService $panierService): Response
+    public function panier_quantity_edit(Request $request, Product $product, PanierService $panierService): Response
     {
+        $refId =  $product->getReferenceId();
         $quantity =  $request->query->get('quantity');
-        $panierService->panier_quantity_edit($quantity, $id);
+        $panierService->panier_quantity_edit($quantity, $refId);
 
         return $this->json([
             'code' => 200, 
@@ -145,12 +151,14 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/remove/one/{id}", name="panier_remove_one")
      */
-    public function panier_remove_one($id, Product $product, PanierService $panierService)
+    public function panier_remove_one(Product $product, PanierService $panierService)
     {
-        $panierService->removeOne($id);
+        $refId =  $product->getReferenceId();
+        $panierService->removeOne($refId);
 
-        $product_item_quantity = $this->session->get('panier', [])[$id];
-        $price = $product->getPrice($id);
+        $product_item_quantity = $this->session->get('panier', [])[$refId];
+        // $price = $product->getPrice($id);
+        $price = $product->getPrice();
         $product_item_total = $product_item_quantity * $price;
         $product_total = $panierService->getTotal();
 
@@ -171,6 +179,23 @@ class PanierController extends AbstractController
     {
         $panierService->deleteAll();
         return $this->redirectToRoute("panier_show");
+    }
+
+    /**
+     * @Route("/clear", name="clear")
+     */
+    public function clear(): Response
+    {
+         $this->session->remove("panier");
+         return new Response('Clear');
+    }
+
+    /**
+     * @Route("/see_cart", name="see_cart")
+     */
+    public function see_cart(): Response
+    {
+         dd($this->session->get("panier")) ;
     }
 
 }

@@ -1,6 +1,9 @@
 {% extends "base.html.twig" %}
 {% block title %} {{currentProduct.name}} {% endblock %}
 
+{% block stylesheets %}
+{% endblock %}
+
 {% block body %}
 
     <!--Hero Section-->
@@ -58,7 +61,7 @@
                             <span class="qa-text">Q&amp;A</span>
                             <b class="category">By: Natural food</b>
                         </div> #}
-                        <span class="sku">Num: #{{currentProduct.id}}</span>
+                        <span class="sku">Ref: {{currentProduct.referenceId}}</span>
                         <p class="excerpt">{{currentProduct.detail|nl2br}}</p>
                         <div class="price">
                             <ins><span class="price-amount">{{currentProduct.price}} <span class="currencySymbol">€</span></span></ins>
@@ -75,7 +78,13 @@
                                 </div>
                             </div>
                             <div class="buttons">
-                                <a href="{{path('panier_quantity_edit', {id: currentProduct.id})}}" class="btn add-to-cart-btn" id="js-add-cart-with-quantity">Modifier</a>
+                                <a href="{{path('panier_quantity_edit', {id: currentProduct.id})}}" class="btn add-to-cart-btn" id="js-add-cart-with-quantity">
+                                    {% if productInCart %}
+                                        Modifier
+                                    {% else %}
+                                        Ajouter
+                                    {% endif %} 
+                                </a>
                                 {# <p class="pull-row">
                                     <a href="#" class="btn wishlist-btn">wishlist</a>
                                     <a href="#" class="btn compare-btn">compare</a>
@@ -397,40 +406,52 @@
 
                     </ul>
                 </div>
-                
             </div>
         </div>
     </div>
+                {% include "/partials/loupe.html.twig" %}
 
 {% endblock %}
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
+    $(document).ready(function() {
+        // on masque le bouton "Ajouter" lorsque la valeur dans input est à "0" 
+        /*
+        if (parseInt($("#js-quantity-item").val(), 10) <= 0) {
+            $(".add-to-cart-btn").hide();
+        }
+        else {
+            $(".add-to-cart-btn").show();
+        }
+        */
+
         
-            function onClickBtn(event){
-                event.preventDefault();
+        function onClickBtn(event){
+            event.preventDefault();
 
-                var valueInput = $("#js-quantity-item").val();
-                const url_panier_show = "{{path('panier_show')}}";
-                const url_with_params = this.href + "?quantity="+valueInput;
+            var valueInput = $("#js-quantity-item").val();
+            const url_panier_show = "{{path('panier_show')}}";
+            const url_with_params = this.href + "?quantity="+valueInput;
 
 
-                axios.post(
-                    url_with_params,
-                    {},
-                ).then(function (response) {
-                        const status = JSON.parse(response.status);
+            axios.post(
+                url_with_params,
+                {},
+            ).then(function (response) {
+                    const status = JSON.parse(response.status);
 
-                        //redirect logic
-                        if (status == '200') {
-                            window.location.replace(url_panier_show);
-                        }
-                })
-            }
-
-            document.querySelectorAll('a#js-add-cart-with-quantity').forEach(function(link){
-                // link représente tout les éléments => a 
-                link.addEventListener('click', onClickBtn)
+                    //redirect logic
+                    if (status == '200') {
+                        window.location.replace(url_panier_show);
+                    }
             })
+        }
+
+        document.querySelectorAll('a#js-add-cart-with-quantity').forEach(function(link){
+            // link représente tout les éléments => a 
+            link.addEventListener('click', onClickBtn)
+        })
+    });
     </script>
 {% endblock %}

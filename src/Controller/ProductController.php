@@ -30,21 +30,30 @@ class ProductController extends AbstractController
                 'slug' => $currentProduct->getSlug()
             ], 301);
         }
-        
+
+
         $relatedProducts = $this->repoProduit->findBy(['category' => $currentProduct->getCategory()], null, 11);
         
         $panier = $session->get('panier', []);
+        
+        $quantity_item = 0;
+
+        // On prend la quantité du produit dans le panier si le produit existe dans le panier
+        $productInCart = array_key_exists($currentProduct->getReferenceId(), $panier);
+       
         if (!empty($panier)) {
-           $quantity_item = $panier[$currentProduct->getId()];
-        } else {
-            $quantity_item = 0;
-        }
+            if ($productInCart) {
+                $quantity_item = $panier[$currentProduct->getReferenceId()];
+            }
+        } 
+        
         
 
         return $this->render('product/single_product.html.twig', [
             'currentProduct' => $currentProduct,
             'relatedProducts' => $relatedProducts ,
-            'quantity_item' => $quantity_item
+            'quantity_item' => $quantity_item,
+            'productInCart' => $productInCart
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\DelivryRepository;
 use App\Repository\FactureAbonnementRepository;
 use App\Repository\FavoriteCartRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,16 +22,19 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/account", name="dashboard")
+     * @Route("/account/dashboard", name="dashboard")
      */
-    public function dashboard(): Response
+    public function dashboard(DelivryRepository $repoDelivry): Response
     {
         $user = $this->getUser();
+        $maLivraison = $repoDelivry->findOneBy(['user' => $user]);
         $mesFactures = $this->repoFactureAbonnement->findBy(['user' => $user]);
         $mesFavoriteCarts = $this->repoFavoriteCart->findBy(['user' => $user]);
+    
         return $this->render('account/dashboard.html.twig', [
             'mesFactures' => $mesFactures,
-            'mesFavoriteCarts' => $mesFavoriteCarts
+            'mesFavoriteCarts' => $mesFavoriteCarts,
+            'maLivraison' => $maLivraison
         ]);
     }
 }

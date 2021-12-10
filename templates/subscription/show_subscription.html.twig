@@ -19,7 +19,10 @@
                             <h5 class="card-title">{{ abonnement.nameSubscriptionPlan }}</h5>
                             <p class="card-text">{{ abonnement.descriptionSubscriptionPlan }}</p>
                             <p class="card-text">{{ abonnement.priceSubscription }} €</p>
-                            <div id="paypal-button-container"></div>
+                            {% if app.user %}
+                                <div id="paypal-button-container"></div>
+                            {% endif %}
+                            
 
 
 
@@ -42,24 +45,24 @@
 
 
 {% block javascripts %}
-
+    {% if app.user %}
         <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&vault=true"> </script>
 
-		<script>
-			paypal.Buttons({
-				env: 'sandbox',
+        <script>
+            paypal.Buttons({
+                env: 'sandbox',
                 style: {
                     shape: 'rect',
                     color: 'gold',
                     layout: 'horizontal',
                     label: 'subscribe'
                 },
-				createSubscription: function (data, actions) {
-					return actions.subscription.create({
+                createSubscription: function (data, actions) {
+                    return actions.subscription.create({
                         'plan_id': "{{idSubscriptionPlanPaypal}}"
-					});
-				},
-				onApprove: function (data, actions) {
+                    });
+                },
+                onApprove: function (data, actions) {
                     const url = "/account/abonnement/"+{{abonnement.id}}+"/"+data.subscriptionID;
                     
                     axios.post(url)
@@ -68,20 +71,16 @@
                                 alert('Subscription successfull')
                             }
                         })
-				},
-				onCancel: function (data) {
-					alert("Abonnement annulé : vous avez fermé la fenêtre de paiement.");
-				},
-				onError: function (err) {
-					alert("Abonnement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
-				}
-			}).render('#paypal-button-container');
-		</script>
-
-
-
-
-
+                },
+                onCancel: function (data) {
+                    alert("Abonnement annulé : vous avez fermé la fenêtre de paiement.");
+                },
+                onError: function (err) {
+                    alert("Abonnement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+                }
+            }).render('#paypal-button-container');
+        </script>                           
+    {% endif %}
 
 
 

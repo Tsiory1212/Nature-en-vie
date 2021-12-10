@@ -14,7 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(
- *      fields={"email"}
+ *      fields={"email"},
+ *     message="Cet adresse est déjà utilisé par un utilisateur"
  * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -38,7 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
-     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères")
+     * @Assert\Length(
+     *      min = 8, 
+     *      minMessage="Votre mot de passe doit faire minimum 8 caractères"
+     * )
      * @ORM\Column(type="string")
      */
     private $password;
@@ -68,10 +72,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $favoriteCarts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Purchases::class, mappedBy="user")
+     */
+    private $purchases;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Delivry::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $delivry;
+
     public function __construct()
     {
         $this->factureAbonnements = new ArrayCollection();
         $this->favoriteCarts = new ArrayCollection();
+        $this->purchases = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,6 +270,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $favoriteCart->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Purchases[]
+     */
+    public function getPurchases(): Collection
+    {
+        return $this->purchases;
+    }
+
+    public function addPurchase(Purchases $purchase): self
+    {
+        if (!$this->purchases->contains($purchase)) {
+            $this->purchases[] = $purchase;
+            $purchase->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchase(Purchases $purchase): self
+    {
+        if ($this->purchases->removeElement($purchase)) {
+            // set the owning side to null (unless already changed)
+            if ($purchase->getUser() === $this) {
+                $purchase->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDelivry(): ?Delivry
+    {
+        return $this->delivry;
+    }
+
+    public function setDelivry(Delivry $delivry): self
+    {
+        // set the owning side of the relation if necessary
+        if ($delivry->getUser() !== $this) {
+            $delivry->setUser($this);
+        }
+
+        $this->delivry = $delivry;
 
         return $this;
     }

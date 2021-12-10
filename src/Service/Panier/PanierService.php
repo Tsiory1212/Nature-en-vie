@@ -15,26 +15,25 @@ class PanierService {
     }
 
 
-    public function add(int $id)
+    public function add(string $ref)
     {
         // Lors du premier visite dans le magasin, notre panier est vide
         // donc, si je n'ai pas encore de données dans panier, je le met un tableau vide
         $panier = $this->session->get('panier', []);
-
-        if (!empty($panier[$id])) {
-            $panier[$id]++;
+        if (!empty($panier[$ref])) {
+            $panier[$ref]++;
         }else {
-            $panier[$id] = 1;
+            $panier[$ref] = 1;
         }
 
         //ce set() fait cummuler les données dans la session (pas changer la donnée déjà existée)
         $this->session->set('panier', $panier);
     }
 
-    public function panier_quantity_edit(int $quantity, int $id)
+    public function panier_quantity_edit(int $quantity, string $ref)
     {
         $panier = $this->session->get('panier', []);
-        $panier[$id] = $quantity;
+        $panier[$ref] = $quantity;
 
         // if (!empty($panier[$id])) {
         //     $panier[$id]++;
@@ -46,27 +45,27 @@ class PanierService {
         $this->session->set('panier', $panier);
     }
 
-    public function remove(int $id)
+    public function remove(string $ref)
     {
         
         $panier = $this->session->get('panier', []);
 
-        if (!empty($panier[$id])) {
-            unset($panier[$id]);
+        if (!empty($panier[$ref])) {
+            unset($panier[$ref]);
         }
         $this->session->set('panier', $panier);
     }
 
-    public function removeOne(int $id)
+    public function removeOne(string $ref)
     {
         // On récupère le panier actuel
         $panier = $this->session->get("panier", []);
 
-        if(!empty($panier[$id])){
-            if($panier[$id] > 1){
-                $panier[$id]--;
+        if(!empty($panier[$ref])){
+            if($panier[$ref] > 1){
+                $panier[$ref]--;
             }else{
-                unset($panier[$id]);
+                unset($panier[$ref]);
             }
         }
 
@@ -82,12 +81,11 @@ class PanierService {
     public function getFullcart() : array
     {
         $panier = $this->session->get('panier', []);
-
         $panierWithData = [];
 
-        foreach ($panier as $id => $quantity ) {
+        foreach ($panier as $ref => $quantity ) {
             $panierWithData[] = [
-                'product' => $this->productRepository->find($id),
+                'product' => $this->productRepository->findOneBy(['referenceId' => $ref]),
                 'quantity' => $quantity
             ];
         }
@@ -98,7 +96,6 @@ class PanierService {
     public function getTotal() : float
     {
         $total = 0;
-
         foreach ($this->getFullcart() as $item ) {
             $total += $item['product']->getPrice() * $item['quantity'];
         }
@@ -122,15 +119,15 @@ class PanierService {
     // FAVORITE CART (in database)
 
     
-    public function addFC(int $id, $favoriteCart) :array
+    public function addFC(string $ref, $favoriteCart) :array
     {
         // Lors du premier visite dans le magasin, notre panier est vide
         // donc, si je n'ai pas encore de données dans panier, je le met un tableau vide
         $panier = $favoriteCart;
-        if (!empty($panier[$id])) {
-            $panier[$id]++;
+        if (!empty($panier[$ref])) {
+            $panier[$ref]++;
         }else {
-            $panier[$id] = 1;
+            $panier[$ref] = 1;
         }
         return $panier;
     }
@@ -141,9 +138,9 @@ class PanierService {
 
         $panierWithData = [];
 
-        foreach ($panier as $id => $quantity ) {
+        foreach ($panier as $ref => $quantity ) {
             $panierWithData[] = [
-                'product' => $this->productRepository->find($id),
+                'product' => $this->productRepository->findOneBy(['referenceId' => $ref]),
                 'quantity' => $quantity
             ];
         }

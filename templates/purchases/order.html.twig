@@ -1,0 +1,326 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Commander {% endblock %}
+
+{% block body %}
+    <!--Navigation section-->
+    <div class="container">
+        <nav class="biolife-nav">
+            <ul>
+                <li class="nav-item"><a href="{{path('home')}}" class="permal-link">Accueil</a></li>
+                <li class="nav-item"><span class="current-page">Commander</span></li>
+            </ul>
+        </nav>
+    </div>
+    
+
+    <!-- Etape 1 : Mon panier  -->
+    <div id="step-1">
+        <div class="container panier_body shadow-lg p-3 mb-5 bg-body rounded">
+            <div class="bg-light p-3">
+                <div class="row">
+                    <div class="col-md-12 bg-primary">
+                        <h1 class=" ms-5">1- Mon panier</h1> 
+                    </div>
+                </div>
+            </div>
+            <div class="content-step-1">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-favorite-cart">Favoris</button>
+                </div>
+                {% if items|length > 0 %}
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th></th>
+                                <th>Produit</th>
+                                <th>Prix</th>
+                                <th>Quatité</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td>
+                                        <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
+                                            {% if item.product.imageName %}
+                                                <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
+                                            {% else %}
+                                                <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                    <td>{{ item.product.name }}</td>
+                                    <td> <span> {{ item.product.price }} </span> €</td>
+                                    <td> {{ item.quantity }}</td>
+                                    <td>{{ item.product.price * item.quantity }} <span> € </span></td>
+                                    <td>
+                                        <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-cart-product">
+                                            <i class="bi bi-cart-plus"></i>
+                                        </a>
+                                        <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-product">
+                                            <i class="bi bi-cart-dash"></i>
+                                        </a>
+                                        <a href="{{path('panier_remove_charging_page', {id: item.product.id})}}" class="btn btn-danger">
+                                            <i class="bi bi-cart-x"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right">Total :</td>
+                                <td colspan="3" class="text-right">
+                                    <a href="{{path('panier_delete_all')}}" class="btn btn-danger">
+                                        <i class="bi bi-cart-x"></i>
+                                    </a>
+                                </td>
+                                <td class="total-general">{{ total }} €</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                {% else %}
+                    <p>Surprise, c'est vide !</p>
+                {% endif %}
+    
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-2">
+                        <!-- <button class="btn btn-success">Suivant</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Etape 2 : Livraison  -->
+    <div id="step-2">
+        <div class="container">
+            <div id="delivry-choice" class="shadow-lg p-3 mb-5 bg-body rounded">
+                <div class="row">
+                    <div class="col-md-12 bg-primary">
+                        <h1 class=" ms-5">2- Livraison</h1> 
+                    </div>
+                </div>
+                <div id="delivry-choice-body" style="display: none;">
+
+                    {% if myDelivryInfo %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                    Livraison :
+                                    </div>
+                                    <div class="col-md-6 ">
+                                    {{ myDelivryInfo.delivryType }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                    Créneau horaire :
+                                    </div>
+                                    <div class="col-md-6 ">
+                                    {{ myDelivryInfo.delivryTimeSlot }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                    Jour de la livraison :
+                                    </div>
+                                    <div class="col-md-6 ">
+                                    {{ myDelivryInfo.delivryDaySlot }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            
+                            </div>
+                        </div>
+                    
+                    {% else %}
+                        <a href="{{ path('account_delivry_create') }}">Definir</a>
+                    {% endif %}
+                    
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Etape 3 : Plage horraire  -->
+    <div id="step-3">
+        <div class="container">
+            <div id="delivry-choice" class="shadow-lg p-3 mb-5 bg-body rounded">
+                <div class="row">
+                    <div class="col-md-12 bg-primary">
+                        <h1 class=" ms-5">3- Paiement</h1> 
+                    </div>
+                </div>
+                <div id="delivry-choice-body">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6 ">
+                            <div class="text-center mt-4">
+                                <div id="paypal-boutons"></div>
+                            </div>
+
+                            {# {{ form_start(formDelivry) }}
+                            {{ form_row(formDelivry.delivry) }}
+                                <button type="submit" class="btn btn-success" >Enregistrer</button>
+                            {{ form_end(formDelivry) }} #}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal favorite cart  #}
+    <div class="modal" id="modal-favorite-cart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+            {{ form_start(formFavCart) }}
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enregistrement du panier</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Nom:</label>
+                    {{ form_widget(formFavCart.name) }}
+                </div>
+                <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Description:</label>
+                    {{ form_widget(formFavCart.description) }}
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Enregistrer le panier</button>
+            </div>
+            {{ form_end(formFavCart) }}
+        </div>
+    </div>
+</div>
+
+
+
+    {# On converti le format du tableau produit pour que paypal le prend en charge #}
+    {% set product_convert_in_paypal = {} %}
+    {% for  item in items %}
+        {% set product_convert_in_paypal = product_convert_in_paypal|merge([
+                {
+                    'name' : item.product.name , 
+                    'quantity' :item.quantity, 
+                    'unit_amount' :{ 
+                        'currency_code' : 'EUR', 
+                        'value' :item.product.price
+                }
+            } 
+        ]) %}
+    {% endfor %}
+
+    {# On transforme ensuite le tableau en json,  #}
+    {# mettre ses valeurs dans un DOM, afin qu'on puisse les recupérés dans JS  #}
+    <span class="d-none" data-id="{{ product_convert_in_paypal|json_encode }}" id="some-link">Link</span>
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR"> </script>
+
+    <script>
+        $(document).ready(function () {   
+            $('a.js-cart-product').click(function() {
+                event.preventDefault();
+
+                // $(this)[0] repésente l'élément => a 
+                const url = $(this)[0].href;
+                
+                const quantity_item =  $(this).parent().prev().prev()
+                const total_price_item =  $(this).parent().prev()
+                const total_price =  $('td.total-general')
+
+                axios.get(url).then(function(response){
+                    quantity_item.text(response.data.quantity);
+                    total_price_item.text(response.data.total_item.toFixed(2));
+                    total_price.text(response.data.total.toFixed(2));
+                })
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            // Paypal 
+			paypal.Buttons({
+				env: 'sandbox',
+                style: {
+                    shape: 'rect',
+                    color: 'gold',
+                    layout: 'horizontal',
+                },
+
+				createOrder : function (data, actions) {
+
+                    // Les produits à payer avec leurs details
+                    var product_convert_in_paypal = $('#some-link').data('id');
+                    var produits = product_convert_in_paypal;
+
+                    // Le total des produits
+                    var total_amount = produits.reduce(function (total, product) {
+                        return total + product.unit_amount.value * product.quantity;
+                    }, 0);
+                   
+                    
+                    total_amount = Math.round(total_amount*100)/100;
+
+                    // La transaction
+                    return actions.order.create({
+                        purchase_units : [{
+                            items : produits,
+                            amount : {
+                                value : total_amount,
+                                currency_code : "EUR",
+                                breakdown : {
+                                    item_total : { value : total_amount, currency_code : "EUR" }
+                                }
+                            }
+                        }]
+                    });
+				},
+				onApprove: function (data, actions) {
+                  
+				},
+				onCancel: function (data) {
+					alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
+				},
+				onError: function (err) {
+					alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+				}
+			}).render('#paypal-boutons');
+
+
+
+            // Steper order
+            $("#step-2 h1").click(function(){
+                $("#delivry-choice-body").toggle()
+                $(".content-step-1").toggle();
+            });
+            $("#step-1 h1").click(function(){
+                $("#delivry-choice-body").toggle();
+                $(".content-step-1").toggle();
+            });
+
+        });
+    </script>
+{% endblock %}
+

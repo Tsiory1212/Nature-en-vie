@@ -12,13 +12,22 @@
         <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i,700i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/animate.min.css')}}">
-        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/font-awesome.min.css')}}">
-        {# <link rel="stylesheet" href="{{ asset('/biolife/assets/css/nice-select.css')}}"> #}
-        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/slick.min.css')}}">
-        {# <link rel="stylesheet" href="{{ asset('/biolife/assets/css/style.css')}}"> #}
-        {# <link rel="stylesheet" href="{{ asset('/biolife/assets/css/main-color01.css')}}"> #}
+
+
+        {# webpack build  #}
+        <link  rel="stylesheet"  href="{{ asset('build/app.css') }}">
+
+
+        {# <link rel="stylesheet" href="{{ asset('/biolife/assets/css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/animate.css')}}">
+        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/font-awesome.css')}}"> #}
+
+        {#  On ne l'utilise pas, pour raison de conflit avec "select2" 
+        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/nice-select.css')}}"> #}
+
+        {# <link rel="stylesheet" href="{{ asset('/biolife/assets/css/slick.css')}}">
+        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/style.css')}}">
+        <link rel="stylesheet" href="{{ asset('/biolife/assets/css/main-color01.css')}}"> #}
 
         {# Bootstrap  #}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">            
@@ -27,7 +36,8 @@
   
         {# custom css  #}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-        {# <link rel="stylesheet" href="{{ asset('/css/app.css')}}"> #}
+        <link rel="stylesheet" href="{{ asset('/css/main_style.css')}}">
+
 
 
         <style>
@@ -39,7 +49,7 @@
                 position: relative;
             }
         </style>
-        <link  rel="stylesheet"  href="{{ asset('build/app.css') }}">
+       
 
         {% block stylesheets %}
           {# {{ encore_entry_link_tags('app') }} #}
@@ -53,13 +63,20 @@
 
         {% include 'partials/header_and_footer/footer/footer.html.twig' %}
 
+        {# webpack build #}
+        {# <script src="{{ asset('build/app.js') }}"></script> #}
+        
+        
         {# Biolife scripts  #}
-        <script src="{{ asset('/biolife/assets/js/jquery-3.4.1.min.js')}}"></script>
-        <script src="{{ asset('/biolife/assets/js/bootstrap.min.js')}}"></script>
-        <script src="{{ asset('/biolife/assets/js/jquery.countdown.min.js')}}"></script>
-        <script src="{{ asset('/biolife/assets/js/jquery.nice-select.min.js')}}"></script>
-        <script src="{{ asset('/biolife/assets/js/jquery.nicescroll.min.js')}}"></script>
-        <script src="{{ asset('/biolife/assets/js/slick.min.js')}}"></script>
+        <script src="{{ asset('/biolife/assets/js/jquery-3.4.1.js')}}"></script>
+        <script src="{{ asset('/biolife/assets/js/bootstrap.js')}}"></script>
+        <script src="{{ asset('/biolife/assets/js/jquery.countdown.js')}}"></script>
+        
+        {# On ne l'utilise pas, pour raison de conflit avec "select2"
+        <script src="{{ asset('/biolife/assets/js/jquery.nice-select.js')}}"></script> #}
+
+        <script src="{{ asset('/biolife/assets/js/jquery.nicescroll.js')}}"></script>
+        <script src="{{ asset('/biolife/assets/js/slick_unminify.js')}}"></script>
         <script src="{{ asset('/biolife/assets/js/biolife.framework.js')}}"></script>
         <script src="{{ asset('/biolife/assets/js/functions.js')}}"></script> 
         
@@ -73,16 +90,19 @@
         {# Custom JS  #}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
         <script>
-            $('select').select2();
+            {# $('select').select2(); #}
 
             //On enleve les classes par défaut utilisées par le theme BIO
-            $('select').removeClass('nice-select');
+            {# $('select').removeClass('nice-select'); #}
             $('body').removeClass('modal-open');
             
         </script>
 
-        {# <script src="{{ asset('build/app.js') }}"></script> #}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{{ asset('/js/action-cart-pageNotCharging.js')}}"></script>
         
+
+    
         {% block javascripts %}
           {# {{ encore_entry_script_tags('app') }}  #}
         {% endblock %}    

@@ -1,0 +1,520 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test home subscription{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #header {
+            position: absolute !important;
+        }
+
+        #biolife-quickview-block {
+            z-index: 9992!important;
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+
+<body class="biolife-body">
+
+    <!-- Page Contain -->
+    <div class="page-contain">
+
+        <!-- Main content -->
+        <div id="main-content" class="main-content">
+
+            <!-- Block 01: Main slide block-->
+            <div class="main-slide block-slider">
+                <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
+
+                            <!-- Image bannière  -->
+                            <div class="media"></div>
+
+                            <div class="text-content">     
+                                <h6 class="third-line" >Frais et bio... Les produits de nos commerces au Lieu-dit Les Rondards </h6>
+                                <!-- <p class="third-line">Découvrez nos produits maraîchers et demeter qui nourrissent et le corps et l'esprit</p> -->
+                                <p class="buttons">
+                                    <a href="#" class="btn btn-bold">Commander mon Panier Bio</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 slide-bgr-mode03-02">
+                            <div class="media">
+                            </div>
+                            <div class="text-content">
+                                <!-- <i class="first-line">Pomegranate</i>
+                                <h3 class="second-line">Fresh Juice. 100% Organic</h3> -->
+                                <p class="third-line">Des vins biodynamiques, des produits d'épicerie et divers articles Made in Bio</p>
+                                <p class="buttons">
+                                    <a href="#" class="btn btn-bold">Commander mon Panier Bio</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 slide-bgr-mode03-03">
+                            <div class="media">
+                            </div>
+                            <div class="text-content">
+                                <!-- <i class="first-line">Pomegranate</i>
+                                <h3 class="second-line">Fresh Juice. 100% Organic</h3> -->
+                                <p class="third-line">Des fruits & légumes bio et demeter de nos producteurs maraîchers</p>
+                                <p class="buttons">
+                                    <a href="#" class="btn btn-bold">Commander mon panier Bio</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Block 02: Grid Banners-->
+            <div class="biolife-gird-banners xs-margin-top-80px sm-margin-top-0">
+
+                <div class="grid-panel">
+
+                    <div class="grid-panel-item left-content">
+                        <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-01">
+                            <a href="#" class="media-contain media-01"></a>
+                            <div class="banner-contain">
+                                <a href="#" class="cat-name">Fruit juice</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-panel-item midle-content">
+                        <ul class="list-media">
+                            <li>
+                                <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-02">
+                                    <a href="#" class="media-contain media-02"></a>
+                                    <div class="banner-contain">
+                                        <a href="#" class="cat-name">Strawberry</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-03">
+                                    <a href="#" class="media-contain media-03"></a>
+                                    <div class="banner-contain">
+                                        <a href="#" class="cat-name">Blueberries</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-04">
+                                    <a href="#" class="media-contain media-04"></a>
+                                    <div class="banner-contain">
+                                        <a href="#" class="cat-name">Raspberries</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-05">
+                                    <a href="#" class="media-contain  media-05"></a>
+                                    <div class="banner-contain">
+                                        <a href="#" class="cat-name">Our berries</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="grid-panel-item right-content">
+                        <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-06">
+                            <a href="#" class="media-contain media-06"></a>
+                            <div class="banner-contain">
+                                <a href="#" class="cat-name">Pomegranate</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+       
+
+            <!-- Block 04: Banners-->
+            <div class="banner-block md-margin-top-61px sm-margin-bottom-89px xs-margin-top-60px">
+                 <div class="container">
+                    <div class="row">
+                        {% for panier in subscriptions %}
+                            <div class="col-md-4">
+                                <div class="card bg-primary text-center" style="min-width: 22rem; min-height: 30rem; border-radius: 20px">
+                                    {# <img src="/biolife/assets/images/logo-bio.jpeg" class="card-img-top" alt="..."> #}
+                                    <div class="card-body">
+                                
+                                        <h1 class="card-title">{{ panier.nameSubscriptionPlan }}</h1>
+                                        <hr>
+                                        <p class="card-text mt-5">{{ panier.descriptionSubscriptionPlan }}</p>
+                                        <p class="card-text">{{ panier.priceSubscription }} €</p>
+
+                                        <a href="{{ path('cart_subscription_show', {id: panier.id}) }}" class="btn btn-warning">Plus de détails</a>
+
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 05: Banner Promotion-->
+            <div class="banner-promotion xs-margin-top-0 sm-margin-top-60px xs-margin-top-100">
+                <div class="biolife-banner promotion6 biolife-banner__promotion6">
+                    <div class="banner-contain">
+                        <div class="media">
+                            <div class="img-moving position-1">
+                                <a href="#" class="banner-link">
+                                    <img src="/uploads/produit/images/defaultImage.png" width="568" height="760" alt="img msv">
+                                </a>
+                            </div>
+                            <div class="img-moving position-2">
+                                <img src="/biolife/assets/images/home-01/bn-promotion-6-child-02.png" width="745" height="682" alt="img msv">
+                            </div>
+                        </div>
+                        <div class="text-content">
+                            <i class="text1">Panier sur mésure</i>
+                            <b class="text2">Personnaliser votre panier !</b>
+                            <p class="buttons">
+                                <a href="{{path('all_products')}}" class="btn btn-thin">Personnaliser maintenant</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Block 07: Blog posts-->
+            <div class="blog-posts sm-margin-top-49px xs-margin-top-60px">
+                <div class="container">
+                    <div class="biolife-title-box biolife-title-box__bold-center xs-margin-bottom-50px sm-margin-bottom-0-im">
+                        <i class="subtitle">Les nouvelles les plus fraîches et les plus excitantes</i>
+                        <h3 class="main-title">Nos derniers articles</h3>
+                    </div>
+                    <ul class="biolife-carousel nav-center xs-margin-top-34px nav-none-on-mobile" data-slick='{"rows":1,"arrows":true,"dots":false,"infinite":false,"speed":400,"slidesMargin":30,"slidesToShow":3, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 3}},{"breakpoint":992, "settings":{ "slidesToShow": 2}},{"breakpoint":768, "settings":{ "slidesToShow": 2}},{"breakpoint":600, "settings":{ "slidesToShow": 1}}]}'>
+                        <li>
+                            <div class="post-item effect-01 style-bottom-info layout-02 ">
+                                <div class="thumbnail">
+                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-01.jpg" width="370" height="270" alt=""></a>
+                                    <div class="post-date">
+                                        <span class="date">26</span>
+                                        <span class="month">dec</span>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
+                                    <div class="post-meta">
+                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                        <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
+                                        <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
+                                        <div class="post-meta__item post-meta__item-social-box">
+                                            <span class="tbn"><i class="fa fa-share-alt" aria-hidden="true"></i></span>
+                                            <div class="inner-content">
+                                                <ul class="socials">
+                                                    <li><a href="#" title="twitter" class="socail-btn"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" title="facebook" class="socail-btn"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" title="pinterest" class="socail-btn"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" title="youtube" class="socail-btn"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" title="instagram" class="socail-btn"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="excerpt">Saviez-vous que les aliments qui tachent de rouge sont d'excellents moteurs lymphatiques ? En fait, de nombreuses plantes qui étaient historiquement utilisées comme colorants...</p>
+                                    <div class="group-buttons">
+                                        <a href="#" class="btn readmore">Lire</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Block 08: Advance Product-->
+            <div class="banner-block">
+                <div class="biolife-banner special-03 biolife-banner__special-03">
+                    <div class="banner-contain">
+                        <div class="container">
+                            <div class="biolife-title-box bgrd-bold biolife-title-box__bgrd-bold">
+                                <h3 class="title">Fruit juice</h3>
+                            </div>
+                            <ul class="products-list vertical-layout-02 biolife-carousel nav-none-on-mobile" data-slick='{"rows":3,"arrows":false,"dots":false,"infinite":false,"speed":400,"slidesMargin":30,"slidesToShow":1, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 1}},{"breakpoint":768, "settings":{ "slidesToShow": 3, "rows":2, "slidesMargin":10}},{"breakpoint":500, "settings":{ "slidesToShow": 2, "rows":2, "slidesMargin":15}}]}'>
+                                <li class="product-item">
+                                    <div class="contain-product contain-product__right-info-layout3">
+                                        <div class="product-thumb">
+                                            <a href="#" class="link-to-product">
+                                                <img src="/biolife/assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
+                                            </a>
+                                        </div>
+                                        <div class="info">
+                                            <h4 class="product-title"><a href="#" class="pr-name">Fish Stew With Rice Recipe</a></h4>
+                                            <div class="price ">
+                                                <ins><span class="price-amount"><span class="currencySymbol">€</span>9.00</span></ins>
+                                                <del><span class="price-amount"><span class="currencySymbol">€</span>29.00</span></del>
+                                            </div>
+                                            <div class="rating">
+                                                <p class="star-rating"><span class="width-80percent"></span></p>
+                                                <span class="review-count">(05 Reviews)</span>
+                                            </div>
+                                            <p class="desc">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                            <div class="buttons">
+                                                <a href="#" class="btn add-to-cart-btn" tabindex="0">Ajouter au panier</a>
+                                                <a href="#" class="btn wishlist-btn" tabindex="0"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                                <a href="#" class="btn compare-btn" tabindex="0"><i class="fa fa-random" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 09: Instagram-->
+            <div class="biolife-instagram-block sm-margin-top-76px xs-margin-top-60px">
+                <div class="wrap-title xs-margin-bottom-60px-im sm-margin-bottom-35-im">
+                    <i class="subtitle hidden-xs">Use Top food for a chance to be featured</i>
+                    <h3 class="title">Follow us on instagram</h3>
+                </div>
+                <div class="instagram-inline-wrap">
+                    <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"rows":1,"arrows":true,"dots":false,"infinite":false,"speed":400,"slidesMargin":0,"slidesToShow":6, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 6}},{"breakpoint":992, "settings":{ "slidesToShow": 5}},{"breakpoint":800, "settings":{ "slidesToShow": 4}},{"breakpoint":768, "settings":{ "slidesToShow": 3}},{"breakpoint":600, "settings":{ "slidesToShow": 2}},{"breakpoint":480, "settings":{"rows":2, "slidesToShow": 3}}]}'>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-capacity-about"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-01.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-fresh-drink"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-02.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-green-safety"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-03.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-healthy-about"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-04.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-honey"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-05.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-fruits"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-06.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-broccoli-1"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-07.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-grape"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-08.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-avocado"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-09.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="instagram-ltl-item">
+                                <a href="#" class="link-to">
+                                    <span class="show-on-hover biolife-icon icon-fresh-juice"></span>
+                                    <img src="/biolife/assets/images/home-02/instag-inline-10.jpg" width="320" height="320" alt="">
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Block 10: Brands-->
+            <div class="brand-slide sm-margin-top-76px sm-margin-bottom-77px xs-margin-top-80px xs-margin-bottom-80px">
+                <div class="container">
+                    <ul class="biolife-carousel nav-center-bold nav-none-on-mobile" data-slick='{"rows":1,"arrows":true,"dots":false,"infinite":false,"speed":400,"slidesMargin":30,"slidesToShow":4, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 4}},{"breakpoint":992, "settings":{ "slidesToShow": 3, "slidesMargin": 10}},{"breakpoint":768, "settings":{ "slidesToShow": 2, "slidesMargin": 10}}]}'>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="biolife-brd-container transparent-effect">
+                                <a href="#" class="link">
+                                    <figure><img src="/biolife/assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!--Mobile Global Menu-->
+    <div class="mobile-block-global">
+        <div class="biolife-mobile-panels">
+            <span class="biolife-current-panel-title">Global</span>
+            <a class="biolife-close-btn" data-object="global-panel-opened" href="#">&times;</a>
+        </div>
+        <div class="block-global-contain">
+            <div class="glb-item my-account">
+                <b class="title">My Account</b>
+                <ul class="list">
+                    <li class="list-item"><a href="#">Login/register</a></li>
+                    <li class="list-item"><a href="#">Wishlist <span class="index">(8)</span></a></li>
+                    <li class="list-item"><a href="#">Checkout</a></li>
+                </ul>
+            </div>
+            <div class="glb-item currency">
+                <b class="title">Currency</b>
+                <ul class="list">
+                    <li class="list-item"><a href="#">€ EUR (Euro)</a></li>
+                    <li class="list-item"><a href="#">$ USD (Dollar)</a></li>
+                    <li class="list-item"><a href="#">€ GBP (Pound)</a></li>
+                    <li class="list-item"><a href="#">¥ JPY (Yen)</a></li>
+                </ul>
+            </div>
+            <div class="glb-item languages">
+                <b class="title">Language</b>
+                <ul class="list inline">
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/us.jpg" alt="flag" width="24" height="18"></a></li>
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/fr.jpg" alt="flag" width="24" height="18"></a></li>
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/ger.jpg" alt="flag" width="24" height="18"></a></li>
+                    <li class="list-item"><a href="#"><img src="/biolife/assets/images/languages/jap.jpg" alt="flag" width="24" height="18"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--newsletter Popup-->
+    {# <div id="biolife-newsletter-popup" class="modal biolife-popup biolife-newsletter-popup-contain" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal"><span class="biolife-icon icon-close-menu"></span></button>
+                    <div class="newsletter-block popup-layout newsletter-block_popup-layout">
+                        <div class="inner-content">
+                            <div class="wrap-title">
+                                <span class="sup-title">Sign up to get up to</span>
+                                <h3 class="newslt-title">50<sup>%</sup> off</h3>
+                            </div>
+                            <div class="form-content">
+                                <form action="#" name="new-letter-foter" method="post">
+                                    <input type="email" class="input-text email" value="" placeholder="Your email here...">
+                                    <button type="submit" class="bnt-submit" name="ok">Get up to 50% off</button>
+                                    <a href="javascript:void(0)" class="close dismiss-newsletter" data-dismiss="modal">No thank. I’ll let this deal fly away</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> #}
+
+    <!--Quickview Popup (le petit loupe)-->
+    {% include "/partials/loupe.html.twig" %}
+
+    <!-- Scroll Top Button -->
+    <a class="btn-scroll-top"><i class="biolife-icon icon-left-arrow"></i></a>
+</body>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+

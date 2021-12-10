@@ -14,8 +14,21 @@
                     {{form_row(form.name)}}
                 </div>
 				<div class="col">
+                    {{form_row(form.category)}}
+                </div>
+				<div class="col">
+                    {{form_row(form.classement)}}
+                </div>
+				<div class="col">
+                    {{form_row(form.gamme)}}
+                </div>
+				<div class="col">
+                    {{form_row(form.maxPrice)}}
+                </div>
+				<div class="col">
                     <button class="btn btn-primary">Recherche</button>
                 </div>
+            </div>
             {{form_end(form)}}
         </div>
 
@@ -33,6 +46,7 @@
 			<thead>
 				<tr class="text-center">
 					<th scope="col"></th>
+					<th scope="col">Ref</th>
 					<th scope="col">Nom</th>
 					<th scope="col">Prix</th>
 					<th scope="col">Poids</th>
@@ -51,6 +65,7 @@
 						    	<img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >
 							{% endif %}
 						</td>
+						<td>{{produit.referenceId}}</td>
 						<td>{{produit.name}}</td>
 						<td>{{produit.price}} €</td>
 						<td>
@@ -88,3 +103,8 @@
         </div>
     </div>
 {% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('/js/custom_select2.js')}}"></script>
+{% endblock %}
+
+

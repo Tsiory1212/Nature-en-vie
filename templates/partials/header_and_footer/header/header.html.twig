@@ -8,21 +8,21 @@
                         <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>contact@christophe-regnault.fr</a></li>
                     </ul>
                     <ul class="social-list circle-layout">
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
                     </ul>
                 </div>
                 <div class="top-bar right">
                     <ul class="horizontal-menu">
                         {% if app.user %}
                             <li class="horz-menu-item currency">
-                                <a href="{{path('panier_show')}}" class="btn btn-warning">Panier</a>
+                                {# <a href="{{path('panier_show')}}" class="btn btn-warning">Panier</a> #}
                             </li>
                              <li><a href="{{path('dashboard')}}" class="login-link"><i class="biolife-icon icon-login"></i>{{app.user.lastname}}</a></li>
                              <li><a href="{{path('security_logout')}}" class="btn btn-danger"><i class="biolife-icon icon-login"></i>Déconnection</a></li>
                         {% else %}
-                             <li><a href="{{path('inscription')}}" class="login-link"><i class="biolife-icon icon-login"></i>S'inscrire</a></li>
+                             <li><a href="{{path('registration')}}" class="login-link"><i class="biolife-icon icon-login"></i>S'inscrire</a></li>
                              <li><a href="{{path('security_login')}}" class="login-link"><i class="biolife-icon icon-login"></i>Login</a></li>
                         {% endif %}
                         
@@ -39,7 +39,7 @@
                     <div class="col-lg-9 col-md-10 padding-top-2px">
                         <div class="header-search-bar layout-01 no-product-cat">
                             <form action="#" class="form-search" name="desktop-seacrh" method="get">
-                                <input type="text" name="s" class="input-text" value="" placeholder="Search here...">
+                                <input type="text" name="s" class="input-text" value="" placeholder="Recherche...">
                                 <button type="submit" class="btn-submit"><i class="biolife-icon icon-search"></i></button>
                             </form>
                         </div>
@@ -96,18 +96,24 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="menu-item">
-                                    <a href="{{path('nos_paniers')}}" class="menu-name" data-title="Product">Nos Panier</a>
-                                    {# <ul class="sub-menu">
-                                        <li class="menu-item"><a href="#">Omelettes</a></li>
-                                        <li class="menu-item"><a href="#">Breakfast Scrambles</a></li>
-                                    </ul> #}
+                                {% if app.user and app.request.get('_route') == 'home' %}
+                                <li class="menu-item menu-item-has-children has-child">
+                                    <a href="#" class="menu-name" data-title="Product">Nos Paniers</a>
+                                    <ul class="sub-menu">
+                                        {% for subscriptionCart in allSubscriptionCart %}
+                                            <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.nameSubscriptionPlan }}</a></li>
+                                        {% endfor %}
+                                        <hr>
+                                        <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mésure</a></li>
+
+                                    </ul>
                                 </li>
-                                <li class="menu-item"><a href="#">Abonnement</a></li>
-                                <li class="menu-item"><a href="#">Epicerie</a></li>
+                                {% endif %}
+                                <li class="menu-item"><a href="{{path('abonnement')}}">Abonnement</a></li>
                                 <li class="menu-item"><a href="#">Professionnel</a></li>
                                 <li class="menu-item"><a href="#">Blog</a></li>
                                 <li class="menu-item"><a href="{{path('contact')}}">Contact</a></li>
+                                {# <li class="menu-item"><a href="{{path('test_curl')}}">Curl</a></li> #}
                             </ul>
                         </div>
                     </div>
@@ -140,7 +146,7 @@
                             </div>
 
                             {# MINI PANIER #}
-                            {% if app.user and app.request.get('_route') == 'home' %}
+                            {% if app.user and app.request.get('_route') == 'all_products' %}
                                 <div class="minicart-block layout-02">
                                     <div class="minicart-contain">
                                         <div class="icon-contain">
@@ -185,7 +191,7 @@
                                                         <li>
                                                             <div class="minicart-item">
                                                                 <div class="thumb">
-                                                                    <a href="{{path('product_show', {id: item.product.id})}}">
+                                                                    <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
                                                                         {% if item.product.imageName %}
                                                                             <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" width="90" height="90">
                                                                         {% else %}
@@ -194,7 +200,7 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="left-info">
-                                                                    <div class="product-title"><a href="{{path('product_show', {id: item.product.id})}}" class="product-name">{{item.product.name}}</a></div>
+                                                                    <div class="product-title"><a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}" class="product-name">{{item.product.name}}</a></div>
                                                                     <div class="price">
                                                                         <ins><span class="price-amount">{{item.product.price}}<span class="currencySymbol">£</span></span></ins>
                                                                         {# <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del> #}
@@ -212,10 +218,18 @@
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
-                                                <p class="btn-control">
-                                                    <a href="{{path('panier_show')}}" class="btn view-cart">Mon panier</a>
-                                                    {# <a href="#" class="btn">checkout</a> #}
-                                                </p>
+                                                {% if app.request.get('_route') == 'all_products' %}
+                                                    <p class="btn-control">
+                                                        <a href="{{path('account_pass_to_order')}}" class="btn view-cart">Commander</a>
+                                                    </p>
+                                                {% elseif app.request.get('_route') == 'home' %}
+
+                                                    <p class="btn-control">
+                                                        <a href="{{path('panier_show')}}" class="btn view-cart">Mon panier</a>
+                                                        {# <a href="#" class="btn">checkout</a> #}
+                                                    </p>
+                                                {% endif %}
+                                                
                                             </div>
                                         </div>
                                     </div>

@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
      /**
      * insciption
      * 
-     * @Route("/inscription", name="inscription", methods={"GET", "POST"})
+     * @Route("/inscription", name="registration", methods={"GET", "POST"})
      */
     public function registration(Request $request, UserPasswordEncoderInterface $encoder): Response
     {

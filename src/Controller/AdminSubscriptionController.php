@@ -114,4 +114,50 @@ class AdminSubscriptionController extends AbstractController
         ]);
     }
 
+    
+     /**
+     * @Route("/subcription/{id}/edit", name="admin_subscription_edit")
+     */
+    public function admin_product_edit(CartSubscription $subscription, Request $request, PaypalService $paypalService): Response
+    {
+        $form = $this->createForm(CartSubscriptionType::class, $subscription);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           
+            //On recupère les données soumises
+            $nameProductPlan = "PROD-30J4697439268140M";
+            $nameSubscriptionPlan = $form->getData()->getNameSubscriptionPlan();
+            $descriptionSubscriptionPlan = $form->getData()->getDescriptionSubscriptionPlan();
+            $priceSubscription = $form->getData()->getPriceSubscription();
+            $durationMonthSubscription = $form->getData()->getDurationMonthSubscription();
+
+
+
+            // On utilise le service paypal pour synchroniser le traitrement dans PAYPAL.com
+            $paypalService->editSubscriptionPlan(
+                $nameProductPlan,
+                $nameSubscriptionPlan, 
+                $descriptionSubscriptionPlan, 
+                $durationMonthSubscription,
+                $priceSubscription
+            );
+
+            // $subscription->setIdProductPlanPaypal("PROD-30J4697439268140M");
+            $subscription->setIdSubscriptionPlanPaypal($paypalService->idSubscriptionPlanPaypal);
+
+            $this->em->persist($subscription);
+            $this->em->flush();
+            $this->addFlash(
+               'success',
+               'Abonnement modifié avec succès'
+            );
+            return $this->redirectToRoute('admin_subscription_list');
+        }
+        return $this->render('admin/subscription/create_subscription.html.twig', [
+            'form' => $form->createView(),
+            'subscription' => $subscription
+        ]);
+    }
+
 }

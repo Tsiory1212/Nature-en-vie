@@ -7,11 +7,15 @@
 		{{ form_start(formReg)}}
 		<div class="row d-flex justify-content-between">
 			<div class="col-md-6 col-sm-12">
-				{{ form_row(formReg)}}
+				{{ form_row(formReg.lastname)}}
+				{{ form_row(formReg.firstname)}}
+				{{ form_row(formReg.email)}}
+				{{ form_row(formReg.phone)}}
+				{{ form_row(formReg.password)}}
 					<button class="btn btn-success mt-5" type="submit"> S'inscrire</button>
-				{{ form_end(formReg)}}
 			</div>
 		</div>
+		{{ form_end(formReg)}}
 	</div>
 
 {% endblock %}

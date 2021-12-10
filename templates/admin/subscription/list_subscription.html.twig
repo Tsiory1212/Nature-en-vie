@@ -42,6 +42,7 @@
 						<th scope="col">Id-Subscription (Paypal)</th>
 						<th scope="col">Id-Product (Paypal)</th>
 						<th scope="col">Abonnés</th>
+						<th scope="col">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,14 +60,14 @@
 							<td>{{subscription.idProductPlanPaypal}}</td>
 							<td><a href="{{ path('admin_subscriber_plan_list', {id: subscription.id}) }}"><i class="fas fa-users"></i></a></td>
 
-							{# <td>
-								<a href="{{path('admin_product_edit', {id: subscription.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
-								<form method="post" action="{{path('admin_product_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+							<td>
+								{# <a href="{{path('admin_subscription_edit', {id: subscription.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a> #}
+								{# <form method="post" action="{{path('admin_product_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
 									<input type="hidden" name="_method" value="DELETE">
 									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ subscription.id) }}">
 									<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-								</form>
-							</td> #}
+								</form> #}
+							</td>
 						</tr>
 					{% endfor %}
 

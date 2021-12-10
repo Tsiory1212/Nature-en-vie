@@ -26,14 +26,14 @@ class SubscriptionController extends AbstractController
 
 
     /**
-     * @Route("/nos-paniers", name="nos_paniers")
+     * @Route("/abonnement", name="abonnement")
      */
-    public function nos_paniers( CartSubscriptionRepository $repoCartSubscription)
+    public function abonnement( CartSubscriptionRepository $repoCartSubscription)
     {
  
-        $nosPaniers = $repoCartSubscription->findAll();
-        return $this->render('subscription/nos_paniers.html.twig', [
-            'nosPaniers' => $nosPaniers,
+        $subscriptions = $repoCartSubscription->findAll();
+        return $this->render('subscription/abonnement.html.twig', [
+            'subscriptions' => $subscriptions,
         ]);
     }
 

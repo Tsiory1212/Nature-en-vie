@@ -31,11 +31,47 @@ class ProductRepository extends ServiceEntityRepository
         $query = $this->findVisibleQuery();
 
         if ($search->getName()) {
+            dump($search->getName());
+
             $query = $query
             ->andwhere('p.name LIKE :name')
             ->setParameter('name', '%'.$search->getName().'%');
         }
-                
+        if ($search->getCategory()) {
+            // dd($search->getCategory());
+
+            $query = $query
+                ->innerJoin('p.category','cat')
+                ->andwhere('cat.id LIKE :category')
+                ->setParameter('category', $search->getCategory()->getId());
+        }
+        if ($search->getClassement()) {
+            // dd($search->getClassement());
+
+            $query = $query
+                ->innerJoin('p.classement','cl')
+                ->andwhere('cl.id LIKE :classement')
+                ->setParameter('classement', $search->getClassement()->getId());
+        }
+        if ($search->getMaxPrice()) {
+            $query = $query
+                ->andwhere('p.price <= :maxprice')
+                ->setParameter('maxprice', $search->getMaxPrice());
+        }
+
+        /**
+         * on met la condition $search->getGamme() == '0'
+         * Car dans la formulaire de recherche, on utilise getGammeChoices() pour renvoyer un tableau
+         * Or getGammeChoices() a un key 0
+         * Du coup dans l'url, &gamme=0 signifie gamme=null (???)
+         * 
+         * A retenir : les valeurs renvoyés dans l'url sont de type "string" mais pas "int"
+         */ 
+        if ($search->getGamme() || $search->getGamme() == '0') {
+            $query = $query
+                ->andwhere('p.gamme = :gamme')
+                ->setParameter('gamme', $search->getGamme());
+        }
         return $query->getQuery();
     }
     // /**

@@ -34,7 +34,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-2 col-md-6 col-xs-6">
-                        <a href="home-01.html" class="biolife-logo"><img src="/biolife/assets/images/logo-bio.jpeg" alt="biolife logo" width="135" height="36"></a>
+                        <a href="home-01.html" class="biolife-logo"><img src="/biolife/assets/images/logo-bio.png" alt="biolife logo" width="135" height="36"></a>
                     </div>
                     <div class="col-lg-9 col-md-10 padding-top-2px">
                         <div class="header-search-bar layout-01 no-product-cat">
@@ -59,7 +59,7 @@
                     <div class="col-lg-9 col-md-10 hidden-sm hidden-xs md-possition-initial">
                         <div class="primary-menu">
                             <ul class="menu biolife-menu clone-main-menu clone-primary-menu" id="primary-menu" data-menuname="main menu">
-                                <li class="menu-item"><a href="{{path('home')}}">Acceuil</a></li>
+                                <li class="menu-item"><a href="{{path('home')}}">Accueil</a></li>
                                 <li class="menu-item menu-item-has-children has-child">
                                     <a href="#">Ferme</a>
                                     <ul class="sub-menu">
@@ -96,7 +96,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                {% if app.user and app.request.get('_route') == 'home' %}
+                                {% if app.request.get('_route') == 'home' %}
                                 <li class="menu-item menu-item-has-children has-child">
                                     <a href="#" class="menu-name" data-title="Product">Nos Paniers</a>
                                     <ul class="sub-menu">

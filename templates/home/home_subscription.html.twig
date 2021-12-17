@@ -12,6 +12,14 @@
             z-index: 9992!important;
         }
 
+        .title-cart-subscription{
+            font-size: 40px;
+            color: #0d6efd;
+            margin-top: 10px;
+            font-weight: bolder;
+            margin-bottom: 30px;
+        }
+
     </style>
 {% endblock %}
 {% block body %}
@@ -85,7 +93,7 @@
                         <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-01">
                             <a href="#" class="media-contain media-01"></a>
                             <div class="banner-contain">
-                                <a href="#" class="cat-name">Fruit juice</a>
+                                <a href="#" class="cat-name">Jus de pomme biologique</a>
                             </div>
                         </div>
                     </div>
@@ -96,7 +104,7 @@
                                 <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-02">
                                     <a href="#" class="media-contain media-02"></a>
                                     <div class="banner-contain">
-                                        <a href="#" class="cat-name">Strawberry</a>
+                                        <a href="#" class="cat-name">Pomme Juliet</a>
                                     </div>
                                 </div>
                             </li>
@@ -104,7 +112,7 @@
                                 <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-03">
                                     <a href="#" class="media-contain media-03"></a>
                                     <div class="banner-contain">
-                                        <a href="#" class="cat-name">Blueberries</a>
+                                        <a href="#" class="cat-name">Myrtille</a>
                                     </div>
                                 </div>
                             </li>
@@ -112,7 +120,7 @@
                                 <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-04">
                                     <a href="#" class="media-contain media-04"></a>
                                     <div class="banner-contain">
-                                        <a href="#" class="cat-name">Raspberries</a>
+                                        <a href="#" class="cat-name">Framboise</a>
                                     </div>
                                 </div>
                             </li>
@@ -131,7 +139,7 @@
                         <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-06">
                             <a href="#" class="media-contain media-06"></a>
                             <div class="banner-contain">
-                                <a href="#" class="cat-name">Pomegranate</a>
+                                <a href="#" class="cat-name">Ananas Afrique</a>
                             </div>
                         </div>
                     </div>
@@ -146,6 +154,7 @@
             <div class="banner-block md-margin-top-61px sm-margin-bottom-89px xs-margin-top-60px">
                  <div class="container">
                     <div class="row">
+                        <h1 class="title-cart-subscription text-center">Nos paniers bio, choisissez un panier à votre mesure</h1>
                         {% for panier in subscriptions %}
                             <div class="col-md-4">
                                 <div class="card bg-primary text-center" style="min-width: 22rem; min-height: 30rem; border-radius: 20px">
@@ -183,8 +192,8 @@
                             </div>
                         </div>
                         <div class="text-content">
-                            <i class="text1">Panier sur mésure</i>
-                            <b class="text2">Personnaliser votre panier !</b>
+                            <i class="text1">Panier sur-mesure</i>
+                            <b class="text2" style="font-size: 40px">Personnaliser votre panier !</b>
                             <p class="buttons">
                                 <a href="{{path('all_products')}}" class="btn btn-thin">Personnaliser maintenant</a>
                             </p>
@@ -247,7 +256,7 @@
                     <div class="banner-contain">
                         <div class="container">
                             <div class="biolife-title-box bgrd-bold biolife-title-box__bgrd-bold">
-                                <h3 class="title">Fruit juice</h3>
+                                <h3 class="title"> Nos cidres et jus de fruit </h3>
                             </div>
                             <ul class="products-list vertical-layout-02 biolife-carousel nav-none-on-mobile" data-slick='{"rows":3,"arrows":false,"dots":false,"infinite":false,"speed":400,"slidesMargin":30,"slidesToShow":1, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 1}},{"breakpoint":768, "settings":{ "slidesToShow": 3, "rows":2, "slidesMargin":10}},{"breakpoint":500, "settings":{ "slidesToShow": 2, "rows":2, "slidesMargin":15}}]}'>
                                 <li class="product-item">
@@ -286,8 +295,8 @@
             <!-- Block 09: Instagram-->
             <div class="biolife-instagram-block sm-margin-top-76px xs-margin-top-60px">
                 <div class="wrap-title xs-margin-bottom-60px-im sm-margin-bottom-35-im">
-                    <i class="subtitle hidden-xs">Use Top food for a chance to be featured</i>
-                    <h3 class="title">Follow us on instagram</h3>
+                    <i class="subtitle hidden-xs">Suivez nos actus paniers où que vous allez !</i>
+                    <h3 class="title">Suivez-nous sur Instagram </h3>
                 </div>
                 <div class="instagram-inline-wrap">
                     <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"rows":1,"arrows":true,"dots":false,"infinite":false,"speed":400,"slidesMargin":0,"slidesToShow":6, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 6}},{"breakpoint":992, "settings":{ "slidesToShow": 5}},{"breakpoint":800, "settings":{ "slidesToShow": 4}},{"breakpoint":768, "settings":{ "slidesToShow": 3}},{"breakpoint":600, "settings":{ "slidesToShow": 2}},{"breakpoint":480, "settings":{"rows":2, "slidesToShow": 3}}]}'>
@@ -452,10 +461,10 @@
         </div>
         <div class="block-global-contain">
             <div class="glb-item my-account">
-                <b class="title">My Account</b>
+                <b class="title">Mon compte</b>
                 <ul class="list">
-                    <li class="list-item"><a href="#">Login/register</a></li>
-                    <li class="list-item"><a href="#">Wishlist <span class="index">(8)</span></a></li>
+                    <li class="list-item"><a href="#">Login/s'inscrire</a></li>
+                    <li class="list-item"><a href="#">Ma liste de souhaits <span class="index">(8)</span></a></li>
                     <li class="list-item"><a href="#">Checkout</a></li>
                 </ul>
             </div>

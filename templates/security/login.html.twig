@@ -18,12 +18,6 @@
         </nav>
     </div>
 
-    {% if hasError %}
-        <div class="alert alert-danger">
-            <p>Les informations que vous avez fournies ne sont pas bonnes</p>
-        </div>
-    {% endif %}
-
     <div class="page-contain login-page">
 
         <!-- Main content -->
@@ -35,6 +29,11 @@
                     <!--Form Sign In-->
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="signin-container">
+                            {% if hasError %}
+                                <div class="alert alert-danger text-center">
+                                    <p>Les informations que vous avez fournies ne sont pas bonnes</p>
+                                </div>
+                            {% endif %}
                             <form action="{{ path('security_login')}}" method="post">
                                 <p class="form-row">
                                     <label for="fid-name">Adresse email:<span class="requite">*</span></label>

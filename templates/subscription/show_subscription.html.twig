@@ -1,46 +1,97 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{abonnement.nameSubscriptionPlan}} {% endblock %}
+{% block title %} {{subscription.nameSubscriptionPlan}} {% endblock %}
 
 {% block stylesheets %}
-  
+  <style>
+        #header {
+            position: absolute !important;
+        }
+
+
+      .card-show-subscription{
+        background-color: #fff;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 20px;
+      }
+
+
+      .col-PayPal-button{
+          padding-left: 10%;
+          padding-right: 10%;
+      }
+
+
+  </style>
 {% endblock %}
 
 {% block body %}
+<body class="biolife-body">
+    <div class="page-contain">
+        <!-- Main content -->
+        <div id="main-content" class="main-content">
+                
+                <!-- Block 01: Main slide block-->
+                <div class="main-slide block-slider">
+                    <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
+                        <li>
+                            <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
 
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card text-center" style="width: 100rem;">
-                        {# <img src="/biolife/assets/images/logo-bio.jpeg" class="card-img-top" alt="..."> #}
-                        <div class="card-body">
-                        
-                            <h5 class="card-title">{{ abonnement.nameSubscriptionPlan }}</h5>
-                            <p class="card-text">{{ abonnement.descriptionSubscriptionPlan }}</p>
-                            <p class="card-text">{{ abonnement.priceSubscription }} €</p>
-                            {% if app.user %}
-                                <div id="paypal-button-container"></div>
-                            {% endif %}
-                            
+                                <!-- Image bannière  -->
+                                <div class="banner-media-layout-01"></div>
 
+                                <div class="text-content3">  
 
-
-                                
-                            {# <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                <input type="hidden" name="cmd" value="_s-xclick">
-                                <input type="submit" class="btn btn-primary" value="S'abonner" name="submit">
-                                <!-- <input type="image" src="https://www.sandbox.paypal.com/fr_FR/FR/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> -->
-                                <img alt="" border="0" src="https://www.sandbox.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-                            </form> #}
-                                
-                        </div>
-                    </div>
+                                    <!-- block card-show-subscription  -->
+                                    <div class="row card-show-subscription">
+                                        {% if app.user %} {% endif %}  
+                                            <div class="col-md-4">
+                                                <div class="text-center">
+                                                    <div class="card-body">
+                                                        <div class="name-cart-subscription p-3 my-4 text-white">
+                                                            <h1 class="card-title">{{ subscription.nameSubscriptionPlan }}</h1>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="210">
+                                                            </div>
+                                                            <div class="col">
+                                                                <h1 class="fw-bolder periode-cart-subscription">{{subscription.durationMonthSubscription}} MOIS</h1>
+                                                                <h1 class="fw-bolder">{{subscription.priceSubscription}} €</h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        <div class="col-md-8 py-5 col-PayPal-button">
+                                            <h1 class="third-line text-center">
+                                                {{ subscription.descriptionSubscriptionPlan }}
+                                            </h1> 
+                                            <h3 class="third-line text-center my-5">
+                                                {{ subscription.detailedDescription }}
+                                            </h3> 
+                                            {% if app.user %}
+                                                <div id="paypal-button-container"></div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>     
-    </body>
-
+                
+        </div>
+    </div>
+</body>
 {% endblock %}
 
 
@@ -52,9 +103,6 @@
             paypal.Buttons({
                 env: 'sandbox',
                 style: {
-                    shape: 'rect',
-                    color: 'gold',
-                    layout: 'horizontal',
                     label: 'subscribe'
                 },
                 createSubscription: function (data, actions) {
@@ -63,7 +111,7 @@
                     });
                 },
                 onApprove: function (data, actions) {
-                    const url = "/account/abonnement/"+{{abonnement.id}}+"/"+data.subscriptionID;
+                    const url = "/account/abonnement/"+{{subscription.id}}+"/"+data.subscriptionID;
                     
                     axios.post(url)
                         .then(function(response){                            
@@ -81,35 +129,5 @@
             }).render('#paypal-button-container');
         </script>                           
     {% endif %}
-
-
-
-
-<!-- 
-
-<div id="paypal-button-container-P-179440294N734110DMGSAHTI"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=ARSTQbtgKeoNm6KrANMC-kFabQEBKmVQMKlI_chSOVuazehPZdIbFFKsSJpw4By4IlXcwtfNnm_5hm-5&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
-<script>
-  paypal.Buttons({
-      style: {
-          shape: 'rect',
-          color: 'gold',
-          layout: 'horizontal',
-          label: 'subscribe'
-      },
-      createSubscription: function(data, actions) {
-        return actions.subscription.create({
-          /* Creates the subscription */
-          plan_id: 'P-179440294N734110DMGSAHTI'
-        });
-      },
-      onApprove: function(data, actions) {
-        alert(data.subscriptionID); // You can add optional success message for the subscriber here
-      }
-  }).render('#paypal-button-container-P-179440294N734110DMGSAHTI'); // Renders the PayPal button
-</script> -->
-
-
-    
 {% endblock %}
 

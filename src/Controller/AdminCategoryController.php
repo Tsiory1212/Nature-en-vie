@@ -7,21 +7,25 @@ use App\Entity\Product;
 use App\Form\CategoryType;
 use App\Form\ProductType;
 use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
+use App\Service\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CategoryController extends AbstractController
+class AdminCategoryController extends AbstractController
 {
-    protected $em;
-    protected $repoCategory;
+    private $em;
+    private $repoCategory;
+    private $repoProduct;
 
-    public function __construct(EntityManagerInterface $em, CategoryRepository $repoCategory)
+    public function __construct(EntityManagerInterface $em, CategoryRepository $repoCategory, ProductRepository $repoProduct)
     {
         $this->em = $em;
         $this->repoCategory = $repoCategory;
+        $this->repoProduct = $repoProduct;
     }
 
     /**
@@ -110,8 +114,12 @@ class CategoryController extends AbstractController
      * 
      * @Route("/admin/category/{id}/addProduct", name="admin_category_addProduct")
      */
-    public function admin_category_addProduct(Category $category, Request $request): Response
+    public function admin_category_addProduct(Category $category, Request $request, ProductService $productService): Response
     {
+        // On génère un nouveau "referenceId"        
+        $lastProduct = $this->repoProduct->findBy(array(),array('id'=>'DESC'),1,0)[0];
+        $newRefId = $productService->generateNewRefId($lastProduct);
+        
         $produit = new Product();
 
         $form = $this->createForm(ProductType::class, $produit)
@@ -133,7 +141,8 @@ class CategoryController extends AbstractController
         }
         return $this->render('admin/category/addProduct_category.html.twig', [
             'form' => $form->createView(),
-            'category' => $category
+            'category' => $category,
+            'newRefId' => $newRefId
         ]);
     }
 }

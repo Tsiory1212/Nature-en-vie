@@ -34,9 +34,9 @@
                         <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
                             <li>
                                 {% if currentProduct.imageName %}
-                                    <img src="{{ vich_uploader_asset(currentProduct, 'imageFile') }}" alt="img-{{currentProduct.category.name}}" style="width:200; height:200">
+                                    <img src="{{ vich_uploader_asset(currentProduct, 'imageFile') }}" alt="img-{{currentProduct.category.name}}" width="400">
                                 {% else %}
-                                    <img src=" {{ asset('/uploads/produit/images/defaultImage.png')}}" alt="img-{{currentProduct.category.name}}"  >
+                                    <img src=" {{ asset('/uploads/produit/images/defaultImage.png')}}" alt="img-{{currentProduct.category.name}}" width="400">
                                 {% endif %}
                             </li>
                             {# <li><img src="assets/images/details-product/p01.jpg" alt="" width="500" height="500"></li>
@@ -409,7 +409,7 @@
             </div>
         </div>
     </div>
-                {% include "/partials/loupe.html.twig" %}
+    {% include "/partials/loupe.html.twig" %}
 
 {% endblock %}
 {% block javascripts %}

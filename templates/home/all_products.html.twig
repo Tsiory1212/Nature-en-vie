@@ -5,6 +5,10 @@
 {% block stylesheets %}
 
     <style>
+        #header{
+            position: relative!important;
+        }
+
         /* Style for positioning toast */
         .toast{
             position: fixed;
@@ -24,13 +28,12 @@
   <div class="toast" id="Toast-add-product">
       <div class="toast-header">
           <strong class="me-auto"><i class="fas fa-cart-plus"></i> Produit ajouté</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" style="font-size: small;"></button>
       </div>
       <div class="toast-body">
           Consulter le panier <a href="{{path('account_pass_to_order')}}">Cliquer ici!</a>
       </div>
   </div>
-
 
 
     <!--Hero Section-->
@@ -101,9 +104,9 @@
 {# {% set runtimeConfig = {"thumbnail": {"size": [50, 50] }} %} #}
                                                 <a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="link-to-product">
                                                     {% if product.imageName %}
-                                                        <img src="{{ vich_uploader_asset(product, 'imageFile')|imagine_filter('thumb') }}" alt="dd" width="270" height="270">
+                                                        <img src="{{ vich_uploader_asset(product, 'imageFile')|imagine_filter('thumb') }}" alt="dd" width="270" >
                                                     {% else %}
-                                                        <img src="/uploads/produit/images/defaultImage.png" alt="dd"   width="270" height="270" >
+                                                        <img src="/uploads/produit/images/defaultImage.png" alt="dd"   width="270">
                                                     {% endif %}
                                                 </a>
                                             </div>

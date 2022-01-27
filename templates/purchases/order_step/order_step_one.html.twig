@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Paypal étape 1
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/assets/css/order_stepper.css">
+{% endblock %}
+
+
+{% block body %}
+{% include "partials/_order_stepper_progress_bar.html.twig" %}
+
+
+<div class="container mt-5" style="margin-top: 100px;">
+      <!-- Etape 1 : Mon panier  -->
+    <div id="step-1">
+        <div class="container panier_body shadow-lg p-3 mb-5 bg-body rounded">
+            <div class="bg-light p-3">
+                <div class="row">
+                    <div class="col-md-12 bg-primary">
+                        <h1 class=" ms-5">1- Mon panier</h1> 
+                    </div>
+                </div>
+            </div>
+            <div class="content-step-1">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-favorite-cart">Favoris</button>
+                </div>
+                {% if items|length > 0 %}
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th></th>
+                                <th>Produit</th>
+                                <th>Prix</th>
+                                <th>Quatité</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td>
+                                        <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
+                                            {% if item.product.imageName %}
+                                                <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
+                                            {% else %}
+                                                <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                    <td>{{ item.product.name }}</td>
+                                    <td> <span> {{ item.product.price }} </span> €</td>
+                                    <td> {{ item.quantity }}</td>
+                                    <td>{{ item.product.price * item.quantity }} <span> € </span></td>
+                                    <td>
+                                        <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-cart-product">
+                                            <i class="bi bi-cart-plus"></i>
+                                        </a>
+                                        <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-product">
+                                            <i class="bi bi-cart-dash"></i>
+                                        </a>
+                                        <a href="{{path('panier_remove_charging_page', {id: item.product.id})}}" class="btn btn-danger">
+                                            <i class="bi bi-cart-x"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right">Total :</td>
+                                <td colspan="3" class="text-right">
+                                    <a href="{{path('panier_delete_all')}}" class="btn btn-danger">
+                                        <i class="bi bi-cart-x"></i>
+                                    </a>
+                                </td>
+                                <td class="total-general">{{ total }} €</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                {% else %}
+                    <p>Surprise, c'est vide !</p>
+                {% endif %}
+    
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-2">
+                        <!-- <button class="btn btn-success">Suivant</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="{{ path('account_order_step_two') }}" class="btn btn-primary">Suivant</a>
+
+{% endblock %}

@@ -1,26 +1,51 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}Création d'un plan d'abonnement!{% endblock %}
 
 {% block body %}
 
-<div class="container mt-5">
-    <h1>Création abonnement ✅</h1>
-        <div class="container">
-
-            {{ form_start(form) }}
-                <div class="row">
-                        {{ form_row(form) }}
-                    </div>
+<div class="container my-5">
+<div class="bg-glass2">
+    <h1 class="text-center fw-bold">Création abonnement </h1>
+    {{ form_start(form) }}
+        <div class="row">
+            {% if app.request.get('error') == "null_product" %}
+                <div class="alert alert-danger text-center">
+                    Vous devez choisir un produit pour faire référence à l'abonnement
                 </div>
+            {% endif %}
             
-                <div class="row">
-                    {{ form_rest(form) }}
-                </div>
-                
-                <button class="btn btn-primary">Créer</button>
-            {{ form_end(form) }}
+            {{ form_row(form.idProductPlanPaypal) }}
         </div>
+        <div class="row">
+            {{ form_row(form.nameSubscriptionPlan) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.descriptionSubscriptionPlan) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.detailedDescription) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.priceSubscription) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.durationMonthSubscription) }}
+        </div>
+        
+        <button class="btn btn-primary">Créer</button>
+    {{ form_end(form) }}
+</div>
 
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    	$("select#cart_subscription_idProductPlanPaypal").select2({
+			placeholder: "Sélectionner un produit",
+	        allowClear: true,
+			width: '100%'
+		});
+    </script>
 {% endblock %}

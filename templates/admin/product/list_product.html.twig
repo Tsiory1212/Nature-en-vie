@@ -5,102 +5,147 @@
 {% endblock %}
 
 
+{% block stylesheets %}
+	<style>
+		.side-bar-column{
+			margin-right: 50px;
+		}
+
+		.content-table-body{
+			padding: 20px 30px;
+		}
+
+		.item-product-row:hover{
+			background-color: rgba(165, 163, 163, 0.287);
+		}
+		.item-product-row div{
+			border: 1px solid #47444431;
+			padding: 5px 5px;
+		}
+	</style>
+{% endblock %}
+
+
 {% block body %}
-    <div class="container mt-5">
-	    <div class="container">
-            {{form_start(form)}}
-            <div class="row align-items-end">
-                <div class="col">
-                    {{form_row(form.name)}}
-                </div>
-				<div class="col">
-                    {{form_row(form.category)}}
-                </div>
-				<div class="col">
-                    {{form_row(form.classement)}}
-                </div>
-				<div class="col">
-                    {{form_row(form.gamme)}}
-                </div>
-				<div class="col">
-                    {{form_row(form.maxPrice)}}
-                </div>
-				<div class="col">
-                    <button class="btn btn-primary">Recherche</button>
-                </div>
-            </div>
-            {{form_end(form)}}
-        </div>
+    <div class="container my-5">
+		<div class="bg-glass2">
+			{% for label, messages in app.flashes %}
+				<div class="alert alert-{{label}} text-center">
+					{% for message in messages %}
+						{{message | raw}}
+					{% endfor %}
+				</div>
+			{% endfor %}
 
-		{% for label, messages in app.flashes %}
-            <div class="alert alert-{{label}} text-center">
-                {% for message in messages %}
-                    {{message | raw}}
-                {% endfor %}
-            </div>
-		{% endfor %}
+			<div class="row-table-head">
+				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);">Produits</h2>
+				<a href="{{path('admin_product_add')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Ajouter</a>
+				<div class="bg-white p-4 mt-3">
+					<div class="row text-center fw-bold">
+						<div class="col-1 text-start ps-5" style="width: 22%;"> {{ nbrProducts }} </div>
+						<!-- <div class="col-1"></div> -->
+						<div class="col-1">Ref</div>
+						<div class="col-3" style="width: 18%;">Nom</div>
+						<div class="col-1">Prix</div>
+						<div class="col-1" style="width: 5.333%;">Poids</div>
+						<div class="col-1">Quantité</div>
+						<div class="col-2" style="width: 13.667%;">Catégorie</div>
+						<div class="col-2" style="width: 14.667%;">ACTION</div>
+					</div>
+				</div>
+			</div>
+			<div class="table-body">
+				<div class="row">
+					<div class="side-bar-column col-1 text-center fw-bold">
+						<div class="subscription-block my-5">
+							<div class="font-bg-stylized-1"> <a href="{{ path('admin_subscription_list') }}" class="text-white">Abonnements</a> </div>
+							<div class="bg-white p-4 rounded">{{ nbrSubscriptions }}</div>
+						</div>
+						<div class="user-block my-5">
+							<div class="font-bg-stylized-1 text-white">Utilisateurs</div>
+							<div class="bg-white p-4 rounded">{{ nbrUsers }}</div>
+						</div>
+					</div>
+					<div class="content-table-body col bg-white mt-2 rounded">
+						<div class="p-5">
+							{% for produit in products %}
+								<div class="row item-product-row text-center">
+									<div class="col-1">
+										{% if produit.imageName %}
+											<img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="card-img-top" width="50" height="50">
+										{% else %}
+											<img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >
+										{% endif %}
+									</div>
+									<div class="col-1">{{produit.referenceId}}</div>
+									<div class="col-3">{{produit.name}}</div>
+									<div class="col-1">{{produit.price}} €</div>
+									<div class="col-1">
+										{% if produit.weight %}
+											{{produit.weight}} Kg
+										{% else %}
+											-
+										{% endif %}
+									</div>
+									<div class="col-1">{{produit.quantity}}</div>
+									<div class="col-2">
+										{% if produit.category.name is defined %}
+											{{produit.category.name}}
+										{% else %}
+											Autre
+										{% endif %}
+									</div>
+									<div class="col-2">
+										<a href="{{path('admin_product_edit', {id: produit.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
+										<form method="post" action="{{path('admin_product_delete', {id: produit.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+											<input type="hidden" name="_method" value="DELETE">
+											{# on injecte un token csrf pour éviter les attaques  #}
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
+											<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+										</form>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+						<div class="search-form mt-3">
+							{{form_start(form)}}
+							<div class="row align-items-end">
+								<div class="row">
+									<div class="col-10">
+										<div class="row">
+											<div class="col">
+												{{form_row(form.name)}}
+											</div>
+											<div class="col">
+												{{form_row(form.category)}}
+											</div>
+											<div class="col">
+												{{form_row(form.classement)}}
+											</div>
+											<div class="col">
+												{{form_row(form.gamme)}}
+											</div>
+											<div class="col">
+												{{form_row(form.maxPrice)}}
+											</div>
+										</div>
+									</div>
+									<div class="col-2">
+										<button class="button button1 d-inline"><i class="fas fa-search"></i></button>
+									</div>
+								</div>
+							</div>
+							{{form_end(form)}}
+						</div>
+					</div>
+				</div>
+			</div>
 
-        <a href="{{path('admin_product_add')}}" class="btn btn-primary mt-4">Ajout produit</a>
 
-        <table class="table table-striped table-hover">
-			<thead>
-				<tr class="text-center">
-					<th scope="col"></th>
-					<th scope="col">Ref</th>
-					<th scope="col">Nom</th>
-					<th scope="col">Prix</th>
-					<th scope="col">Poids</th>
-					<th scope="col">Quantité</th>
-					<th scope="col">Catégorie</th>
-					<th scope="col">ACTION</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for produit in produits %}
-					<tr>
-						<td>
-							{% if produit.imageName %}
-						    	<img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="card-img-top" width="50" height="50">
-							{% else %}
-						    	<img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >
-							{% endif %}
-						</td>
-						<td>{{produit.referenceId}}</td>
-						<td>{{produit.name}}</td>
-						<td>{{produit.price}} €</td>
-						<td>
-							{% if produit.weight %}
-								{{produit.weight}} Kg
-							{% else %}
-								-
-							{% endif %}
-						</td>
-						<td>{{produit.quantity}}</td>
-						<td>
-							{% if produit.category.name is defined %}
-								{{produit.category.name}}
-							{% else %}
-								Autre
-							{% endif %}
-						</td>
-				        <td>
-							<a href="{{path('admin_product_edit', {id: produit.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
-                            <form method="post" action="{{path('admin_product_delete', {id: produit.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
-                                <input type="hidden" name="_method" value="DELETE">
-                                {# on injecte un token csrf pour éviter les attaques  #}
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
-                                <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                            </form>
-						</td>
-					</tr>
-				{% endfor %}
-
-			</tbody>
-		</table>
-
-		<div class="pagination d-flex justify-content-center">
-            {{ knp_pagination_render(produits)}}
-        </div>
+			<div class="pagination d-flex justify-content-center">
+				{{ knp_pagination_render(products)}}
+			</div>
+		</div>
     </div>
 {% endblock %}
 {% block javascripts %}

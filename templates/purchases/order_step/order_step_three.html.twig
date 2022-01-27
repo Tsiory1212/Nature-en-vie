@@ -1,0 +1,183 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Paypal étape 3
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/assets/css/order_stepper.css') }}">
+{% endblock %}
+
+
+{% block body %}
+{% include "partials/_order_stepper_progress_bar.html.twig" %}
+
+
+<div class="container mt-5" style="margin-top: 100px;">
+        <!-- Etape 3 : Plage horraire  -->
+        <div class="block-stepper-global-content mb-3">
+        <div class="block-stepper-content shadow-lg  mt-5 p-5 bg-white ">
+            <h1 class="text-center">Information personnelle</h1>
+                <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6 text-center mt-4">
+                                <!-- 1. Payement unique -->
+                                <h3>Payement unique</h3>
+                                <div id="paypal-boutons"></div>
+
+                                <hr>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-stepper-content shadow-lg  mt-5 p-5 bg-white ">
+            <!-- 2. Payement reccurent -->
+            <h3>Payement reccurent</h3>
+
+            <label for="cars">Engagement:</label>
+            <select name="cars" id="cars">
+                <option value="0" selected="selected" class="d-none"></option>
+                {% for  i in 1..12 %}
+                    <option value="{{i}}">{{i}} mois</option>
+                {% endfor %}
+            </select>
+
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+                <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                
+                <!-- Nom du plan (Juste un nom, mais pas) -->
+                <input type="hidden" name="item_name" value="Abonnement Panier Sur-mesure">
+            
+                <input type="hidden" name="business" value="sb-ikpdu7405512@business.example.com">
+            
+                <input type="hidden" name="lc" value="US">
+                <input type="hidden" name="no_note" value="1">
+                <input type="hidden" name="src" value="1">
+            
+                <!-- Prix  -->
+                <input type="hidden" name="a3" value="0.00">
+            
+                <!-- Payement chaque mois  -->
+                <input type="hidden" name="p3" value="1">
+                <input type="hidden" name="t3" value="M">
+                <input type="hidden" name="currency_code" value="EUR">
+            
+                <!-- Echellons de payement (durée d'engagement en mois ) -->
+                <input type="hidden" name="srt" value="0">
+            
+                <!-- Specify URLs -->
+                <input type='hidden' name='cancel_return' value="{{ path('account_pass_to_order') }}">
+                <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}">
+                <!-- <input type="hidden" name="notify_url" value='XXX.com/users/paymentAccountstatus/1286'>    -->
+            
+            
+                <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
+            
+            
+                <button class="btn btn-primary" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">KSDflj</button>
+                <!-- <input type="image" src="https://www.sandbox.paypal.com/fr_FR/FR/i/btn/btn_subscribe_SM.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> -->
+                <!-- <img alt="" border="0" src="https://www.sandbox.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1"> -->
+            </form>
+        </div>
+        <br>
+    </div>
+        
+</div>
+
+  {# On converti le format du tableau produit pour que paypal le prend en charge #}
+    {% set product_convert_in_paypal = {} %}
+    {% for  item in items %}
+        {% set product_convert_in_paypal = product_convert_in_paypal|merge([
+                {
+                    'name' : item.product.name , 
+                    'quantity' :item.quantity, 
+                    'unit_amount' :{ 
+                        'currency_code' : 'EUR', 
+                        'value' :item.product.price
+                }
+            } 
+        ]) %}
+    {% endfor %}
+    <span class="d-none" data-id="{{ product_convert_in_paypal|json_encode }}" id="some-link">Link</span>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR&vault=true&enable-funding=paylater"> </script>
+    <script>
+        $(document).ready(function(){
+            // Paypal 
+			paypal.Buttons({
+				env: 'sandbox',
+              
+				createOrder : function (data, actions) {
+
+                    // Les produits à payer avec leurs details
+                    var product_convert_in_paypal = $('#some-link').data('id');
+                    var produits = product_convert_in_paypal;
+
+                    // Le total des produits
+                    var total_amount = produits.reduce(function (total, product) {
+                        return total + product.unit_amount.value * product.quantity;
+                    }, 0);
+                   
+                    
+                    total_amount = Math.round(total_amount*100)/100;
+
+                    // La transaction
+                    return actions.order.create({
+                        purchase_units : [{
+                            items : produits,
+                            amount : {
+                                value : total_amount,
+                                currency_code : "EUR",
+                                breakdown : {
+                                    item_total : { value : total_amount, currency_code : "EUR" }
+                                }
+                            }
+                        }]
+                    });
+				},
+				onApprove: function (data, actions) {
+                  
+				},
+				onCancel: function (data) {
+					alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
+				},
+				onError: function (err) {
+					alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+				}
+			}).render('#paypal-boutons');
+
+            // Steper order
+            $("#step-2 h1").click(function(){
+                $("#delivry-choice-body").toggle()
+                $(".content-step-1").toggle();
+            });
+            $("#step-1 h1").click(function(){
+                $("#delivry-choice-body").toggle();
+                $(".content-step-1").toggle();
+            });
+
+        });
+    </script>
+
+    <script>
+        // Prix total du panier à mettre dans abonnement 
+        const total_price =  {{ total }}
+        $('input[name="a3"]').val(total_price);
+
+        // Choix de durrée de l'engagement 
+        $('#cars').change(function(){ 
+            var value = $(this).val();
+            $('input[name="srt"]').val(value);
+        });
+
+    </script>
+{% endblock %}
+

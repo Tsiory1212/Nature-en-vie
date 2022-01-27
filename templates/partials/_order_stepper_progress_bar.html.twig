@@ -1,0 +1,9 @@
+<div class="cv-stepper-number text-center my-5">
+    <div class="container">
+        <ul class="progressbar">
+            <li class="{% if app.request.get('_route') == 'account_order_step_one' and app.session.get('panier')  %}active current_url {% endif %}"> <a href="{{ path('account_order_step_one') }}"> Liste produit</a></li> 
+            <li class="{% if app.request.get('_route') == 'account_order_step_two' and app.session.get('panier')  %}active current_url {% endif %}"> <a href="{{ path('account_order_step_two') }}"> Livraison </a> </li>
+            <li class="{% if app.request.get('_route') == 'account_order_step_three' and app.session.get('panier') %}active current_url {% endif %}"><a href="{{ path('account_order_step_three') }}"> Paiement </a> </li> 
+        </ul>
+    </div>
+</div>

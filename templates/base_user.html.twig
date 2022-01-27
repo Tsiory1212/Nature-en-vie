@@ -7,13 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
 
-        {# Biolife template  #}
-        <link href="https://fonts.googleapis.com/css?family=Cairo:400,600,700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i,700i" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-
-
         {# webpack build  #}
         {# <link  rel="stylesheet"  href="{{ asset('build/app.css') }}"> #}
 
@@ -37,8 +30,12 @@
         {# custom css  #}
         <link rel="stylesheet" href="{{ asset('/css/main_style.css')}}">
 
+
         {% block stylesheets %}
             <style>
+                #header{
+                    position: relative;
+                }
 
             </style>
           {# {{ encore_entry_link_tags('app') }} #}
@@ -46,7 +43,7 @@
     </head>
     <body>
 
-        {% include 'partials/header_and_footer/header/header.html.twig' %}
+        {% include 'partials/header_and_footer/header/header_user.html.twig' %}
 
         {% block body %}{% endblock %}
 
@@ -88,10 +85,7 @@
         </script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="{{ asset('/assets/js/action-cart-pageNotCharging.js')}}"></script>
-        <script src="{{ asset('/assets/js/userAgent-detector.js')}}"></script>
-        
-
+        <script src="{{ asset('/js/action-cart-pageNotCharging.js')}}"></script>
         
 
     

@@ -1,79 +1,109 @@
 {% extends "base.html.twig" %}
 {% block title %}Se connecter{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .hero-section.hero-background {
+            z-index: 12;
+        }
+
+        .login-content-block{
+            top: -28px !important;
+            position: relative;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     
-     <!--Hero Section-->
-    <div class="hero-section hero-background">
-        <h1 class="page-title">Organic Fruits</h1>
-    </div>
-
-    <!--Navigation section-->
-    <div class="container">
-        <nav class="biolife-nav">
-            <ul>
-                <li class="nav-item"><a href="{{path('home')}}" class="permal-link">Accueil</a></li>
-                <li class="nav-item"><span class="current-page">Authentification</span></li>
-            </ul>
-        </nav>
-    </div>
-
-    <div class="page-contain login-page">
-
+<body class="biolife-body">
+    <div class="page-contain">
         <!-- Main content -->
-        <div id="main-content" class="main-content">
-            <div class="container">
+        <div id="main-content" class="main-content">  
+            <!-- Block 01: Main slide block-->
+            <div class="main-slide block-slider">
+                <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
 
-                <div class="row">
+                            <!-- Image bannière  -->
+                            <div class="banner-media-layout-01"></div>
 
-                    <!--Form Sign In-->
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="signin-container">
-                            {% if hasError %}
-                                <div class="alert alert-danger text-center">
-                                    <p>Les informations que vous avez fournies ne sont pas bonnes</p>
+                            <div class="text-content3">  
+
+                                <!--Hero Section-->
+                                <div class="hero-section hero-background container-fluid full-width"></div>
+
+                                <!-- block fields login -->
+                                <div class="bg-glass px-5 bradius-3rem login-content-block">
+                                    <div class="page-contain login-page">
+    
+                                        <!-- Main content -->
+                                        <div id="main-content" class="main-content">
+                                            <div class="container">
+    
+                                                <div class="row">
+    
+                                                    <!--Form Sign In-->
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="signin-container">
+                                                            {% if hasError %}
+                                                                <div class="alert alert-danger text-center">
+                                                                    <p>Les informations que vous avez fournies ne sont pas bonnes</p>
+                                                                </div>
+                                                            {% endif %}
+                                                            <form action="{{ path('security_login')}}" method="post">
+                                                                <p class="form-row">
+                                                                    <label for="fid-name">Adresse email:<span class="requite">*</span></label>
+                                                                    <input type="email" id="fid-name" name="_username" value="{{ lastUser }}" class="txt-input form-control">
+                                                                </p>
+                                                                <p class="form-row">
+                                                                    <label for="fid-pass">Mot de passe:<span class="requite">*</span></label>
+                                                                    <input type="password" id="fid-pass" name="_password" value="" class="txt-input form-control">
+                                                                </p>
+                                                                <p class="form-row wrap-btn">
+                                                                    <button type="submit" class="btn btn-bold"> Se connecter</button>
+                                                                </p>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+    
+                                                    <!--Go to Register form-->
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="register-in-container">
+                                                            <div class="intro bg-white bradius-3rem">
+                                                                <h4 class="box-title">Nouveau client?</h4>
+                                                                <p class="sub-title">Créez un compte chez nous et vous pourrez :</p>
+                                                                <ul class="lis">
+                                                                    <li>Vérifiez plus rapidement</li>
+                                                                    <li>Économisez plusieurs frais d'expédition</li>
+                                                                    <li>Accédez à l'historique de vos commandes</li>
+                                                                    <li>Suivre les nouvelles commandes</li>
+                                                                    <li>Enregistrer des articles dans votre liste de souhaits</li>
+                                                                </ul>
+                                                                <a href="{{path('registration')}}" class="btn button button1 mt-5">Créer un compte</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+    
+                                                </div>
+    
+                                            </div>
+    
+                                        </div>
+    
+                                    </div>
                                 </div>
-                            {% endif %}
-                            <form action="{{ path('security_login')}}" method="post">
-                                <p class="form-row">
-                                    <label for="fid-name">Adresse email:<span class="requite">*</span></label>
-                                    <input type="email" id="fid-name" name="_username" value="{{ lastUser }}" class="txt-input">
-                                </p>
-                                <p class="form-row">
-                                    <label for="fid-pass">Mot de passe:<span class="requite">*</span></label>
-                                    <input type="password" id="fid-pass" name="_password" value="" class="txt-input">
-                                </p>
-                                <p class="form-row wrap-btn">
-                                    <button type="submit" class="btn btn-primary"> Se connecter</button>
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!--Go to Register form-->
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="register-in-container">
-                            <div class="intro">
-                                <h4 class="box-title">Nouveau client?</h4>
-                                <p class="sub-title">Créez un compte chez nous et vous pourrez :</p>
-                                <ul class="lis">
-                                    <li>Vérifiez plus rapidement</li>
-                                    <li>Économisez plusieurs frais d'expédition</li>
-                                    <li>Accédez à l'historique de vos commandes</li>
-                                    <li>Suivre les nouvelles commandes</li>
-                                    <li>Enregistrer des articles dans votre liste de souhaits</li>
-                                </ul>
-                                <a href="{{path('registration')}}" class="btn btn-bold">Créer un compte</a>
                             </div>
                         </div>
-                    </div>
-
-                </div>
-
+                    </li>
+                </ul>
             </div>
-
         </div>
-
     </div>
+</body>
+
+
+
 
 {% endblock %}

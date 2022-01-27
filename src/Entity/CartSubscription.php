@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CartSubscriptionRepository::class)
@@ -30,6 +31,7 @@ class CartSubscription
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $nameSubscriptionPlan;
 
@@ -57,6 +59,11 @@ class CartSubscription
      * @ORM\OneToMany(targetEntity=FactureAbonnement::class, mappedBy="cartSubscription")
      */
     private $factureAbonnements;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $detailedDescription;
 
     public function __construct()
     {
@@ -168,6 +175,18 @@ class CartSubscription
                 $factureAbonnement->setCartSubscription(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDetailedDescription(): ?string
+    {
+        return $this->detailedDescription;
+    }
+
+    public function setDetailedDescription(?string $detailedDescription): self
+    {
+        $this->detailedDescription = $detailedDescription;
 
         return $this;
     }

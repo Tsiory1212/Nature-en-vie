@@ -4,11 +4,26 @@
 
 {% block body %}
 
-<div class="container mt-5">
-    <h1>Ajout produit dans {{classement.name}} ✅</h1>
+<div class="container my-5">
+    <div class="bg-glass2">
+        <h1 class="text-center fw-bold">Ajout produit dans "{{classement.name}}"</h1>
+         <div class="img-item mb-5 text-center">
+            <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top" class="product-thumnail" width="300">        
+        </div>
         {{ form_start(form) }}
             <div class="row">
                 <div class="col-md-8">
+                    {% if produit is not defined %}
+                        {% if not form.vars.valid %}
+                            <div class="alert alert-danger">
+                                    Duplication de la RéférenceID. Essayer {{newRefId}}
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.referenceId, { 'attr' : { 'value' : newRefId, 'placeholder' : 'Réference du produit'} } ) }}
+                    {% else %}
+                        {{ form_row(form.referenceId, { 'attr' : { 'placeholder' : 'Réference du produit'} } ) }}
+                    {% endif %}
+
                     {{ form_row(form.name) }}
                     {{ form_row(form.price) }}
                     {{ form_row(form.weight) }}
@@ -30,5 +45,6 @@
         {{ form_end(form) }}
 
 
+    </div>
 </div>
 {% endblock %}

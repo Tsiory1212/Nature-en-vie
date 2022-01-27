@@ -93,6 +93,21 @@ class PanierService {
         return $panierWithData;
     }
 
+    /**
+     * Permet de merger les produits dans un tableau sous forme de clé => valeur / (ref => quantité)
+     *
+     * @return array
+     */
+    public function putItemsIntoArray():array
+    {
+        $itemsInTab = [];
+        $fullCart = $this->getFullcart();
+        foreach ($fullCart as $item) {
+            $itemsInTab[$item['product']->getReferenceId()] = $item['quantity'];
+        }
+        return $itemsInTab;
+    }
+
     public function getTotal() : float
     {
         $total = 0;
@@ -118,11 +133,15 @@ class PanierService {
 
     // FAVORITE CART (in database)
 
-    
-    public function addFC(string $ref, $favoriteCart) :array
+    /**
+     * Permet d'incrémenter la quantité du produit cible dans le panier favori 
+     *
+     * @param string $ref
+     * @param array $favoriteCart
+     * @return array
+     */
+    public function increaseItemInFavCart(string $ref, array $favoriteCart) :array
     {
-        // Lors du premier visite dans le magasin, notre panier est vide
-        // donc, si je n'ai pas encore de données dans panier, je le met un tableau vide
         $panier = $favoriteCart;
         if (!empty($panier[$ref])) {
             $panier[$ref]++;
@@ -132,6 +151,49 @@ class PanierService {
         return $panier;
     }
 
+    /**
+     * Permet de décrementer la quantité du produit cible dans le panier favori 
+     *
+     * @param string $ref
+     * @param array $favoriteCart
+     * @return array
+     */
+    public function removeOneItemInFavCart(string $ref, array $favoriteCart)
+    {
+        $panier = $favoriteCart;
+        if(!empty($panier[$ref])){
+            if($panier[$ref] > 1){
+                $panier[$ref]--;
+            }else{
+                unset($panier[$ref]);
+            }
+        }
+        return $panier;
+    }
+
+    /**
+     * Permet de supprimer un produit dans le panier favori
+     *
+     * @param string $ref
+     * @param array $favoriteCart
+     */
+    public function deleteItemInFavCart(string $ref, array $favoriteCart)
+    {
+        $panier = $favoriteCart;
+
+        if (!empty($panier[$ref])) {
+            unset($panier[$ref]);
+        }
+        return $panier;
+    }
+
+
+    /**
+     * Permet de capturer tous les produits avec sa quantité dans le panier favori
+     *
+     * @param [type] $favoriteCart
+     * @return array
+     */
     public function getFullFavoriteCart($favoriteCart) : array
     {
         $panier = $favoriteCart;
@@ -148,12 +210,19 @@ class PanierService {
         return $panierWithData;
     }
 
-    
-    public function getTotalFavoriteCart($favoriteCart) : float
+    /**
+     * Permet de capturer le prix total dans le panier favori
+     *
+     * @param array $favoriteCart
+     * @return float
+     */
+    public function getTotalPriceFavoriteCart(array $favoriteCart) : float
     {
         $total = 0;
 
         foreach ($this->getFullFavoriteCart($favoriteCart) as $item ) {
+            // dd($this->getFullFavoriteCart($favoriteCart));
+            // dd($item['product']);
             $total += $item['product']->getPrice() * $item['quantity'];
         }
         return $total;

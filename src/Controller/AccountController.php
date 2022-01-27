@@ -30,7 +30,7 @@ class AccountController extends AbstractController
         $maLivraison = $repoDelivry->findOneBy(['user' => $user]);
         $mesFactures = $this->repoFactureAbonnement->findBy(['user' => $user]);
         $mesFavoriteCarts = $this->repoFavoriteCart->findBy(['user' => $user]);
-    
+        
         return $this->render('account/dashboard.html.twig', [
             'mesFactures' => $mesFactures,
             'mesFavoriteCarts' => $mesFavoriteCarts,

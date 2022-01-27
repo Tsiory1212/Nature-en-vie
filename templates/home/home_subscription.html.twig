@@ -11,15 +11,10 @@
         #biolife-quickview-block {
             z-index: 9992!important;
         }
-
-        .title-cart-subscription{
-            font-size: 40px;
-            color: #0d6efd;
-            margin-top: 10px;
-            font-weight: bolder;
-            margin-bottom: 30px;
+        
+        .subscription-list-block{
+            background-color: #dba800;
         }
-
     </style>
 {% endblock %}
 {% block body %}
@@ -42,7 +37,7 @@
                             <div class="media"></div>
 
                             <div class="text-content">     
-                                <h6 class="third-line" >Frais et bio... Les produits de nos commerces au Lieu-dit Les Rondards </h6>
+                                <h6 class="third-line">Frais et bio... Les produits de nos commerces au Lieu-dit Les Rondards </h6>
                                 <!-- <p class="third-line">Découvrez nos produits maraîchers et demeter qui nourrissent et le corps et l'esprit</p> -->
                                 <p class="buttons">
                                     <a href="#" class="btn btn-bold">Commander mon Panier Bio</a>
@@ -86,9 +81,7 @@
 
             <!-- Block 02: Grid Banners-->
             <div class="biolife-gird-banners xs-margin-top-80px sm-margin-top-0">
-
                 <div class="grid-panel">
-
                     <div class="grid-panel-item left-content">
                         <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-01">
                             <a href="#" class="media-contain media-01"></a>
@@ -148,34 +141,8 @@
 
             </div>
 
-       
-
-            <!-- Block 04: Banners-->
-            <div class="banner-block md-margin-top-61px sm-margin-bottom-89px xs-margin-top-60px">
-                 <div class="container">
-                    <div class="row">
-                        <h1 class="title-cart-subscription text-center">Nos paniers bio, choisissez un panier à votre mesure</h1>
-                        {% for panier in subscriptions %}
-                            <div class="col-md-4">
-                                <div class="card bg-primary text-center" style="min-width: 22rem; min-height: 30rem; border-radius: 20px">
-                                    {# <img src="/biolife/assets/images/logo-bio.jpeg" class="card-img-top" alt="..."> #}
-                                    <div class="card-body">
-                                
-                                        <h1 class="card-title">{{ panier.nameSubscriptionPlan }}</h1>
-                                        <hr>
-                                        <p class="card-text mt-5">{{ panier.descriptionSubscriptionPlan }}</p>
-                                        <p class="card-text">{{ panier.priceSubscription }} €</p>
-
-                                        <a href="{{ path('cart_subscription_show', {id: panier.id}) }}" class="btn btn-warning">Plus de détails</a>
-
-                                    
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+            <!-- Block 04: Subscription -->
+            {% include "partials/subscription/_list_subscription.html.twig" %}
 
             <!-- Block 05: Banner Promotion-->
             <div class="banner-promotion xs-margin-top-0 sm-margin-top-60px xs-margin-top-100">
@@ -184,7 +151,7 @@
                         <div class="media">
                             <div class="img-moving position-1">
                                 <a href="#" class="banner-link">
-                                    <img src="/uploads/produit/images/defaultImage.png" width="568" height="760" alt="img msv">
+                                    <img src="/uploads/produit/images/defaultImage.png" width="568"  alt="img msv">
                                 </a>
                             </div>
                             <div class="img-moving position-2">
@@ -201,7 +168,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- Block 07: Blog posts-->
             <div class="blog-posts sm-margin-top-49px xs-margin-top-60px">

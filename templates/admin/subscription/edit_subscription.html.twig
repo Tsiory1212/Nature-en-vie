@@ -1,0 +1,30 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Edition abonnement!{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="bg-glass2">
+        <div class="alert alert-primary text-center">
+            Seul le nom et les descriptions peuvent être modifié
+        </div>
+        <h1 class="text-center fw-bold">Création abonnement</h1>
+        <div class="fields-subscription">
+            {{ form_start(form) }}
+                <div class="row">
+                    {{ form_row(form.nameSubscriptionPlan) }}
+                </div>
+                <div class="row">
+                    {{ form_row(form.descriptionSubscriptionPlan) }}
+                </div>
+                <div class="row">
+                    {{ form_row(form.detailedDescription) }}
+                </div>
+
+                <button class="btn btn-success">Modifier</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

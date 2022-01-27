@@ -1,14 +1,15 @@
 <div class="container">
-
-            {% if produit is defined and produit.imageName %}
-                <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="img-{{produit.name}}" width="100">
-            {% else %}
-                <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top" class="product-thumnail" width="300">        
-            {% endif %}
+    <div class="img-item mb-5 text-center">
+        {% if produit is defined and produit.imageName %}
+            <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="img-{{produit.name}}" class="rounded border border-success" width="300">
+        {% else %}
+            <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top" class="product-thumnail" width="300">        
+        {% endif %}
+    </div>
 
     {{ form_start(form) }}
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                
                 {% if produit is not defined %}
                     {% if not form.vars.valid %}

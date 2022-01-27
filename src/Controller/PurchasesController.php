@@ -10,6 +10,7 @@ use App\Form\FavoriteCartType;
 use App\Form\OrderDelivryType;
 use App\Form\PurchasesType;
 use App\Repository\DelivryRepository;
+use App\Repository\FavoriteCartRepository;
 use App\Repository\ProductRepository;
 use App\Repository\PurchasesRepository;
 use App\Service\Panier\PanierService;
@@ -41,12 +42,15 @@ class PurchasesController extends AbstractController
     /**
      * @Route("/produits/commande", name="account_pass_to_order")
      */
-    public function account_pass_to_order(PanierService $panierService, Request $request): Response
+    public function account_pass_to_order(PanierService $panierService, Request $request, FavoriteCartRepository $repoFavCart): Response
     {
         $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
 
         $user = $this->getUser();
+
         $myDelivryInfo = $this->repoDelivry->findOneBy(['user' => $user]);
+        $myLastFavCart = $repoFavCart->findBy(['user' =>  $user], ['id'=>'DESC'],1,0)['0'];
+        $itemsInTab = $panierService->putItemsIntoArray();
 
         $favoriteCart = new FavoriteCart();
         $currentCart = $this->session->get('panier', []);
@@ -71,11 +75,52 @@ class PurchasesController extends AbstractController
             'total' => $panierService->getTotal(),
             'allQuantityItem' => $panierService->allQuantityItem(),
             'myDelivryInfo' => $myDelivryInfo,
+            'myLastFavCart' => $myLastFavCart,
+            'itemsInTab' => $itemsInTab,
             'formFavCart' => $formFavCart->createView(),
-            'paypal_client_id' => $paypal_client_id
+            'paypal_client_id' => $paypal_client_id,
         ]);
     }
 
+    /**
+     * @Route("/account/order/step/one", name="account_order_step_one")
+     */
+    public function account_order_step_one(PanierService $panierService): Response
+    {
+        return $this->render('purchases/order_step/order_step_one.html.twig', [
+            'items' => $panierService->getFullcart(),
+            'total' => $panierService->getTotal(),
+        ]);
+    }
+
+    /**
+     * @Route("/account/order/step/two", name="account_order_step_two")
+     */
+    public function account_order_step_two(): Response
+    {
+        $user = $this->getUser();
+        $myDelivryInfo = $this->repoDelivry->findOneBy(['user' => $user]);
+
+        return $this->render('purchases/order_step/order_step_two.html.twig', [
+            'myDelivryInfo' => $myDelivryInfo
+        ]);
+    }
+
+    /**
+     * @Route("/account/order/step/three", name="account_order_step_three")
+     */
+    public function account_order_step_three(PanierService $panierService): Response
+    {
+        $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
+
+
+        return $this->render('purchases/order_step/order_step_three.html.twig', [
+            'items' => $panierService->getFullcart(),
+            'paypal_client_id' => $paypal_client_id,
+            'total' => $panierService->getTotal(),
+        ]);
+    }
+    
     /**
      * @Route("/account/order/show", name="account_order_show")
      */

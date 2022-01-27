@@ -25,16 +25,16 @@ class FavoriteCartController extends AbstractController
     }
 
     /**
-     * @Route("/panier-favori/{id}", name="accout_favorite_cart_show")
+     * @Route("/panier-favori/{id}", name="account_favorite_cart_show")
      */
-    public function accout_favorite_cart_show(FavoriteCart $favoriteCart, PanierService $panierService): Response
+    public function account_favorite_cart_show(FavoriteCart $favoriteCart, PanierService $panierService): Response
     {
         $cart = $favoriteCart->getCart();
 
         return $this->render('/account/panier/favorite_cart.html.twig', [
             'favoriteCart' => $favoriteCart,
             'items' => $panierService->getFullFavoriteCart($cart),
-            'total' => $panierService->getTotalFavoriteCart($cart) ,
+            'total' => $panierService->getTotalPriceFavoriteCart($cart) ,
             'allQuantityItem' => $panierService->allQuantityItemInFavoriteCart($cart)
         ]);    
     }
@@ -42,23 +42,24 @@ class FavoriteCartController extends AbstractController
 
 
     /**
-     * @Route("/panier-favori/{fav}/add/product/{id}", name="favorite_cart_add")
+     * @Route("/panier-favori/{favCart}/add/product/{id}", name="favorite_cart_add_one")
      */
-    public function favorite_cart_add_one(Product $product, $fav, $id, PanierService $panierService, FavoriteCartRepository $repoFavoriteCart)
+    public function favorite_cart_add_one(Product $product, $favCart, $id, PanierService $panierService, FavoriteCartRepository $repoFavoriteCart)
     {
-        $favoriteCartEntity = $repoFavoriteCart->find($fav);
+        $refId =  $product->getReferenceId();
+
+        $favoriteCartEntity = $repoFavoriteCart->find($favCart);
         $cart = $favoriteCartEntity->getCart();
-        $favoriteCartEntity->setCart( $panierService->addFC($id, $cart) );
+        $favoriteCartEntity->setCart( $panierService->increaseItemInFavCart($refId, $cart) );
         $this->em->persist($favoriteCartEntity);
         $this->em->flush();
 
-        // dd($cart[$id] );
 
         // ici, on doit prendre $favoriteCartEntity à nouveau après flush() 
-        $product_item_quantity = $favoriteCartEntity->getCart()[$id];
-        $price = $product->getPrice($id);
+        $product_item_quantity = $favoriteCartEntity->getCart()[$refId];
+        $price = $product->getPrice();
         $product_item_total = $product_item_quantity * $price;
-        $product_total = $panierService->getTotalFavoriteCart($cart);
+        $product_total = $panierService->getTotalPriceFavoriteCart($cart);
         
         return $this->json([
             'code' => 200, 
@@ -70,29 +71,47 @@ class FavoriteCartController extends AbstractController
     }
 
     /**
-     * @Route("/panier/{id}/remove", name="panier_remove")
+     * @Route("/panier-favori/{favCart}/remove/product/{id}", name="favorite_cart_remove_one")
      */
-    public function panier_remove($id, PanierService $panierService )
+    public function favorite_cart_remove_one(Product $product, $favCart, PanierService $panierService, FavoriteCartRepository $repoFavoriteCart)
     {
-        $panierService->remove($id);
+        $refId =  $product->getReferenceId();
+
+        $favoriteCartEntity = $repoFavoriteCart->find($favCart);
+        $cart = $favoriteCartEntity->getCart();
+       
+        $favoriteCartEntity->setCart( $panierService->removeOneItemInFavCart($refId, $cart) );
+        $this->em->persist($favoriteCartEntity);
+        $this->em->flush();
+
+
+        // ici, on doit prendre $favoriteCartEntity à nouveau après flush() 
+        $product_item_quantity = $favoriteCartEntity->getCart()[$refId];
+        $price = $product->getPrice();
+        $product_item_total = $product_item_quantity * $price;
+        $product_total = $panierService->getTotalPriceFavoriteCart($cart);
 
         return $this->json([
             'code' => 200, 
-            'message' => 'produit supprimé',
-            'allQuantityItem' => $panierService->allQuantityItem(),
-            'totalPrice' => $panierService->getTotal()
+            'message' => 'produit décrementé',
+            'quantity' => $product_item_quantity,
+            'total_item' => $product_item_total,
+            'total' => $product_total
         ]);
     }
-
-        /**
-     * @Route("/panier/{id}/remove/charging", name="panier_remove_charging_page")
+    
+    /**
+     * @Route("/panier-favori/{favCart}/delete/{product}/charging", name="favorite_cart_delete_charging_page")
      */
-    public function panier_remove_charging_page($id, PanierService $panierService )
+    public function favorite_cart_delete_charging_page(FavoriteCart $favCart, Product $product, PanierService $panierService)
     {
-        $panierService->remove($id);
-
-        return $this->redirectToRoute('panier_show');
+        $cartAfterDeleting = $panierService->deleteItemInFavCart($product->getReferenceId(), $favCart->getCart());
+        $favCart->setCart($cartAfterDeleting);
+        $this->em->persist($favCart);
+        $this->em->flush();
+        return $this->redirectToRoute('account_favorite_cart_show', ['id' => $favCart->getId()]);
     }
+
 
 
     /**
@@ -151,16 +170,6 @@ class FavoriteCartController extends AbstractController
             'total_item' => $product_item_total,
             'total' => $product_total
         ]);
-    }
-
-    
-    /**
-     * @Route("/panier/delete/all", name="panier_delete_all")
-     */
-    public function panier_delete_all(PanierService $panierService)
-    {
-        $panierService->deleteAll();
-        return $this->redirectToRoute("panier_show");
     }
 
 }

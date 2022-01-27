@@ -1,288 +1,285 @@
-
-    <!-- HEADER -->
-    <header id="header" class="header-area style-01 layout-01">
-        <div class="header-top hidden-xs hidden-sm">
-            <div class="container">
-                <div class="top-bar left">
-                    <ul class="horizontal-menu">
-                        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>contact@christophe-regnault.fr</a></li>
-                    </ul>
-                    <ul class="social-list circle-layout">
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
-                    </ul>
-                </div>
-                <div class="top-bar right">
-                    <ul class="horizontal-menu">
-                        {% if app.user %}
-                            <li class="horz-menu-item currency">
-                                {# <a href="{{path('panier_show')}}" class="btn btn-warning">Panier</a> #}
-                            </li>
-                             <li><a href="{{path('dashboard')}}" class="login-link"><i class="biolife-icon icon-login"></i>{{app.user.lastname}}</a></li>
-                             <li><a href="{{path('security_logout')}}" class="btn btn-danger"><i class="biolife-icon icon-login"></i>Déconnection</a></li>
-                        {% else %}
-                             <li><a href="{{path('registration')}}" class="login-link"><i class="biolife-icon icon-login"></i>S'inscrire</a></li>
-                             <li><a href="{{path('security_login')}}" class="login-link"><i class="biolife-icon icon-login"></i>Login</a></li>
-                        {% endif %}
-                        
-                    </ul>
-                </div>
+<!-- HEADER -->
+<header id="header" class="header-area style-01 layout-01">
+    <div class="header-top hidden-xs hidden-sm">
+        <div class="container">
+            <div class="top-bar left">
+                <ul class="horizontal-menu">
+                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>contact@christophe-regnault.fr</a></li>
+                </ul>
+                <ul class="social-list circle-layout">
+                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                </ul>
+            </div>
+            <div class="top-bar right">
+                <ul class="horizontal-menu">
+                    {% if app.user %}
+                        <li class="horz-menu-item currency">
+                            {# <a href="{{path('panier_show')}}" class="btn btn-warning">Panier</a> #}
+                        </li>
+                        <li><a href="{{path('dashboard')}}" class="login-link"><i class="biolife-icon icon-login"></i>{{app.user.lastname}}</a></li>
+                        <li><a href="{{path('security_logout')}}" class="logout-link"><i class="fas fa-sign-out-alt"></i> Déconnection</a></li>
+                    {% else %}
+                        <li><a href="{{path('security_login')}}" class="login-link"><i class="biolife-icon icon-login"></i>S'inscrire / Login</a>></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
-        <div class="header-middle hidden-sm hidden-xs">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-2 col-md-6 col-xs-6">
-                        <a href="home-01.html" class="biolife-logo"><img src="/biolife/assets/images/logo-bio.png" alt="biolife logo" width="135" height="36"></a>
-                    </div>
-                    <div class="col-lg-9 col-md-10 padding-top-2px">
-                        <div class="header-search-bar layout-01 no-product-cat">
-                            <form action="#" class="form-search" name="desktop-seacrh" method="get">
-                                <input type="text" name="s" class="input-text" value="" placeholder="Recherche...">
-                                <button type="submit" class="btn-submit"><i class="biolife-icon icon-search"></i></button>
-                            </form>
-                        </div>
-                        <div class="live-info">
-                            <p class="telephone"><i class="fa fa-phone" aria-hidden="true"></i><b class="phone-number">04 70 35 08 96</b></p>
-                            <p class="working-time">Du lundi au dimanche de 8h00 à 18h00</p>
-                        </div>
-                    </div>
-
+    </div>
+    <div class="header-middle hidden-sm hidden-xs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-2 col-md-6 col-xs-6">
+                    <a href="" class="biolife-logo"><img src="/biolife/assets/images/logo-bio.png" alt="biolife logo" width="135"></a>
                 </div>
+                <div class="col-lg-9 col-md-10 padding-top-2px">
+                    <div class="header-search-bar layout-01 no-product-cat">
+                        <form action="#" class="form-search" name="desktop-seacrh" method="get">
+                            <input type="text" name="s" class="input-text" value="" placeholder="Recherche...">
+                            <button type="submit" class="btn-submit"><i class="biolife-icon icon-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="live-info">
+                        <p class="telephone"><i class="fa fa-phone" aria-hidden="true"></i><b class="phone-number">04 70 35 08 96</b></p>
+                        <p class="working-time">Du lundi au dimanche de 8h00 à 18h00</p>
+                    </div>
+                </div>
+
             </div>
         </div>
-        <div class="header-bottom biolife-sticky-object">
-            <div class="container md-possition-relative">
-
-                <div class="row">
-                    <div class="col-lg-9 col-md-10 hidden-sm hidden-xs md-possition-initial">
-                        <div class="primary-menu">
-                            <ul class="menu biolife-menu clone-main-menu clone-primary-menu" id="primary-menu" data-menuname="main menu">
-                                <li class="menu-item"><a href="{{path('home')}}">Accueil</a></li>
-                                <li class="menu-item menu-item-has-children has-child">
-                                    <a href="#">Ferme</a>
-                                    <ul class="sub-menu">
-                                        <li class="menu-item"><a href="{{path('presentation_ferme')}}">Présentation de la ferme</a></li>
-                                        <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">Nous connaître</a>
-                                            <ul class="sub-menu">
-                                                <li class="menu-item"><a href="{{path('Comment_ca_fonctionne')}}">Comment ça fonctionne</a></li>
-                                                <li class="menu-item"><a href="{{path('les_produit_de_notre_boutique_bio')}}">Les produits de notre boutique Bio</a></li>
-                                                <li class="menu-item"><a href="{{path('les_marches')}}">Les marchés</a></li>
-                                                {# <li class="menu-item menu-item-has-children has-child">
-                                                    <a href="{{path('ferme')}}">sfqsf</a>
-                                                    <ul class="sub-menu">
-                                                        <li class="menu-item"><a href="#">Présentation de la ferme</a></li>
-                                                        <li class="menu-item"><a href="#">Un peu d'histoire</a></li>
-                                                        <li class="menu-item"><a href="#">Notre engagement qualité</a></li>
-                                                        <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">Nous connaître</a>
-                                                            <ul class="sub-menu">
-                                                                <li class="menu-item"><a href="#">Comment ça fonctionne</a></li>
-                                                                <li class="menu-item"><a href="#">Les produits de notre boutique Bio</a></li>
-                                                                <li class="menu-item"><a href="#">Les marchés</a></li>
-                                                                <li class="menu-item"><a href="#">3 levels</a></li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li> #}
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">AUTRES</a>
-                                            <ul class="sub-menu">
-                                                <li class="menu-item"><a href="{{path('commerce_de_gros_et_demi_gros')}}">Commerce de gros et demi-gros</a></li>
-                                                <li class="menu-item"><a href="{{path('commandes')}}">Commandes</a></li>
-                                                <li class="menu-item"><a href="{{path('contact')}}">Contactez-nous</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                {% if app.request.get('_route') == 'home' %}
-                                <li class="menu-item menu-item-has-children has-child">
-                                    <a href="#" class="menu-name" data-title="Product">Nos Paniers</a>
-                                    <ul class="sub-menu">
-                                        {% for subscriptionCart in allSubscriptionCart %}
-                                            <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.nameSubscriptionPlan }}</a></li>
-                                        {% endfor %}
-                                        <hr>
-                                        <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mésure</a></li>
-
-                                    </ul>
-                                </li>
-                                {% endif %}
-                                <li class="menu-item"><a href="{{path('abonnement')}}">Abonnement</a></li>
-                                <li class="menu-item"><a href="#">Professionnel</a></li>
-                                <li class="menu-item"><a href="#">Blog</a></li>
-                                <li class="menu-item"><a href="{{path('contact')}}">Contact</a></li>
-                                {# <li class="menu-item"><a href="{{path('test_curl')}}">Curl</a></li> #}
+    </div>
+        
+    <!-- Liste menu  -->
+    <div class="header-bottom biolife-sticky-object">
+        <div class="container md-possition-relative text-center">
+            <div class="row">
+                {% if categories_in_navbar is defined %}
+                <div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
+                    <div class="vertical-menu vertical-category-block ">
+                        <div class="block-title">
+                                <span class="menu-icon">
+                                    <span class="line-1"></span>
+                                    <span class="line-2"></span>
+                                    <span class="line-3"></span>
+                                </span>
+                            <span class="menu-title">Toutes les catégories</span>
+                            <span class="angle" data-tgleclass="fa fa-caret-down"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="wrap-menu">
+                            <ul class="menu clone-main-menu">
+                                {% for category in categories_in_navbar %}
+                                    <li class="menu-item menu-item-has-children has-child">
+                                        <a href="#" class="menu-name" data-title="Butter & Eggs"><i class="biolife-icon icon-honey"></i>{{category.name}}</a>
+                                        <ul class="sub-menu">
+                                            {# on prend 10 produits au hasard #}
+                                            {% for produit in category.products|slice(random(category.products|length), 10) %}
+                                                <li class="menu-item"><a href="{{path('product_show', {id: produit.id, slug: produit.slug})}}">{{produit.name}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
-                        <div class="logo-for-mobile hidden-lg hidden-md">
-                            <a href="home-01.html" class="biolife-logo"><img src="/biolife/assets/images/logo-biolife-1.png" alt="biolife logo" width="135" height="36"></a>
-                        </div>
-                        <div class="biolife-cart-info center-align-mobile">
-                            <div class="mobile-search">
-                                <a href="javascript:void(0)" class="open-searchbox"><i class="biolife-icon icon-search"></i></a>
-                                <div class="mobile-search-content">
-                                    <form action="#" class="form-search" name="mobile-seacrh" method="get">
-                                        <a href="#" class="btn-close"><span class="biolife-icon icon-close-menu"></span></a>
-                                        <input type="text" name="s" class="input-text" value="" placeholder="Search here...">
-                                        <select name="category">
-                                            <option value="-1" selected>All Categories</option>
-                                            <option value="vegetables">Vegetables</option>
-                                            <option value="fresh_berries">Fresh Berries</option>
-                                            <option value="ocean_foods">Ocean Foods</option>
-                                            <option value="butter_eggs">Butter & Eggs</option>
-                                            <option value="fastfood">Fastfood</option>
-                                            <option value="fresh_meat">Fresh Meat</option>
-                                            <option value="fresh_onion">Fresh Onion</option>
-                                            <option value="papaya_crisps">Papaya & Crisps</option>
-                                            <option value="oatmeal">Oatmeal</option>
-                                        </select>
-                                        <button type="submit" class="btn-submit">go</button>
-                                    </form>
-                                </div>
+                </div>
+                {% endif %}
+                <div class="{% if app.user and app.request.get('_route') == 'all_products' %}col-lg-6 {% else %}col-lg-12 {% endif %} col-md-10 hidden-sm hidden-xs md-possition-initial">
+                    <div class="primary-menu">
+                        <ul class="menu biolife-menu clone-main-menu clone-primary-menu" id="primary-menu" data-menuname="main menu">
+                            <li class="menu-item"><a href="{{path('home')}}">Accueil</a></li>
+                            <li class="menu-item menu-item-has-children has-child text-start">
+                                <a href="#">Ferme</a>
+                                <ul class="sub-menu">
+                                    <li class="menu-item"><a href="{{path('presentation_ferme')}}">Présentation de la ferme</a></li>
+                                    <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">Nous connaître</a>
+                                        <ul class="sub-menu">
+                                            <li class="menu-item"><a href="{{path('Comment_ca_fonctionne')}}">Comment ça fonctionne</a></li>
+                                            <li class="menu-item"><a href="{{path('les_produit_de_notre_boutique_bio')}}">Les produits de notre boutique Bio</a></li>
+                                            <li class="menu-item"><a href="{{path('les_marches')}}">Les marchés</a></li>
+                                            {# <li class="menu-item menu-item-has-children has-child">
+                                                <a href="{{path('ferme')}}">sfqsf</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="#">Présentation de la ferme</a></li>
+                                                    <li class="menu-item"><a href="#">Un peu d'histoire</a></li>
+                                                    <li class="menu-item"><a href="#">Notre engagement qualité</a></li>
+                                                    <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">Nous connaître</a>
+                                                        <ul class="sub-menu">
+                                                            <li class="menu-item"><a href="#">Comment ça fonctionne</a></li>
+                                                            <li class="menu-item"><a href="#">Les produits de notre boutique Bio</a></li>
+                                                            <li class="menu-item"><a href="#">Les marchés</a></li>
+                                                            <li class="menu-item"><a href="#">3 levels</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li> #}
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">AUTRES</a>
+                                        <ul class="sub-menu">
+                                            <li class="menu-item"><a href="{{path('commerce_de_gros_et_demi_gros')}}">Commerce de gros et demi-gros</a></li>
+                                            <li class="menu-item"><a href="{{path('commandes')}}">Commandes</a></li>
+                                            <li class="menu-item"><a href="{{path('contact')}}">Contactez-nous</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% if app.request.get('_route') == 'home' %}
+                            <li class="menu-item menu-item-has-children has-child text-start">
+                                <a href="#" class="menu-name" data-title="Product">Nos Paniers</a>
+                                <ul class="sub-menu">
+                                    {% for subscriptionCart in allSubscriptionCart %}
+                                        <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.nameSubscriptionPlan }}</a></li>
+                                    {% endfor %}
+                                    <hr>
+                                    <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mésure</a></li>
+
+                                </ul>
+                            </li>
+                            {% endif %}
+                            <li class="menu-item"><a href="{{path('subscription_list')}}">Abonnement</a></li>
+                            <li class="menu-item"><a href="#">Professionnel</a></li>
+                            <li class="menu-item"><a href="#">Blog</a></li>
+                            <li class="menu-item"><a href="{{path('contact')}}">Contact</a></li>
+                            {# <li class="menu-item"><a href="{{path('test_curl')}}">Curl</a></li> #}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+                    <div class="logo-for-mobile hidden-lg hidden-md">
+                        <a href="" class="biolife-logo"><img src="/biolife/assets/images/logo-bio.png" alt="biolife logo" width="135" height="36"></a>
+                    </div>
+                    <div class="biolife-cart-info center-align-mobile">
+                        <div class="mobile-search">
+                            <a href="javascript:void(0)" class="open-searchbox"><i class="biolife-icon icon-search"></i></a>
+                            <div class="mobile-search-content">
+                                <form action="#" class="form-search" name="mobile-seacrh" method="get">
+                                    <a href="#" class="btn-close"><span class="biolife-icon icon-close-menu"></span></a>
+                                    <input type="text" name="s" class="input-text" value="" placeholder="Search here...">
+                                    <select name="category">
+                                        <option value="-1" selected>All Categories</option>
+                                        <option value="vegetables">Vegetables</option>
+                                        <option value="fresh_berries">Fresh Berries</option>
+                                        <option value="ocean_foods">Ocean Foods</option>
+                                        <option value="butter_eggs">Butter & Eggs</option>
+                                        <option value="fastfood">Fastfood</option>
+                                        <option value="fresh_meat">Fresh Meat</option>
+                                        <option value="fresh_onion">Fresh Onion</option>
+                                        <option value="papaya_crisps">Papaya & Crisps</option>
+                                        <option value="oatmeal">Oatmeal</option>
+                                    </select>
+                                    <button type="submit" class="btn-submit">go</button>
+                                </form>
                             </div>
+                        </div>
 
-                            {# MINI PANIER #}
-                            {% if app.user and app.request.get('_route') == 'all_products' %}
-                                <div class="minicart-block layout-02">
-                                    <div class="minicart-contain">
-                                        <div class="icon-contain">
-                                            <div class="span-index">
-                                                <i class="icon-cart-mini biolife-icon"></i>
-                                                <span class="qty">8</span>
+                        {# MINI PANIER #}
+                        {% if app.user and app.request.get('_route') == 'all_products' %}
+                            <div class="minicart-block layout-02">
+                                <div class="minicart-contain">
+                                    <div class="icon-contain">
+                                        <div class="span-index">
+                                            <i class="icon-cart-mini biolife-icon"></i>
+                                            <span class="qty">8</span>
 
-                                                <span class="sub-total"> 
-                                                    <span class="quantity-item">{{allQuantityItem}}</span>  article(s) - <span class="total-price">{{total}} </span> € 
-                                                </span>
-                                            </div>
-                                            <a href="#" class="btn-to-cart">Go</a>
+                                            <span class="sub-total"> 
+                                                <span class="quantity-item">{{allQuantityItem}}</span>  article(s) - <span class="total-price">{{total}} </span> € 
+                                            </span>
                                         </div>
-                                        <div class="cart-content">
-                                            <div class="cart-inner">
-                                                <ul class="products">
-                                                     <li id="hidden-li-item-mini-cart">
+                                        <a href="#" class="btn-to-cart">Go</a>
+                                    </div>
+                                    <div class="cart-content">
+                                        <div class="cart-inner">
+                                            <ul class="products">
+                                                <li id="hidden-li-item-mini-cart">
+                                                    <div class="minicart-item">
+                                                        <div class="thumb">
+                                                            <a href="#">
+                                                                <img src="/uploads/produit/images/defaultImage.png"  width="90" height="90">
+                                                            </a>
+                                                        </div>
+                                                        <div class="left-info">
+                                                            <div class="product-title"><a href="#" class="product-name">Product name</a></div>
+                                                            <div class="price">
+                                                                <ins><span class="price-amount">Product price <span class="currencySymbol">€</span></span></ins>
+                                                                {# <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del> #}
+                                                            </div>
+                                                            <div class="qty">
+                                                                <label for="cart-qty">Qté:</label>
+                                                                <input type="number" class="input-qty" name="cart-qty" value="0" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="action">
+                                                            <a href="#" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                            <a href="#" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                {% for item in items %}
+                                                    <li>
                                                         <div class="minicart-item">
                                                             <div class="thumb">
-                                                                <a href="#">
-                                                                    <img src="/uploads/produit/images/defaultImage.png"  width="90" height="90">
+                                                                <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
+                                                                    {% if item.product.imageName %}
+                                                                        <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" width="90" height="90">
+                                                                    {% else %}
+                                                                        <img src="/uploads/produit/images/defaultImage.png"  width="90" height="90">
+                                                                    {% endif %}
                                                                 </a>
                                                             </div>
                                                             <div class="left-info">
-                                                                <div class="product-title"><a href="#" class="product-name">Product name</a></div>
+                                                                <div class="product-title"><a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}" class="product-name">{{item.product.name}}</a></div>
                                                                 <div class="price">
-                                                                    <ins><span class="price-amount">Product price <span class="currencySymbol">€</span></span></ins>
+                                                                    <ins><span class="price-amount">{{item.product.price}}<span class="currencySymbol">£</span></span></ins>
                                                                     {# <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del> #}
                                                                 </div>
                                                                 <div class="qty">
                                                                     <label for="cart-qty">Qté:</label>
-                                                                    <input type="number" class="input-qty" name="cart-qty" value="0" disabled>
+                                                                    <input type="number" class="input-qty" name="cart-qty" value="{{item.quantity}}" disabled>
                                                                 </div>
                                                             </div>
                                                             <div class="action">
                                                                 <a href="#" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                                <a href="#" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                                <a href="{{path('panier_remove', {id: item.product.id})}}" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    {% for item in items %}
-                                                        <li>
-                                                            <div class="minicart-item">
-                                                                <div class="thumb">
-                                                                    <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
-                                                                        {% if item.product.imageName %}
-                                                                            <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" width="90" height="90">
-                                                                        {% else %}
-                                                                            <img src="/uploads/produit/images/defaultImage.png"  width="90" height="90">
-                                                                        {% endif %}
-                                                                    </a>
-                                                                </div>
-                                                                <div class="left-info">
-                                                                    <div class="product-title"><a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}" class="product-name">{{item.product.name}}</a></div>
-                                                                    <div class="price">
-                                                                        <ins><span class="price-amount">{{item.product.price}}<span class="currencySymbol">£</span></span></ins>
-                                                                        {# <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del> #}
-                                                                    </div>
-                                                                    <div class="qty">
-                                                                        <label for="cart-qty">Qté:</label>
-                                                                        <input type="number" class="input-qty" name="cart-qty" value="{{item.quantity}}" disabled>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="action">
-                                                                    <a href="#" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                                    <a href="{{path('panier_remove', {id: item.product.id})}}" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                                {% if app.request.get('_route') == 'all_products' %}
-                                                    <p class="btn-control">
-                                                        <a href="{{path('account_pass_to_order')}}" class="btn view-cart">Commander</a>
-                                                    </p>
-                                                {% elseif app.request.get('_route') == 'home' %}
+                                                {% endfor %}
+                                            </ul>
+                                            {% if app.request.get('_route') == 'all_products' %}
+                                                <p class="btn-control">
+                                                    <a href="{{path('account_pass_to_order')}}" class="btn view-cart">Commander</a>
+                                                </p>
+                                            {% elseif app.request.get('_route') == 'home' %}
 
-                                                    <p class="btn-control">
-                                                        <a href="{{path('panier_show')}}" class="btn view-cart">Mon panier</a>
-                                                        {# <a href="#" class="btn">checkout</a> #}
-                                                    </p>
-                                                {% endif %}
-                                                
-                                            </div>
+                                                <p class="btn-control">
+                                                    <a href="{{path('panier_show')}}" class="btn view-cart">Mon panier</a>
+                                                    {# <a href="#" class="btn">checkout</a> #}
+                                                </p>
+                                            {% endif %}
+                                            
                                         </div>
                                     </div>
                                 </div>
-                          
-                            {% endif %}
-                            
-                            
-                            
-
-                            <div class="mobile-menu-toggle">
-                                <a class="btn-toggle" data-object="open-mobile-menu" href="javascript:void(0)">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </a>
                             </div>
+                    
+                        {% endif %}
+                        <div class="mobile-menu-toggle">
+                            <a class="btn-toggle" data-object="open-mobile-menu" href="javascript:void(0)">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
                         </div>
                     </div>
                 </div>
-                {% if categories_in_navbar is defined %}
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
-                            <div class="vertical-menu vertical-category-block ">
-                                <div class="block-title">
-                                        <span class="menu-icon">
-                                            <span class="line-1"></span>
-                                            <span class="line-2"></span>
-                                            <span class="line-3"></span>
-                                        </span>
-                                    <span class="menu-title">Toutes les catégories</span>
-                                    <span class="angle" data-tgleclass="fa fa-caret-down"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
-                                </div>
-                                <div class="wrap-menu">
-                                    <ul class="menu clone-main-menu">
-                                        {% for category in categories_in_navbar %}
-                                            <li class="menu-item menu-item-has-children has-child">
-                                                <a href="#" class="menu-name" data-title="Butter & Eggs"><i class="biolife-icon icon-honey"></i>{{category.name}}</a>
-                                                <ul class="sub-menu">
-                                                    {# on prend 10 produits au hasard #}
-                                                    {% for produit in category.products|slice(random(category.products|length), 10) %}
-                                                        <li class="menu-item"><a href="{{path('product_show', {id: produit.id, slug: produit.slug})}}">{{produit.name}}</a></li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-                
             </div>
         </div>
-    </header>
+    </div>
+</header>
+
+
+
+{# {% if app.request.get('_route') == 'home' %} #}
+
+

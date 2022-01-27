@@ -6,7 +6,9 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Entity\SearchEntity\ProductSearch;
 use App\Form\SearchForm\ProductSearchType;
+use App\Repository\CartSubscriptionRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use App\Service\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -17,14 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminProductController extends AbstractController
 {
-    protected $em;
+    private $em;
+    private $repoProduct;
+    private $repoUser;
+    private $repoSubscription;
 
-    protected $repoProduct;
-
-    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct)
+    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, CartSubscriptionRepository $repoSubscription)
     {
         $this->em = $em;
         $this->repoProduct = $repoProduct;
+        $this->repoUser = $repoUser;
+        $this->repoSubscription = $repoSubscription;
     }
 
     
@@ -37,15 +42,22 @@ class AdminProductController extends AbstractController
         $form = $this->createForm(ProductSearchType::class, $search);
         $form->handleRequest($request);
 
-        $produits = $paginator->paginate(
+        $products = $paginator->paginate(
             $this->repoProduct->findAllVisibleQuery($search),
             $request->query->getInt('page', 1),
             30
         );
 
+        $nbrProducts = count($this->repoProduct->findAll());
+        $nbrUsers = count($this->repoUser->findAll());
+        $nbrSubscriptions = count($this->repoSubscription->findAll());
+
         return $this->render('admin/product/list_product.html.twig', [
-            'produits'=> $produits,
-            'form' => $form->createView()
+            'products'=> $products,
+            'form' => $form->createView(),
+            'nbrProducts' => $nbrProducts,
+            'nbrUsers' => $nbrUsers,
+            'nbrSubscriptions' => $nbrSubscriptions,
         ]);
     }
 

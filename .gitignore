@@ -1,6 +1,7 @@
 
 ###> symfony/framework-bundle ###
 public/uploads/
+VAKIO_AHO.txt
 
 /.env.local
 /.env.local.php

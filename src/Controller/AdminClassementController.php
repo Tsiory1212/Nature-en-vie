@@ -7,21 +7,25 @@ use App\Entity\Product;
 use App\Form\ClassementType;
 use App\Form\ProductType;
 use App\Repository\ClassementRepository;
+use App\Repository\ProductRepository;
+use App\Service\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ClassementController extends AbstractController
+class AdminClassementController extends AbstractController
 {
-    protected $em;
-    protected $repoClasse;
+    private $em;
+    private $repoClasse;
+    private $repoProduct;
 
-    public function __construct(EntityManagerInterface $em, ClassementRepository $repoClasse)
+    public function __construct(EntityManagerInterface $em, ClassementRepository $repoClasse, ProductRepository $repoProduct)
     {
         $this->em = $em;
         $this->repoClasse = $repoClasse;
+        $this->repoProduct = $repoProduct;
     }
 
     /**
@@ -110,8 +114,12 @@ class ClassementController extends AbstractController
      * 
      * @Route("/admin/classe/{id}/addProduct", name="admin_class_addProduct")
      */
-    public function admin_class_addProduct(Classement $classement, Request $request): Response
+    public function admin_class_addProduct(Classement $classement, Request $request, ProductService $productService): Response
     {
+        // On génère un nouveau "referenceId"        
+        $lastProduct = $this->repoProduct->findBy(array(),array('id'=>'DESC'),1,0)[0];
+        $newRefId = $productService->generateNewRefId($lastProduct);
+        
         $produit = new Product();
 
         $form = $this->createForm(ProductType::class, $produit)
@@ -133,7 +141,8 @@ class ClassementController extends AbstractController
         }
         return $this->render('admin/classement/addProduct_classement.html.twig', [
             'form' => $form->createView(),
-            'classement' => $classement
+            'classement' => $classement,
+            'newRefId' => $newRefId
         ]);
     }
 }

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Paypal étape 2
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/assets/css/order_stepper.css">
+{% endblock %}
+
+
+{% block body %}
+{% include "partials/_order_stepper_progress_bar.html.twig" %}
+
+
+<div class="container mt-5" style="margin-top: 100px;">
+      <!-- Etape 2 : Livraison  -->
+    <div id="step-2">
+        <div class="container">
+            <div id="delivry-choice" class="shadow-lg p-3 mb-5 bg-body rounded">
+                <div class="row">
+                    <div class="col-md-12 bg-primary">
+                        <h1 class=" ms-5">2- Livraison</h1> 
+                    </div>
+                </div>
+                <div id="delivry-choice-body">
+
+                    {% if myDelivryInfo %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                    Livraison :
+                                    </div>
+                                    <div class="col-md-6 ">
+                                    {{ myDelivryInfo.delivryType }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                    Créneau horaire :
+                                    </div>
+                                    <div class="col-md-6 ">
+                                    {{ myDelivryInfo.delivryTimeSlot }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                    Jour de la livraison :
+                                    </div>
+                                    <div class="col-md-6 ">
+                                    {{ myDelivryInfo.delivryDaySlot }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            
+                            </div>
+                        </div>
+                    
+                    {% else %}
+                        <a href="{{ path('account_delivry_create') }}">Definir</a>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<a href="{{ path('account_order_step_three') }}" class="btn btn-primary">Suivant</a>
+
+
+{% endblock %}

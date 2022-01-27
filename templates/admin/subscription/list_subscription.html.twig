@@ -4,79 +4,187 @@
 	Les abonnements
 {% endblock %}
 
+{% block stylesheets %}
+	<style>
+		.side-bar-column{
+			margin-right: 30px;
+		}
+
+		.content-table-body{
+			padding: 20px 30px;
+		}
+
+		.item-product-row:hover{
+			background-color: rgba(165, 163, 163, 0.287);
+		}
+		.item-product-row div{
+			border: 1px solid #47444431;
+			padding: 5px 5px;
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-		<a href="{{path('admin_subscription_create')}}" class="btn btn-primary mt-4">Créer un abonnement</a>
-		<a href="{{path('admin_subscriber_list')}}" class="btn btn-secondary mt-4">Abonnés</a>
-
-		<div class="container mt-5">
-			<div class="container">
-				{# {{form_start(form)}}
-				<div class="row align-items-end">
-					<div class="col">
-						{{form_row(form.nom)}}
-					</div>
-					<div class="col">
-						<button class="btn btn-primary">Recherche</button>
-					</div>
-				{{form_end(form)}}
-			</div> #}
-
-			{% for label, messages in app.flashes %}
+    <div class="container my-5">
+		<div class="bg-glass2">
+			<div class="messages-block">
+				{% for label, messages in app.flashes %}
 				<div class="alert alert-{{label}} text-center">
 					{% for message in messages %}
 						{{message | raw}}
 					{% endfor %}
 				</div>
 			{% endfor %}
+			</div>
+
+			<div class="row-table-head">
+				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);"> ({{ nbrSubscriptions }}) Abonnements</h2>
+				<a href="{{path('admin_subscription_create')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Créer un abonnement</a>
+				<a href="{{path('admin_subscriber_list')}}" class="button button1 fw-bold d-inline">Abonnés</a>
+				
+				<div class="bg-white p-4 mt-3 h6">
+					<div class="row text-center fw-bold">
+						<div class="col-2 text-start ps-5">   </div>
+						<div class="col-1">Nom</div>
+						<div class="col-2">Description</div>
+						<div class="col-1" style="width: 6.333%;">Prix</div>
+						<div class="col-1">Durée en mois</div>
+						<div class="col-1" style="width: 11.333%;">Id-Subscription (Paypal)</div>
+						<div class="col-2" >Id-Product (Paypal)</div>
+						<div class="col-1" style="width: 7.333%;">Abonnés</div>
+						<div class="col-1">ACTION</div>
+					</div>
+				</div>
+			</div>
+			<div class="table-body">
+				<div class="row">
+					<div class="side-bar-column col-1 text-center fw-bold">
+						<div class="subscription-block my-5">
+							<div class="font-bg-stylized-1"> <a href="{{ path('admin_product_list') }}" class="text-white">Produits</a> </div>
+							<div class="bg-white p-4 rounded">{{ nbrProducts }}</div>
+						</div>
+						<div class="user-block my-5">
+							<div class="font-bg-stylized-1 text-white">Utilisateurs</div>
+							<div class="bg-white p-4 rounded">{{ nbrUsers }}</div>
+						</div>
+					</div>
+					<div class="content-table-body col bg-white mt-2 rounded">
+						<div class="p-5">
+							{% for subscription in subscriptions %}
+								<div class="row item-product-row text-center">
+									<div class="col-2">{{subscription.nameSubscriptionPlan}}</div>
+									<div class="col-2">{{subscription.descriptionSubscriptionPlan}}</div>
+									<div class="col-1">{{subscription.priceSubscription}} €</div>
+									<div class="col-1">{{subscription.durationMonthSubscription}}</div>
+									<div class="col-2">{{subscription.idSubscriptionPlanPaypal}}</div>
+									<div class="col-2">{{subscription.idProductPlanPaypal}}</div>
+									<div class="col-1"><a href="{{ path('admin_subscriber_plan_list', {id: subscription.id}) }}"><i class="fas fa-users"></i></a></div>
+									<div class="col-1">
+										<a href="{{path('admin_subscription_edit', {id: subscription.id})}}" class="btn btn-success"> <i class="fas fa-edit"></i> </a>
+										{# <form method="post" action="{{path('admin_subscription_plan_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr de supprimer ?')">
+											<input type="hidden" name="_method" value="DELETE">
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ subscription.id) }}">
+											<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+										</form> #}
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
 
 
-			<table class="table table-striped table-hover">
-				<thead>
-					<tr class="text-center">
-						<th scope="col">Nom</th>
-						<th scope="col">Description</th>
-						<th scope="col">Prix</th>
-						<th scope="col">Durré en mois</th>
-						<th scope="col">Id-Subscription (Paypal)</th>
-						<th scope="col">Id-Product (Paypal)</th>
-						<th scope="col">Abonnés</th>
-						<th scope="col">Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for subscription in subscriptions %}
-						<tr>
-						{# <pre>
-							{{ dump(subscription) }}
-						</pre> #}
-					
-							 <td>{{subscription.nameSubscriptionPlan}}</td>
-							<td>{{subscription.descriptionSubscriptionPlan}}</td>
-							<td>{{subscription.priceSubscription}} €</td>
-							<td>{{subscription.durationMonthSubscription}}</td>
-							<td>{{subscription.idSubscriptionPlanPaypal}}</td>
-							<td>{{subscription.idProductPlanPaypal}}</td>
-							<td><a href="{{ path('admin_subscriber_plan_list', {id: subscription.id}) }}"><i class="fas fa-users"></i></a></td>
 
-							<td>
-								{# <a href="{{path('admin_subscription_edit', {id: subscription.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a> #}
-								{# <form method="post" action="{{path('admin_product_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
-									<input type="hidden" name="_method" value="DELETE">
-									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ subscription.id) }}">
-									<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-								</form> #}
-							</td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<!-- <a href="{{path('admin_subscription_create')}}" class="btn btn-primary mt-4">Créer un abonnement</a>
+			<a href="{{path('admin_subscriber_list')}}" class="btn btn-secondary mt-4">Abonnés</a>
+
+			<div class="container mt-5">
+				<div class="container">
+					{# {{form_start(form)}}
+					<div class="row align-items-end">
+						<div class="col">
+							{{form_row(form.nom)}}
+						</div>
+						<div class="col">
+							<button class="btn btn-primary">Recherche</button>
+						</div>
+					{{form_end(form)}}
+				</div> #}
+
+				{% for label, messages in app.flashes %}
+					<div class="alert alert-{{label}} text-center">
+						{% for message in messages %}
+							{{message | raw}}
+						{% endfor %}
+					</div>
+				{% endfor %}
+
+
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr class="text-center">
+							<th scope="col">Nom</th>
+							<th scope="col">Description</th>
+							<th scope="col">Prix</th>
+							<th scope="col">Durré en mois</th>
+							<th scope="col">Id-Subscription (Paypal)</th>
+							<th scope="col">Id-Product (Paypal)</th>
+							<th scope="col">Abonnés</th>
+							<th scope="col">Action</th>
 						</tr>
-					{% endfor %}
+					</thead>
+					<tbody>
+						{% for subscription in subscriptions %}
+							<tr>
+							{# <pre>
+								{{ dump(subscription) }}
+							</pre> #}
+						
+								<td>{{subscription.nameSubscriptionPlan}}</td>
+								<td>{{subscription.descriptionSubscriptionPlan}}</td>
+								<td>{{subscription.priceSubscription}} €</td>
+								<td>{{subscription.durationMonthSubscription}}</td>
+								<td>{{subscription.idSubscriptionPlanPaypal}}</td>
+								<td>{{subscription.idProductPlanPaypal}}</td>
+								<td><a href="{{ path('admin_subscriber_plan_list', {id: subscription.id}) }}"><i class="fas fa-users"></i></a></td>
+								<td>
+									<a href="{{path('admin_subscription_edit', {id: subscription.id})}}" class="btn btn-success"> <i class="fas fa-edit"></i> </a>
+									{# <form method="post" action="{{path('admin_subscription_plan_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr de supprimer ?')">
+										<input type="hidden" name="_method" value="DELETE">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ subscription.id) }}">
+										<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+									</form> #}
+								</td>
+							</tr>
+						{% endfor %}
 
-				</tbody>
-			</table>
+					</tbody>
+				</table>
 
-			{# <div class="pagination d-flex justify-content-center">
-				{{ knp_pagination_render(subscriptions)}}
-			</div> #}
+			</div> -->
 		</div>
-    </div>
+	</div>
 {% endblock %}

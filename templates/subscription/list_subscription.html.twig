@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+    {% block title %}Nos paniers!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .subscription-list-block{
+            background-color: #a5a4a252;
+            height: 700px;
+            align-items: center;
+            display: flex;
+            border-radius: 5%;
+            padding-left: 20px;
+        }
+
+        .text-content2{
+            top: 13vw!important;
+        }
+
+        .button1{
+        	padding: 18px 32px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<body class="biolife-body">
+    <div class="page-contain">
+        <!-- Main content -->
+        <div id="main-content" class="main-content">  
+            <!-- Block 01: Main slide block-->
+            <div class="main-slide block-slider">
+                <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
+
+                            <!-- Image bannière  -->
+                            <div class="banner-media-layout-01"></div>
+
+                            <div class="text-content2">  
+                                <!-- block card subscription  -->
+                                {% include "partials/subscription/_list_subscription.html.twig" %}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

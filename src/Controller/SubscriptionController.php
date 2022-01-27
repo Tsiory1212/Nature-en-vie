@@ -26,13 +26,12 @@ class SubscriptionController extends AbstractController
 
 
     /**
-     * @Route("/abonnement", name="abonnement")
+     * @Route("/abonnements", name="subscription_list")
      */
-    public function abonnement( CartSubscriptionRepository $repoCartSubscription)
+    public function subscription_list( CartSubscriptionRepository $repoCartSubscription)
     {
- 
         $subscriptions = $repoCartSubscription->findAll();
-        return $this->render('subscription/abonnement.html.twig', [
+        return $this->render('subscription/list_subscription.html.twig', [
             'subscriptions' => $subscriptions,
         ]);
     }
@@ -40,14 +39,14 @@ class SubscriptionController extends AbstractController
     /**
      * @Route("/abonnement/{id}/show", name="cart_subscription_show")
      */
-    public function cart_subscription_show(CartSubscription $abonnement, CartSubscriptionRepository $repoAbonnement): Response
+    public function cart_subscription_show(CartSubscription $subscription, CartSubscriptionRepository $repoAbonnement): Response
     {
         $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
-        $idSubscriptionPlanPaypal = $repoAbonnement->find($abonnement->getId())->getIdSubscriptionPlanPaypal() ;
+        $idSubscriptionPlanPaypal = $repoAbonnement->find($subscription->getId())->getIdSubscriptionPlanPaypal() ;
 
         return $this->render('subscription/show_subscription.html.twig', [
             'paypal_client_id' => $paypal_client_id,
-            'abonnement' => $abonnement,
+            'subscription' => $subscription,
             'idSubscriptionPlanPaypal' => $idSubscriptionPlanPaypal
         ]);
     }

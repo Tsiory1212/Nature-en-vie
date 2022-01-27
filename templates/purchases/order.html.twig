@@ -2,6 +2,22 @@
 
 {% block title %} Commander {% endblock %}
 
+{% block stylesheets %}
+    <style>
+        #header{
+            position: relative;
+            margin-bottom: 100px;
+        }
+        body{
+        	background-image: url('/biolife/assets/images/home-01/main-slide-01.jpg');
+        }
+        .fa-heart{
+            font-size: 25px;
+            color: #d91818c4;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <!--Navigation section-->
     <div class="container">
@@ -16,18 +32,23 @@
 
     <!-- Etape 1 : Mon panier  -->
     <div id="step-1">
-        <div class="container panier_body shadow-lg p-3 mb-5 bg-body rounded">
+        <div class="container bg-white panier_body shadow-lg p-3 mb-5 bradius-3rem">
             <div class="bg-light p-3">
                 <div class="row">
                     <div class="col-md-12 bg-primary">
-                        <h1 class=" ms-5">1- Mon panier</h1> 
+                        <h1 class="ms-5 d-inline">1- Mon panier</h1> 
                     </div>
                 </div>
             </div>
             <div class="content-step-1">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-favorite-cart">Favoris</button>
+                <div class="favori-button text-center">
+                    {% if itemsInTab == myLastFavCart.cart %}
+                        <i class="fas fa-heart d-inline">Panier enregistrer comme favori !</i>
+                    {% else %}
+                        <i class="far fa-heart d-inline " type="button" data-bs-toggle="modal" data-bs-target="#modal-favorite-cart">Marquer comme favori</i>
+                    {% endif %}
                 </div>
+
                 {% if items|length > 0 %}
                     <table class="table">
                         <thead>
@@ -163,10 +184,61 @@
                 </div>
                 <div id="delivry-choice-body">
                     <div class="row d-flex justify-content-center">
-                        <div class="col-md-6 ">
-                            <div class="text-center mt-4">
+                        <div class="col-md-6 text-center mt-4">
+                                <!-- 1. Payement unique -->
+                                <h3>Payement unique</h3>
                                 <div id="paypal-boutons"></div>
-                            </div>
+
+                                <hr>
+
+                                <!-- 2. Payement reccurent -->
+                                <h3>Payement reccurent</h3>
+
+                                <label for="cars">Engagement:</label>
+                                <select name="cars" id="cars">
+                                    {% for  i in 1..12 %}
+                                        <option value="{{i}}">{{i}} mois</option>
+                                    {% endfor %}
+                                </select>
+
+                                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    
+                                    <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                                    
+                                    <!-- Nom du plan (Juste un nom, mais pas) -->
+                                    <input type="hidden" name="item_name" value="Abonnement Panier Sur-mesure">
+                                
+                                    <input type="hidden" name="business" value="sb-ikpdu7405512@business.example.com">
+                                
+                                    <input type="hidden" name="lc" value="US">
+                                    <input type="hidden" name="no_note" value="1">
+                                    <input type="hidden" name="src" value="1">
+                                
+                                    <!-- Prix  -->
+                                    <input type="hidden" name="a3" value="0.00">
+                                
+                                    <!-- Payement chaque mois  -->
+                                    <input type="hidden" name="p3" value="1">
+                                    <input type="hidden" name="t3" value="M">
+                                    <input type="hidden" name="currency_code" value="EUR">
+                                
+                                    <!-- Echellons de payement (durée d'engagement en mois ) -->
+                                    <input type="hidden" name="srt" value="0">
+                                
+                                    <!-- Specify URLs -->
+                                    <input type='hidden' name='cancel_return' value="{{ path('account_pass_to_order') }}">
+                                    <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}">
+                                    <!-- <input type="hidden" name="notify_url" value='XXX.com/users/paymentAccountstatus/1286'>    -->
+                                
+                                
+                                    <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
+                                
+                                
+                                    <button class="btn btn-primary" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">KSDflj</button>
+                                    <!-- <input type="image" src="https://www.sandbox.paypal.com/fr_FR/FR/i/btn/btn_subscribe_SM.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> -->
+                                    <!-- <img alt="" border="0" src="https://www.sandbox.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1"> -->
+                                </form>
+                                
 
                             {# {{ form_start(formDelivry) }}
                             {{ form_row(formDelivry.delivry) }}
@@ -231,11 +303,12 @@
     <span class="d-none" data-id="{{ product_convert_in_paypal|json_encode }}" id="some-link">Link</span>
 
 
+<a href="{{ path('account_order_step_one') }}" class="btn btn-primary">Passer à la commande</a>
 {% endblock %}
 
 {% block javascripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR"> </script>
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR&vault=true&enable-funding=paylater"> </script>
 
     <script>
         $(document).ready(function () {   
@@ -263,12 +336,7 @@
             // Paypal 
 			paypal.Buttons({
 				env: 'sandbox',
-                style: {
-                    shape: 'rect',
-                    color: 'gold',
-                    layout: 'horizontal',
-                },
-
+              
 				createOrder : function (data, actions) {
 
                     // Les produits à payer avec leurs details
@@ -321,6 +389,20 @@
             });
 
         });
+    </script>
+
+
+    <script>
+        // Prix total du panier à mettre dans abonnement 
+        const total_price =  {{ total }}
+        $('input[name="a3"]').val(total_price);
+
+        // Choix de durrée de l'engagement 
+        $('#cars').change(function(){ 
+            var value = $(this).val();
+            $('input[name="srt"]').val(value);
+        });
+
     </script>
 {% endblock %}
 

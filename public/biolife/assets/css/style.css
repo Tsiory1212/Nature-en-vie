@@ -62,7 +62,7 @@
 /************************
 * Global Settings       *
 *************************/
-body{
+/* body{
     font-family: 'Cairo', sans-serif;
     font-size: 15px;
     line-height: 24px;
@@ -72,6 +72,17 @@ body{
     -ms-word-wrap: break-word;
     word-wrap: break-word;
 }
+
+
+img{
+    max-width: 100%;
+    height: auto;
+    outline: none;
+}
+figure{
+    max-width: 100%;
+}
+*/
 label{
     font-weight: 400;
     color: #333333;
@@ -81,14 +92,7 @@ label .required{
     border-bottom: none;
     text-decoration: none;
 }
-img{
-    max-width: 100%;
-    height: auto;
-    outline: none;
-}
-figure{
-    max-width: 100%;
-}
+
 input:focus{
     outline: none;
 }
@@ -232,7 +236,12 @@ select option{
 .nice-select .option.selected.focus{
     background-color: transparent;
     font-weight: 400;
-}
+} 
+
+
+
+
+
 /* BIOLIFE ICON */
 @font-face {
     font-family: 'biolife';
@@ -874,7 +883,7 @@ body{
     }
 }
 .header-top .top-bar{
-    max-width: 50%;
+    max-width: 70%;
     float: left;
 }
 .header-top .right{
@@ -5782,9 +5791,10 @@ body.open-overlay #overlay{
 }
 .signin-container .form-row label{
     display: block;
-    font-size: 14px;
-    color: #333333;
-    margin: 0 0 3px;
+    font-size: 24px;
+    color: #fff8f8;
+    margin: 40px 0 16px;
+  }
 }
 .signin-container .form-row input{
     padding: 10px 10px 9px;
@@ -5829,7 +5839,10 @@ body.open-overlay #overlay{
     padding: 12px;
 }
 .btn.btn-bold:hover{
-    background-color: #444444;
+    background-color: #888;
+}
+.btn:hover{
+    color: #fff!important;
 }
 .register-in-container{
     margin-top: 73px;
@@ -8308,7 +8321,7 @@ li.slick-current .slider-opt04__layout01 .buttons .btn{
     font-size: 15px;
 }
 .biolife-banner__promotion6 .media .img-moving.position-1{
-    right: 20%;
+    /* right: 20%; */
     top: auto;
     bottom: -15px;
     margin-right: -12px;

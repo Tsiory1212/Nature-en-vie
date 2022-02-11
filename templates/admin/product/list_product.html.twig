@@ -38,7 +38,7 @@
 			{% endfor %}
 
 			<div class="row-table-head">
-				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);">Produits</h2>
+				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);">({{ nbrProducts }}) Produits</h2>
 				<a href="{{path('admin_product_add')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Ajouter</a>
 				<div class="bg-white p-4 mt-3">
 					<div class="row text-center fw-bold">
@@ -62,8 +62,12 @@
 							<div class="bg-white p-4 rounded">{{ nbrSubscriptions }}</div>
 						</div>
 						<div class="user-block my-5">
-							<div class="font-bg-stylized-1 text-white">Utilisateurs</div>
+							<div class="font-bg-stylized-1"> <a href="{{ path('admin_user_list') }}" class="text-white">Utilisateurs</a></div>
 							<div class="bg-white p-4 rounded">{{ nbrUsers }}</div>
+						</div>
+						<div class="order-block my-5">
+							<div class="font-bg-stylized-1"> <a href="{{ path('admin_order_list') }}" class="text-white">Commandes</a></div>
+							<div class="bg-white p-4 rounded">{{ nbrOrders }}</div>
 						</div>
 					</div>
 					<div class="content-table-body col bg-white mt-2 rounded">
@@ -149,7 +153,7 @@
     </div>
 {% endblock %}
 {% block javascripts %}
-    <script src="{{ asset('/js/custom_select2.js')}}"></script>
+    <script src="{{ asset('/assets/js/custom_select2.js')}}"></script>
 {% endblock %}
 
 

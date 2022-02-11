@@ -31,14 +31,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" style="font-size: small;"></button>
       </div>
       <div class="toast-body">
-          Consulter le panier <a href="{{path('account_pass_to_order')}}">Cliquer ici!</a>
+          Consulter le panier <a href="{{path('account_order_step_one')}}">Cliquer ici!</a>
       </div>
   </div>
 
 
     <!--Hero Section-->
     <div class="hero-section hero-background">
-        <h1 class="page-title">Bio</h1>
+        <h1 class="page-title">Natur'en vie</h1>
     </div>
 
     <!--Navigation section-->
@@ -80,14 +80,11 @@
                                             <div class="col-md-2">
                                                 {{form_widget(form.classement)}}
                                             </div>
-                                            <div class="col-md-2">
-                                                {{form_widget(form.gamme)}}
-                                            </div>
                                             <div class="col-md-1">
                                                 {{form_widget(form.maxPrice)}}
                                             </div>
                                             <div class="col-md-1">
-                                                <button class="btn btn-primary">Trier</button>
+                                                <button class="button button1">Trier</button>
                                             </div>
                                         </div>
                                     {{form_end(form)}}
@@ -114,7 +111,12 @@
                                                 <b class="categories">{{ product.name}}</b>
                                                 <h4 class="product-title"><a href="#" class="pr-name">{{ product.category.name}}</a></h4>
                                                 <div class="price">
-                                                    <ins><span class="price-amount">{{ product.price}} €</span></ins>
+                                                    <ins><span class="price-amount">{{ product.price}} €</span></ins> <br>
+                                                    {% if product.weight %}
+                                                        <ins><span class="price-amount">{{ product.weight}} Kg</span></ins>
+                                                    {% else %}
+                                                        <ins><span class="price-amount"> Prix à la botte</span></ins>
+                                                    {% endif %}
                                                 </div>
                                                 <div class="shipping-info">
                                                     {# <p class="shipping-day">3-Day Shipping</p> #}
@@ -157,45 +159,5 @@
 
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
-    <script src="{{ asset('/js/custom_select2.js')}}"></script>
-
-    <script>
-    $( document ).ready(function() {
-        $('.js-add-cart-and-toast').click(function() {
-            event.preventDefault();
-
-            // this repésente l'élément => a 
-            const url = $(this)[0].href;
-            
-            var allQuantityItem =  $('.minicart-block .sub-total .quantity-item')[0]
-            var total_price =  $('.minicart-block .sub-total .total-price')[0]
-            var product_element_dom_mini_cart = $('.minicart-block .cart-content .products')[0];
-            
-            var hidden_li_item_mini_cart =  $('#hidden-li-item-mini-cart')[0];
-            const a = $(this)
-
-            a.text("...") ;
-            a.addClass("disabled");
-            
-            axios.get(url)
-                .then(function(response){
-
-                    allQuantityItem.textContent = response.data.allQuantityItem;
-                    total_price.textContent = response.data.totalPrice.toFixed(2);
-                    
-                    // On anime le bouton 
-                    a.text("Ajouté") ;
-                    setTimeout(function(){
-                        a.removeClass("disabled");
-                        a.text("Ajouter au panier");
-                    }, 500)
-
-                    $("#Toast-add-product").toast("show").removeClass("fade");
-                })
-        })
-    });
-
-
-
-    </script>
+    <script src="{{ asset('/assets/js/custom_select2.js')}}"></script>
 {% endblock %}

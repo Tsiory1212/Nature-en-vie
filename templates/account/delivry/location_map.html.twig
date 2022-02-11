@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test {% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+	<style>
+		#detailsMap{
+			height: 400px;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+<body class="biolife-body">
+	<div class="page-contain">
+        <!-- Image bannière  -->
+        <div class="banner-media-layout-01"></div>
+
+        <div class="text-content3">   
+			
+			<div class="container bg-glass">
+				<div class="row">
+					<div class="col-4">
+						<button class="button button1"  onclick="recenterInAreaBounds()">Recentrer dans la zone couvert</button>
+					</div>
+					<div class="col-5">
+						<input placeholder="Recherche ville" type="text" id="ville" name="ville">
+						<button class="button button1 d-inline"  onclick="centerAfterGivingCity()"><i class="fas fa-search"></i></button>
+					</div>
+					<div class="col-3">
+						<button class="button button1"  onclick="getMyLocation()">Trouver ma position</button>
+					</div>
+				</div>
+				<form action="#" method="post">
+	
+					<div id="detailsMap"></div>
+					<div class="lat_long">
+						<input type="hidden" id="lat" name="lat" readonly>
+						<input type="hidden" id="lon" name="lon" readonly>
+					</div>
+					<button class="button button1" >Valider</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
+	<script>
+		let map ;
+		let marqueur ;
+		let geoJSON ;
+		
+		window.onload = () => {
+			let position = [46.577508, 3.203782];
+
+			map = L.map('detailsMap').setView(position, 11);
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: 'Carte fournie par Wikimedia',
+				minZoom: 1,
+				maxZoom: 20
+			}).addTo(map);
+			
+			map.on("click", mapClickListen);
+
+			// On déclanche la fonction centerAfterGivingCity
+			// $("#ville").on("blur", centerAfterGivingCity);
+
+			$.ajax({
+				type: 'get',
+				url: `/assets/js/france-geoJson.json`,
+				success :  function(geojson){
+					let geoJsonLayer = L.geoJSON(geojson, {
+						style: {
+							 "color": "#839c49",
+							 "opacity": 1,
+							 "fillColor": "#839c49",
+							 "fillOpacity": 0.5,
+							 "bubblingMouseEvents": false // permet de dire que la tuille carte et Polygone n'a pas le même evenement de souri
+						}
+					}).addTo(map);
+					geoJsonLayer.on("click", (event) => mapClickListen(event, true));
+					geoJSON = L.geoJSON(geojson)
+				}
+			})
+		}
+
+		function mapClickListen(e, inPolygone = false) {
+			let pos = e.latlng;
+			addMarker(pos, inPolygone);
+			showPosition(pos.lat, pos.lng);
+		}
+
+		function addMarker(position, inPolygone) {
+			// On vérifie si un marqueur existe
+			if (marqueur != undefined) {
+				map.removeLayer(marqueur);
+			}
+
+			// On verifie si on est dans le polygone
+			if (inPolygone) {
+				marqueur = L.marker(position, {});
+				marqueur.bindPopup("In !");
+			} else {
+				var icone  = L.icon({
+					iconUrl: "/assets/images/map-location-icon-red.png",
+					iconSize: [40, 40],
+					iconAnchor: [20, 43],
+					popupAnchor: [1, -43]
+				})
+
+				var popupInPol = L.popup()
+					.setLatLng(position)
+					.setContent('<p>Votre zone n\'est pas encore couvert pour la livraison ! <br> Pourant, vous pouvez enregistrer votre position et on prendra d\'autre mésure </p>')
+					.openOn(map)
+				;
+
+				marqueur = L.marker(position, {
+					icon: icone
+				});
+				marqueur.bindPopup(popupInPol).openPopup();
+			}
+
+			// // Test if marker in Bounds area
+			// var test;
+			// if (geoJSON.getBounds().contains(marqueur.getLatLng())) {
+			// 	test = true;
+			// } else {
+			// 	test = false;
+			// }
+
+		
+			// On écoute le glisser/déposer sur le marqueur
+			// marqueur.on("dragend", function (e) {
+				
+			// 	position = e.target.getLatLng();
+			// 	showPosition(position.lat, position.lng);				
+			// })
+			marqueur.addTo(map);
+		}
+
+		function centerAfterGivingCity(e) {
+
+			let adresse = $("#ville").val();
+		
+			setTimeout(function() {
+				// On fabrique l'adresse
+
+				// On ouvre la requête
+				$.ajax({
+					type: 'get',
+					url: `https://nominatim.openstreetmap.org/search?q=${adresse}&format=json&adressdetails=1&limit=1&polygon_svg=1`,
+					success :  function(result){
+						let lat = result[0]["lat"];
+						let lon = result[0]["lon"];
+						showPosition(lat, lon);
+						map.setView([lat, lon], 15)
+					}
+				})
+			}, 4000);
+		}
+
+		function recenterInAreaBounds() {
+			map.fitBounds(geoJSON.getBounds());
+		}
+
+		function getMyLocation() {
+			map.locate({setView: true, enableHighAccuracy: true, maxZoom: 15})
+				.on('locationfound', function(e){
+					showPosition(e.latlng.lat, e.latlng.lng);
+					if (marqueur != undefined) {
+						map.removeLayer(marqueur);
+					}
+					marqueur = L.marker(e.latlng);
+					marqueur.bindPopup("Recentrer le marqueur si il n'est pas très précis");
+					marqueur.addTo(map);
+				});
+		}
+
+		function showPosition(lat, lng) {
+			$('#lat').val(lat);
+			$('#lon').val(lng);
+		}
+	</script>
+</body>
+{% endblock %} 

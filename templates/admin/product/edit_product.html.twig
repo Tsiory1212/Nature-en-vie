@@ -3,11 +3,16 @@
 {% block title %}Hello ProductController!{% endblock %}
 
 {% block body %}
-
 <div class="container my-5">
     <div class="bg-glass2">
         <h1 class="text-center fw-bold">Modification produit</h1>
         {{ include ('admin/product/_product_form.html.twig', {button : 'Enregistrer', btn_class : 'btn-success'} ) }}
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('#product_price').attr('type', 'number')
+    </script>
 {% endblock %}

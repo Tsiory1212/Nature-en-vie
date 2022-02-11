@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog {% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #header {
+            position: relative !important;
+        }
+
+        .post-content > *{
+            font-size: 15px;
+            line-height: 24px;
+            color: #666666;
+            margin: 14px 0 0;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+
+<body class="biolife-body">
+   <!--Hero Section-->
+   <div class="hero-section hero-background style-02">
+    <h1 class="page-title">Organic Fruits</h1>
+    <nav class="biolife-nav">
+        <ul>
+            <li class="nav-item"><a href="index.html" class="permal-link">Home</a></li>
+            <li class="nav-item"><span class="current-page">Our Blog</span></li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Page Contain -->
+<div class="page-contain blog-page">
+    <div class="container">
+        <!-- Main content -->
+        <div id="main-content" class="main-content">
+
+            <div class="row">
+                <!--articles block-->
+                <ul class="posts-list main-post-list">
+                    {% for blog in blogs %}
+                        <li class="post-elem col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="post-item effect-04 style-bottom-info">
+                                <div class="thumbnail">
+                                    <a href="{{ path('home_blog_show', {id : blog.id})}}" class="link-to-post">
+                                        {% if blog.imageName %}
+                                            <img src="{{vich_uploader_asset(blog, 'imageFile')}}" class="img-fluid card-img-top" width="370" height="270">
+                                        {% else %}
+                                            <img src="/images/blog_default.png" class="card-img-top" class="img-fluid card-img-top" width="370" height="270">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h4 class="post-name"><a href="{{ path('home_blog_show', {id : blog.id})}}" class="linktopost">{{ blog.title }}</a></h4>
+                                    <p class="post-archive"><b class="post-cat">CATEGORIE</b><span class="post-date">/ {{ blog.createdAt|date('d M, Y')}}</span>
+                                    {# <span class="author">Posté par : Natur'en vie</span></p> #}
+                                    <p class="excerpt">{{blog.content|slice(0, 200)|raw }}...</p>
+                                    <div class="group-buttons">
+                                        <a href="{{ path('home_blog_show', {id: blog.id})}}" class="btn readmore">Lire la suite</a>
+                                        {# <a href="#" class="btn count-number liked"><i class="biolife-icon icon-heart-1"></i><span class="number">20</span></a>
+                                        <a href="#" class="btn count-number commented"><i class="biolife-icon icon-conversation"></i><span class="number">06</span></a> #}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="pagination d-flex justify-content-center">
+                    {{ knp_pagination_render(blogs)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+

@@ -1,0 +1,208 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %} Historique des commandes {% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+	<style>
+		.map{
+			height: 100vh;
+		}
+    @media only screen and (min-width: 1100px) {
+      .content-order-info{
+        display: grid;
+      }
+      .content-order-info::before{
+        content: none!important;
+      }
+
+			.map{
+				background-color: #CCCCCC;
+				position: sticky!important;
+				top: 0;
+				right: 0;
+				left: 0;
+			}
+		}
+  
+	</style>
+{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+	<h1 class="text-white text-center font-bg-stylized-1">Liste des commande du client "{{ user.lastname }}" </h1>
+	<a href="{{ path('admin_order_list') }}" class="button button1">Retour</a>
+	<button onclick="getMyLocation();" class="button button1"><i class="fa-solid fa-location-dot"></i> Ma position</button>
+	<div class="container bg-glass2 content-order-info p-3 mb-5">
+	<div class="row">
+		<div class="col-8">
+		<table class="table">
+			<thead class="text-center">
+			<tr>
+				<th scope="col">Prix</th>
+				<th scope="col">Type de livraision</th>
+				<th scope="col">Date de commande</th>
+				<th scope="col">Panier</th>
+				<th scope="col">Livré</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for order in orders %}
+				<tr class="item"
+					data-address="{{user.delivry.address}}"
+					data-lat="{{user.delivry.latPosition}}"
+					data-lng="{{user.delivry.lngPosition}}"
+					data-postalcode="{{user.delivry.postalCode}}"
+				>
+					<td>{{ order.totalPrice }} €</td>
+					<td>{{ user.delivry.delivryType  }}</td>
+					<td>{{ order.createdAt|date() }}</td>
+					<td> <a href="{{path('admin_user_order_cart_show', {order: order.id}) }}">Consulter</a> </td>
+					<td>
+						{% if order.status == 0 %}
+						<a href="{{ path('admin_user_order_deliver', {user: user.id, order: order.id}) }}"><i class="fas fa-spinner"></i></a>
+						{% else %}
+						<i class="fas fa-check"></i>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		</div>
+		<div class="col-4">
+		<div class="map" id="map"></div>
+		</div>
+	</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+  <script>
+	$(window).on('load', function(){})
+    let position = [{{ user.delivry.latPosition }}, {{ user.delivry.lngPosition }}];
+    let pointBounds = [];
+    let	map = L.map('map').setView(position, 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
+      minZoom: 1,
+      maxZoom: 20
+    }).addTo(map);
+
+    let _item = $('table tbody tr.item')[0];
+    let popupInPol = new L.popup({
+				maxWidth: 400
+			}).setLatLng(position)
+				.setContent(`<p> ${_item.dataset.address} <br> Code postal : ${_item.dataset.postalcode} </p>`)
+				.openOn(map)
+		;
+    marqueur = L.marker(position);
+    marqueur.addTo(map);
+	marqueur.bindPopup(popupInPol).openPopup();
+
+    map.setView(position, 11);
+
+
+	// On afficher dans la recherche, la destination
+	var ReversablePlan = L.Routing.Plan.extend({
+		createGeocoders: function() {
+			var container = L.Routing.Plan.prototype.createGeocoders.call(this);
+			return container;
+		}
+	});
+
+	// On déclanche la fonction permet d'afficher la recherche, "Départ" et "Destination"
+	
+		
+		var control;
+		var plan = new ReversablePlan([
+			L.latLng([46.577508, 3.203782]),
+			L.latLng(_item.dataset.lat, _item.dataset.lng)
+		], {
+			geocoder: L.Control.Geocoder.nominatim(),
+			routeWhileDragging: true,
+		}),
+
+	
+
+	
+		control = L.Routing.control({
+			LineOptions: {
+				styles: [{
+					opacity: 1,
+					weight: 6
+				}]
+			},
+			routeWhileDragging: true,
+			plan: plan,
+			router: new L.Routing.osrmv1({
+				language: 'fr'
+			})
+		}).addTo(map);
+
+
+		// On gère le boutton qui permet de definir le point de départ
+		map.on('click', function(e) {
+			var container = L.DomUtil.create('div'),
+				startBtn = createButton('Commencez à partir de cet endroit', container),
+				myPosition = createButton('Ma Position', container)
+			;
+
+			L.popup()
+				.setContent(container)
+				.setLatLng(e.latlng)
+				.openOn(map);
+
+			L.DomEvent.on(startBtn, 'click', function() {
+				control.spliceWaypoints(0, 1, e.latlng);
+				map.closePopup();
+			});
+			L.DomEvent.on(myPosition, 'click', function() {
+				map.locate({setView: true, enableHighAccuracy: true, maxZoom: 15})
+				.on('locationfound', function(e){
+					marqueur = L.marker(e.latlng);
+					marqueur.bindPopup("Je suis ici !");
+					control.spliceWaypoints(0, 1, e.latlng);
+					marqueur.addTo(map);
+					map.closePopup();
+				});
+
+			});
+		});
+
+	
+
+    function createButton(label, container) {
+      	var btn = L.DomUtil.create('text', '', container);
+      	btn.setAttribute('type', 'button');
+      	btn.innerHTML = label;
+      	return btn;
+    }
+
+	// Permet de recentrer sur ma position et tracer l'itinéraire
+
+function getMyLocation() {
+		map.locate({setView: true, enableHighAccuracy: true, maxZoom: 15})
+			.on('locationfound', function(e){
+				
+				control.spliceWaypoints(0, 1, e.latlng);
+				map.closePopup();
+				marqueur = L.marker(e.latlng);
+				marqueur.bindPopup("Je suis ici !");
+				marqueur.addTo(map);
+			});
+	}
+
+  </script>
+{% endblock %}
+

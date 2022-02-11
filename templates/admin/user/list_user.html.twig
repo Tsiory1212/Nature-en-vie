@@ -1,75 +1,112 @@
+
+
+
+
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-	Liste des utilisateurs
+	Les utilisateurs
 {% endblock %}
 
+{% block stylesheets %}
+	<style>
+		.side-bar-column{
+			margin-right: 80px;
+		}
+
+		.content-table-body{
+			padding: 20px 30px;
+		}
+
+		.item-product-row:hover{
+			background-color: rgba(165, 163, 163, 0.287);
+		}
+		.item-product-row div{
+			border: 1px solid #47444431;
+			padding: 5px 5px;
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-	    <div class="container">
-            {{form_start(form)}}
-            <div class="row align-items-end">
-                <div class="col">
-                    {{form_row(form.name)}}
-                </div>
-				<div class="col">
-                    <button class="btn btn-primary">Recherche</button>
-                </div>
-            {{form_end(form)}}
-        </div>
+    <div class="container my-5">
+		<div class="bg-glass2">
+			<div class="messages-block">
+				{% for label, messages in app.flashes %}
+				<div class="alert alert-{{label}} text-center">
+					{% for message in messages %}
+						{{message | raw}}
+					{% endfor %}
+				</div>
+			{% endfor %}
+			</div>
 
-		{% for label, messages in app.flashes %}
-            <div class="alert alert-{{label}} text-center">
-                {% for message in messages %}
-                    {{message | raw}}
-                {% endfor %}
-            </div>
-		{% endfor %}
-
-        {# <a href="{{path('admin_product_add')}}" class="btn btn-primary my-4">Ajout produit</a> #}
-
-        <table class="table table-striped table-hover mt-3">
-			<thead>
-				<tr class="text-center">
-					<th scope="col">Nom</th>
-					<th scope="col">Prénom</th>
-					<th scope="col">E-mail</th>
-					<th scope="col">Téléphone</th>
-					<th scope="col">ACTION</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for user in users %}
-
-					{% if user == app.user %}
-					
-					{% else %}
-						<tr>
-							<td>{{user.lastname}}</td>
-							<td>{{user.firstname}} €</td>
-							<td>{{user.email}}</td>
-							<td>{{user.phone}}</td>
-							
-							{# <td>
-								<a href="{{path('admin_product_edit', {id: produit.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
-								<form method="post" action="{{path('admin_product_delete', {id: produit.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
-									<input type="hidden" name="_method" value="DELETE">
-									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
-									<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-								</form>
-							</td> #}
-						</tr>
-					
-					{% endif %}
-					
-				{% endfor %}
-
-			</tbody>
-		</table>
-
-		<div class="pagination d-flex justify-content-center">
-            {{ knp_pagination_render(users)}}
-        </div>
-    </div>
+			<div class="row-table-head">
+				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);"> ({{ nbrUsers }}) Utilisateurs</h2>
+				<!-- <a href="{{path('admin_subscription_create')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Créer un abonnement</a> -->
+				<div class="bg-white p-4 mt-3 h6">
+					<div class="row text-center fw-bold">
+						<div class="col-2 text-start ps-5">   </div>
+						<div class="col-2">Nom</div>
+						<div class="col-2">Prénom</div>
+						<div class="col-2" style="width: 20%;">E-mail</div>
+						<div class="col-2" style="width: 14%;">Téléphone</div>
+						<div class="col-2" style="width: 13%;">ACTION</div>
+					</div>
+				</div>
+			</div>
+			<div class="table-body">
+				<div class="row">
+					<div class="side-bar-column col-1 text-center fw-bold">
+						<div class="subscription-block my-5">
+							<div class="font-bg-stylized-1"> <a href="{{ path('admin_product_list') }}" class="text-white">Produits</a> </div>
+							<div class="bg-white p-4 rounded">{{ nbrProducts }}</div>
+						</div>
+						<div class="user-block my-5">
+							<div class="font-bg-stylized-1 text-white">Abonnements</div>
+							<div class="bg-white p-4 rounded">{{ nbrSubscriptions }}</div>
+						</div>
+					</div>
+					<div class="content-table-body col bg-white mt-2 rounded">
+						<div class="p-5">
+							{% for user in users %}
+								{% if user == app.user %}
+									
+								{% else %}
+									<div class="row item-product-row text-center">
+										<div class="col-2">{{user.lastname}}</div>
+										<div class="col-3">{{user.firstname}}</div>
+										<div class="col-3">{{user.email}}</div>
+										<div class="col-2">{{user.phone}}</div>
+										<div class="col-2">
+											<a href="{{ path('admin_user_order', {user: user.id}) }}"><i class="fas fa-shopping-cart" style="color: #4CAF50;"></i></a>
+											
+											{# <a href="{{path('admin_subscription_edit', {id: subscription.id})}}" class="btn btn-success"> <i class="fas fa-edit"></i> </a>
+											<form method="post" action="{{path('admin_subscription_plan_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr de supprimer ?')">
+												<input type="hidden" name="_method" value="DELETE">
+												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ subscription.id) }}">
+												<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+											</form> #}
+										</div>
+									</div>
+								{% endif %}
+							{% endfor %}
+							<div class="search-form d-flex justify-content-center mt-5">
+								{{form_start(form)}}
+									<div class="row align-items-end">
+										<div class="col">
+											{{form_row(form.name)}}
+										</div>
+										<div class="col">
+											<button class="button button1 d-inline"><i class="fas fa-search"></i></button>
+										</div>
+									</div>
+								{{form_end(form)}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

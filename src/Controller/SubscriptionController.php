@@ -80,35 +80,5 @@ class SubscriptionController extends AbstractController
         ]);    
     }
 
-    /**
-     * @Route("/account/livraison/suspendre/abonnement/{id}", name="account_livraison_suspendre")
-     */
-    public function account_livraison_suspendre($id, Request $request, FactureAbonnementRepository $repoFacture)
-    {
-        $pauseLivraison = new PauseLivraison();
-
-        /**
-         * @var FactureAbonnement $currentFacture 
-         */
-        $currentFacture = $repoFacture->find($id);
-
-        $form = $this->createForm(PauseLivraisonType::class, $pauseLivraison);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $currentFacture->setPauseLivraison($pauseLivraison);
-            
-            $this->em->persist($pauseLivraison);
-            $this->em->flush();
-            $this->addFlash(
-               'success',
-               'Livraison en pause'
-            );
-            return $this->redirectToRoute('dashboard');
-        }
-        return $this->render('account/abonnement/pause_livraison.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
 
 }

@@ -1,0 +1,51 @@
+{% extends 'base_editor.html.twig' %}
+
+{% block title %}
+	Ajout de blog
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid mt-5">
+	<div class="row">
+		<div class="col-md-9">
+			<h1 class="text-center">
+				{% if button is defined %} 
+					Mofication 
+				{% else %}
+					Ajout 
+				{% endif %}
+				d'un article
+			</h1>
+		
+			{{ form_start(formBlog)}}
+			
+			{{ form_widget(formBlog)}}
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-10">
+						<button class="btn btn-primary"> 
+							{% if button is defined %} 
+								{{button}} 
+							{% else %} 
+								Ajouter 
+							{% endif %} 
+						</button>
+					</div>
+				</div>
+			{{ form_end(formBlog)}}
+		</div>
+		<div class="col-md-2">
+			<h4 class="text-center">Couverture</h4>
+			{% if blog.imageName %}
+				<img src="{{vich_uploader_asset(blog, 'imageFile')}}" alt="" width="250" >
+			{% else %}
+				<img src="/assets/images/empty-300x240.jpg" alt="">
+			{% endif %}
+			
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

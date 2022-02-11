@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Blog;
 use App\Entity\SearchEntity\ProductSearch;
 use App\Form\SearchForm\ProductSearchType;
+use App\Repository\BlogRepository;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
@@ -24,13 +26,15 @@ class HomeController extends AbstractController
     protected $repoProduct;
     protected $repoCategory;
     protected $repoSubCart;
+    protected $repoBlog;
 
-    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, CategoryRepository $repoCategory, CartSubscriptionRepository $repoSubCart)
+    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, CategoryRepository $repoCategory, CartSubscriptionRepository $repoSubCart, BlogRepository $repoBlog)
     {
         $this->paginator = $paginator;
         $this->repoProduct = $repoProduct;
         $this->repoCategory = $repoCategory;
         $this->repoSubCart = $repoSubCart;
+        $this->repoBlog = $repoBlog;
     }
 
     
@@ -43,7 +47,9 @@ class HomeController extends AbstractController
 
 
         $search = new ProductSearch();
-        $form = $this->createForm(ProductSearchType::class, $search);
+        $form = $this->createForm(ProductSearchType::class, $search)
+            ->remove('gamme')
+        ;
         $form->handleRequest($request);
 
         $products = $this->paginator->paginate(
@@ -102,14 +108,16 @@ class HomeController extends AbstractController
      *
      * @return Response
      */
-    public function home_subscription(PanierService $panierService, CartSubscriptionRepository $repoCartSubscription): Response
+    public function home_subscription(CartSubscriptionRepository $repoCartSubscription): Response
     {
         $allSubscriptionCart = $this->repoSubCart->findAll();
         $subscriptions = $repoCartSubscription->findAll();
+        $blogs = $this->repoBlog->findBy([], ['created_at' => 'DESC'], 3);
 
         return $this->render('home/home_subscription.html.twig', [
             'subscriptions' => $subscriptions,
-            'allSubscriptionCart' => $allSubscriptionCart
+            'allSubscriptionCart' => $allSubscriptionCart,
+            'blogs' => $blogs
         ]);
     }
 
@@ -168,6 +176,34 @@ class HomeController extends AbstractController
     public function contact(): Response
     {
         return $this->render('home/ferme/autres/contact.html.twig');
+    }
+
+    /**
+     * @Route("/blog", name="blog")
+     */
+    public function blog(PaginatorInterface $paginator, Request $request): Response
+    {
+        $blogs = $paginator->paginate(
+            $this->repoBlog->findAll(),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('home/blog/blogs.html.twig', [
+            'blogs' => $blogs
+        ]);
+    }
+
+    /**
+     * @Route("/blog/{id}/single", name="home_blog_show")
+     */
+    public function home_blog_show(Blog $currentblog): Response
+    {
+        $recentPosts = $this->repoBlog->findBy([], ['created_at' => 'DESC'], 4);
+        return $this->render('home/blog/show_blog.html.twig', [
+            'currentblog' => $currentblog,
+            'recentPosts' => $recentPosts
+        ]);
     }
 
 }

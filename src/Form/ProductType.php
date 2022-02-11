@@ -21,9 +21,18 @@ class ProductType extends AbstractType
         $builder
             ->add('referenceId')
             ->add('name')
-            ->add('price')
-            ->add('weight', null, [
-                'required' => false
+            ->add('price', null, [
+                'attr' => [
+                    'step' => '0.01',
+                    'type' => 'number',
+                    'min' => 0
+                ]
+            ])
+            ->add('weight', IntegerType::class, [
+                'required' => false,
+                'attr' => [
+                    'min' => 0
+                ]
             ])
             ->add('quantity', IntegerType::class, [
                 'required' => false,

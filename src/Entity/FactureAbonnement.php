@@ -45,7 +45,7 @@ class FactureAbonnement
     private $subscription_end;
 
     /**
-     * @ORM\OneToOne(targetEntity=PauseLivraison::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=PauseLivraison::class, mappedBy="facture_abonnement", fetch="EAGER")
      */
     private $pause_livraison;
 

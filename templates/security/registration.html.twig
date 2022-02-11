@@ -8,44 +8,33 @@
 			padding-top: 10%;
 			padding-bottom: 5%;
 		}
+		label{
+			color: white;
+		}
 	</style>
 {% endblock %}
 {% block body %}
 <body class="biolife-body">
 	<div class="page-contain">
-		<!-- Main content -->
-		<div id="main-content" class="main-content">
-				
-			<!-- Block 01: Main slide block-->
-			<div class="main-slide block-slider">
-				<ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
-					<li>
-						<div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
+		<!-- Image bannière  -->
+		<div class="banner-media-layout-01"></div>
 
-							<!-- Image bannière  -->
-							<div class="banner-media-layout-01"></div>
-
-							<div class="text-content2">  
-								<div class="content-fields-registration bg-glass bradius-3rem">
-									{{ form_start(formReg)}}
-									<div class="row d-flex justify-content-between">
-										<div class="col-md-6 col-sm-12">
-											{{ form_row(formReg.lastname)}}
-											{{ form_row(formReg.firstname)}}
-											{{ form_row(formReg.email)}}
-											{{ form_row(formReg.phone)}}
-											{{ form_row(formReg.password)}}
-												<button class="btn btn-bold mt-5" type="submit"> S'inscrire</button>
-										</div>
-									</div>
-									{{ form_end(formReg)}}
-								</div>
-							</div>
-						</div>
-					</li>
-				</ul>
+		<div class="text-content2">  
+			<div class="content-fields-registration bg-glass bradius-3rem px-lg-5 mx-lg-5 px-sm-5 mx-sm-0">
+				{{ form_start(formReg)}}
+				<div class="row d-flex justify-content-between">
+					<div class="col-md-7 col-sm-12 ">
+						{{ form_row(formReg.lastname)}}
+						{{ form_row(formReg.firstname)}}
+						{{ form_row(formReg.email)}}
+						{{ form_row(formReg.phone)}}
+						{{ form_row(formReg.password)}}
+							<button class="btn btn-bold mt-5" type="submit"> S'inscrire</button>
+					</div>
+				</div>
+				{{ form_end(formReg)}}
 			</div>
-		</div>
+		</div>		
 	</div>
 </body>
 

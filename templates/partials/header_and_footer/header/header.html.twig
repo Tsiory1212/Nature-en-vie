@@ -31,7 +31,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-2 col-md-6 col-xs-6">
-                    <a href="" class="biolife-logo"><img src="/biolife/assets/images/logo-bio.png" alt="biolife logo" width="135"></a>
+                    <a href="" class="biolife-logo"><img src="/assets/images/logo/logo-bio.png" class="logo-bio-header" alt="bio logo" width="100"></a>
                 </div>
                 <div class="col-lg-9 col-md-10 padding-top-2px">
                     <div class="header-search-bar layout-01 no-product-cat">
@@ -89,30 +89,14 @@
                         <ul class="menu biolife-menu clone-main-menu clone-primary-menu" id="primary-menu" data-menuname="main menu">
                             <li class="menu-item"><a href="{{path('home')}}">Accueil</a></li>
                             <li class="menu-item menu-item-has-children has-child text-start">
-                                <a href="#">Ferme</a>
-                                <ul class="sub-menu">
+                                <a href="{{path('presentation_ferme')}}">Ferme</a>
+                                {# <ul class="sub-menu">
                                     <li class="menu-item"><a href="{{path('presentation_ferme')}}">Présentation de la ferme</a></li>
                                     <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">Nous connaître</a>
                                         <ul class="sub-menu">
                                             <li class="menu-item"><a href="{{path('Comment_ca_fonctionne')}}">Comment ça fonctionne</a></li>
                                             <li class="menu-item"><a href="{{path('les_produit_de_notre_boutique_bio')}}">Les produits de notre boutique Bio</a></li>
                                             <li class="menu-item"><a href="{{path('les_marches')}}">Les marchés</a></li>
-                                            {# <li class="menu-item menu-item-has-children has-child">
-                                                <a href="{{path('ferme')}}">sfqsf</a>
-                                                <ul class="sub-menu">
-                                                    <li class="menu-item"><a href="#">Présentation de la ferme</a></li>
-                                                    <li class="menu-item"><a href="#">Un peu d'histoire</a></li>
-                                                    <li class="menu-item"><a href="#">Notre engagement qualité</a></li>
-                                                    <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">Nous connaître</a>
-                                                        <ul class="sub-menu">
-                                                            <li class="menu-item"><a href="#">Comment ça fonctionne</a></li>
-                                                            <li class="menu-item"><a href="#">Les produits de notre boutique Bio</a></li>
-                                                            <li class="menu-item"><a href="#">Les marchés</a></li>
-                                                            <li class="menu-item"><a href="#">3 levels</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li> #}
                                         </ul>
                                     </li>
                                     <li class="menu-item menu-item-has-children has-child"><a href="#" class="menu-name" data-title="Eggs & other considerations">AUTRES</a>
@@ -122,7 +106,7 @@
                                             <li class="menu-item"><a href="{{path('contact')}}">Contactez-nous</a></li>
                                         </ul>
                                     </li>
-                                </ul>
+                                </ul> #}
                             </li>
                             {% if app.request.get('_route') == 'home' %}
                             <li class="menu-item menu-item-has-children has-child text-start">
@@ -139,7 +123,7 @@
                             {% endif %}
                             <li class="menu-item"><a href="{{path('subscription_list')}}">Abonnement</a></li>
                             <li class="menu-item"><a href="#">Professionnel</a></li>
-                            <li class="menu-item"><a href="#">Blog</a></li>
+                            <li class="menu-item"><a href="{{ path('blog') }}">Blog</a></li>
                             <li class="menu-item"><a href="{{path('contact')}}">Contact</a></li>
                             {# <li class="menu-item"><a href="{{path('test_curl')}}">Curl</a></li> #}
                         </ul>
@@ -147,7 +131,7 @@
                 </div>
                 <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
                     <div class="logo-for-mobile hidden-lg hidden-md">
-                        <a href="" class="biolife-logo"><img src="/biolife/assets/images/logo-bio.png" alt="biolife logo" width="135" height="36"></a>
+                        <a href="" class="biolife-logo"><img src="/assets/images/logo/logo-bio.png" alt="bio logo" width="60"></a>
                     </div>
                     <div class="biolife-cart-info center-align-mobile">
                         <div class="mobile-search">
@@ -191,30 +175,6 @@
                                     <div class="cart-content">
                                         <div class="cart-inner">
                                             <ul class="products">
-                                                <li id="hidden-li-item-mini-cart">
-                                                    <div class="minicart-item">
-                                                        <div class="thumb">
-                                                            <a href="#">
-                                                                <img src="/uploads/produit/images/defaultImage.png"  width="90" height="90">
-                                                            </a>
-                                                        </div>
-                                                        <div class="left-info">
-                                                            <div class="product-title"><a href="#" class="product-name">Product name</a></div>
-                                                            <div class="price">
-                                                                <ins><span class="price-amount">Product price <span class="currencySymbol">€</span></span></ins>
-                                                                {# <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del> #}
-                                                            </div>
-                                                            <div class="qty">
-                                                                <label for="cart-qty">Qté:</label>
-                                                                <input type="number" class="input-qty" name="cart-qty" value="0" disabled>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action">
-                                                            <a href="#" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                            <a href="#" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </li>
                                                 {% for item in items %}
                                                     <li>
                                                         <div class="minicart-item">
@@ -239,8 +199,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="action">
-                                                                <a href="#" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                                <a href="{{path('panier_remove', {id: item.product.id})}}" class="remove remove-product-js"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                                <a href="#" class="edit"><i class="fas fa-pencil-alt"></i></a>
+                                                                <a href="{{path('panier_delete_item', {id: item.product.id})}}" class="remove js-mini_cart-item_delete"><i class="fas fa-trash-alt"></i></a>
                                                             </div>
                                                         </div>
                                                     </li>
@@ -248,7 +208,7 @@
                                             </ul>
                                             {% if app.request.get('_route') == 'all_products' %}
                                                 <p class="btn-control">
-                                                    <a href="{{path('account_pass_to_order')}}" class="btn view-cart">Commander</a>
+                                                    <a href="{{path('account_order_step_one')}}" class="btn view-cart">Commander</a>
                                                 </p>
                                             {% elseif app.request.get('_route') == 'home' %}
 

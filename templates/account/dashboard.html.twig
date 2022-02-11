@@ -2,6 +2,7 @@
 
 {% block title %}Dashboard{% endblock %}
 
+
 {% block stylesheets %}
     <style>
         .fa-exclamation-circle{
@@ -15,6 +16,17 @@
             min-height: 170px;
         }
 
+        a.order-block{
+            min-width: 255px;
+        }
+
+        .favorite-cart-block i{
+            font-size: medium;
+        }
+        .btn i.fa-pause-circle:hover, .btn i.fa-play-circle  {
+            color: #4CAF50 !important;
+        }
+        
     </style>
         
 {% endblock %}
@@ -22,134 +34,157 @@
 {% block body %}
 <body class="biolife-body">
 	<div class="page-contain">
-		<!-- Main content -->
-		<div id="main-content" class="main-content">
-				
-			<!-- Block 01: Main slide block-->
-			<div class="main-slide block-slider">
-				<ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
-					<li>
-						<div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
+        <!-- Image bannière  -->
+        <div class="banner-media-layout-01"></div>
 
-							<!-- Image bannière  -->
-							<div class="banner-media-layout-01"></div>
-
-							<div class="text-content4">  
-                                <div class="bg-glass container bradius-3rem p-5">
-                                    <div class="example-wrapper">
-                                        <div class="container">
-                                            {% for label, messages in app.flashes %}
-                                                <div class="alert alert-{{label}} text-center">
-                                                    {% for message in messages %}
-                                                        {{message | raw}}
-                                                    {% endfor %}
-                                                </div>
-                                            {% endfor %}
-                                
-                                            <div class="row text-white">
-                                                <div class="col-md-4 col-sm-12 mb-5">
-                                                    <h1 class="font-bg-stylized-1">Mes abonnements</h1>
-                                                    <div class="bg-white-radius-1 text-secondary">
-                                                        {% for facture in mesFactures %}
-                                                             <h2> 
-                                                                 - {{ facture.cartSubscription.nameSubscriptionPlan }} 
-                                                                 {% if facture.isPaused %}
-                                                                    <i class="fas fa-exclamation-circle"></i>
-                                                                {% endif %}   
-                                                                <a href="{{path('account_livraison_suspendre', {id: facture.id})}}" class="btn">Suspendre</a>
-                                                            </h2>
-                                                        {% endfor %}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-sm-12 mb-5">
-                                                    <h1 class="font-bg-stylized-1">Mes paniers favoris</h1>
-                                                    <div class="bg-white-radius-1 text-secondary">
-                                                        {% for favoriteCart in mesFavoriteCarts %}
-                                                            <h2>  - {{ favoriteCart.name }} <a href="{{path('account_favorite_cart_show', {id: favoriteCart.id})}}">Explorer</a> </h2>  
-                                                            
-                                                        {% endfor %}
-                                                    </div>
-                            
-                                                </div>
-                                                <div class="col-md-4 col-sm-12 mb-5">
-                                                    <h1 class="font-bg-stylized-1 text-white">Mes commandes</h1>
-                                                        <div class="bg-white-radius-1">
-                                                                <a href="{{path('all_products')}}" class="button button1"><i class="fas fa-shopping-cart"></i> Faire des courses</a>
-                                                                <br>
-                                                                <a href="{{path('account_order_show')}}" class="button button1"><i class="fas fa-file-invoice"></i>  Voir l'historique</a>
-                                                        </div>
-                                                    
-                                                </div>
-                                            </div>
-                                            <div class="row mt-5">
-                                                <div class="col-md-12">
-                                                    <h1 class="font-bg-stylized-2 text-white">Livraison</h1>
-                                                    <div class="bg-white-radius-1 text-secondary">
-                                                        {% if app.user.delivry %}
-                                                            <a href="{{path('account_delivry_edit')}}" class="button btn-primary p-4">Modifier</a>
-                                                            
-                                                            <table class="table">
-                                                                <thead>
-                                                                    <tr class="h4">
-                                                                    <th scope="col">Type</th>
-                                                                    <th scope="col" class="text-center">Créneaux</th>
-                                                                    <th scope="col" class="text-center">Jour</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                    <th> <h2> {{ maLivraison.delivryType }} </h2> </th>
-                                                                    <td> <h2> {{ maLivraison.delivryTimeSlot }} </h2></td>
-                                                                    <td> <h2> {{ maLivraison.delivryDaySlot }} </h2> </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                </table>
-                                                        {% else %}            
-                                                            <a href="{{path('account_delivry_create')}}" class="btn btn-primary">Definir</a>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+        <div class="text-content4">  
+            <div class="bg-glass2 container bradius-3rem p-5">
+                <div class="example-wrapper">
+                    <div class="container">
+                        {% for label, messages in app.flashes %}
+                            <div class="alert alert-{{label}} text-center">
+                                {% for message in messages %}
+                                    {{message | raw}}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+            
+                        <div class="row text-white">
+                            <!-- Block 01: Mes abonnements -->
+                            <div class="col-md-4 col-sm-12 mb-5">
+                                <h1 class="font-bg-stylized-1">Mes abonnements</h1>
+                                <div class="bg-white-radius-1 text-secondary">
+                                    {% for facture in mesFactures %}
+                                        <h2> 
+                                            {{ facture.cartSubscription.nameSubscriptionPlan }} 
+                                            {% if facture.isPaused %}
+                                                <i class="fas fa-exclamation-circle information-subscription-popover" data-bs-toggle="tooltip" title="{{ facture.pauseLivraison.startDate|date('d/m/Y') ~ " - " ~ facture.pauseLivraison.endDate|date('d/m/Y') }}" data-bs-placement="top"></i>
+                                            {% endif %} 
+                                            
+                                            {% if facture.isPaused %}
+                                                <a href="{{path('account_delivery_continue', {id: facture.id})}}" class="btn"><i class="fas fa-play-circle fa-2x"></i></a>
+                                            {% else %}
+                                                <a href="{{path('account_delivery_suspend', {id: facture.id})}}" class="btn"><i class="far fa-pause-circle fa-2x"></i></a>
+                                            {% endif %} 
+                                        </h2>
+                                    {% endfor %}
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+
+                            <!-- Block 02: Mes paniers favoris -->
+                            <div class="col-md-4 col-sm-12 mb-5 favorite-cart-block">
+                                <h1 class="font-bg-stylized-1">Mes paniers favoris</h1>
+                                <div class="bg-white-radius-1 text-secondary">
+                                    {% for favoriteCart in mesFavoriteCarts %}
+                                        <div class="row">
+                                            <div class="col-6">
+                                                {{ favoriteCart.name }} 
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="{{path('account_favorite_cart_show', {id: favoriteCart.id})}}"><i class="fas fa-shopping-cart" style="color: #4CAF50;"></i></a>  
+                                                <form method="post" action="{{path('dashboard_favorite_cart_delete', {cart: favoriteCart.id} )}}" style="display: inline-block;" onsubmit="return confirm('Supprimer le panier favori ?')">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
+                                                    <button style="background-color: #fff0; border: none;"><i class="fas fa-trash" style="color: #e64949;"></i></button>
+                                                   <!-- <i class="fas fa-trash"></i> -->
+                                                </form> 
+                                            </div>
+                                        </div> 
+                                        
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Block 03: Mes commandes -->
+                            <div class="col-md-4 col-sm-12 mb-5">
+                                <h1 class="font-bg-stylized-1 text-white">Mes commandes</h1>
+                                    <div class="bg-white-radius-1">
+                                            
+                                        {% if  app.session.get('panier')  %}
+                                            <a href="{{path('all_products')}}" class="button button1 order-block"> 
+                                                <i class="fas fa-shopping-cart"></i> Revenir à mes courses
+                                            </a>
+                                            <a href="{{path('account_order_step_one')}}" class="button button1 order-block"> 
+                                                <i class="fas fa-shopping-basket"></i> Mon panier en cours
+                                            </a>
+                                        {% else %}
+                                            <a href="{{path('all_products')}}" class="button button1 order-block"><i class="fas fa-shopping-cart"></i> Faire des courses </a>
+                                        {% endif %} 
+                                        <br>
+                                        <a href="{{path('account_order_show')}}" class="button button1 order-block"><i class="fas fa-file-invoice"></i> Voir l'historique</a>
+                                    </div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Block 04: Livraison -->
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <h1 class="font-bg-stylized-2 text-white">Livraison</h1>
+                                <div class="bg-white-radius-1 text-secondary">
+                                    {% if app.user.delivry %}
+                                        <a href="{{path('account_delivry_edit')}}" class="button btn-primary"><i class="fas fa-edit"></i></a>
+                                        
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="h4">
+                                                <th scope="col">Type</th>
+                                                <th scope="col" class="text-center">Créneaux</th>
+                                                <th scope="col" class="text-center">Jour</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                <th> <h2> {{ maLivraison.delivryType }} </h2> </th>
+                                                <td> <h2> {{ maLivraison.delivryTimeSlot }} </h2></td>
+                                                <td> <h2> {{ maLivraison.delivryDaySlot }} </h2> </td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                    {% else %}            
+                                        <a href="{{path('account_delivry_edit')}}" class="btn btn-primary">Definir</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
 
-
-
-<!-- Modal -->
-<div id="myModal" class="modal custom-fade" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" >
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Choisissez votre livraison</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <a href="{{path('account_delivry_create')}}" class="btn btn-primary">Definir</a>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal custom-fade" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Choisissez votre livraison</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a href="{{path('account_delivry_edit')}}" class="btn btn-primary">Definir</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
         </div>
     </div>
-</div>
+</body>
 {% endblock %}
 
 {% block javascripts %}
-
-    {% if app.user.delivry is null %}
-        <script type="text/javascript">
+    <script>
+        // On affiche le modal tant que l'utilisateur ne configure pas sa livraison
+        {% if app.user.delivry is null %}
             $(window).on('load', function() {
                 $('#myModal').modal('show');
             });
-        </script>
-    {% endif %}
-
+        {% endif %}
+        
+        // On gère le popover/tooltip
+        var tooltip  = new bootstrap.Tooltip(document.querySelector('.information-subscription-popover'), {
+            boundary: 'body'
+        })
+    </script>
 {% endblock %}

@@ -4,31 +4,47 @@
 
 {% block stylesheets %}
     <style>
-        
+        #header {
+            position: relative !important;
+        }
+ 
         .fond-ruban{
             float: left;
             background-size: auto;
         
-            /* background: url('/images/fond-article.png')no-repeat center top; */
+            background: url('/assets/images/fond-article.png')no-repeat center top;
             /* background-color: #a3a276; */
             background-size: contain;
             width: 100%;  
             padding: 20px 170px;
         }
-        .fond-ruban .content-text{
+        /* .fond-ruban .content-text{
             background-color: rgb(255, 255, 255);   
-        }
+        } */
 
         .content-text h1{
             font-family: 'Amatic SC', cursive;
-            color: #89b17a;
+            color: #000000;
             padding: 30px;
             text-align: center;
         }
 
         .content-text h3{
-            color: #89b17a;;
+            color: #89b17a;
         }
+
+        .content-text p{
+            font-size: 15px;
+            padding: 20px 50px;
+
+        }
+
+		body{
+			z-index: 10;
+			background-image: url('/assets/images/fond-02.png');
+			background-position: center center;
+			background-size: cover;
+		}
 
         
     </style>
@@ -37,17 +53,17 @@
 {% block body %}
 
     <body>
-        <div class="container">
+        <div class="container my-5" style="padding-bottom: 90px;">
             <div class="fond-ruban">
                 <div class="content-text" style="padding: 30px;">
                    
                     <h1>Présentation de la ferme</h1>
                     <p>La SCEA les sabots d’argile est créée en 2009 par Alain et Christophe ,cinquième d’une fratrie de 6 enfants. Elle cultive les terres argilo-calcaires de la SCI Les Rondards sur une surface d’environ 14 hectares de légumes de pleine terre, 2.3 hectares de serres froides et 3 hectares de prairies pour la faune et la flore auxiliaires.</p>
                     <p>Le climat semi-continental du Bourbonnais et les terres très lourdes nous obligent à relever un double défi au quotidien, c’est pourquoi nous nous efforçons de ne produire que ce que la terre et le climat nous permettent sans trop d’artifices.</p>
-                    <p>Elle emploie selon la saison entre 12 et 25 salariés managés par Nicolas et Jonathan.</p>
+                    <!-- <p>Elle emploie selon la saison entre 12 et 25 salariés managés par Nicolas et Jonathan.</p>
                     <p>Alain assurait la partie technique et Christophe gère le commerce et les finances parallèlement à son activité de maraîcher.</p>
-                    <p>Au départ en retraite d’Alain, en 2019, le statut juridique de la société est transformé en EURL. </p>
-                    <p>Sur le point de vue technique, Nicolas a été promu au poste de responsable de culture, il assure la qualité et la continuité du travail réalisé jusque là tout en conservant un soutien ponctuel d’Alain.</p>
+                    <p>Au départ en retraite d’Alain, en 2019, le statut juridique de la société est transformé en EURL. </p> -->
+                    <!-- <p>Sur le point de vue technique, Nicolas a été promu au poste de responsable de culture, il assure la qualité et la continuité du travail réalisé jusque là tout en conservant un soutien ponctuel d’Alain.</p>
 
                     <h3> Le parc de matériel agricole :</h3>
                     <p>La taille de l’entreprise nécessite la possession d’un parc de matériel conséquent à sa disposition. (6 tracteurs, 1 roto bêches,1 fraise, 2 cultirateaux, 5 semoirs, 2 planteuses, 2 herses étrilles, 1 bineuse, 1 herse rotative, 2 broyeurs d’engrais vert, 1 équeuteuse d’oignons, 2 récolteuses, 4 enrouleurs canon pour l’irrigation, 4 quads équipés de leur remorque, 2 dynamiseurs, 1 “pulvé” pour les préparations biodynamiques, 2 épandeurs à compost, 2 presses mottes pour le plant, plusieurs cultivateurs ou canadiens et de multiples petits matériels).</p>
@@ -79,7 +95,7 @@
                     <p>Un contrôle et une certification sont obligatoires chaque année pour nous.</p>
                     <p>L’approche holistique de Demeter dépasse le seul respect des cahiers des charges européens de l’agriculture biologique.</p>
                     <p>Il ne s’agit pas uniquement d’exclure l’utilisation de produits chimiques de synthèse en agriculture.</p>
-                    <p>Nous travaillons quotidiennement pour renforcer les processus de vie dans le sol qui donneront des plantes et des aliments savoureux pour vous tous, chers consommateurs.</p>
+                    <p>Nous travaillons quotidiennement pour renforcer les processus de vie dans le sol qui donneront des plantes et des aliments savoureux pour vous tous, chers consommateurs.</p> -->
                 </div>
             </div>
         </div>     

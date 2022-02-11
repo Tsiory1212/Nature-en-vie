@@ -71,6 +71,26 @@ class Delivry
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $lat_position;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $lng_position;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $postal_code;
+
 
     public function getId(): ?int
     {
@@ -139,6 +159,54 @@ class Delivry
     public function getDelivryDaySlot(): string
     {
         return self::DAY_SLOT[$this->day_slot];
+    }
+
+    public function getLatPosition(): ?float
+    {
+        return $this->lat_position;
+    }
+
+    public function setLatPosition(?float $lat_position): self
+    {
+        $this->lat_position = $lat_position;
+
+        return $this;
+    }
+
+    public function getLngPosition(): ?float
+    {
+        return $this->lng_position;
+    }
+
+    public function setLngPosition(?float $lng_position): self
+    {
+        $this->lng_position = $lng_position;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postal_code;
+    }
+
+    public function setPostalCode(string $postal_code): self
+    {
+        $this->postal_code = $postal_code;
+
+        return $this;
     }
 
 

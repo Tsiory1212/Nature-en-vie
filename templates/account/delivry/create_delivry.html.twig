@@ -1,13 +1,271 @@
-{% extends 'base_user.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Livraison {% endblock %}
+{% block title %}Livraison informations {% endblock %}
 
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+	<style>
+		#header{
+			position: relative!important;
+			margin-top : -5px;
+		}
+
+		#detailsMap{
+			height: 400px;
+		}
+
+		.alert.alert-warning{
+			font-weight: bold;
+			font-size: 20px;
+			text-align: center;
+			color: white;
+			background-color: #e9901ef2;
+			padding: 50px;
+		}
+
+		body{
+			z-index: 10;
+			background-image: url('/biolife/assets/images/home-01/main-slide-01.jpg');
+			background-position: center center;
+			background-size: cover;
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
-    <div class="container">
-        {{ form_start(formDelivry) }}
-        {{ form_row(formDelivry) }}
-            <button type="submit" class="btn btn-primary">Sauvegarder</button>
-        {{ form_end(formDelivry) }}
-    </div>
+<div class="content-body" onload="showCoveredArea();">
+	<div class="container bg-glass my-5">
+		
+		<div class="d-flex text-white justify-content-center my-3">
+			<h1 class="font-bg-stylized-1">Livraison (Informations) </h1>
+		</div>
+
+		<!-- On affiche un message si des livraison/commandes sont en cours -->
+		{% if nbrOrdersNotDelivred > 0  %}
+			<div class="alert alert-warning" >
+				<i class="fas fa-info-circle"></i> Vous ne pouvez pas modifier les informations car des livraisons\commandes sont en cours
+			</div>
+		{% endif %}
+
+		{{ form_start(formDelivry) }}
+		{{ form_row(formDelivry.type) }}
+		{{ form_row(formDelivry.time_slot) }}
+		{{ form_row(formDelivry.day_slot) }}
+
+		<div class="d-flex text-white justify-content-center mt-5 my-3">
+			<h1 class="font-bg-stylized-1">Livraison (Position) </h1>
+		</div>
+
+		<div class="container bg-glass2">
+			<div class="row p-2">
+				<div class="col-4 recenter-area-bounds-block">
+					<button class="button button1" type="button"  onclick="recenterInAreaBounds(); return false;">Recentrer dans la zone couvert</button>
+				</div>
+				<div class="col-5 city-search-block">
+					<input placeholder="Ville/Adresse/Code Postal" type="text" id="ville" name="ville" style="width: 250px;" onkeypress="return event.keyCode != 13;">
+					<button class="button button1 d-inline" type="button" onclick="centerAfterGivingCity(); return false;"><i class="fas fa-search"></i></button>
+				</div>
+				<div class="col-3 find-my-location-block">
+					<button class="button button1" type="button" onclick="getMyLocation(); return false;">Trouver ma position</button>
+				</div>
+			</div>
+
+			<div id="detailsMap"></div>
+			<div class="lat_long">
+				{{ form_widget(formDelivry.lat_position) }}
+				{{ form_widget(formDelivry.lng_position) }}
+			</div>
+			<div class="address">
+				{{ form_row(formDelivry.address) }}
+				{{ form_row(formDelivry.postal_code) }}
+			</div>
+		</div>
+
+			<button type="submit" class="button button1">Sauvegarder</button>
+		{{ form_end(formDelivry) }}
+	</div>
+ 
+</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<script>
+		let map ;
+		let marqueur ;
+		let geoJSON ;
+		let position = [46.577508, 3.203782];
+		window.onload = () => {
+			map = L.map('detailsMap').setView(position, 11);
+			
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
+				minZoom: 1,
+				maxZoom: 20
+			}).addTo(map);
+			
+			// On dessine le marqueur si l'utilisateur a déjà les coordéonnés
+			{% if app.user.delivry and app.user.delivry.latPosition and app.user.delivry.lngPosition %}
+				let myPosition = [{{delivry.latPosition}}, {{delivry.lngPosition}}];
+				let popup = L.popup()
+					.setLatLng(position)
+					.setContent('<p>Vous ne pouvez pas modifier la position tant qu\'il y a des livraisons/commandes en cours </p>')
+					.openOn(map)
+				;
+				marqueur = L.marker(myPosition);
+				marqueur.addTo(map);
+				map.setView(myPosition, 11)
+				marqueur.bindPopup(popup).openPopup();
+			{% endif %}
+		
+			// On désactive le marqueur tant qu'il y a des commandes non livrés
+			{% if nbrOrdersNotDelivred == 0  %}
+				map.on("click", mapClickListen);
+			{% endif %}
+
+			// On déclanche la fonction centerAfterGivingCity
+			// $("#ville").on("blur", centerAfterGivingCity);
+
+			$.ajax({
+				type: 'get',
+				url: `/assets/js/france-geoJson2.json`,
+				success :  function(geojson){
+					let geoJsonLayer = L.geoJSON(geojson, {
+						style: {
+							 "color": "#839c49",
+							 "opacity": 1,
+							 "fillColor": "#839c49",
+							 "fillOpacity": 0.5,
+							 "bubblingMouseEvents": false // permet de dire que la tuille carte et Polygone n'a pas le même evenement de souri
+						}
+					}).addTo(map);
+					{% if nbrOrdersNotDelivred == 0  %}
+						geoJsonLayer.on("click", (event) => mapClickListen(event, true));
+					{% endif %}
+					geoJSON = L.geoJSON(geojson)
+				}
+			})
+		}
+
+		function mapClickListen(e, inPolygone = false) {
+			let pos = e.latlng;
+			addMarker(pos, inPolygone);
+			showPosition(pos.lat, pos.lng);
+		}
+
+		function addMarker(position, inPolygone) {
+			
+			// On vérifie si un marqueur existe
+			if (marqueur != undefined ) {
+				map.removeLayer(marqueur);
+			}
+
+			// On verifie si on est dans le polygone
+			if (inPolygone) {
+				marqueur = L.marker(position, {});
+				marqueur.bindPopup("N'oubliez aussi de préciser votre adresse et votre code postal");
+			} else {
+				var icone  = L.icon({
+					iconUrl: "/assets/images/map-location-icon-red.png",
+					iconSize: [40, 40],
+					iconAnchor: [20, 43],
+					popupAnchor: [1, -43]
+				})
+
+				var popupInPol = L.popup()
+					.setLatLng(position)
+					.setContent('<p>Votre zone n\'est pas encore couvert pour la livraison ! <br> Pourant, vous pouvez enregistrer votre position et on prendra d\'autre mésure </p>')
+					.openOn(map)
+				;
+
+				marqueur = L.marker(position, {
+					icon: icone
+				});
+				marqueur.bindPopup(popupInPol).openPopup();
+			}
+
+			// // Test if marker in Bounds area
+			// var test;
+			// if (geoJSON.getBounds().contains(marqueur.getLatLng())) {
+			// 	test = true;
+			// } else {
+			// 	test = false;
+			// }
+
+		
+			// On écoute le glisser/déposer sur le marqueur
+			// marqueur.on("dragend", function (e) {
+				
+			// 	position = e.target.getLatLng();
+			// 	showPosition(position.lat, position.lng);				
+			// })
+			marqueur.addTo(map);
+		}
+
+		function centerAfterGivingCity() {
+			let inputSearch =  $('.city-search-block input')
+			
+			if(inputSearch.val().length > 0){
+				$('.city-search-block button i').replaceWith( "<div class='spinner-border'></div>" )
+				let adresse = $("#ville").val();
+				$.ajax({
+					type: 'get',
+					url: `https://nominatim.openstreetmap.org/search?q=${adresse}&format=json&adressdetails=1&limit=1&polygon_svg=1`,
+					success :  function(result){						
+						if(result.length > 0){
+							$('.city-search-block button div').replaceWith("<i class='fas fa-search'></i>")
+							let lat = result[0]["lat"];
+							let lon = result[0]["lon"];
+							showPosition(lat, lon);
+							map.setView([lat, lon], 15)
+						}else{
+							// Si la recherche ne trouve pas la ville
+							$('.city-search-block button div').replaceWith("<i class='fas fa-search'></i>")
+							alert('Recherche introuvable')
+						}
+					}
+				})
+
+			} 
+		
+		}
+
+		function recenterInAreaBounds() {
+			map.fitBounds(geoJSON.getBounds());
+		}
+
+		function getMyLocation() {
+		
+			map.locate({setView: true, enableHighAccuracy: true, maxZoom: 15})
+				.on('locationfound', function(e){
+					{% if nbrOrdersNotDelivred == 0  %}
+						showPosition(e.latlng.lat, e.latlng.lng);
+						if (marqueur != undefined) {
+							map.removeLayer(marqueur);
+						}
+						marqueur = L.marker(e.latlng);
+						marqueur.bindPopup("Recentrer le marqueur si il n'est pas très précis");
+						marqueur.addTo(map);
+					{% endif %}
+				});
+		}
+
+		function showPosition(lat, lng) {
+			$('#order_delivry_lat_position').val(lat);
+			$('#order_delivry_lng_position').val(lng);
+		}
+
+
+		// On désactive le DOM select tant qu'il y a une livraision/commande en cours
+		{% if nbrOrdersNotDelivred > 0  %}
+			$('select#order_delivry_type, select#order_delivry_time_slot, select#order_delivry_day_slot').each(function(index, item){
+				item.setAttribute('disabled', false);
+			})
+			$('#order_delivry_address, #order_delivry_postal_code').each(function(index, item){
+				item.setAttribute('disabled', false);
+			})
+		{% endif %}
+		
+	</script>
 {% endblock %}

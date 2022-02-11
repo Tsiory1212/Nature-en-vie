@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Test home subscription{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
     <style>
@@ -12,8 +12,8 @@
             z-index: 9992!important;
         }
         
-        .subscription-list-block{
-            background-color: #dba800;
+        .subscription-block{
+            background-image: linear-gradient(#dba800, #dba800 , white);
         }
     </style>
 {% endblock %}
@@ -36,11 +36,11 @@
                             <!-- Image bannière  -->
                             <div class="media"></div>
 
-                            <div class="text-content">     
-                                <h6 class="third-line">Frais et bio... Les produits de nos commerces au Lieu-dit Les Rondards </h6>
-                                <!-- <p class="third-line">Découvrez nos produits maraîchers et demeter qui nourrissent et le corps et l'esprit</p> -->
+                            <div class="text-content" style="z-index: 50">     
+                                <h2 class="second-line">Fruits & Légumes</h2>
+                                <p class="third-line">Bio et Demeter de nos producteurs maraîchers.</p>
                                 <p class="buttons">
-                                    <a href="#" class="btn btn-bold">Commander mon Panier Bio</a>
+                                    <a href="{{path('all_products')}}" class="button button1 p-4 px-5">Commander</a>
                                     <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
@@ -51,11 +51,11 @@
                             <div class="media">
                             </div>
                             <div class="text-content">
-                                <!-- <i class="first-line">Pomegranate</i>
-                                <h3 class="second-line">Fresh Juice. 100% Organic</h3> -->
-                                <p class="third-line">Des vins biodynamiques, des produits d'épicerie et divers articles Made in Bio</p>
+                                <!-- <i class="first-line">Pomegranate</i> -->
+                                <h2 class="second-line">Frais et Bio...</h3> 
+                                <p class="third-line">Les produits de nos commerces au Lieu-dit Les Rondards.</p>
                                 <p class="buttons">
-                                    <a href="#" class="btn btn-bold">Commander mon Panier Bio</a>
+                                    <a href="{{path('all_products')}}" class="button button1 p-4 px-5">Commander</a>
                                     <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
@@ -66,11 +66,11 @@
                             <div class="media">
                             </div>
                             <div class="text-content">
-                                <!-- <i class="first-line">Pomegranate</i>
-                                <h3 class="second-line">Fresh Juice. 100% Organic</h3> -->
-                                <p class="third-line">Des fruits & légumes bio et demeter de nos producteurs maraîchers</p>
+                                <!-- <i class="first-line">Pomegranate</i>-->
+                                <h3 class="second-line">Made in Bio</h3> 
+                                <p class="third-line">Des vins Biodynamiques, des produits d'épicerie et divers articles.</p>
                                 <p class="buttons">
-                                    <a href="#" class="btn btn-bold">Commander mon panier Bio</a>
+                                    <a href="#" class="button button1 p-4 px-5">Commander</a>
                                     <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
@@ -142,28 +142,29 @@
             </div>
 
             <!-- Block 04: Subscription -->
-            {% include "partials/subscription/_list_subscription.html.twig" %}
-
-            <!-- Block 05: Banner Promotion-->
-            <div class="banner-promotion xs-margin-top-0 sm-margin-top-60px xs-margin-top-100">
-                <div class="biolife-banner promotion6 biolife-banner__promotion6">
-                    <div class="banner-contain">
-                        <div class="media">
-                            <div class="img-moving position-1">
-                                <a href="#" class="banner-link">
-                                    <img src="/uploads/produit/images/defaultImage.png" width="568"  alt="img msv">
-                                </a>
+            <div class="subscription-block">
+                {% include "partials/subscription/_list_subscription.html.twig" %}
+           
+                <div class="banner-promotion xs-margin-top-0 sm-margin-top-60px xs-margin-top-100">
+                    <div class="biolife-banner promotion6 biolife-banner__promotion6">
+                        <div class="banner-contain">
+                            <div class="media">
+                                <div class="img-moving position-1">
+                                    <a href="#" class="banner-link">
+                                        <img src="/uploads/produit/images/defaultImage.png" width="568"  alt="img msv">
+                                    </a>
+                                </div>
+                                <div class="img-moving position-2">
+                                    <img src="/biolife/assets/images/home-01/bn-promotion-6-child-02.png" width="745" height="682" alt="img msv">
+                                </div>
                             </div>
-                            <div class="img-moving position-2">
-                                <img src="/biolife/assets/images/home-01/bn-promotion-6-child-02.png" width="745" height="682" alt="img msv">
+                            <div class="text-content">
+                                {# <i class="text1">Panier sur-mesure</i> #}
+                                <b class="text2" style="font-size: 40px">Qu’est-ce-que le Label Demeter?</b>
+                                <p class="buttons">
+                                    <a href="{{path('all_products')}}" class="btn btn-thin">Bouton = Découvrir</a>
+                                </p>
                             </div>
-                        </div>
-                        <div class="text-content">
-                            <i class="text1">Panier sur-mesure</i>
-                            <b class="text2" style="font-size: 40px">Personnaliser votre panier !</b>
-                            <p class="buttons">
-                                <a href="{{path('all_products')}}" class="btn btn-thin">Personnaliser maintenant</a>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -177,41 +178,49 @@
                         <h3 class="main-title">Nos derniers articles</h3>
                     </div>
                     <ul class="biolife-carousel nav-center xs-margin-top-34px nav-none-on-mobile" data-slick='{"rows":1,"arrows":true,"dots":false,"infinite":false,"speed":400,"slidesMargin":30,"slidesToShow":3, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 3}},{"breakpoint":992, "settings":{ "slidesToShow": 2}},{"breakpoint":768, "settings":{ "slidesToShow": 2}},{"breakpoint":600, "settings":{ "slidesToShow": 1}}]}'>
-                        <li>
-                            <div class="post-item effect-01 style-bottom-info layout-02 ">
-                                <div class="thumbnail">
-                                    <a href="#" class="link-to-post"><img src="/biolife/assets/images/our-blog/post-thumb-01.jpg" width="370" height="270" alt=""></a>
-                                    <div class="post-date">
-                                        <span class="date">26</span>
-                                        <span class="month">dec</span>
-                                    </div>
-                                </div>
-                                <div class="post-content">
-                                    <h4 class="post-name"><a href="#" class="linktopost">Ashwagandha: The #1 Herb in the World for Anxiety?</a></h4>
-                                    <div class="post-meta">
-                                        <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
-                                        <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
-                                        <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
-                                        <div class="post-meta__item post-meta__item-social-box">
-                                            <span class="tbn"><i class="fa fa-share-alt" aria-hidden="true"></i></span>
-                                            <div class="inner-content">
-                                                <ul class="socials">
-                                                    <li><a href="#" title="twitter" class="socail-btn"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" title="facebook" class="socail-btn"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" title="pinterest" class="socail-btn"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" title="youtube" class="socail-btn"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" title="instagram" class="socail-btn"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
+                        {% for blog in blogs %}
+                            <li>
+                                <div class="post-item effect-01 style-bottom-info layout-02 ">
+                                    <div class="thumbnail">
+                                        <a href="{{ path('home_blog_show', {id: blog.id})}}" class="link-to-post">
+                                            {% if blog.imageName %}
+                                                <img src="{{vich_uploader_asset(blog, 'imageFile')}}" class="img-fluid card-img-top" width="370" height="270">
+                                            {% else %}
+                                                <img src="/images/blog_default.png" class="card-img-top" class="img-fluid card-img-top"  width="370" height="270">
+                                            {% endif %}
+                                        </a>
+                                        <div class="post-date">
+                                            <span class="date">{{ blog.createdAt|date('d') }}</span>
+                                            <span class="month">{{ blog.createdAt|date('M') }}</span>
                                         </div>
                                     </div>
-                                    <p class="excerpt">Saviez-vous que les aliments qui tachent de rouge sont d'excellents moteurs lymphatiques ? En fait, de nombreuses plantes qui étaient historiquement utilisées comme colorants...</p>
-                                    <div class="group-buttons">
-                                        <a href="#" class="btn readmore">Lire</a>
+                                    <div class="post-content">
+                                        <h4 class="post-name"><a href="{{ path('home_blog_show', {id: blog.id})}}" class="linktopost">{{ blog.title }}</a></h4>
+                                        <div class="post-meta">
+                                            <a href="#" class="post-meta__item author"><img src="/biolife/assets/images/home-03/post-author.png" width="28" height="28" alt=""><span>Admin</span></a>
+                                            <a href="#" class="post-meta__item btn liked-count">2<span class="biolife-icon icon-comment"></span></a>
+                                            <a href="#" class="post-meta__item btn comment-count">6<span class="biolife-icon icon-like"></span></a>
+                                            <div class="post-meta__item post-meta__item-social-box">
+                                                <span class="tbn"><i class="fa fa-share-alt" aria-hidden="true"></i></span>
+                                                <div class="inner-content">
+                                                    <ul class="socials">
+                                                        <li><a href="#" title="twitter" class="socail-btn"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                        <li><a href="#" title="facebook" class="socail-btn"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                        <li><a href="#" title="pinterest" class="socail-btn"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                                        <li><a href="#" title="youtube" class="socail-btn"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                                                        <li><a href="#" title="instagram" class="socail-btn"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="excerpt">{{blog.content|slice(0, 200)|raw }}...</p>
+                                        <div class="group-buttons">
+                                            <a href="{{ path('home_blog_show', {id: blog.id})}}" class="btn readmore">Lire la suite</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

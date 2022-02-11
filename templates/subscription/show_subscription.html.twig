@@ -35,60 +35,44 @@
 {% block body %}
 <body class="biolife-body">
     <div class="page-contain">
-        <!-- Main content -->
-        <div id="main-content" class="main-content">
-                
-                <!-- Block 01: Main slide block-->
-                <div class="main-slide block-slider">
-                    <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
-                        <li>
-                            <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
+        <!-- Image bannière  -->
+        <div class="banner-media-layout-01"></div>
+        
+        <div class="text-content3">  
 
-                                <!-- Image bannière  -->
-                                <div class="banner-media-layout-01"></div>
-
-                                <div class="text-content3">  
-
-                                    <!-- block card-show-subscription  -->
-                                    <div class="row card-show-subscription">
-                                        {% if app.user %} {% endif %}  
-                                            <div class="col-md-4">
-                                                <div class="text-center">
-                                                    <div class="card-body">
-                                                        <div class="name-cart-subscription p-3 my-4 text-white">
-                                                            <h1 class="card-title">{{ subscription.nameSubscriptionPlan }}</h1>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="210">
-                                                            </div>
-                                                            <div class="col">
-                                                                <h1 class="fw-bolder periode-cart-subscription">{{subscription.durationMonthSubscription}} MOIS</h1>
-                                                                <h1 class="fw-bolder">{{subscription.priceSubscription}} €</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        
-                                        <div class="col-md-8 py-5 col-PayPal-button">
-                                            <h1 class="third-line text-center">
-                                                {{ subscription.descriptionSubscriptionPlan }}
-                                            </h1> 
-                                            <h3 class="third-line text-center my-5">
-                                                {{ subscription.detailedDescription }}
-                                            </h3> 
-                                            {% if app.user %}
-                                                <div id="paypal-button-container"></div>
-                                            {% endif %}
-                                        </div>
+            <!-- block card-show-subscription  -->
+            <div class="mx-5 row card-show-subscription">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="card-body">
+                                <div class="name-cart-subscription p-3 my-4 text-white">
+                                    <h1 class="card-title">{{ subscription.nameSubscriptionPlan }}</h1>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="210">
+                                    </div>
+                                    <div class="col">
+                                        <h1 class="fw-bolder periode-cart-subscription">{{subscription.durationMonthSubscription}} MOIS</h1>
+                                        <h1 class="fw-bolder">{{subscription.priceSubscription}} €</h1>
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </div>
                 
+                <div class="col-md-8 py-5 col-PayPal-button">
+                    <h1 class="third-line text-center">
+                        {{ subscription.descriptionSubscriptionPlan }}
+                    </h1> 
+                    <h3 class="third-line text-center my-5">
+                        {{ subscription.detailedDescription }}
+                    </h3> 
+                    {% if app.user %}
+                        <div id="paypal-button-container"></div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </body>

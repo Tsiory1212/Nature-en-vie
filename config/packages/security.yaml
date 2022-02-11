@@ -31,6 +31,21 @@ security:
             logout:
                 path: security_logout
                 target: home
+
+        editor:
+            pattern: ^/editor
+
+            provider: app_user_provider
+            
+            form_login:
+                login_path: editor_login
+                check_path: editor_login
+                default_target_path: editor_dashboard
+                always_use_default_target_path: true
+            
+            logout:
+                path: security_logout
+                target: home
         main:
             lazy: true
             provider: app_user_provider

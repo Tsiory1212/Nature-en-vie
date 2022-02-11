@@ -31,8 +31,6 @@ class ProductRepository extends ServiceEntityRepository
         $query = $this->findVisibleQuery();
 
         if ($search->getName()) {
-            dump($search->getName());
-
             $query = $query
             ->andwhere('p.name LIKE :name')
             ->setParameter('name', '%'.$search->getName().'%');
@@ -108,6 +106,7 @@ class ProductRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
         // à revoir 
         // ->where('p.sold = false')
+        // ->orderBy('p.name', 'ASC')
         ;
     }
 }

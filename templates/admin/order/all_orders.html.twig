@@ -1,0 +1,220 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %} Toutes les commandes {% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+	<style>
+		.map{
+			height: 100vh;
+		}
+		
+		@media only screen and (min-width: 1100px) {
+			.container-list{
+				display: grid;
+				grid-template-columns: 2fr 2fr;
+			}
+			
+			.list{
+				padding: 0 30px;
+				height: 1900px;
+				width: 800px;
+			}
+
+			.map{
+				background-color: #CCCCCC;
+				position: sticky!important;
+				top: 0;
+				right: 0;
+				left: 0;
+			}
+		}
+
+		.item:hover{
+			background-color: #0fabb94b;
+		}
+
+
+		.marker.leaflet-popup{
+			margin-bottom: 16px;
+			cursor: pointer;
+			font-size: 16px;
+			font-weight: bold;
+			padding: 5px 10px;
+			text-align: center;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 3) ;
+			background-color: #fff;
+		}
+		.marker.leaflet-popup .user{
+			color: #0fabb9;
+		}
+
+		.marker.leaflet-popup::after{
+			content: '';
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			width: 0;
+			height: 0;
+			margin-left: -8px;
+			border-left: 8px solid transparent;
+			border-right: 8px solid transparent;
+			border-top: 8px solid #fff;
+		}
+
+		.marker .leaflet-popup-content-wrapper{
+			background: transparent;
+			color: inherit;
+			box-shadow: none;
+			text-align: inherit;
+		} 
+
+		.marker .leaflet-popup-content{
+			text-align: inherit;
+			color: inherit;
+			margin: 0;
+		} 
+
+		.marker .leaflet-popup-tip-container{
+			display: none;
+		} 
+
+		.marker.is-active, .marker:hover{
+			z-index: 300;
+				background-color: #0fabb9;
+			color: #fff;
+		}
+		.marker.is-active::after, .marker:hover::after{
+			border-top-color: #0fabb9;
+		}
+
+		.marker.is-expanded{
+			background-color: #fff!important;
+			color: inherit!important;
+			z-index: 301;
+			text-align: left;
+		}
+		.marker.is-expanded::after{
+			border-top-color: #fff!important;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div class="my-5">
+		<h1 class="text-white text-center font-bg-stylized-1">Liste des commandes" </h1>
+		<div class="bg-glass2 p-3 mb-5">
+			<div class="container-list">
+				<div class="list">
+					<table class="table">
+						<thead>
+							<tr>
+							<th scope="col">Nom</th>
+							<th scope="col">Prénom</th>
+							<th scope="col">Adresse</th>
+							<th scope="col">Code Postal</th>
+							<th scope="col">Téléphone</th>
+							<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for user in users %}
+							{% set ordersNotDelivred = 0 %}
+							{% for order in user.orders %}
+								{% if order.status == 0 %}
+									{% set ordersNotDelivred = ordersNotDelivred + 1 %}
+								{% endif %}
+							{% endfor %}
+							<tr 
+								class="item js-marker" 
+
+								data-order="{{ ordersNotDelivred}}" 
+								data-lat="{{user.delivry.latPosition}}" 
+								data-lng="{{user.delivry.lngPosition}}"
+								data-address="{{user.delivry.address}}"
+								data-postalcode="{{user.delivry.postalCode}}"
+								data-user="{{user.firstname}}"
+							>
+								<td>{{ user.lastname }}</td>
+								<td>{{ user.firstname }}</td>
+								<td>{{ user.delivry.address }}</td>
+								<td>{{ user.delivry.postalCode }}</td>
+								<td>{{ user.phone }}</td>
+								<td><a href="{{path('admin_user_order', {user: user.id})}}"><i class="fa-solid fa-user"></i></a></td>
+							</tr>
+						
+						{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+				<div class="map" id="map"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<script>
+		let position = [46.577508, 3.203782];
+		let pointBounds = [];
+		let	map = L.map('map').setView(position, 11);
+
+		L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
+			minZoom: 1,
+			maxZoom: 20
+		}).addTo(map);
+
+		var js_marker = $('.js-marker');
+	
+		$.each(js_marker, function( index, item ) {
+			let point = [item.dataset.lat, item.dataset.lng];
+			
+			// On agrandit le zone à chaque fois qu'on a des nouveaux marqueurs et après on ajuste le centrage
+			pointBounds.push(point);
+			map.fitBounds(pointBounds);
+
+			let popup = new L.popup({
+					autoClose: false,
+					closeOnEscapeKey: false,
+					closeOnClick: false,
+					closeButton: false,
+					className: 'marker',
+					maxWidth: 400
+			})
+
+			// On affiche le popup, seulement si l'utilisateur a au moin une commande
+			if (item.dataset.order > 0) {
+				popup .setLatLng(point)
+					.setContent("("+item.dataset.order+")")
+					.openOn(map)
+				;
+				
+				popup.getElement().addEventListener('click', function () {
+					popup.getElement().classList.add('is-expanded');
+					console.log(item)
+					popup.setContent(`<p> <span class="user"> ${item.dataset.user} </span> <br> ${item.dataset.address} <br> Code postal : ${item.dataset.postalcode} </p>`);
+					popup.setContent(item.innerHtml);
+					popup.update();
+				})
+				popup.getElement().addEventListener('mouseout', function () {
+					popup.setContent("("+item.dataset.order+")");
+					popup.getElement().classList.remove('is-expanded');
+					popup.update()
+				})
+			}
+
+			// On gère les évènements
+			item.addEventListener('mouseover', function () {
+				popup.getElement().classList.add('is-active');
+			})
+
+			item.addEventListener('mouseout', function () {
+				popup.getElement().classList.remove('is-active'); 
+			})
+
+		});
+	</script>
+{% endblock %}

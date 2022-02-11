@@ -19,16 +19,6 @@
 {% endblock %}
 
 {% block body %}
-    <!--Navigation section-->
-    <div class="container">
-        <nav class="biolife-nav">
-            <ul>
-                <li class="nav-item"><a href="{{path('home')}}" class="permal-link">Accueil</a></li>
-                <li class="nav-item"><span class="current-page">Commander</span></li>
-            </ul>
-        </nav>
-    </div>
-    
 
     <!-- Etape 1 : Mon panier  -->
     <div id="step-1">
@@ -41,11 +31,15 @@
                 </div>
             </div>
             <div class="content-step-1">
-                <div class="favori-button text-center">
-                    {% if itemsInTab == myLastFavCart.cart %}
-                        <i class="fas fa-heart d-inline">Panier enregistrer comme favori !</i>
-                    {% else %}
+                <div class="favori-button text-center">      
+                    {% if myLastFavCart is empty or myLastFavCart.cart != itemsInTab %}
                         <i class="far fa-heart d-inline " type="button" data-bs-toggle="modal" data-bs-target="#modal-favorite-cart">Marquer comme favori</i>
+                    {% elseif myLastFavCart and myLastFavCart.cart == itemsInTab %}
+                        <form method="post" action="{{path('favorite_cart_delete', {cart: myLastFavCart.id} )}}" style="display: inline-block;" onsubmit="return confirm('Enleve le panier favori ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
+                            <button style="background-color: white; border: none;"><i class="fas fa-heart d-inline">Panier enregistrer comme favori !</i></button>
+                        </form>
                     {% endif %}
                 </div>
 
@@ -84,7 +78,7 @@
                                         <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-product">
                                             <i class="bi bi-cart-dash"></i>
                                         </a>
-                                        <a href="{{path('panier_remove_charging_page', {id: item.product.id})}}" class="btn btn-danger">
+                                        <a href="{{path('panier_delete_item', {id: item.product.id})}}" class="btn btn-danger">
                                             <i class="bi bi-cart-x"></i>
                                         </a>
                                     </td>
@@ -251,37 +245,37 @@
         </div>
     </div>
 
-    {# Modal favorite cart  #}
+    {# Modal favorite cart  #}  
+    {{ form_start(formFavCart) }}
     <div class="modal" id="modal-favorite-cart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
-            {{ form_start(formFavCart) }}
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Enregistrement du panier</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Nom:</label>
-                    {{ form_widget(formFavCart.name) }}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Enregistrement du panier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label for="message-text" class="col-form-label">Description:</label>
-                    {{ form_widget(formFavCart.description) }}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Nom:</label>
+                        {{ form_widget(formFavCart.name) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Description:</label>
+                        {{ form_widget(formFavCart.description) }}
+                    </div>
                 </div>
-                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer le panier</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Enregistrer le panier</button>
-            </div>
-            {{ form_end(formFavCart) }}
         </div>
     </div>
-</div>
+    {{ form_end(formFavCart) }}
 
 
+    {# On initialise le token #}
+	{% set token = csrf_token('order' ~ app.user.id) %}
 
     {# On converti le format du tableau produit pour que paypal le prend en charge #}
     {% set product_convert_in_paypal = {} %}
@@ -302,16 +296,13 @@
     {# mettre ses valeurs dans un DOM, afin qu'on puisse les recupérés dans JS  #}
     <span class="d-none" data-id="{{ product_convert_in_paypal|json_encode }}" id="some-link">Link</span>
 
+    <a href="{{ path('account_order_step_one') }}" class="btn btn-primary">Passer à la commande</a>
 
-<a href="{{ path('account_order_step_one') }}" class="btn btn-primary">Passer à la commande</a>
-{% endblock %}
 
-{% block javascripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR&vault=true&enable-funding=paylater"> </script>
-
+    <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR"> </script>
     <script>
-        $(document).ready(function () {   
+        $(document).ready(function () {  
+            // Action add/remove item 
             $('a.js-cart-product').click(function() {
                 event.preventDefault();
 
@@ -328,16 +319,21 @@
                     total_price.text(response.data.total.toFixed(2));
                 })
             })
-        })
-    </script>
 
-    <script>
-        $(document).ready(function(){
-            // Paypal 
-			paypal.Buttons({
-				env: 'sandbox',
-              
-				createOrder : function (data, actions) {
+            // Prix total du panier à mettre dans abonnement 
+            const total_price =  {{ total }}
+            $('input[name="a3"]').val(total_price);
+
+            // Choix de durrée de l'engagement 
+            $('#cars').change(function(){ 
+                var value = $(this).val();
+                $('input[name="srt"]').val(value);
+            });
+
+            // Paypal traitement
+            paypal.Buttons({
+                env: 'sandbox',
+                createOrder : function (data, actions) {
 
                     // Les produits à payer avec leurs details
                     var product_convert_in_paypal = $('#some-link').data('id');
@@ -347,7 +343,7 @@
                     var total_amount = produits.reduce(function (total, product) {
                         return total + product.unit_amount.value * product.quantity;
                     }, 0);
-                   
+                    
                     
                     total_amount = Math.round(total_amount*100)/100;
 
@@ -364,19 +360,37 @@
                             }
                         }]
                     });
-				},
-				onApprove: function (data, actions) {
-                  
-				},
-				onCancel: function (data) {
-					alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
-				},
-				onError: function (err) {
-					alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
-				}
-			}).render('#paypal-boutons');
-
-
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {                        
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            url: '{{ path('account_payment_paypal') }}',
+                            data: details,
+							headers: { 
+                                "token": '{{token}}',
+                            },
+                            success :  function(result){
+                                if(result.cause == "invalid token"){
+                                    var error_block = $('.error-purchace-block');
+                                    error_block.addClass('alert alert-danger')
+                                    error_block.html('Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement');
+                                }else if(result.paypal_purchase == "Transaction successfull" && result.status == "200") {
+                                    window.location.replace("http://stackoverflow.com");
+                                    $('.button-purchace-block').html('<div class="alert alert-success">Transaction réussie !</div>');
+                                }
+                            }
+                        });
+                    });
+                },
+                onCancel: function (data) {
+                    alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
+                },
+                onError: function (err) {
+                    alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+                }
+            }).render('#paypal-boutons');
 
             // Steper order
             $("#step-2 h1").click(function(){
@@ -387,22 +401,6 @@
                 $("#delivry-choice-body").toggle();
                 $(".content-step-1").toggle();
             });
-
         });
-    </script>
-
-
-    <script>
-        // Prix total du panier à mettre dans abonnement 
-        const total_price =  {{ total }}
-        $('input[name="a3"]').val(total_price);
-
-        // Choix de durrée de l'engagement 
-        $('#cars').change(function(){ 
-            var value = $(this).val();
-            $('input[name="srt"]').val(value);
-        });
-
     </script>
 {% endblock %}
-

@@ -1,17 +1,17 @@
-<div class="banner-block subscription-list-block">
+<div class="subscription-list-block">
     <div class="container">
         <div class="row">
             <h1 class="title-cart-subscription text-center text-white">Nos paniers bio, choisissez un panier à votre mesure</h1>
             {% for panier in subscriptions %}
-                <div class="col-md-4 my-4" style="padding-right: 30px;">
+                <div class="col-lg-4 my-4" style="padding-right: 30px;">
                     <div class="card bg-white text-center" style="min-width: 22rem; min-height: 30rem; border-radius: 20px">
                         <div class="card-body">
                             <div class="name-cart-subscription p-3 my-4 text-white">
                                 <h1 class="card-title">{{ panier.nameSubscriptionPlan }}</h1>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-bottom: 40%;">
                                 <div class="col">
-                                    <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="150">
+                                    <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="190" style="position: absolute; margin: 0 -60px;">
                                 </div>
                                 <div class="col">
                                     <h1 class="fw-bolder periode-cart-subscription">{{panier.durationMonthSubscription}} MOIS</h1>
@@ -25,4 +25,5 @@
             {% endfor %}
         </div>
     </div>
+ 
 </div>

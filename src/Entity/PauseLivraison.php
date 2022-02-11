@@ -31,6 +31,12 @@ class PauseLivraison
      */
     private $end_date;
 
+    /**
+     * @ORM\OneToOne(targetEntity=FactureAbonnement::class, inversedBy="pause_livraison")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $facture_abonnement;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -56,6 +62,26 @@ class PauseLivraison
     public function setEndDate(\DateTimeInterface $end_date): self
     {
         $this->end_date = $end_date;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of facture_abonnement
+     */ 
+    public function getFactureAbonnement()
+    {
+        return $this->facture_abonnement;
+    }
+
+    /**
+     * Set the value of facture_abonnement
+     *
+     * @return  self
+     */ 
+    public function setFactureAbonnement($facture_abonnement)
+    {
+        $this->facture_abonnement = $facture_abonnement;
 
         return $this;
     }

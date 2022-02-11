@@ -22,7 +22,7 @@
                     {{ form_row(form.referenceId, { 'attr' : { 'placeholder' : 'Réference du produit'} } ) }}
                 {% endif %}
                 {{ form_row(form.name) }}
-                {{ form_row(form.price) }}
+                {{ form_row(form.price, {'attr' : {'type' : 'number'}}) }}
                 {{ form_row(form.weight) }}
                 {{ form_row(form.quantity) }}
                 {{ form_row(form.detail) }}

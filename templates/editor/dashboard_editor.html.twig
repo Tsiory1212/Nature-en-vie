@@ -1,0 +1,91 @@
+{% extends 'base_editor.html.twig' %}
+
+{% block title %}
+Dashboard rédacteur
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<!-- Header Layout Content -->
+<div class="mdk-header-layout__content d-flex flex-column" style="padding-top: 45px !important;">
+    <div class="page ">
+        <div class="container page__container">
+            <h2 class="text-center">Liste des articles (blog)</h2>
+            <div class="text-center">
+                {% for label, messages in app.flashes %}
+                    <div class="alert alert-{{label}}">
+                        {% for message in messages %}
+                            {{message | raw}}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+                {{form_start(form)}}
+					<div class="row">
+						<div class="col">
+							{{form_row(form.title)}}
+						</div>
+						<div class="col">
+							<button class="btn btn-primary">Recherche</button>
+						</div>
+					</div>
+				{{form_end(form)}}
+
+            <div class="row">
+                <a href="{{path('editor_blog_add')}}" class="btn btn-success"> Ajout article</a>
+            </div>
+
+            <div class="row mb-5">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Date</th>
+                            {# <th scope="col" class="text-center">Contenu</th> #}
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in blogs %}
+                            <tr>
+                                <th>{{article.title|slice(0, 50)}}</th>
+                                <th>{{article.createdAt|date('d/m/Y')}}</th>
+
+                                {# <td>{{article.content|slice(0, 80)|raw }}...</td> #}
+                                
+                                <td class="d-flex flex-row">
+                                    <form method="post" action="{{ path('editor_blog_delete', {'id': article.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+                                        <button class="btn btn-danger" onclick="if(!confirm('Êtes-vous sûr de vouloir supprimer l\'article  ?')) { return false; }">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                               
+                                    <a href="{{ path('editor_blog_edit', {'id': article.id}) }}" class="btn btn-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+                <div class="pagination d-flex justify-content-center">
+                    {{ knp_pagination_render(blogs)}}
+                </div>
+        </div>
+
+    </div>
+</div>
+
+{% block javascripts %}
+
+{% endblock %}
+
+{% endblock %}

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(
  *      fields={"email"},
- *     message="Cet adresse est déjà utilisé par un utilisateur"
+ *     message="Cet adresse mail est déjà utilisé par un utilisateur"
  * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -72,21 +72,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $favoriteCarts;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Purchases::class, mappedBy="user")
-     */
-    private $purchases;
 
     /**
      * @ORM\OneToOne(targetEntity=Delivry::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $delivry;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->factureAbonnements = new ArrayCollection();
         $this->favoriteCarts = new ArrayCollection();
-        $this->purchases = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -274,35 +275,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Purchases[]
-     */
-    public function getPurchases(): Collection
-    {
-        return $this->purchases;
-    }
-
-    public function addPurchase(Purchases $purchase): self
-    {
-        if (!$this->purchases->contains($purchase)) {
-            $this->purchases[] = $purchase;
-            $purchase->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePurchase(Purchases $purchase): self
-    {
-        if ($this->purchases->removeElement($purchase)) {
-            // set the owning side to null (unless already changed)
-            if ($purchase->getUser() === $this) {
-                $purchase->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getDelivry(): ?Delivry
     {
@@ -317,6 +289,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->delivry = $delivry;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
+            }
+        }
 
         return $this;
     }

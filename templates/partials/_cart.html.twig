@@ -1,0 +1,54 @@
+{% if items|length > 0 %}
+    <table class="table">
+        <thead style="color: #37cc1d;">
+            <tr class="text-center">
+                <th></th>
+                <th>Atricle</th>
+                <th>Prix</th>
+                <th>Quatité</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>
+                        <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
+                            {% if item.product.imageName %}
+                                <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
+                            {% else %}
+                                <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td> {{ item.product.name }} </td>
+                    <td> {{ item.product.price }} € </td>
+                    <td> x{{ item.quantity }} </td>
+                    <td> {{ item.product.price * item.quantity }} € </td>
+                    <td>
+                        <a href="{{ path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-cart-item">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="{{ path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-item">
+                            <i class="fas fa-minus"></i>
+                        </a>
+                        <a href="{{ path('panier_delete_item', {id: item.product.id}) }}" class="btn btn-danger js-cart-item_delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total :</td>
+                <td> </td>
+                <td class="total-general">{{ total }} €</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+{% else %}
+    <h1 class="text-center">Votre panier est vide !</h1> 
+{% endif %}

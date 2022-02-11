@@ -1,0 +1,59 @@
+{% extends 'base_editor.html.twig' %}
+
+{% block title %}
+	Edition profil
+{% endblock %}
+
+{% block body %}
+
+            <!-- Header Layout Content -->
+            <div class="mdk-header-layout__content d-flex flex-column">
+
+                <div class="page ">
+
+                    <div class="container page__container">
+                       
+                        <h1 class="h2">Modification de mon profil</h1>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="">
+                                    <div class="card-header d-flex align-items-center">
+                                        <div class="flex">
+                                            <h4 class="card-title"> Modification profil </h4>
+                                        </div>
+                                    </div>
+                                        {{ form_start(formUser)}}
+                                        {{ form_row(formUser.lastname)}}
+                                        {{ form_row(formUser.firstname)}}
+                                        {{ form_row(formUser.email)}}
+                                        {{ form_row(formUser.phone)}}
+                                        {# {{ form_row(formUser.adresse)}} #}
+                                        <button type="submit" class="btn btn-primary"> Enregistrer </button>
+                                        {{ form_end(formUser)}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // END Header Layout Content -->
+
+        </div>
+        <!-- // END Header Layout -->
+
+        <div class="mdk-drawer js-mdk-drawer"
+             id="default-drawer">
+          
+        <!-- App Settings FAB -->
+        <div id="app-settings">
+            <app-settings layout-active="fixed"
+                          :layout-location="{
+      'fixed': 'fixed-instructor-dashboard.html',
+      'default': 'instructor-dashboard.html'
+    }"
+                          sidebar-variant="bg-transparent border-0"></app-settings>
+        </div>
+
+{% endblock %}

@@ -48,16 +48,16 @@
                             </td>
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.product.price }} €</td>
-                            <td> {{ item.quantity }}</td>
+                            <td> x{{ item.quantity }}</td>
                             <td>{{ item.product.price * item.quantity }} €</td>
                             <td>
-                                <a href="{{path('favorite_cart_add_one', {id: item.product.id, favCart: favoriteCart.id})}}" class="btn btn-success js-cart-product">
+                                <a href="{{path('favorite_cart_add_one', {favCart: favoriteCart.id, product: item.product.id})}}" class="btn btn-success js-cart-item">
                                     <i class="fas fa-plus"></i>
                                 </a>
-                                <a href="{{path('favorite_cart_remove_one', {id: item.product.id, favCart: favoriteCart.id})}}" class="btn btn-warning js-cart-product">
+                                <a href="{{path('favorite_cart_remove_one', {favCart: favoriteCart.id, product: item.product.id})}}" class="btn btn-warning js-cart-item">
                                     <i class="fas fa-minus"></i>
                                 </a>
-                                <a href="{{path('favorite_cart_delete_charging_page', {favCart: favoriteCart.id, product: item.product.id, })}}" class="btn btn-danger">
+                                <a href="{{path('favorite_cart_delete_item', {favCart: favoriteCart.id, product: item.product.id, })}}" class="btn btn-danger js-cart-item_delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -67,9 +67,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-right">Total :</td>
-                        <td colspan="3" class="text-right">
-                           
-                        </td>
+                        <td> </td>
                         <td class="total-general">{{ total }} €</td>
                         <td></td>
                     </tr>
@@ -80,27 +78,4 @@
         {% endif %}
     </div>
 
-{% endblock %}
-
-{% block javascripts %}
-    <script>
-        $('a.js-cart-product').click(function() {
-            event.preventDefault();
-
-            // $(this)[0] repésente l'élément => a 
-            const url = $(this)[0].href;
-            
-            const quantity_item =  $(this).parent().prev().prev()
-            const total_price_item =  $(this).parent().prev()
-            const total_price =  $('td.total-general')
-
-            axios.get(url).then(function(response){
-                quantity_item.text(response.data.quantity);
-                total_price_item.text(response.data.total_item.toFixed(2));
-                total_price.text(response.data.total.toFixed(2));
-            })
-        })
-
-    
-    </script>
 {% endblock %}

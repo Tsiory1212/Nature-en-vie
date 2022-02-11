@@ -6,97 +6,89 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="/assets/css/order_stepper.css">
+    <style>
+        #header{
+            position: relative;
+            margin-bottom: 100px;
+        }
+
+        body{
+        	background-image: url('/biolife/assets/images/home-01/main-slide-01.jpg');
+        }
+
+        .fa-shopping-cart{
+            color: #4CAF50;
+            margin-top: -61px;    
+            margin-right: 33px;
+        }
+    </style>
 {% endblock %}
 
 
 {% block body %}
-{% include "partials/_order_stepper_progress_bar.html.twig" %}
 
+    <div class="content">  
+        {% include "partials/_order_stepper_progress_bar.html.twig" %}
 
-<div class="container mt-5" style="margin-top: 100px;">
-      <!-- Etape 1 : Mon panier  -->
-    <div id="step-1">
-        <div class="container panier_body shadow-lg p-3 mb-5 bg-body rounded">
-            <div class="bg-light p-3">
-                <div class="row">
-                    <div class="col-md-12 bg-primary">
-                        <h1 class=" ms-5">1- Mon panier</h1> 
+        <div class="container bg-glass2 my-5">
+            <!-- Etape 1 : Mon panier  -->
+            <div id="step-1">
+                <div class="container bg-white panier_body shadow-lg p-3 mb-5 bradius-3rem">
+                    <div class="d-flex text-white justify-content-center my-3">
+                        <h1 class="font-bg-stylized-1">
+                            1- Mon panier
+                            {% if myLastFavCart is empty or myLastFavCart.cart != itemsInTab %}
+                                <i class="far fa-heart d-inline " type="button" data-bs-toggle="modal" data-bs-target="#modal-favorite-cart"></i>
+                            {% elseif myLastFavCart and myLastFavCart.cart == itemsInTab %}
+                                <form method="post" action="{{path('favorite_cart_delete', {cart: myLastFavCart.id} )}}" style="display: inline-block;" onsubmit="return confirm('Enleve le panier favori ?')">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
+                                    <button style="background-color: unset; border: none;"><i class="fas fa-heart d-inline"></i></button>
+                                </form>
+                            {% endif %}
+                        </h1>
+                    </div>
+                    <div class="content-step-1">
+                        <a href="{{path('all_products')}}">
+                            <i class="fas fa-shopping-cart fa-2x float-end"></i>
+                        </a>
+
+                        {% include "partials/_cart.html.twig" %}
+
                     </div>
                 </div>
+
             </div>
-            <div class="content-step-1">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-favorite-cart">Favoris</button>
+            <a href="{{ path('account_order_step_two') }}" class="button button1-inverse" style="float: right;">Suivant <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+
+    </div>
+
+    <!-- Modal : Favorite cart  -->  
+    {{ form_start(formFavCart) }}
+    <div class="modal" id="modal-favorite-cart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Enregistrement du panier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                {% if items|length > 0 %}
-                    <table class="table">
-                        <thead>
-                            <tr class="text-center">
-                                <th></th>
-                                <th>Produit</th>
-                                <th>Prix</th>
-                                <th>Quatité</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in items %}
-                                <tr>
-                                    <td>
-                                        <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
-                                            {% if item.product.imageName %}
-                                                <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
-                                            {% else %}
-                                                <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
-                                            {% endif %}
-                                        </a>
-                                    </td>
-                                    <td>{{ item.product.name }}</td>
-                                    <td> <span> {{ item.product.price }} </span> €</td>
-                                    <td> {{ item.quantity }}</td>
-                                    <td>{{ item.product.price * item.quantity }} <span> € </span></td>
-                                    <td>
-                                        <a href="{{path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-cart-product">
-                                            <i class="bi bi-cart-plus"></i>
-                                        </a>
-                                        <a href="{{path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-product">
-                                            <i class="bi bi-cart-dash"></i>
-                                        </a>
-                                        <a href="{{path('panier_remove_charging_page', {id: item.product.id})}}" class="btn btn-danger">
-                                            <i class="bi bi-cart-x"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3" class="text-right">Total :</td>
-                                <td colspan="3" class="text-right">
-                                    <a href="{{path('panier_delete_all')}}" class="btn btn-danger">
-                                        <i class="bi bi-cart-x"></i>
-                                    </a>
-                                </td>
-                                <td class="total-general">{{ total }} €</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                {% else %}
-                    <p>Surprise, c'est vide !</p>
-                {% endif %}
-    
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-2">
-                        <!-- <button class="btn btn-success">Suivant</button> -->
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Nom:</label>
+                        {{ form_widget(formFavCart.name) }}
                     </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Description:</label>
+                        {{ form_widget(formFavCart.description) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer le panier</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<a href="{{ path('account_order_step_two') }}" class="btn btn-primary">Suivant</a>
-
+    {{ form_end(formFavCart) }}
 {% endblock %}

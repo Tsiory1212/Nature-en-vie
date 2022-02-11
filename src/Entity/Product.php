@@ -43,6 +43,7 @@ class Product
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float", message="chest.invalid")
      */
     private $price;
 

@@ -782,7 +782,7 @@ body{
     }
 }
 .hero-background{
-    background-image: url('../images/hero_bg.jpg');
+    background-image: url('../images/hero_bg.png');
     height: 194px;
     background-position: center;
     background-repeat: no-repeat;
@@ -6885,7 +6885,7 @@ body.open-overlay #overlay{
     margin: 0;
 }
 .slider-opt03__layout01 .text-content .second-line{
-    font-size: 60px;
+    font-size: 45px;
     line-height: 60px;
     color: #333333;
     font-weight: 700;
@@ -6930,14 +6930,14 @@ body.open-overlay #overlay{
     color: #ffffff !important;
 }
 .slider-opt03__layout01.mode-02 .media{
-    background-image: url('../images/home-02/main-slide-01.jpg');
+    background-image: url('../images/home-02/main-slide-01.png');
     height: 955px;
 }
 .slider-opt03__layout01.mode-02.slide-bgr-02 .media{
-    background-image: url('../images/home-02/main-slide-02.jpg');
+    background-image: url('../images/home-02/main-slide-02.png');
 }
 .slider-opt03__layout01.mode-02.slide-bgr-03 .media{
-    background-image: url('../images/home-02/main-slide-03.jpg');
+    background-image: url('../images/home-02/main-slide-03.png');
 }
 .slider-opt03__layout01.mode-02 .buttons .btn-thin{
     color: #ffffff;
@@ -6946,13 +6946,13 @@ body.open-overlay #overlay{
     height: 1072px;
 }
 .slider-opt03__layout01.slide-bgr-mode03-01 .media{
-     background-image: url('../images/home-01/main-slide-01.jpg');
+     background-image: url('../images/home-01/main-slide-01.png');
  }
 .slider-opt03__layout01.slide-bgr-mode03-02 .media{
-    background-image: url('../images/home-01/main-slide-02.jpg');
+    background-image: url('../images/home-01/main-slide-02.png');
 }
 .slider-opt03__layout01.slide-bgr-mode03-03 .media{
-    background-image: url('../images/home-01/main-slide-03.jpg');
+    background-image: url('../images/home-01/main-slide-03.png');
 }
 .slider-opt03__layout02 .media{
     z-index: 10;
@@ -8321,10 +8321,11 @@ li.slick-current .slider-opt04__layout01 .buttons .btn{
     font-size: 15px;
 }
 .biolife-banner__promotion6 .media .img-moving.position-1{
-    /* right: 20%; */
+    right: 20%;
     top: auto;
-    bottom: -15px;
-    margin-right: -12px;
+    bottom: 171px;
+    margin-right: -52px;
+  }
 }
 .biolife-banner__promotion6 .media .img-moving.position-1 img{
     -webkit-animation: move-around-reverse 9s linear 0.2s infinite;

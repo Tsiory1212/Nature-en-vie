@@ -94,8 +94,8 @@ class PanierService {
     }
 
     /**
-     * Permet de merger les produits dans un tableau sous forme de clé => valeur / (ref => quantité)
-     *
+     * Permet de recupérer les données dans la session ("panier") et les transforment en tableau sous la forme => "ref_product" => quantity_produc
+     * 
      * @return array
      */
     public function putItemsIntoArray():array
@@ -194,7 +194,7 @@ class PanierService {
      * @param [type] $favoriteCart
      * @return array
      */
-    public function getFullFavoriteCart($favoriteCart) : array
+    public function getFullFavoriteCart(array $favoriteCart) : array
     {
         $panier = $favoriteCart;
 

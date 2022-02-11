@@ -1,0 +1,56 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %} Utilisateur | Panier{% endblock %}
+
+{% block body %}
+
+<div class="container bg-white panier_body shadow-lg p-3 mb-5 bradius-3rem">
+    
+    <div class="d-flex text-white justify-content-center my-3">
+        <h1 class="font-bg-stylized-1">Liste des produits</h1>
+    </div>
+
+    <table class="table">
+        <thead style="color: #37cc1d;">
+            <tr class="text-center">
+                <th></th>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quatité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>
+                        <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
+                            {% if item.product.imageName %}
+                                <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" alt="card-img-top" width="50" height="50">
+                            {% else %}
+                                <img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >        
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price }} €</td>
+                    <td> {{ item.quantity }}</td>
+                    <td>{{ item.product.price * item.quantity }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right">Total :</td>
+                <td class="total-general">{{ total }} €</td>
+             
+            </tr>
+        </tfoot>
+    </table>
+
+</div>
+
+
+
+
+{% endblock %}

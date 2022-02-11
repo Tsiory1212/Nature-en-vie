@@ -10,65 +10,61 @@
 
 
 {% block body %}
-{% include "partials/_order_stepper_progress_bar.html.twig" %}
+<body class="biolife-body">
+	<div class="page-contain">
+        <!-- Image bannière  -->
+        <div class="banner-media-layout-01"></div>
 
+        <div class="text-content3">   
+            {% include "partials/_order_stepper_progress_bar.html.twig" %}
 
-<div class="container mt-5" style="margin-top: 100px;">
-      <!-- Etape 2 : Livraison  -->
-    <div id="step-2">
-        <div class="container">
-            <div id="delivry-choice" class="shadow-lg p-3 mb-5 bg-body rounded">
-                <div class="row">
-                    <div class="col-md-12 bg-primary">
-                        <h1 class=" ms-5">2- Livraison</h1> 
-                    </div>
-                </div>
-                <div id="delivry-choice-body">
-
-                    {% if myDelivryInfo %}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-6 ">
-                                    Livraison :
-                                    </div>
-                                    <div class="col-md-6 ">
-                                    {{ myDelivryInfo.delivryType }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 ">
-                                    Créneau horaire :
-                                    </div>
-                                    <div class="col-md-6 ">
-                                    {{ myDelivryInfo.delivryTimeSlot }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 ">
-                                    Jour de la livraison :
-                                    </div>
-                                    <div class="col-md-6 ">
-                                    {{ myDelivryInfo.delivryDaySlot }}
-                                    </div>
-                                </div>
+            <div class="container bg-glass2 my-5">
+                <!-- Etape 2 : Livraison  -->
+                <div id="step-2">
+                    <div class="container">
+                        <div id="delivry-choice" class="shadow-lg p-3 mb-5 bg-body rounded">
+                            <div class="d-flex text-white justify-content-center my-3">
+                                <h1 class="font-bg-stylized-1">
+                                    2- Livraison <a href="{{path('account_delivry_edit')}}" class="text-white"><i class="fas fa-edit"></i></a>
+                                </h1>
                             </div>
-                            <div class="col-md-6">
-                            
+                            <div id="delivry-choice-body">
+                                    {% if app.user.delivry %}
+                                        
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="h4">
+                                                <th scope="col">Type</th>
+                                                <th scope="col" class="text-center">Créneaux</th>
+                                                <th scope="col" class="text-center">Jour</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                <th> <h2> {{ myDelivryInfo.delivryType }} </h2> </th>
+                                                <td> <h2> {{ myDelivryInfo.delivryTimeSlot }} </h2></td>
+                                                <td> <h2> {{ myDelivryInfo.delivryDaySlot }} </h2> </td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                    {% else %}            
+                                        <a href="{{path('account_delivry_edit')}}" class="btn btn-primary">Definir</a>
+                                    {% endif %}
+
+
+                                
                             </div>
                         </div>
-                    
-                    {% else %}
-                        <a href="{{ path('account_delivry_create') }}">Definir</a>
-                    {% endif %}
-                    
+                    </div>
                 </div>
+            <a href="{{ path('account_order_step_one') }}" class="button button1" style="float: left;"><i class="fas fa-arrow-circle-left"></i> Précédant</a>
+
+            <a href="{{ path('account_order_step_three') }}" class="button button1-inverse" style="float: right;">Suivant <i class="fas fa-arrow-circle-right"></i></a>
+
             </div>
+
         </div>
     </div>
-
-</div>
-<a href="{{ path('account_order_step_three') }}" class="btn btn-primary">Suivant</a>
-
+</body>
 
 {% endblock %}

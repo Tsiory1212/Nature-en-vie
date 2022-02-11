@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Entity\SearchEntity\ProductSearch;
 use App\Form\SearchForm\ProductSearchType;
 use App\Repository\CartSubscriptionRepository;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Service\ProductService;
@@ -23,13 +24,15 @@ class AdminProductController extends AbstractController
     private $repoProduct;
     private $repoUser;
     private $repoSubscription;
+    private $repoOrder;
 
-    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, CartSubscriptionRepository $repoSubscription)
+    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, CartSubscriptionRepository $repoSubscription, OrderRepository $repoOrder)
     {
         $this->em = $em;
         $this->repoProduct = $repoProduct;
         $this->repoUser = $repoUser;
         $this->repoSubscription = $repoSubscription;
+        $this->repoOrder = $repoOrder;
     }
 
     
@@ -51,12 +54,14 @@ class AdminProductController extends AbstractController
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
         $nbrSubscriptions = count($this->repoSubscription->findAll());
+        $nbrOrders = count($this->repoOrder->findAll());
 
         return $this->render('admin/product/list_product.html.twig', [
             'products'=> $products,
             'form' => $form->createView(),
             'nbrProducts' => $nbrProducts,
             'nbrUsers' => $nbrUsers,
+            'nbrOrders' => $nbrOrders,
             'nbrSubscriptions' => $nbrSubscriptions,
         ]);
     }
@@ -67,7 +72,7 @@ class AdminProductController extends AbstractController
     public function admin_product_add(Request $request, ProductService $productService): Response
     {
         // On génère un nouveau "referenceId"        
-        $lastProduct = $this->repoProduct->findBy(array(),array('id'=>'DESC'),1,0)[0];
+        $lastProduct = $this->repoProduct->findBy([], ['id'=>'DESC'],1,0)[0];
         $newRefId = $productService->generateNewRefId($lastProduct);
 
         $produit = new Product();

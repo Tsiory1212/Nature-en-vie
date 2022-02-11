@@ -13,4 +13,10 @@ $( document ).ready(function() {
         placeholder: "Gamme",
         allowClear: true,
     })
+
+    $("select#reccurent_paypal").select2({
+        placeholder: "Selectionner l'engagement",
+		width: '30%'
+    })
+    
 });

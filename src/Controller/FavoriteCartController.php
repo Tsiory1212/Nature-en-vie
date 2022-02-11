@@ -19,9 +19,12 @@ class FavoriteCartController extends AbstractController
 {
     protected $em;
 
-    public function __construct(EntityManagerInterface $em)
+    protected $repoFavoriteCart;
+
+    public function __construct(EntityManagerInterface $em, FavoriteCartRepository $repoFavoriteCart)
     {
         $this->em = $em;
+        $this->repoFavoriteCart = $repoFavoriteCart;
     }
 
     /**
@@ -42,13 +45,13 @@ class FavoriteCartController extends AbstractController
 
 
     /**
-     * @Route("/panier-favori/{favCart}/add/product/{id}", name="favorite_cart_add_one")
+     * @Route("/panier-favori/{favCart}/add/product/{product}", name="favorite_cart_add_one")
      */
-    public function favorite_cart_add_one(Product $product, $favCart, $id, PanierService $panierService, FavoriteCartRepository $repoFavoriteCart)
+    public function favorite_cart_add_one(Product $product, $favCart, PanierService $panierService)
     {
         $refId =  $product->getReferenceId();
 
-        $favoriteCartEntity = $repoFavoriteCart->find($favCart);
+        $favoriteCartEntity = $this->repoFavoriteCart->find($favCart);
         $cart = $favoriteCartEntity->getCart();
         $favoriteCartEntity->setCart( $panierService->increaseItemInFavCart($refId, $cart) );
         $this->em->persist($favoriteCartEntity);
@@ -57,29 +60,27 @@ class FavoriteCartController extends AbstractController
 
         // ici, on doit prendre $favoriteCartEntity à nouveau après flush() 
         $product_item_quantity = $favoriteCartEntity->getCart()[$refId];
-        $price = $product->getPrice();
-        $product_item_total = $product_item_quantity * $price;
-        $product_total = $panierService->getTotalPriceFavoriteCart($cart);
+        $total_price_item = $product_item_quantity * $product->getPrice();
+        $total_price = $panierService->getTotalPriceFavoriteCart($favoriteCartEntity->getCart());
         
         return $this->json([
             'code' => 200, 
             'message' => 'produit incrémenté',
             'quantity' => $product_item_quantity,
-            'total_item' => $product_item_total,
-            'total' => $product_total
+            'total_price_item' => $total_price_item,
+            'total_price' => $total_price
         ]);
     }
 
     /**
-     * @Route("/panier-favori/{favCart}/remove/product/{id}", name="favorite_cart_remove_one")
+     * @Route("/panier-favori/{favCart}/remove/product/{product}", name="favorite_cart_remove_one")
      */
-    public function favorite_cart_remove_one(Product $product, $favCart, PanierService $panierService, FavoriteCartRepository $repoFavoriteCart)
+    public function favorite_cart_remove_one(Product $product, $favCart, PanierService $panierService)
     {
         $refId =  $product->getReferenceId();
 
-        $favoriteCartEntity = $repoFavoriteCart->find($favCart);
+        $favoriteCartEntity = $this->repoFavoriteCart->find($favCart);
         $cart = $favoriteCartEntity->getCart();
-       
         $favoriteCartEntity->setCart( $panierService->removeOneItemInFavCart($refId, $cart) );
         $this->em->persist($favoriteCartEntity);
         $this->em->flush();
@@ -87,89 +88,73 @@ class FavoriteCartController extends AbstractController
 
         // ici, on doit prendre $favoriteCartEntity à nouveau après flush() 
         $product_item_quantity = $favoriteCartEntity->getCart()[$refId];
-        $price = $product->getPrice();
-        $product_item_total = $product_item_quantity * $price;
-        $product_total = $panierService->getTotalPriceFavoriteCart($cart);
+        $total_price_item = $product_item_quantity * $product->getPrice();
+        $total_price = $panierService->getTotalPriceFavoriteCart($favoriteCartEntity->getCart());
 
         return $this->json([
             'code' => 200, 
             'message' => 'produit décrementé',
             'quantity' => $product_item_quantity,
-            'total_item' => $product_item_total,
-            'total' => $product_total
+            'total_price_item' => $total_price_item,
+            'total_price' => $total_price
         ]);
     }
-    
+
+
     /**
-     * @Route("/panier-favori/{favCart}/delete/{product}/charging", name="favorite_cart_delete_charging_page")
+     * @Route("/panier-favori/{favCart}/product/{product}/delete", name="favorite_cart_delete_item")
      */
-    public function favorite_cart_delete_charging_page(FavoriteCart $favCart, Product $product, PanierService $panierService)
+    public function favorite_cart_delete_item( Product $product, $favCart, PanierService $panierService )
     {
-        $cartAfterDeleting = $panierService->deleteItemInFavCart($product->getReferenceId(), $favCart->getCart());
-        $favCart->setCart($cartAfterDeleting);
-        $this->em->persist($favCart);
+        $refId =  $product->getReferenceId();
+
+        $favoriteCartEntity = $this->repoFavoriteCart->find($favCart);
+        $cart = $favoriteCartEntity->getCart();
+       
+        $favoriteCartEntity->setCart( $panierService->deleteItemInFavCart($refId, $cart) );
+        $this->em->persist($favoriteCartEntity);
         $this->em->flush();
-        return $this->redirectToRoute('account_favorite_cart_show', ['id' => $favCart->getId()]);
-    }
 
-
-
-    /**
-     * @Route("/panier/add/one/{id}", name="panier_add_one")
-     */
-    public function panier_add_one($id, Product $product, PanierService $panierService)
-    {
-        $panierService->add($id);
-
-        $product_item_quantity = $this->session->get('panier', [])[$id];
-        $price = $product->getPrice($id);
-        $product_item_total = $product_item_quantity * $price;
-        $product_total = $panierService->getTotal();
+        $total_price = $panierService->getTotalPriceFavoriteCart($favoriteCartEntity->getCart());
 
         return $this->json([
             'code' => 200, 
-            'message' => 'produit incrémenté',
-            'quantity' => $product_item_quantity,
-            'total_item' => $product_item_total,
-            'total' => $product_total
-        ]);
-
-        // return $this->redirectToRoute("panier");
-    }
-
-    /**
-     * @Route("/panier/add_with_quantity/product/{id}", name="panier_quantity_edit")
-     */
-    public function panier_quantity_edit(Request $request, $id, PanierService $panierService): Response
-    {
-        $quantity =  $request->query->get('quantity');
-        $panierService->panier_quantity_edit($quantity, $id);
-
-        return $this->json([
-            'code' => 200, 
-            // 'message' => 'produit incrémenté',
+            'message' => 'produit supprimé',
+            'total_price' => $total_price
         ]);
     }
 
+
     /**
-     * @Route("/panier/remove/one/{id}", name="panier_remove_one")
+     * Permet de supprimer le panier favori dans le path order_step_one
+     * 
+     * @Route("/accout/panier_favori/{cart}/supprimer", name="favorite_cart_delete")
      */
-    public function panier_remove_one($id, Product $product, PanierService $panierService)
+    public function favorite_cart_delete(FavoriteCart $cart, Request $request): Response
     {
-        $panierService->removeOne($id);
+        if ($this->isCsrfTokenValid('delete'. $this->getUser()->getId(), $request->get('_token'))) {
+            $this->em->remove($cart);
+            $this->em->flush();
+        }
+        return $this->redirectToRoute('account_order_step_one', ["favorite_cart" => "deleted"]);
+    }
 
-        $product_item_quantity = $this->session->get('panier', [])[$id];
-        $price = $product->getPrice($id);
-        $product_item_total = $product_item_quantity * $price;
-        $product_total = $panierService->getTotal();
-
-        return $this->json([
-            'code' => 200, 
-            'message' => 'produit incrémenté',
-            'quantity' => $product_item_quantity,
-            'total_item' => $product_item_total,
-            'total' => $product_total
-        ]);
+    /**
+     * Permet de supprimer le panier favori dans le dashboard
+     *
+     * @Route("/accout/dashboard/panier_favori/{cart}/supprimer", name="dashboard_favorite_cart_delete")
+     */
+    public function dashboard_favorite_cart_delete(FavoriteCart $cart, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('delete'. $this->getUser()->getId(), $request->get('_token'))) {
+            $this->em->remove($cart);
+            $this->em->flush();
+            $this->addFlash(
+               'danger',
+               'Panier favori supprimé'
+            );
+        }
+        return $this->redirectToRoute('dashboard', ["favorite_cart" => "deleted"]);
     }
 
 }

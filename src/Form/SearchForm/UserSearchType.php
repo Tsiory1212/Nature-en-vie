@@ -20,6 +20,20 @@ class UserSearchType extends AbstractType
                     'placeholder' =>  'Prénom du client'
                 ]
             ])
+            ->add('email', TextType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Email'
+                ]
+            ])
+            ->add('phone', TextType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Téléphone'
+                ]
+            ])
         ;
     }
 

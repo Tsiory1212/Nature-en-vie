@@ -69,9 +69,14 @@
                                     <b class="category">By: Natural food</b>
                                 </div> #}
                                 <span class="sku">Ref: {{currentProduct.referenceId}}</span>
-                                <p class="excerpt">{{currentProduct.detail|nl2br}}</p>
+                                <p class="excerpt">{{currentProduct.detail|nl2br}}</p>   
                                 <div class="price">
                                     <ins><span class="price-amount">{{currentProduct.price}} <span class="currencySymbol">€</span></span></ins>
+                                    {% if currentProduct.weight > 1 %}
+                                        NB : {{ currentProduct.price / currentProduct.weight }} par Kilo
+                                    {% else %}
+                                       <span class="price-amount">/ {{currentProduct.weight}} Kg</span>
+                                    {% endif %}
                                 </div>
                             </div>
                             {% if app.user %}
@@ -176,43 +181,46 @@
                                     <div class="accodition-tab biolife-accodition">
                                         <ul class="tabs">
                                             <li class="tab-item">
-                                                <span class="title btn-expand">How long will it take to receive my order?</span>
+                                                <span class="title btn-expand">Combien de temps faudra-t-il pour recevoir ma commande ?</span>
                                                 <div class="content">
-                                                    <p>Orders placed before 3pm eastern time will normally be processed and shipped by the following business day. For orders received after 3pm, they will generally be processed and shipped on the second business day. For example if you place your order after 3pm on Monday the order will ship on Wednesday. Business days do not include Saturday and Sunday and all Holidays. Please allow additional processing time if you order is placed on a weekend or holiday. Once an order is processed, speed of delivery will be determined as follows based on the shipping mode selected:</p>
+                                                    <p>
+                                                        Orders placed before 3pm eastern time will normally be processed and shipped by the following business day. For orders received after 3pm, they will generally be processed and shipped on the second business day. For example if you place your order after 3pm on Monday the order will ship on Wednesday. Business days do not include Saturday and Sunday and all Holidays. Please allow additional processing time if you order is placed on a weekend or holiday. Once an order is processed, speed of delivery will be determined as follows based on the shipping mode selected:
+                                                        Les commandes passées avant 15 h, heure de l'Est, seront normalement traitées et expédiées le jour ouvrable suivant. Pour les commandes reçues après 15h, elles seront généralement traitées et expédiées le deuxième jour ouvrable. Par exemple, si vous passez votre commande après 15 heures le lundi, la commande sera expédiée le mercredi. Les jours ouvrables n'incluent pas le samedi et le dimanche et tous les jours fériés. Veuillez prévoir un délai de traitement supplémentaire si votre commande est passée un week-end ou un jour férié. Une fois la commande traitée, la rapidité de livraison sera déterminée comme suit en fonction du mode d'expédition sélectionné :
+                                                    </p>
                                                     <div class="desc-expand">
-                                                        <span class="title">Shipping mode</span>
+                                                        <span class="title">Mode d'expédition</span>
                                                         <ul class="list">
-                                                            <li>Standard (in transit 3-5 business days)</li>
-                                                            <li>Priority (in transit 2-3 business days)</li>
-                                                            <li>Express (in transit 1-2 business days)</li>
-                                                            <li>Gift Card Orders are shipped via USPS First Class Mail. First Class mail will be delivered within 8 business days</li>
+                                                            <li>Standard (en transit 3-5 jours ouvrables)</li>
+                                                            <li>Prioritaire (en transit 2-3 jours ouvrables)</li>
+                                                            <li>Express (en transit 1-2 jours ouvrables)</li>
+                                                            <li>Les commandes de cartes-cadeaux sont expédiées via USPS First Class Mail. Le courrier de première classe sera livré dans les 8 jours ouvrables</li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="tab-item">
-                                                <span class="title btn-expand">How is the shipping cost calculated?</span>
+                                                <span class="title btn-expand">Comment sont calculés les frais de port ?</span>
                                                 <div class="content">
-                                                    <p>You will pay a shipping rate based on the weight and size of the order. Large or heavy items may include an oversized handling fee. Total shipping fees are shown in your shopping cart. Please refer to the following shipping table:</p>
-                                                    <p>Note: Shipping weight calculated in cart may differ from weights listed on product pages due to size and actual weight of the item.</p>
+                                                    <p>Vous paierez un tarif d'expédition en fonction du poids et de la taille de la commande. Les articles volumineux ou lourds peuvent inclure des frais de manutention surdimensionnés. Les frais de livraison totaux sont indiqués dans votre panier. Veuillez vous référer au tableau d'expédition suivant :</p>
+                                                    <p>Remarque : Le poids d'expédition calculé dans le panier peut différer des poids indiqués sur les pages de produits en raison de la taille et du poids réel de l'article.</p>
                                                 </div>
                                             </li>
                                             <li class="tab-item">
-                                                <span class="title btn-expand">Why Didn’t My Order Qualify for FREE shipping?</span>
+                                                <span class="title btn-expand">Pourquoi ma commande n'a-t-elle pas été éligible à la livraison GRATUITE ?</span>
                                                 <div class="content">
-                                                    <p>We do not deliver to P.O. boxes or military (APO, FPO, PSC) boxes. We deliver to all 50 states plus Puerto Rico. Certain items may be excluded for delivery to Puerto Rico. This will be indicated on the product page.</p>
+                                                    <p>Nous ne livrons pas aux P.O. boîtiers ou boîtiers militaires (APO, FPO, PSC). Nous livrons dans les 50 États plus Porto Rico. Certains articles peuvent être exclus pour la livraison à Porto Rico. Cela sera indiqué sur la page du produit.</p>
                                                 </div>
                                             </li>
                                             <li class="tab-item">
-                                                <span class="title btn-expand">Shipping Restrictions?</span>
+                                                <span class="title btn-expand">Restrictions d'expédition ?</span>
                                                 <div class="content">
-                                                    <p>We do not deliver to P.O. boxes or military (APO, FPO, PSC) boxes. We deliver to all 50 states plus Puerto Rico. Certain items may be excluded for delivery to Puerto Rico. This will be indicated on the product page.</p>
+                                                    <p>Nous ne livrons pas aux P.O. boîtiers ou boîtiers militaires (APO, FPO, PSC). Nous livrons dans les 50 États plus Porto Rico. Certains articles peuvent être exclus pour la livraison à Porto Rico. Cela sera indiqué sur la page du produit.</p>
                                                 </div>
                                             </li>
                                             <li class="tab-item">
-                                                <span class="title btn-expand">Undeliverable Packages?</span>
+                                                <span class="title btn-expand">Colis non livrables ?</span>
                                                 <div class="content">
-                                                    <p>Occasionally packages are returned to us as undeliverable by the carrier. When the carrier returns an undeliverable package to us, we will cancel the order and refund the purchase price less the shipping charges. Here are a few reasons packages may be returned to us as undeliverable:</p>
+                                                    <p>Parfois, des colis nous sont retournés comme non livrables par le transporteur. Lorsque le transporteur nous retourne un colis non livrable, nous annulons la commande et remboursons le prix d'achat moins les frais d'expédition. Voici quelques raisons pour lesquelles des colis peuvent nous être retournés comme non livrables :</p>
                                                 </div>
                                             </li>
                                         </ul>
@@ -405,7 +413,7 @@
                                     
                                     {% else %}
                                         <li class="product-item">
-                                            {% include "partials/product_card.html.twig" with { produit: relatedProduct } %}
+                                            {% include "partials/_product_card.html.twig" with { product: relatedProduct } %}
                                         </li>
                                     {% endif %}
                                     
@@ -418,7 +426,7 @@
             </div>
     
 
-{% include "/partials/loupe.html.twig" %}
+{% include "/partials/_loupe.html.twig" %}
 
 {% endblock %}
 {% block javascripts %}

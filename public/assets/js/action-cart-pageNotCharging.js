@@ -29,49 +29,43 @@ $(document).ready(function(){
             total_price.text(response.data.total_price.toFixed(2));
         })
     })
-
-
-
-
+   
 
     /** Mini cart */
     // Add one OR remove one item
+    $('.js-add-cart-and-toast').on('click', function(e) {
+        e.preventDefault();
 
-    $( document ).ready(function() {
-        $('.js-add-cart-and-toast').on('click', function(e) {
-            e.preventDefault();
+        // this repésente l'élément => a 
+        const url = $(this)[0].href;
+        
+        var allQuantityItem =  $('.minicart-block .sub-total .quantity-item')[0]
+        var total_price =  $('.minicart-block .sub-total .total-price')[0]
+        var product_element_dom_mini_cart = $('.minicart-block .cart-content .products')[0];
+        
+        var hidden_li_item_mini_cart =  $('#hidden-li-item-mini-cart')[0];
+        const a = $(this)
 
-            // this repésente l'élément => a 
-            const url = $(this)[0].href;
-            
-            var allQuantityItem =  $('.minicart-block .sub-total .quantity-item')[0]
-            var total_price =  $('.minicart-block .sub-total .total-price')[0]
-            var product_element_dom_mini_cart = $('.minicart-block .cart-content .products')[0];
-            
-            var hidden_li_item_mini_cart =  $('#hidden-li-item-mini-cart')[0];
-            const a = $(this)
+        a.text("...") ;
+        a.addClass("disabled");
+        
+        axios.get(url)
+            .then(function(response){
 
-            a.text("...") ;
-            a.addClass("disabled");
-            
-            axios.get(url)
-                .then(function(response){
+                allQuantityItem.textContent = response.data.allQuantityItem;
+                total_price.textContent = response.data.totalPrice.toFixed(2);
+                
+                // On anime le bouton 
+                a.text("Ajouté") ;
+                setTimeout(function(){
+                    a.removeClass("disabled");
+                    a.text("Ajouter au panier");
+                }, 500)
 
-                    allQuantityItem.textContent = response.data.allQuantityItem;
-                    total_price.textContent = response.data.totalPrice.toFixed(2);
-                    
-                    // On anime le bouton 
-                    a.text("Ajouté") ;
-                    setTimeout(function(){
-                        a.removeClass("disabled");
-                        a.text("Ajouter au panier");
-                    }, 500)
-
-                    $("#Toast-add-product").toast("show").removeClass("fade");
-                })
-        })
-    });
-
+                $("#Toast-add-product").toast("show").removeClass("fade");
+            })
+    })
+   
     // Delete item
     $('a.js-mini_cart-item_delete').on('click',function(e) {
         e.preventDefault();
@@ -87,39 +81,40 @@ $(document).ready(function(){
     })
 
 
-
-    
     //After click (Loupe modal) quick-view-block
-    function onClickBtnQuickViewProduct(event){
-        // in quick_view_block (pop-up)
-        const product_name_quick_view =  $('#biolife-quickview-block .product-attribute .title')[0]
-        const product_price_quick_view =  $('#biolife-quickview-block .product-attribute .price-amount')[0]
-        const product_detail_quick_view =  $('#biolife-quickview-block .product-attribute .excerpt')[0]
-        const product_category_quick_view =  $('#biolife-quickview-block .product-attribute .product-meta li')[0]
-    
-        const product_cover_quick_view =  $('#biolife-quickview-block .media img')[0]
-        
-        // in product_card_block 
-        const product_name =  $(this)[0].parentNode.nextElementSibling.querySelector('.product-title').textContent
-        const product_detail =  $(this)[0].parentNode.nextElementSibling.querySelector('.product-description').textContent
-        const product_price =  $(this)[0].parentNode.nextElementSibling.querySelector('ins').textContent
-        const product_category =  $(this)[0].parentNode.nextElementSibling.querySelector('.categories').textContent
+    $('a.js-quick-view-block').each(function(){
+        $(this).on("click", function(){
+            // in quick_view_block (pop-up)
+            const product_name_quick_view =  $('#biolife-quickview-block .product-attribute .title');
+            const product_price_quick_view =  $('#biolife-quickview-block .product-attribute .price-amount');
+            const product_detail_quick_view =  $('#biolife-quickview-block .product-attribute .excerpt');
+            const product_category_quick_view =  $('#biolife-quickview-block .product-attribute .product-meta .meta-categories span');
+            const product_cover_quick_view =  $('#biolife-quickview-block .media img');
+            const product_explanation_quick_view =  $('#biolife-quickview-block .product-attribute .product-meta .meta-explanation');
+            
+            // in product_card_block 
+            const product_name =   $(this).parent().next().children('.product-title').text();
+            const product_detail =  $(this).parent().next().children('.product-description').text();
+            const product_price = parseInt($(this).parent().next().children('.price').children('ins').children('.price-amount').children('#js-price-amount').text()) ;
+            const product_category =  $(this).parent().next().children('.categories').text();
+            const product_weight = parseInt($(this).parent().next().children('.price').children('ins').children('.product-weight').children('#js-product-weight').text()) ;
+            const product_cover =  $(this).prev().children('img').attr('src')
 
-        const product_cover =  $(this)[0].previousElementSibling.querySelector('img').getAttribute('src')
+            // Affectation
+            product_name_quick_view.text(product_name);
+            product_price_quick_view.text(product_price + ' €');
+            product_detail_quick_view.text(product_detail);
+            product_category_quick_view.text(product_category);
+            product_cover_quick_view.attr('src', product_cover);
 
-        
-        product_name_quick_view.textContent = product_name;
-        product_price_quick_view.textContent = product_price;
-        product_detail_quick_view.textContent = product_detail;
-        product_category_quick_view.textContent =  product_category;
 
-        product_cover_quick_view.src =  product_cover;
-
-    }
-
-    document.querySelectorAll('.quick-view-block-js').forEach(function(link){
-        link.addEventListener('click', onClickBtnQuickViewProduct)
+            if(product_weight > 1){
+                price_per_weight = product_price / product_weight;
+                product_explanation_quick_view.text(price_per_weight.toFixed(2) + '€ /Kg')
+            }else{
+                product_explanation_quick_view.text(product_price + '/Kg')
+            }
+        });
     })
-
-
+   
 })

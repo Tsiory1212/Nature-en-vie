@@ -4,19 +4,23 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 	<style>
 		.map{
 			height: 100vh;
 		}
-    @media only screen and (min-width: 1100px) {
-      .content-order-info{
-        display: grid;
-      }
-      .content-order-info::before{
-        content: none!important;
-      }
+		.leaflet-routing-add-waypoint{
+			display: none!important;
+		}
+		
+		@media only screen and (min-width: 1100px) {
+			.content-order-info{
+				display: grid;
+			}
+			.content-order-info::before{
+				content: none!important;
+			}
 
 			.map{
 				background-color: #CCCCCC;
@@ -26,7 +30,6 @@
 				left: 0;
 			}
 		}
-  
 	</style>
 {% endblock %}
 
@@ -88,74 +91,92 @@
   <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
   <script>
-	$(window).on('load', function(){})
-    let position = [{{ user.delivry.latPosition }}, {{ user.delivry.lngPosition }}];
-    let pointBounds = [];
-    let	map = L.map('map').setView(position, 11);
+	window.onload = () => {
 
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
-      minZoom: 1,
-      maxZoom: 20
-    }).addTo(map);
-
-    let _item = $('table tbody tr.item')[0];
-    let popupInPol = new L.popup({
-				maxWidth: 400
-			}).setLatLng(position)
-				.setContent(`<p> ${_item.dataset.address} <br> Code postal : ${_item.dataset.postalcode} </p>`)
-				.openOn(map)
-		;
-    marqueur = L.marker(position);
-    marqueur.addTo(map);
-	marqueur.bindPopup(popupInPol).openPopup();
-
-    map.setView(position, 11);
-
-
-	// On afficher dans la recherche, la destination
-	var ReversablePlan = L.Routing.Plan.extend({
-		createGeocoders: function() {
-			var container = L.Routing.Plan.prototype.createGeocoders.call(this);
-			return container;
-		}
-	});
-
-	// On déclanche la fonction permet d'afficher la recherche, "Départ" et "Destination"
-	
+		let position_cli = [{{ user.delivry.latPosition }}, {{ user.delivry.lngPosition }}];
+		let position_me = [46.573795318603516, 3.2033939361572266];
+		let pointBounds = [];
+		let	map = L.map('map').setView(position_cli, 11);
 		
+		L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
+		minZoom: 1,
+		maxZoom: 20
+		}).addTo(map);
+
+		$.ajax({
+			type: 'get',
+			url: `/assets/js/france-geoJson2.json`,
+			success :  function(geojson){
+				let geoJsonLayer = L.geoJSON(geojson, {
+					style: {
+							"color": "#839c49",
+							"opacity": 1,
+							"fillColor": "#839c49",
+							"fillOpacity": 0.5,
+							"bubblingMouseEvents": false // permet de dire que la tuille carte et Polygone n'a pas le même evenement de souri
+					}
+				}).addTo(map);
+				geoJSON = L.geoJSON(geojson)
+			}
+		})
+
+		pointBounds.push(position_me, position_cli);
+		map.fitBounds(pointBounds);
+
+		let _item = $('table tbody tr.item')[0];
+	
+		const svgpin_Icon2 = L.icon({
+			iconUrl: "/assets/images/map-location-icon-red.png",
+			iconSize: [24, 24],
+			iconAnchor: [12, 24],
+			popupAnchor: [0, -22]
+		});
+
+		// On déclanche la fonction qui permet d'afficher dans la recherche,le "Départ" et la "Destination"
 		var control;
-		var plan = new ReversablePlan([
-			L.latLng([46.577508, 3.203782]),
-			L.latLng(_item.dataset.lat, _item.dataset.lng)
-		], {
-			geocoder: L.Control.Geocoder.nominatim(),
-			routeWhileDragging: true,
-		}),
-
-	
-
-	
 		control = L.Routing.control({
+			waypoints: [
+				L.latLng(position_me),
+				L.latLng(_item.dataset.lat, _item.dataset.lng)
+			],
+			geocoder: L.Control.Geocoder.nominatim(),
 			LineOptions: {
 				styles: [{
 					opacity: 1,
-					weight: 6
+					weight: 100
 				}]
 			},
 			routeWhileDragging: true,
-			plan: plan,
+			showAlternatives: false,    
+			show: false,
 			router: new L.Routing.osrmv1({
 				language: 'fr'
-			})
+			}),
+			createMarker: function(i, wp, nWps) {
+				switch (i) {
+					case 0:
+						return L.marker(wp.latLng, {
+							icon: svgpin_Icon2,
+							draggable: true
+						}).bindPopup("<b>" + "Départ" + "</b>");
+					case nWps - 1:
+						return L.marker(wp.latLng, {
+							draggable: false
+						}).bindPopup(`<b> Destination</b>  <h4>${_item.dataset.address} <br> Code postal : ${_item.dataset.postalcode} <h4>`).openPopup();
+					// default:
+					// 	return L.marker(wp.latLng, {
+					// 		draggable: true
+					// 	}).bindPopup("<b>" + "Waypoint" + "</b>");
+				}
+			}
 		}).addTo(map);
 
 
 		// On gère le boutton qui permet de definir le point de départ
 		map.on('click', function(e) {
 			var container = L.DomUtil.create('div'),
-				startBtn = createButton('Commencez à partir de cet endroit', container),
-				myPosition = createButton('Ma Position', container)
+				startBtn = createButton('Commencez à partir de cet endroit', container)
 			;
 
 			L.popup()
@@ -167,40 +188,27 @@
 				control.spliceWaypoints(0, 1, e.latlng);
 				map.closePopup();
 			});
-			L.DomEvent.on(myPosition, 'click', function() {
-				map.locate({setView: true, enableHighAccuracy: true, maxZoom: 15})
-				.on('locationfound', function(e){
-					marqueur = L.marker(e.latlng);
-					marqueur.bindPopup("Je suis ici !");
-					control.spliceWaypoints(0, 1, e.latlng);
-					marqueur.addTo(map);
-					map.closePopup();
-				});
-
-			});
 		});
 
-	
+		function createButton(label, container) {
+			var btn = L.DomUtil.create('text', '', container);
+			btn.setAttribute('type', 'button');
+			btn.innerHTML = label;
+			return btn;
+		}
 
-    function createButton(label, container) {
-      	var btn = L.DomUtil.create('text', '', container);
-      	btn.setAttribute('type', 'button');
-      	btn.innerHTML = label;
-      	return btn;
-    }
-
-	// Permet de recentrer sur ma position et tracer l'itinéraire
-
-function getMyLocation() {
-		map.locate({setView: true, enableHighAccuracy: true, maxZoom: 15})
-			.on('locationfound', function(e){
-				
-				control.spliceWaypoints(0, 1, e.latlng);
-				map.closePopup();
-				marqueur = L.marker(e.latlng);
-				marqueur.bindPopup("Je suis ici !");
-				marqueur.addTo(map);
-			});
+		// Permet de recentrer sur ma position et tracer l'itinéraire
+		function getMyLocation() {
+			map.locate({setView: true, enableHighAccuracy: true, maxZoom: 15})
+				.on('locationfound', function(e){
+					
+					control.spliceWaypoints(0, 1, e.latlng);
+					map.closePopup();
+					marqueur = L.marker(e.latlng);
+					marqueur.bindPopup("Je suis ici !");
+					marqueur.addTo(map);
+				});
+		}
 	}
 
   </script>

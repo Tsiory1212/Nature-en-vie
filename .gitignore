@@ -1,7 +1,11 @@
 
 ###> symfony/framework-bundle ###
 public/uploads/
+.env
 VAKIO_AHO.txt
+BUG_&_SOLUTION.txt
+.env.test
+
 
 /.env.local
 /.env.local.php

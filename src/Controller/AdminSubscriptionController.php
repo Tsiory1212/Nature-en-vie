@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use BBapp\providers\payment\paypal\PaypalPlanManager as PlanManager;
 use Sample\PayPalClient;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * @Route("/admin")
@@ -40,20 +42,40 @@ class AdminSubscriptionController extends AbstractController
 
 
     /**
-     * @Route("/subscription", name="admin_subscription_list")
+     * @Route("/subscription/liste", name="admin_subscription_list")
      */
     public function admin_subscription_list(): Response
     {
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
-        $nbrSubscriptions = count($this->repoSubscription->findAll());
+        $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
+        $nbrSubscriptionsDisabled = count($this->repoSubscription->findBy(['active' => 0]));
 
-        $subscriptions = $this->repoSubscription->findAll();
+        $subscriptions = $this->repoSubscription->findBy(['active' => 1]);
         return $this->render('admin/subscription/list_subscription.html.twig', [
             'subscriptions' => $subscriptions,
             'nbrProducts' => $nbrProducts,
             'nbrUsers' => $nbrUsers,
-            'nbrSubscriptions' => $nbrSubscriptions
+            'nbrSubscriptions' => $nbrSubscriptions,
+            'nbrSubscriptionsDisabled' => $nbrSubscriptionsDisabled
+        ]);
+    }
+
+    /**
+     * @Route("/subscription/disabled/liste", name="admin_subscription_disabled_list")
+     */
+    public function admin_subscription_disabled_list(): Response
+    {
+        $nbrProducts = count($this->repoProduct->findAll());
+        $nbrUsers = count($this->repoUser->findAll());
+        $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
+        $subscriptionsDisabled = $this->repoSubscription->findBy(['active' => 0]);
+
+        return $this->render('admin/subscription/list_subscription_disabled.html.twig', [
+            'nbrProducts' => $nbrProducts,
+            'nbrUsers' => $nbrUsers,
+            'nbrSubscriptions' => $nbrSubscriptions,
+            'subscriptionsDisabled' => $subscriptionsDisabled
         ]);
     }
 
@@ -76,6 +98,7 @@ class AdminSubscriptionController extends AbstractController
             $priceSubscription = $form->getData()->getPriceSubscription();
             $durationMonthSubscription = $form->getData()->getDurationMonthSubscription();
             $productNumber = $form->getData()->getIdProductPlanPaypal();
+            $interval_unit = $form->getData()->getIntervalUnit();
 
             if (is_null($productNumber)) {
                 return $this->redirectToRoute('admin_subscription_create', ['error' => 'null_product']);
@@ -84,7 +107,8 @@ class AdminSubscriptionController extends AbstractController
             $paypalService->createSubscriptionPlan(
                 $productNumber,
                 $nameSubscriptionPlan, 
-                $descriptionSubscriptionPlan, 
+                $descriptionSubscriptionPlan,
+                $interval_unit, 
                 $durationMonthSubscription,
                 $priceSubscription
             );
@@ -97,7 +121,7 @@ class AdminSubscriptionController extends AbstractController
 
             $this->addFlash(
                'success',
-               'Abonnement ajouté avec succès'
+               'Abonnement créé avec succès'
             );
             return $this->redirectToRoute('admin_subscription_list');
         }
@@ -116,6 +140,7 @@ class AdminSubscriptionController extends AbstractController
             ->remove('idProductPlanPaypal')
             ->remove('priceSubscription')
             ->remove('durationMonthSubscription')
+            ->remove('interval_unit')
         ;
         $form->handleRequest($request);
 
@@ -145,6 +170,51 @@ class AdminSubscriptionController extends AbstractController
             'form' => $form->createView(),
             'subscription' => $subscription
         ]);
+    }
+
+
+    /**
+     * @Route("/subscription/plan/{id}/deactive", name="admin_subscription_plan_deactivate")
+     */
+    public function admin_subscription_plan_deactivate(CartSubscription $cartSubscription, Request $request, PaypalService $paypalService): Response
+    {        
+        if ($this->isCsrfTokenValid('deactivate', $request->get('_token'))) {
+            $cartSubscription->setActive(0);
+            $this->em->persist($cartSubscription);
+            $this->em->flush();
+            $paypalService->deactiveSubscriptionPlan($cartSubscription->getIdSubscriptionPlanPaypal());
+                        
+            $this->addFlash(
+                'danger',
+                'Plan d\'abonnement désactivé'
+             );
+             return $this->redirectToRoute('admin_subscription_list');
+        }else{
+            return $this->redirectToRoute('admin_subscription_list', ['error' => 'invalid_token']);
+        }
+
+    }
+
+    /**
+     * @Route("/subscription/plan/{id}/activate", name="admin_subscription_plan_activate")
+     */
+    public function admin_subscription_plan_activate(CartSubscription $cartSubscription, Request $request, PaypalService $paypalService): Response
+    {        
+        if ($this->isCsrfTokenValid('activate_plan', $request->get('_token'))) {
+            $cartSubscription->setActive(1);
+            $this->em->persist($cartSubscription);
+            $this->em->flush();
+            $paypalService->activeSubscriptionPlan($cartSubscription->getIdSubscriptionPlanPaypal());
+                        
+            $this->addFlash(
+                'success',
+                'Plan d\'abonnement activé'
+             );
+             return $this->redirectToRoute('admin_subscription_list');
+        }else{
+            return $this->redirectToRoute('admin_subscription_list', ['error' => 'invalid_token']);
+        }
+
     }
 
     /**

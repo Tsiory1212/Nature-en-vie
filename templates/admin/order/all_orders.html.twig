@@ -4,6 +4,8 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 	<style>
 		.map{
 			height: 100vh;
@@ -101,7 +103,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="my-5">
+	<div class="my-5" >
 		<h1 class="text-white text-center font-bg-stylized-1">Liste des commandes" </h1>
 		<div class="bg-glass2 p-3 mb-5">
 			<div class="container-list">
@@ -156,65 +158,200 @@
 
 {% block javascripts %}
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 	<script>
-		let position = [46.577508, 3.203782];
-		let pointBounds = [];
-		let	map = L.map('map').setView(position, 11);
+		window.onload = () => {
+			let position_me = [46.573795318603516, 3.2033939361572266];
+			let waypoints = [position_me];
+			let waypointsRouting = [ 
+				 new L.Routing.Waypoint(L.latLng(position_me)) 
+			];
+			let	map = L.map('map').setView(position_me, 11);
 
-		L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-			attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
-			minZoom: 1,
-			maxZoom: 20
-		}).addTo(map);
+			L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+				attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
+				minZoom: 1,
+				maxZoom: 20
+			}).addTo(map);
 
-		var js_marker = $('.js-marker');
-	
-		$.each(js_marker, function( index, item ) {
-			let point = [item.dataset.lat, item.dataset.lng];
-			
-			// On agrandit le zone à chaque fois qu'on a des nouveaux marqueurs et après on ajuste le centrage
-			pointBounds.push(point);
-			map.fitBounds(pointBounds);
-
-			let popup = new L.popup({
-					autoClose: false,
-					closeOnEscapeKey: false,
-					closeOnClick: false,
-					closeButton: false,
-					className: 'marker',
-					maxWidth: 400
+			// On dessine les limites de zone
+			$.ajax({
+				type: 'get',
+				url: `/assets/js/france-geoJson2.json`,
+				success :  function(geojson){
+					let geoJsonLayer = L.geoJSON(geojson, {
+						style: {
+								"color": "#839c49",
+								"opacity": 1,
+								"fillColor": "#839c49",
+								"fillOpacity": 0.5,
+								"bubblingMouseEvents": false // permet de dire que la tuille carte et Polygone n'a pas le même evenement de souri
+						}
+					}).addTo(map);
+					geoJSON = L.geoJSON(geojson)
+				}
 			})
 
-			// On affiche le popup, seulement si l'utilisateur a au moin une commande
-			if (item.dataset.order > 0) {
-				popup .setLatLng(point)
-					.setContent("("+item.dataset.order+")")
-					.openOn(map)
-				;
+			var js_marker = $('.js-marker');
+		
+			$.each(js_marker, function( index, item ) {
+				let point = [item.dataset.lat, item.dataset.lng];
 				
-				popup.getElement().addEventListener('click', function () {
-					popup.getElement().classList.add('is-expanded');
-					console.log(item)
-					popup.setContent(`<p> <span class="user"> ${item.dataset.user} </span> <br> ${item.dataset.address} <br> Code postal : ${item.dataset.postalcode} </p>`);
-					popup.setContent(item.innerHtml);
-					popup.update();
+				let popup = new L.popup({
+						autoClose: false,
+						closeOnEscapeKey: false,
+						closeOnClick: false,
+						closeButton: false,
+						className: 'marker',
+						maxWidth: 400
 				})
-				popup.getElement().addEventListener('mouseout', function () {
-					popup.setContent("("+item.dataset.order+")");
-					popup.getElement().classList.remove('is-expanded');
-					popup.update()
-				})
-			}
 
-			// On gère les évènements
-			item.addEventListener('mouseover', function () {
-				popup.getElement().classList.add('is-active');
+				// On affiche le popup, seulement si l'utilisateur a au moin une commande
+				if (item.dataset.order > 0) {
+					// On agrandit le zone à chaque fois qu'on a des nouveaux marqueurs et après on ajuste le centrage
+					waypoints.push(point);
+					map.fitBounds(waypoints);
+
+					waypointsRouting.push(
+						new L.Routing.Waypoint(L.latLng(point))
+					);
+
+					popup.setLatLng(point)
+						.setContent("("+item.dataset.order+")")
+						.openOn(map)
+					;
+					
+					popup.getElement().addEventListener('click', function () {
+						popup.getElement().classList.add('is-expanded');
+						popup.setContent(`<p> <span class="user"> ${item.dataset.user} </span> <br> ${item.dataset.address} <br> Code postal : ${item.dataset.postalcode} </p>`);
+						popup.setContent(item.innerHtml);
+						popup.update();
+					})
+					popup.getElement().addEventListener('mouseout', function () {
+						popup.setContent("("+item.dataset.order+")");
+						popup.getElement().classList.remove('is-expanded');
+						popup.update()
+					})
+				
+					// On gère les évènements
+					item.addEventListener('mouseover', function () {
+						popup.getElement().classList.add('is-active');
+					})
+
+					item.addEventListener('mouseout', function () {
+						popup.getElement().classList.remove('is-active'); 
+					})
+				}
+
+			});
+
+
+			const svgpin_Icon2 = L.icon({
+				iconUrl: "/assets/images/map-location-icon-red.png",
+				iconSize: [24, 24],
+				iconAnchor: [12, 24],
+				popupAnchor: [0, -22]
+			});
+
+			var control = L.Routing.control({
+				geocoder: L.Control.Geocoder.nominatim(),
+				waypoints: waypoints,
+				routeWhileDragging: true,
+				show: false,
+				LineOptions: {
+					styles: [{
+						opacity: 1,
+						weight: 1
+					}]
+				},
+				showAlternatives: true,    
+				router: new L.Routing.osrmv1({
+					language: 'fr',
+					profile: 'car',
+				}),
+				createMarker: function(i, wp, nWps) {
+					switch (i) {
+						case 0:
+							return L.marker(wp.latLng, {
+								draggable: false
+							}).bindPopup("<b> Point de départ </b>");
+						case nWps - 1:
+							return L.marker(wp.latLng, {
+								draggable: false
+							}).bindPopup(`<b> Point d'arrivée </b>`).openPopup();
+					}
+				}
 			})
 
-			item.addEventListener('mouseout', function () {
-				popup.getElement().classList.remove('is-active'); 
-			})
+			let routeUs = L.Routing.osrmv1(
+				{
+					language: 'fr',
+					profile: 'bike',
+				}
+			);
 
-		});
+			waypointsRouting.forEach(element => {
+				routeUs.route(element, (err,routes)=>{
+					if(!err)
+					{
+						let best = 100000000000000;
+						let bestRoute = 0;
+						console.log('routes', routes)
+						for(i in routes)
+						{
+							if(routes[i].summary.totalDistance < best) {
+								bestRoute = i;
+								best = routes[i].summary.totalDistance;
+							}
+						}
+						console.log('best route',routes[bestRoute]);
+						L.Routing.line(routes[bestRoute],{
+							styles : [
+								{
+									color : 'blue',
+									weight : '10'
+								}
+							]
+						}).addTo(map);
+					
+					}
+				})
+			});
+			// routeUs.route(waypointsRouting, (err,routes)=>{
+			// 	if(!err)
+			// 	{
+			// 		let best = 100000000000000;
+			// 		let bestRoute = 0;
+			// 		console.log('routes', routes)
+			// 		for(i in routes)
+			// 		{
+			// 			if(routes[i].summary.totalDistance < best) {
+			// 				bestRoute = i;
+			// 				best = routes[i].summary.totalDistance;
+			// 			}
+			// 		}
+			// 		console.log('best route',routes[bestRoute]);
+			// 		L.Routing.line(routes[bestRoute],{
+			// 			styles : [
+			// 				{
+			// 					color : 'blue',
+			// 					weight : '10'
+			// 				}
+			// 			]
+			// 		}).addTo(map);
+				
+			// 	}
+			// })
+
+			control.on('routesfound', function (e) {
+				distance = e.routes[0].summary.totalDistance;
+				console.log('routing distance: ' + distance);
+			});
+
+			control.addTo(map);
+		}
+
+
 	</script>
 {% endblock %}

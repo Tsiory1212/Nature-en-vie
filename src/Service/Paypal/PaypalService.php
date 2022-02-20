@@ -143,7 +143,7 @@ class PaypalService
      * @param integer $durationMonth
      * @param string $price
      */
-    public function createSubscriptionPlan(string $productId, string $planName, string $planDescription, int $durationMonth, string $price)
+    public function createSubscriptionPlan(string $productId, string $planName, string $planDescription, string $interval_unit, int $durationMonth, string $price)
     {
         $ch = curl_init();
 
@@ -157,7 +157,7 @@ class PaypalService
             \"billing_cycles\": [        
                 {            
                     \"frequency\": {                
-                        \"interval_unit\": \"MONTH\",                
+                        \"interval_unit\": \"$interval_unit\",                
                         \"interval_count\": 1            
                     },           
                     \"tenure_type\": \"REGULAR\",            
@@ -244,7 +244,65 @@ class PaypalService
         return $response;
     }
 
-    
+
+    /**
+     * Permet de désactiver un abonnement
+     *
+     * @param string $planSubscriptionId
+     */
+    public function deactiveSubscriptionPlan(string $planSubscriptionId)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://api-m.sandbox.paypal.com/v1/billing/plans/$planSubscriptionId/deactivate");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer '.$this->getToken();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            throw new Exception( curl_error($ch), true);
+        }
+        curl_close($ch);
+        $response =  json_decode($result, true);
+        return $response;
+    }
+
+
+    /**
+     * Permet d'activer un abonnement
+     *
+     * @param string $planSubscriptionId
+     */
+    public function activeSubscriptionPlan(string $planSubscriptionId)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://api-m.sandbox.paypal.com/v1/billing/plans/$planSubscriptionId/activate");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer '.$this->getToken();
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            throw new Exception( curl_error($ch), true);
+        }
+        curl_close($ch);
+        $response =  json_decode($result, true);
+        return $response;
+    }
+
+
 
     /**
      * Permet de supprimer un plan d'abonnement

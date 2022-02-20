@@ -3,7 +3,7 @@
 *************************/
 body{
     font-family: 'Cairo', sans-serif;
-    font-size: 20px;
+    font-size: 17px;
     color: #666666;
 	/* Pour enlever le scroll en bas */
     overflow-x: hidden;
@@ -28,10 +28,22 @@ button.btn-close{
 	margin-top: -9%;
 }
 
+/* mobile version */
+@media ( max-width: 991px){
+    .user-block{
+		display: block;
+		line-height: 1;
+		text-align: center;
+		padding: 10px 0 10px 10px;
+		/* vertical-align: top; */
+		background: transparent !important;
+		display: block;
+    }
+}
+
 /* HEADER if other than home  */
 #header ul.dropdown-menu-account ul.dropdown-menu{
 	background-color: darkslategray;
-
 }
 #header .dropdow-menu-account ul.dropdown-menu li:hover{
 	background-color: rgba(218, 236, 236, 0.246);
@@ -131,7 +143,7 @@ button.btn-close{
 
 .banner-media-layout-01 {
 	z-index: 10;
-	background-image: url('/biolife/assets/images/home-01/main-slide-01.jpg');
+	background-image: url('/biolife/assets/images/home-01/main-slide-02.png');
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
@@ -141,6 +153,93 @@ button.btn-close{
 /**********************
    Cart Subscription    
 ***********************/
+
+#cover-cart-grand-panier:hover, #cover-cart-petit-panier:hover, #cover-cart-moyen-panier:hover, #cover-cart-panier-sur-mesure:hover {
+	transform: scale(1.1); 
+}
+
+#cover-cart-grand-panier{
+	transition: transform .9s;
+	background-image: url('/assets/images/cartSubscription/cover-grand-panier.png');
+	height: 519px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	position: sticky;
+}
+#name-cart-grand-panier{
+	background-image: url('/assets/images/cartSubscription/name-grand-panier.png');
+	height: 100px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin: -126px 0 0 -3px;
+	margin-top: -126px;
+	background-size: 289px 84px;
+	z-index: 5;
+	position: sticky;
+
+}
+
+#cover-cart-moyen-panier{
+	transition: transform .9s;
+	background-image: url('/assets/images/cartSubscription/cover-moyen-panier.png');
+	height: 519px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+#name-cart-moyen-panier{
+	background-image: url('/assets/images/cartSubscription/name-moyen-panier.png');
+	height: 100px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin: -126px 0 0 -3px;
+	margin-top: -506px;
+	background-size: 289px 84px;
+	z-index: 5;
+	position: sticky;
+}
+
+#cover-cart-petit-panier{
+	transition: transform .9s;
+	background-image: url('/assets/images/cartSubscription/cover-petit-panier.png');
+	height: 519px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+#name-cart-petit-panier{
+	background-image: url('/assets/images/cartSubscription/name-petit-panier.png');
+	height: 100px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin: -126px 0 0 -3px;
+	margin-top: -126px;
+	background-size: 289px 103px;
+	position: sticky;
+}
+
+#cover-cart-panier-sur-mesure{
+	transition: transform .9s;
+	background-image: url('/assets/images/cartSubscription/cover-panier-sur-mesure.png');
+	height: 519px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+#name-cart-panier-sur-mesure{
+	background-image: url('/assets/images/cartSubscription/name-panier-sur-mesure.png');
+	height: 100px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin: -126px 0 0 -3px;
+	margin-top: -505px;
+	background-size: 289px 78px;
+	position: sticky;
+}
+
+
+
 .title-cart-subscription{
 	font-size: 40px;
 	color: #f3f3f3;
@@ -152,12 +251,6 @@ button.btn-close{
 .name-cart-subscription{
 	background-color: #131111b3;
 	border-radius: 5% 10% / 80% 22%;
-}
-
-.periode-cart-subscription{
-	background-color: #f7af15;
-	border-radius: 5% 10% / 80% 22%;
-	color: white;
 }
 
 .button {
@@ -255,3 +348,8 @@ button.btn-close{
 	border-radius: 1rem;
 	padding: 6%;
 }
+
+.btn.readmore:hover{
+	color:#1e1f1fea!important;
+}
+

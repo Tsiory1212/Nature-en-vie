@@ -11,9 +11,13 @@ use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Service\ProductService;
+use App\Service\SpreadsheetService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,7 +57,7 @@ class AdminProductController extends AbstractController
 
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
-        $nbrSubscriptions = count($this->repoSubscription->findAll());
+        $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
         $nbrOrders = count($this->repoOrder->findAll());
 
         return $this->render('admin/product/list_product.html.twig', [
@@ -135,5 +139,41 @@ class AdminProductController extends AbstractController
              );
         }
         return $this->redirectToRoute('admin_product_list');
+    }
+
+    /**
+     * @Route("/admin/product/excel/import", name="admin_product_excel_import")
+     */
+    public function admin_product_excel_import(SpreadsheetService $spreadsheetService, Request $request): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('excel_file', FileType::class, [
+                'attr' => [
+                    'name' => 'import_excel'
+                ]
+            ])
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $spreadsheetService->importFileExcel();
+        //     return $this->redirectToRoute('admin_product_excel_import');
+        // }
+
+        return $this->render('admin/file/excel/import_file_excel.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/product/excel/import/execute", name="admin_product_excel_import_execute")
+     */
+    public function admin_product_excel_import_execute(SpreadsheetService $spreadsheetService)
+    {
+        $result =  $spreadsheetService->importFileExcel();
+        return  $this->json(
+            ['result'=> $result],
+            200
+        );
     }
 }

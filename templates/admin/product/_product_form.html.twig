@@ -19,7 +19,13 @@
                     {% endif %}
                     {{ form_row(form.referenceId, { 'attr' : { 'value' : newRefId, 'placeholder' : 'Réference du produit'} } ) }}
                 {% else %}
-                    {{ form_row(form.referenceId, { 'attr' : { 'placeholder' : 'Réference du produit'} } ) }}
+                    <label for="product_referenceId">
+                        Ref-id
+                        <button class="btn btn-success"  onclick="activeInput(); return false;">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </label>
+                    {{ form_widget(form.referenceId, { 'attr' : { 'placeholder' : 'Réference du produit'} } ) }}
                 {% endif %}
                 {{ form_row(form.name) }}
                 {{ form_row(form.price, {'attr' : {'type' : 'number'}}) }}

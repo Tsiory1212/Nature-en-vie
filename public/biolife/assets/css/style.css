@@ -2759,7 +2759,7 @@ body.open-mobile-search .header-area.layout-02{
 }
 .newsletter-block.layout-04 .form-content{
     max-width: 550px;
-    width: 100%;
+    /* width: 100%; */
 }
 .newsletter-block_popup-layout{
     background-image: url('../images/bg-newsletter.jpg');
@@ -8323,10 +8323,10 @@ li.slick-current .slider-opt04__layout01 .buttons .btn{
 .biolife-banner__promotion6 .media .img-moving.position-1{
     right: 20%;
     top: auto;
-    bottom: 171px;
-    margin-right: -52px;
-  }
+    bottom: 217px;
+    margin-right: -126px;
 }
+
 .biolife-banner__promotion6 .media .img-moving.position-1 img{
     -webkit-animation: move-around-reverse 9s linear 0.2s infinite;
     animation: move-around-reverse 9s linear 0.2s infinite;
@@ -11504,6 +11504,7 @@ body.open-quickview-block .biolife-quickview-block{
     .mobile-search .open-searchbox{
         display: block;
     }
+
     .mobile-search-content{
         display: block;
         -webkit-transform: scale(0);

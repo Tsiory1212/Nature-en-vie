@@ -10,10 +10,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CartSubscriptionRepository::class)
  * @Vich\Uploadable()
+ * @UniqueEntity(
+ *      fields={"nameSubscriptionPlan"},
+ *      message="{{ value }} existe déjà"
+ * )
  */
 class CartSubscription
 {
@@ -65,9 +70,20 @@ class CartSubscription
      */
     private $detailedDescription;
 
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $interval_unit;
+
+    /**
+     * @ORM\Column(type="boolean" )
+     */
+    private $active;
+
     public function __construct()
     {
         $this->factureAbonnements = new ArrayCollection();
+        $this->active = 1;
     }
 
 
@@ -187,6 +203,30 @@ class CartSubscription
     public function setDetailedDescription(?string $detailedDescription): self
     {
         $this->detailedDescription = $detailedDescription;
+
+        return $this;
+    }
+
+    public function getIntervalUnit(): ?string
+    {
+        return $this->interval_unit;
+    }
+
+    public function setIntervalUnit(string $interval_unit): self
+    {
+        $this->interval_unit = $interval_unit;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

@@ -1,0 +1,68 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+	Import fichier Excel
+{% endblock %}
+
+
+{% block stylesheets %}
+	<style>
+
+	</style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container my-5">
+    <!-- {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" name="import" id="import" class="button button1" value="Import">
+
+    {{ form_end(form) }} -->
+        <span id="message"></span>
+        <form method="post" id="impor_excel_form" enctype="multipart/form-data">
+            <table class="table">
+                <tr>
+                    <td width="25%" align="right">Select Excel File</td>
+                    <td width="50%" >
+                        <input type="file" name="import_excel">
+                    </td>
+                    <td width="25%" >
+                        <input type="submit" name="import" id="import" class="button button1" value="Import">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready(function () {
+        $('#impor_excel_form').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "{{ path('admin_product_excel_import_execute') }}",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#import').attr('disabled', 'disabled');
+                    $('#import').val('Importing...');
+                },
+                success: function (data) {
+                    $('#message').html(data.result);
+                    $('#impor_excel_form')[0].reset();
+                    $('#import').attr('disabled', false);
+                    $('#import').val('Import');
+                }
+            })
+        })
+    })
+
+</script>
+{% endblock %}
+
+

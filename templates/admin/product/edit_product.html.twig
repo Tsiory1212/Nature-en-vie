@@ -1,6 +1,14 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}Edition produit {% endblock %}
+{% block stylesheets %}
+    <style>
+        #product_referenceId[readonly]{
+            cursor: not-allowed;
+            background-color: #cfcfcf85;
+        } 
+    </style>
+{% endblock %}
 
 {% block body %}
 <div class="container my-5">
@@ -13,6 +21,13 @@
 
 {% block javascripts %}
     <script>
-        $('#product_price').attr('type', 'number')
+        $('#product_price').attr('type', 'number');
+        $('#product_referenceId').attr('readonly', true);
+
+        function activeInput(){
+            $('#product_referenceId').attr('readonly', false)
+        }
+      
+       
     </script>
 {% endblock %}

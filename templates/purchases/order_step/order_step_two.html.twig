@@ -5,7 +5,13 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
     <link rel="stylesheet" href="/assets/css/order_stepper.css">
+    <style>
+    	#detailsMap{
+			height: 300px;
+		}
+    </style>
 {% endblock %}
 
 
@@ -30,7 +36,6 @@
                             </div>
                             <div id="delivry-choice-body">
                                     {% if app.user.delivry %}
-                                        
                                         <table class="table">
                                             <thead>
                                                 <tr class="h4">
@@ -46,7 +51,13 @@
                                                 <td> <h2> {{ myDelivryInfo.delivryDaySlot }} </h2> </td>
                                                 </tr>
                                             </tbody>
-                                            </table>
+                                        </table>
+
+                                        <!-- Map layer -->
+                                        <div class="d-flex text-white justify-content-center mt5-3">
+                                            <h1 class="font-bg-stylized-1"> -- Position -- </h1>
+                                        </div>
+			                            <div id="detailsMap"></div>
                                     {% else %}            
                                         <a href="{{path('account_delivry_edit')}}" class="btn btn-primary">Definir</a>
                                     {% endif %}
@@ -67,4 +78,39 @@
     </div>
 </body>
 
+{% endblock %}
+
+
+
+{% block javascripts %}
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<script>
+		let map ;
+		let marqueur ;
+		let geoJSON ;
+		let myPosition = [{{app.user.delivry.latPosition}}, {{app.user.delivry.lngPosition}}];
+
+		window.onload = () => {
+			map = L.map('detailsMap').setView(myPosition, 11);
+			
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
+				minZoom: 1,
+				maxZoom: 20
+			}).addTo(map);
+			
+			// On dessine le marqueur si l'utilisateur a déjà les coordéonnés
+			{% if app.user.delivry and app.user.delivry.latPosition and app.user.delivry.lngPosition %}
+				let popup = L.popup()
+					.setLatLng(myPosition)
+					.setContent('<p>Votre point de livraison </p>')
+					.openOn(map)
+				;
+				marqueur = L.marker(myPosition);
+				marqueur.addTo(map);
+				map.setView(myPosition, 11)
+				marqueur.bindPopup(popup).openPopup();
+			{% endif %}
+        }
+	</script>
 {% endblock %}

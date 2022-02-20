@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\CartSubscription;
 use App\Service\Paypal\PaypalService;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,11 +27,27 @@ class CartSubscriptionType extends AbstractType
                 'required' => false,
                 'label' => 'Nom du produit repertorié dans PayPal'
             ])
-            ->add('nameSubscriptionPlan', null, ['label' => 'Nom abonnement'])
+            ->add('nameSubscriptionPlan', ChoiceType::class, [
+                'label' => 'Nom abonnement',
+                'choices' => [
+                    'Grand panier' => 'Grand panier',
+                    'Moyen panier' => 'Moyen panier',
+                    'Petit panier' => 'Petit panier'
+                ]
+            ])
             ->add('descriptionSubscriptionPlan')
-            ->add('detailedDescription')
+            ->add('interval_unit', ChoiceType::class, [
+                'choices' => [
+                    'SEMAINE' => 'WEEK',
+                    'MOIS' => 'MONTH'
+                ]
+            ])
+            ->add('detailedDescription', CKEditorType::class)
             ->add('priceSubscription')
-            ->add('durationMonthSubscription')
+            ->add('durationMonthSubscription', null, ['attr' => [
+                'min' => 0,
+                'max' => 24
+            ]])
         ;
     }
 

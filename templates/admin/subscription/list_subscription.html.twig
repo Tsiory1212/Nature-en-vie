@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block stylesheets %}
+
 	<style>
 		.side-bar-column{
 			margin-right: 30px;
@@ -25,9 +26,11 @@
 {% endblock %}
 
 {% block body %}
+       
+
     <div class="container my-5">
 		<div class="bg-glass2">
-			<div class="messages-block">
+			<div class="messages-block my-5">
 				{% for label, messages in app.flashes %}
 				<div class="alert alert-{{label}} text-center">
 					{% for message in messages %}
@@ -40,17 +43,16 @@
 			<div class="row-table-head">
 				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);"> ({{ nbrSubscriptions }}) Abonnements</h2>
 				<a href="{{path('admin_subscription_create')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Créer un abonnement</a>
-				<a href="{{path('admin_subscriber_list')}}" class="button button1 fw-bold d-inline">Abonnés</a>
+				<a href="{{path('admin_subscriber_list')}}" class="button button1 fw-bold d-inline">Liste des abonnés</a>
 				
-				<div class="bg-white p-4 mt-3 h6">
+				<div class="bg-white p-4 mt-3 h5">
 					<div class="row text-center fw-bold">
 						<div class="col-2 text-start ps-5">   </div>
-						<div class="col-1">Nom</div>
-						<div class="col-2">Description</div>
+						<div class="col-2" style="width: 11.667%;">Nom</div>
 						<div class="col-1" style="width: 6.333%;">Prix</div>
 						<div class="col-1">Durée en mois</div>
-						<div class="col-1" style="width: 11.333%;">Id-Subscription (Paypal)</div>
-						<div class="col-2" >Id-Product (Paypal)</div>
+						<div class="col-2" style="width: 19.333%;">Id-Subscription (Paypal)</div>
+						<div class="col-3" style="width: 20%;">Id-Product (Paypal)</div>
 						<div class="col-1" style="width: 7.333%;">Abonnés</div>
 						<div class="col-1">ACTION</div>
 					</div>
@@ -73,26 +75,63 @@
 							{% for subscription in subscriptions %}
 								<div class="row item-product-row text-center">
 									<div class="col-2">{{subscription.nameSubscriptionPlan}}</div>
-									<div class="col-2">{{subscription.descriptionSubscriptionPlan}}</div>
 									<div class="col-1">{{subscription.priceSubscription}} €</div>
 									<div class="col-1">{{subscription.durationMonthSubscription}}</div>
-									<div class="col-2">{{subscription.idSubscriptionPlanPaypal}}</div>
-									<div class="col-2">{{subscription.idProductPlanPaypal}}</div>
+									<div class="col-3 h5">{{subscription.idSubscriptionPlanPaypal}}</div>
+									<div class="col-3 h5">{{subscription.idProductPlanPaypal}}</div>
 									<div class="col-1"><a href="{{ path('admin_subscriber_plan_list', {id: subscription.id}) }}"><i class="fas fa-users"></i></a></div>
 									<div class="col-1">
-										<a href="{{path('admin_subscription_edit', {id: subscription.id})}}" class="btn btn-success"> <i class="fas fa-edit"></i> </a>
-										{# <form method="post" action="{{path('admin_subscription_plan_delete', {id: subscription.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr de supprimer ?')">
-											<input type="hidden" name="_method" value="DELETE">
-											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ subscription.id) }}">
-											<button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-										</form> #}
+										<a class="btn btn-success" href="{{path('admin_subscription_edit', {id: subscription.id})}}" > <i class="fas fa-edit"></i> </a>
+										<a class="btn btn-warning js-modal-confirm" data-subscriptionid="{{ subscription.id }}" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-pause"></i> </a>
 									</div>
 								</div>
 							{% endfor %}
-						</div>
+						</div>					
+						
+						{% if nbrSubscriptionsDisabled > 0 %}
+							<a href="{{path('admin_subscription_disabled_list')}}" class="btn btn-primary float-end"> Voir les plans désactivés</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+<div class="modal" id="staticBackdrop" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body p-5">
+				<button type="button" class="position-absolute end-0 top-0 close-btn-modal" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-circle-xmark"></i></button>
+				<h1 class="text-center mb-4"> Désactiver le plan</h1>
+				<h3>
+					Si vous désactivez ce plan, aucun nouvel abonnement n'est possible. Les abonnements actuels restent en vigueur jusqu'à expiration, jusqu'à ce que les clients les annulent ou jusqu'à ce que vous les désactiviez.
+				</h3>
+				<form method="post"  class="text-center mt-5">
+					<input type="hidden" name="_method" value="POST">
+					<button type="submit" class="button button1">Désactiver le plan</button>
+				</form>
+				<br>
+			</div>
+		</div>
+	</div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		// On modifie l'action dans $('form') et on ajoute ensuite un csrf_token
+		$('.js-modal-confirm').on('click', function() {
+			var $this = $(this)[0];
+			var subscriptionid = $this.dataset.subscriptionid;
+			var queryParams = `/admin/subscription/plan/${subscriptionid}/deactive`;
+			$('#staticBackdrop .modal-body form').attr('action', queryParams);
+			$('#staticBackdrop .modal-body form').append('<input type="hidden" name="_token" value="{{ csrf_token("deactivate") }}">');
+		});
+
+		// On enlève le csrf_token et l'action lorsque l'user quitte le modal
+		$('.close-btn-modal, .modal-backdrop').on('click', function () {
+			$('#staticBackdrop .modal-body form').attr('action', '');
+			$('#staticBackdrop .modal-body form [name="_token"]').remove();
+		})
+	</script>
 {% endblock %}

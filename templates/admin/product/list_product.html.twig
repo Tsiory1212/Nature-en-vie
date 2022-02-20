@@ -40,8 +40,9 @@
 			<div class="row-table-head">
 				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);">({{ nbrProducts }}) Produits</h2>
 				<a href="{{path('admin_product_add')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Ajouter</a>
+				{# <a href="{{path('admin_product_excel_import')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-table"></i> Importer Excel</a> #}
 				<div class="bg-white p-4 mt-3">
-					<div class="row text-center fw-bold">
+					<div class="row text-center fw-bold h5">
 						<div class="col-1 text-start ps-5" style="width: 22%;"> {{ nbrProducts }} </div>
 						<!-- <div class="col-1"></div> -->
 						<div class="col-1">Ref</div>
@@ -70,7 +71,7 @@
 							<div class="bg-white p-4 rounded">{{ nbrOrders }}</div>
 						</div>
 					</div>
-					<div class="content-table-body col bg-white mt-2 rounded">
+					<div class="content-table-body col bg-white mt-2 rounded h5">
 						<div class="p-5">
 							{% for produit in products %}
 								<div class="row item-product-row text-center">

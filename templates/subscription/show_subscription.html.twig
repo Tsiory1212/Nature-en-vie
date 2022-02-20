@@ -63,10 +63,10 @@
                 
                 <div class="col-md-8 py-5 col-PayPal-button">
                     <h1 class="third-line text-center">
-                        {{ subscription.descriptionSubscriptionPlan }}
+                        {{ subscription.descriptionSubscriptionPlan}}
                     </h1> 
                     <h3 class="third-line text-center my-5">
-                        {{ subscription.detailedDescription }}
+                        {{ subscription.detailedDescription|raw  }}
                     </h3> 
                     {% if app.user %}
                         <div id="paypal-button-container"></div>

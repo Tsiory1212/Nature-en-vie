@@ -28,7 +28,7 @@
         <div id="main-content" class="main-content">
 
             <!-- Block 01: Main slide block-->
-            <div class="main-slide block-slider">
+            <div class="main-slide block-slider" style="z-index: 2;">
                 <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
                     <li>
                         <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
@@ -80,7 +80,7 @@
             </div>
 
             <!-- Block 02: Grid Banners-->
-            <div class="biolife-gird-banners xs-margin-top-80px sm-margin-top-0">
+            {# <div class="biolife-gird-banners xs-margin-top-80px sm-margin-top-0">
                 <div class="grid-panel">
                     <div class="grid-panel-item left-content">
                         <div class="biolife-banner grid biolife-banner__grid type-02 bn-elm-01">
@@ -139,36 +139,40 @@
 
                 </div>
 
-            </div>
+            </div> #}
 
             <!-- Block 04: Subscription -->
-            <div class="subscription-block">
-                {% include "partials/subscription/_list_subscription.html.twig" %}
+            {% include "partials/subscription/_list_subscription.html.twig" %}
            
-                <div class="banner-promotion xs-margin-top-0 sm-margin-top-60px xs-margin-top-100">
-                    <div class="biolife-banner promotion6 biolife-banner__promotion6">
-                        <div class="banner-contain">
-                            <div class="media">
-                                <div class="img-moving position-1">
-                                    <a href="#" class="banner-link">
-                                        <img src="/uploads/produit/images/defaultImage.png" width="568"  alt="img msv">
-                                    </a>
-                                </div>
-                                <div class="img-moving position-2">
-                                    <img src="/biolife/assets/images/home-01/bn-promotion-6-child-02.png" width="745" height="682" alt="img msv">
-                                </div>
+            <!-- Block 04: Floating cart-->
+            <div class="banner-promotion xs-margin-top-0 sm-margin-top-60px xs-margin-top-100">
+                <div class="biolife-banner promotion6 biolife-banner__promotion6">
+                    <div class="banner-contain">
+                        <div class="media">
+                            <div class="img-moving position-1">
+                                <img src="/assets/images/floating-vegetable-.png" width="491" height="408" alt="img msv">
                             </div>
-                            <div class="text-content">
-                                {# <i class="text1">Panier sur-mesure</i> #}
-                                <b class="text2" style="font-size: 40px">Qu’est-ce-que le Label Demeter?</b>
-                                <p class="buttons">
-                                    <a href="{{path('all_products')}}" class="btn btn-thin">Bouton = Découvrir</a>
-                                </p>
+
+                            <div class="img-moving position-1">
+                                <a href="#" class="banner-link">
+                                    <img src="/assets/images/box.png" width="368"  alt="img msv">
+                                </a>
                             </div>
+                            <div class="img-moving position-2">
+                                <img src="/biolife/assets/images/home-01/bn-promotion-6-child-02.png" width="745" height="682" alt="img msv">
+                            </div>
+                        </div>
+                        <div class="text-content">
+                            {# <i class="text1">Panier sur-mesure</i> #}
+                            <b class="text2" style="font-size: 40px">Qu’est-ce-que le Label Demeter?</b>
+                            <p class="buttons">
+                                <a href="{{path('all_products')}}" class="btn btn-thin">Découvrir</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+            
 
             <!-- Block 07: Blog posts-->
             <div class="blog-posts sm-margin-top-49px xs-margin-top-60px">
@@ -234,33 +238,38 @@
                                 <h3 class="title"> Nos cidres et jus de fruit </h3>
                             </div>
                             <ul class="products-list vertical-layout-02 biolife-carousel nav-none-on-mobile" data-slick='{"rows":3,"arrows":false,"dots":false,"infinite":false,"speed":400,"slidesMargin":30,"slidesToShow":1, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 1}},{"breakpoint":768, "settings":{ "slidesToShow": 3, "rows":2, "slidesMargin":10}},{"breakpoint":500, "settings":{ "slidesToShow": 2, "rows":2, "slidesMargin":15}}]}'>
-                                <li class="product-item">
-                                    <div class="contain-product contain-product__right-info-layout3">
-                                        <div class="product-thumb">
-                                            <a href="#" class="link-to-product">
-                                                <img src="/biolife/assets/images/products/p-08.jpg" alt="Vegetables" width="270" height="270" class="product-thumnail">
-                                            </a>
+                                {% for item in fruitJuices %}
+                                    <li class="product-item">
+                                        <div class="contain-product contain-product__right-info-layout3">
+                                            <div class="product-thumb">
+                                                <a href="#" class="link-to-product">
+                                                    {% if item.imageName %}
+                                                        <img src="{{ vich_uploader_asset(item, 'imageFile')|imagine_filter('thumb') }}"  alt="Vegetables" width="100" height="100" class="product-thumnail">
+                                                    {% else %}
+                                                        <img src="/uploads/produit/images/defaultImage.png"  alt="Vegetables" width="100" height="100" class="product-thumnail">
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                            <div class="info">
+                                                <h4 class="product-title"><a href="#" class="pr-name">{{ item.name }}</a></h4>
+                                                <div class="price ">
+                                                    <ins><span class="price-amount"> {{ item.price}} €</span></ins>
+                                                    {# <del><span class="price-amount"><span class="currencySymbol">€</span>29.00</span></del> #}
+                                                </div>
+                                                <div class="rating">
+                                                    <p class="star-rating"><span class="width-80percent"></span></p>
+                                                    <span cleview-cass="rount">(05 Reviews)</span>
+                                                </div>
+                                                <p class="desc">{{ item.detail}}</p>
+                                                <div class="buttons">
+                                                    <a href="{{ path('all_products') }}" class="btn add-to-cart-btn" tabindex="0">Ajouter au panier</a>
+                                                    <a href="#" class="btn wishlist-btn" tabindex="0"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                                    <a href="#" class="btn compare-btn" tabindex="0"><i class="fa fa-random" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="info">
-                                            <h4 class="product-title"><a href="#" class="pr-name">Fish Stew With Rice Recipe</a></h4>
-                                            <div class="price ">
-                                                <ins><span class="price-amount"><span class="currencySymbol">€</span>9.00</span></ins>
-                                                <del><span class="price-amount"><span class="currencySymbol">€</span>29.00</span></del>
-                                            </div>
-                                            <div class="rating">
-                                                <p class="star-rating"><span class="width-80percent"></span></p>
-                                                <span class="review-count">(05 Reviews)</span>
-                                            </div>
-                                            <p class="desc">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn add-to-cart-btn" tabindex="0">Ajouter au panier</a>
-                                                <a href="#" class="btn wishlist-btn" tabindex="0"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                                                <a href="#" class="btn compare-btn" tabindex="0"><i class="fa fa-random" aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -268,7 +277,7 @@
             </div>
 
             <!-- Block 09: Instagram-->
-            <div class="biolife-instagram-block sm-margin-top-76px xs-margin-top-60px">
+            {# <div class="biolife-instagram-block sm-margin-top-76px xs-margin-top-60px">
                 <div class="wrap-title xs-margin-bottom-60px-im sm-margin-bottom-35-im">
                     <i class="subtitle hidden-xs">Suivez nos actus paniers où que vous allez !</i>
                     <h3 class="title">Suivez-nous sur Instagram </h3>
@@ -357,7 +366,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> #}
 
             <!-- Block 10: Brands-->
             <div class="brand-slide sm-margin-top-76px sm-margin-bottom-77px xs-margin-top-80px xs-margin-bottom-80px">
@@ -366,56 +375,56 @@
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/AB_cert_HD.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/Logo_confédération_paysanne.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/logoeuropeenpantoneAB.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/AB_cert_HD.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-01.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/Logo_confédération_paysanne.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-02.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/logoeuropeenpantoneAB.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-03.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/AB_cert_HD.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/biolife/assets/images/home-01/brd-04.png" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/Logo_confédération_paysanne.jpg" width="199" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
@@ -489,9 +498,6 @@
             </div>
         </div>
     </div> #}
-
-    <!--Quickview Popup (le petit loupe)-->
-    {% include "/partials/loupe.html.twig" %}
 
     <!-- Scroll Top Button -->
     <a class="btn-scroll-top"><i class="biolife-icon icon-left-arrow"></i></a>

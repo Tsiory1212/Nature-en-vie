@@ -112,12 +112,21 @@ class HomeController extends AbstractController
     {
         $allSubscriptionCart = $this->repoSubCart->findAll();
         $subscriptions = $repoCartSubscription->findAll();
+        $grandPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier']);
+        $moyenPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier']);
+        $petitPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier']);
+
+        $fruitJuices = $this->repoProduct->findBy(['category' => '12'], ['id' => 'ASC'], 10);
         $blogs = $this->repoBlog->findBy([], ['created_at' => 'DESC'], 3);
 
         return $this->render('home/home_subscription.html.twig', [
             'subscriptions' => $subscriptions,
             'allSubscriptionCart' => $allSubscriptionCart,
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'fruitJuices' => $fruitJuices,
+            'grandPanier' => $grandPanier,
+            'moyenPanier' => $moyenPanier,
+            'petitPanier' => $petitPanier
         ]);
     }
 
@@ -168,6 +177,14 @@ class HomeController extends AbstractController
     public function commandes(): Response
     {
         return $this->render('home/ferme/autres/commandes.html.twig');
+    }
+
+    /**
+     * @Route("/ferme/contact", name="professionnel")
+     */
+    public function professionnel(): Response
+    {
+        return $this->render('home/professionnel.html.twig');
     }
 
     /**

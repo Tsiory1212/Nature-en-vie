@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
 	<style>
 		.map{
 			height: 100vh;
@@ -99,6 +100,17 @@
 		.marker.is-expanded::after{
 			border-top-color: #fff!important;
 		}
+
+		/* Spinner modal  */
+		.spinner-border{
+			width: 100px;
+			height: 100px;
+			font-size: 5em;
+		}
+
+		.modal-dialog{
+			margin-top: 47vh;
+		}
 	</style>
 {% endblock %}
 
@@ -106,11 +118,24 @@
 	<div class="my-5" >
 		<h1 class="text-white text-center font-bg-stylized-1">Liste des commandes" </h1>
 		<div class="bg-glass2 p-3 mb-5">
+			<div class="row">
+				<div class="col-4">
+					<button id="js-map-large" class="button button1" onclick="largeMap()">Agrandir le Map</button>
+					<button class="button button1" onclick="getAllRoutes()">Chemin court</button>		
+				</div>
+				<div class="col-8">
+					<div class="form-pathLine d-inine ">
+						<select id="js_pathLine"> </select>
+						<button id="btn-submit-pathLine" class="button button1">Trier</button>
+					</div>
+				</div>
+			</div>
 			<div class="container-list">
 				<div class="list">
 					<table class="table">
 						<thead>
 							<tr>
+							<th scope="col">Ordre</th>
 							<th scope="col">Nom</th>
 							<th scope="col">Prénom</th>
 							<th scope="col">Adresse</th>
@@ -137,6 +162,7 @@
 								data-postalcode="{{user.delivry.postalCode}}"
 								data-user="{{user.firstname}}"
 							>
+								<td>{{ loop.index}}</td>
 								<td>{{ user.lastname }}</td>
 								<td>{{ user.firstname }}</td>
 								<td>{{ user.delivry.address }}</td>
@@ -152,206 +178,99 @@
 				</div>
 				<div class="map" id="map"></div>
 			</div>
+			<div id="loading">
+				...
+			</div>
 		</div>
 	</div>
-{% endblock %}
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLoading">
+		Launch demo modal
+	</button>
 
-{% block javascripts %}
+	<!-- Modal : Calcul itinéraire -->
+	<div class="modal text-center col-md-3 ms-auto" id="modalLoading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="content-loading-modal">
+			<div class="spinner-block"></div>
+			<h1 class="text-white mt-3"> Calcul des itinéraire...</h1>
+		</div>
+		</div>
+	</div>
+
+	<!-- Modal : Error -->
+	<div class="modal" tabindex="-1" id="modalError">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Erreur</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h2 class="text-center">Une erreur s'est produite, veuillez réessayer !</h2>
+			</div>
+		  </div>
+		</div>
+	  </div>
+			
+	<div data-mbapi="{{ mapbox_apikey }}" class="d-none"></div>
+
+	{% endblock %}
+	
+	{% block javascripts %}
+	<!-- On doit charger mapbox avant les autres scrips sinon, il ecrase les fonctions dans les autres -->
+	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-  	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+	<script type="text/javascript" src="{{ asset('/assets/js/_action-leaflet-openstreetmap-mapbox.js')}}"></script>
+	
 	<script>
-		window.onload = () => {
-			let position_me = [46.573795318603516, 3.2033939361572266];
-			let waypoints = [position_me];
-			let waypointsRouting = [ 
-				 new L.Routing.Waypoint(L.latLng(position_me)) 
-			];
-			let	map = L.map('map').setView(position_me, 11);
-
-			L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-				attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
-				minZoom: 1,
-				maxZoom: 20
-			}).addTo(map);
-
-			// On dessine les limites de zone
-			$.ajax({
-				type: 'get',
-				url: `/assets/js/france-geoJson2.json`,
-				success :  function(geojson){
-					let geoJsonLayer = L.geoJSON(geojson, {
-						style: {
-								"color": "#839c49",
-								"opacity": 1,
-								"fillColor": "#839c49",
-								"fillOpacity": 0.5,
-								"bubblingMouseEvents": false // permet de dire que la tuille carte et Polygone n'a pas le même evenement de souri
-						}
-					}).addTo(map);
-					geoJSON = L.geoJSON(geojson)
-				}
-			})
-
-			var js_marker = $('.js-marker');
 		
-			$.each(js_marker, function( index, item ) {
-				let point = [item.dataset.lat, item.dataset.lng];
-				
-				let popup = new L.popup({
-						autoClose: false,
-						closeOnEscapeKey: false,
-						closeOnClick: false,
-						closeButton: false,
-						className: 'marker',
-						maxWidth: 400
-				})
+		window.onerror = function(error) {
+			alert("window error..." + error );
+		}
 
-				// On affiche le popup, seulement si l'utilisateur a au moin une commande
-				if (item.dataset.order > 0) {
-					// On agrandit le zone à chaque fois qu'on a des nouveaux marqueurs et après on ajuste le centrage
-					waypoints.push(point);
-					map.fitBounds(waypoints);
-
-					waypointsRouting.push(
-						new L.Routing.Waypoint(L.latLng(point))
-					);
-
-					popup.setLatLng(point)
-						.setContent("("+item.dataset.order+")")
-						.openOn(map)
-					;
-					
-					popup.getElement().addEventListener('click', function () {
-						popup.getElement().classList.add('is-expanded');
-						popup.setContent(`<p> <span class="user"> ${item.dataset.user} </span> <br> ${item.dataset.address} <br> Code postal : ${item.dataset.postalcode} </p>`);
-						popup.setContent(item.innerHtml);
-						popup.update();
-					})
-					popup.getElement().addEventListener('mouseout', function () {
-						popup.setContent("("+item.dataset.order+")");
-						popup.getElement().classList.remove('is-expanded');
-						popup.update()
-					})
-				
-					// On gère les évènements
-					item.addEventListener('mouseover', function () {
-						popup.getElement().classList.add('is-active');
-					})
-
-					item.addEventListener('mouseout', function () {
-						popup.getElement().classList.remove('is-active'); 
-					})
-				}
-
-			});
-
-
-			const svgpin_Icon2 = L.icon({
-				iconUrl: "/assets/images/map-location-icon-red.png",
-				iconSize: [24, 24],
-				iconAnchor: [12, 24],
-				popupAnchor: [0, -22]
-			});
-
-			var control = L.Routing.control({
-				geocoder: L.Control.Geocoder.nominatim(),
-				waypoints: waypoints,
-				routeWhileDragging: true,
-				show: false,
-				LineOptions: {
-					styles: [{
-						opacity: 1,
-						weight: 1
-					}]
-				},
-				showAlternatives: true,    
-				router: new L.Routing.osrmv1({
-					language: 'fr',
-					profile: 'car',
-				}),
-				createMarker: function(i, wp, nWps) {
-					switch (i) {
-						case 0:
-							return L.marker(wp.latLng, {
-								draggable: false
-							}).bindPopup("<b> Point de départ </b>");
-						case nWps - 1:
-							return L.marker(wp.latLng, {
-								draggable: false
-							}).bindPopup(`<b> Point d'arrivée </b>`).openPopup();
-					}
-				}
-			})
-
-			let routeUs = L.Routing.osrmv1(
-				{
-					language: 'fr',
-					profile: 'bike',
-				}
-			);
-
-			waypointsRouting.forEach(element => {
-				routeUs.route(element, (err,routes)=>{
-					if(!err)
-					{
-						let best = 100000000000000;
-						let bestRoute = 0;
-						console.log('routes', routes)
-						for(i in routes)
-						{
-							if(routes[i].summary.totalDistance < best) {
-								bestRoute = i;
-								best = routes[i].summary.totalDistance;
-							}
-						}
-						console.log('best route',routes[bestRoute]);
-						L.Routing.line(routes[bestRoute],{
-							styles : [
-								{
-									color : 'blue',
-									weight : '10'
-								}
-							]
-						}).addTo(map);
-					
-					}
-				})
-			});
-			// routeUs.route(waypointsRouting, (err,routes)=>{
-			// 	if(!err)
-			// 	{
-			// 		let best = 100000000000000;
-			// 		let bestRoute = 0;
-			// 		console.log('routes', routes)
-			// 		for(i in routes)
-			// 		{
-			// 			if(routes[i].summary.totalDistance < best) {
-			// 				bestRoute = i;
-			// 				best = routes[i].summary.totalDistance;
-			// 			}
-			// 		}
-			// 		console.log('best route',routes[bestRoute]);
-			// 		L.Routing.line(routes[bestRoute],{
-			// 			styles : [
-			// 				{
-			// 					color : 'blue',
-			// 					weight : '10'
-			// 				}
-			// 			]
-			// 		}).addTo(map);
-				
-			// 	}
-			// })
-
-			control.on('routesfound', function (e) {
-				distance = e.routes[0].summary.totalDistance;
-				console.log('routing distance: ' + distance);
-			});
-
-			control.addTo(map);
+		/**
+		 * Permet d'agrandir ou de reduire la carte
+		*/
+		function largeMap() {
+			if ($('#map').css('width') == "529px") {
+				$('#map').css('width', '156vh');
+				$('#js-map-large').text('Réduire la carte')
+			} else {
+				$('#map').css('width', '529px');
+				$('#js-map-large').text('Agrandir la carte')
+			}
 		}
 
 
+		// Data select2 
+		var dataSelectPahtLine = [
+			{
+				id: 0,
+				text: 'Jour de la commande'
+			},
+			{
+				id: 1,
+				text: 'Jour de la semaine'
+			}
+		];
+
+		$("select#js_pathLine").select2({
+			placeholder: "Trier la livraison par",
+			width: '50%',
+			data: dataSelectPahtLine,
+			allowClear: true,
+		})
+
+		/**
+		 * Permet de générer le params de l'url 
+		 */
+		$('#btn-submit-pathLine').on('click', function(){
+			var paramVal = $("select#js_pathLine").val();
+			const  url = "{{ path('admin_order_list') }}";
+			window.location.href = `${url}?queryPathLine=${paramVal}`;
+		}); 
 	</script>
 {% endblock %}

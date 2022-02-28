@@ -37,6 +37,7 @@ class CartSubscriptionType extends AbstractType
             ])
             ->add('descriptionSubscriptionPlan')
             ->add('interval_unit', ChoiceType::class, [
+                'label' => 'Cycle de paiment',
                 'choices' => [
                     'SEMAINE' => 'WEEK',
                     'MOIS' => 'MONTH'
@@ -44,10 +45,13 @@ class CartSubscriptionType extends AbstractType
             ])
             ->add('detailedDescription', CKEditorType::class)
             ->add('priceSubscription')
-            ->add('durationMonthSubscription', null, ['attr' => [
-                'min' => 0,
-                'max' => 24
-            ]])
+            ->add('durationMonthSubscription', null, [
+                'label' => 'Durrée de l\'engagement. (En mois)',
+                'attr' => [
+                    'min' => 0,
+                    'max' => 24
+                ]
+            ])
         ;
     }
 
@@ -64,7 +68,14 @@ class CartSubscriptionType extends AbstractType
         $choices = $this->paypalService->getAllProducts();
         $output = [];
         foreach ($choices as $value) {
-            $output[$value['name']] = $value['id'];
+            // On ignore le produit 'PROD-20S96309WL105335A', car il est créer accidentellement
+            // Du coup, PayPal n'a pas encore de point d'API pour supprimer les produits
+            if ($value['id'] == 'PROD-20S96309WL105335A') {
+                
+            } else {
+                $output[$value['name']] = $value['id'];
+            }
+            
         }
         return $output;
     }

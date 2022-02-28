@@ -152,6 +152,15 @@ class PurchasesController extends AbstractController
      */
     public function account_order_step_three(PanierService $panierService): Response
     {
+        if ($_ENV['PAYPAL_ENV'] == 'sandbox')  {
+            $paypal_client_id = $_ENV['PAYPAL_SANDBOX_CLIENT_ID'];
+            $paypal_env = 'sandbox';
+        } else {
+            $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
+            $paypal_env = 'live';
+        }
+
+
         $user = $this->getUser();
         if (is_null($this->session->get('panier'))){
             return  $this->redirectToRoute("account_order_step_one", ['error' => 'empty_cart']);
@@ -163,8 +172,9 @@ class PurchasesController extends AbstractController
 
         return $this->render('purchases/order_step/order_step_three.html.twig', [
             'items' => $panierService->getFullcart(),
-            'paypal_client_id' => $paypal_client_id,
             'total' => $panierService->getTotal(),
+            'paypal_client_id' => $paypal_client_id,
+            'paypal_env' => $paypal_env
         ]);
     }
     

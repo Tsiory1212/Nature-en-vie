@@ -19,6 +19,28 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $value
+     * @return void
+     */
+    public function findAllOrder_shortByDayslotdelivry()
+    {
+        return $this->createQueryBuilder('o')
+            // ->andWhere('o.exampleField = :val')
+            // ->setParameter('val', $value)
+            ->innerJoin('o.user','u')
+            ->innerJoin('u.delivry','d')
+            ->orderBy('d.day_slot', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    
     // /**
     //  * @return Order[] Returns an array of Order objects
     //  */

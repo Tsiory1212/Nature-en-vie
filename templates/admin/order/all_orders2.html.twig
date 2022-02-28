@@ -1,0 +1,558 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %} Toutes les commandes {% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+	<style>
+		.map{
+			height: 100vh;
+		}
+		
+		@media only screen and (min-width: 1100px) {
+			.container-list{
+				display: grid;
+				grid-template-columns: 2fr 2fr;
+			}
+			
+			.list{
+				padding: 0 30px;
+				height: 1900px;
+				width: 800px;
+			}
+
+			.map{
+				background-color: #CCCCCC;
+				position: sticky!important;
+				top: 0;
+				right: 0;
+				left: 0;
+			}
+		}
+
+		.item:hover{
+			background-color: #0fabb94b;
+		}
+
+
+		.marker.leaflet-popup{
+			margin-bottom: 16px;
+			cursor: pointer;
+			font-size: 16px;
+			font-weight: bold;
+			padding: 5px 10px;
+			text-align: center;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 3) ;
+			background-color: #fff;
+		}
+		.marker.leaflet-popup .user{
+			color: #0fabb9;
+		}
+
+		.marker.leaflet-popup::after{
+			content: '';
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			width: 0;
+			height: 0;
+			margin-left: -8px;
+			border-left: 8px solid transparent;
+			border-right: 8px solid transparent;
+			border-top: 8px solid #fff;
+		}
+
+		.marker .leaflet-popup-content-wrapper{
+			background: transparent;
+			color: inherit;
+			box-shadow: none;
+			text-align: inherit;
+		} 
+
+		.marker .leaflet-popup-content{
+			text-align: inherit;
+			color: inherit;
+			margin: 0;
+		} 
+
+		.marker .leaflet-popup-tip-container{
+			display: none;
+		} 
+
+		.marker.is-active, .marker:hover{
+			z-index: 300;
+				background-color: #0fabb9;
+			color: #fff;
+		}
+		.marker.is-active::after, .marker:hover::after{
+			border-top-color: #0fabb9;
+		}
+
+		.marker.is-expanded{
+			background-color: #fff!important;
+			color: inherit!important;
+			z-index: 301;
+			text-align: left;
+		}
+		.marker.is-expanded::after{
+			border-top-color: #fff!important;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div class="my-5" >
+		<h1 class="text-white text-center font-bg-stylized-1">Liste des commandes" </h1>
+		<div class="bg-glass2 p-3 mb-5">
+			<div class="row">
+				<div class="col-4">
+					<button class="button butotn1" onclick="largeMap()">Grand</button>
+					<button class="button butotn1" onclick="drawShortestPath()">Chemin court</button>
+				</div>
+				<div class="col-8">
+					<div class="form-pathLine d-inine ">
+						<select id="js_pathLine"> </select>
+						<button id="btn-submit-pathLine" class="button button1">Trier</button>
+					</div>
+				</div>
+			</div>
+			<div class="container-list">
+				<div class="list">
+					<table class="table">
+						<thead>
+							<tr>
+							<th scope="col">Ordre</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prénom</th>
+							<th scope="col">Adresse</th>
+							<th scope="col">Code Postal</th>
+							<th scope="col">Téléphone</th>
+							<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for user in users %}
+							{% set ordersNotDelivred = 0 %}
+							{% for order in user.orders %}
+								{% if order.status == 0 %}
+									{% set ordersNotDelivred = ordersNotDelivred + 1 %}
+								{% endif %}
+							{% endfor %}
+							<tr 
+								class="item js-marker" 
+
+								data-order="{{ ordersNotDelivred}}" 
+								data-lat="{{user.delivry.latPosition}}" 
+								data-lng="{{user.delivry.lngPosition}}"
+								data-address="{{user.delivry.address}}"
+								data-postalcode="{{user.delivry.postalCode}}"
+								data-user="{{user.firstname}}"
+							>
+								<td>{{ loop.index}}</td>
+								<td>{{ user.lastname }}</td>
+								<td>{{ user.firstname }}</td>
+								<td>{{ user.delivry.address }}</td>
+								<td>{{ user.delivry.postalCode }}</td>
+								<td>{{ user.phone }}</td>
+								<td><a href="{{path('admin_user_order', {user: user.id})}}"><i class="fa-solid fa-user"></i></a></td>
+							</tr>
+						
+						{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+				<div class="map" id="map"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<script src="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.js"></script>
+  	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+	<script>
+		// window.onload = () => {
+			let position_me = ["46.573795318603516", "3.2033939361572266"];
+			let waypoints = [position_me];
+			let waypointsRouting = [ 
+				 new L.Routing.Waypoint(L.latLng(position_me)) 
+			];
+			let	map = L.map('map').setView(position_me, 11);
+			map.scrollWheelZoom.disable();
+			let popupCollection = [];
+
+			L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+				attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
+				minZoom: 1,
+				maxZoom: 20
+			}).addTo(map);
+
+			// On dessine les limites de zone
+			$.ajax({
+				type: 'get',
+				url: `/assets/js/france-geoJson2.json`,
+				success :  function(geojson){
+					let geoJsonLayer = L.geoJSON(geojson, {
+						style: {
+								"color": "#839c49",
+								"opacity": 1,
+								"fillColor": "#839c49",
+								"fillOpacity": 0.5,
+								"bubblingMouseEvents": false // permet de dire que la tuille carte et Polygone n'a pas le même evenement de souri
+						}
+					}).addTo(map);
+					geoJSON = L.geoJSON(geojson)
+				}
+			})
+
+				var js_marker = $('.js-marker');
+				$.each(js_marker, function( index, item ) {
+					let point = [item.dataset.lat, item.dataset.lng];
+					
+					let popup = new L.popup({
+							autoClose: false,
+							closeOnEscapeKey: false,
+							closeOnClick: false,
+							closeButton: false,
+							className: 'marker',
+							maxWidth: 400
+					})
+					
+					// On affiche le popup, seulement si l'utilisateur a au moin une commande
+					if (item.dataset.order > 0) {
+						// On agrandit le zone à chaque fois qu'on a des nouveaux marqueurs et après on ajuste le centrage
+						waypoints.push(point);
+						map.fitBounds(waypoints);
+	
+						waypointsRouting.push(
+							new L.Routing.Waypoint(L.latLng(point))
+						);
+	
+						popup.setLatLng(point)
+							.setContent("("+item.dataset.order+")")
+							.openOn(map)
+						;
+						
+						popup.getElement().addEventListener('click', function () {
+							popup.getElement().classList.add('is-expanded');
+							popup.setContent(`<p> <span class="user"> ${item.dataset.user} </span> <br> ${item.dataset.address} <br> Code postal : ${item.dataset.postalcode} <br>  ${L.latLng(point)} </p>`);
+							popup.setContent(item.innerHtml);
+							popup.update();
+						})
+						popup.getElement().addEventListener('mouseout', function () {
+							popup.setContent("("+item.dataset.order+")");
+							popup.getElement().classList.remove('is-expanded');
+							popup.update()
+						})
+					
+						// On gère les évènements
+						item.addEventListener('mouseover', function () {
+							popup.getElement().classList.add('is-active');
+						})
+	
+						item.addEventListener('mouseout', function () {
+							popup.getElement().classList.remove('is-active'); 
+						})
+					}
+	
+					popupCollection.push(popup);
+	
+				});
+	
+	
+				const svgpin_Icon2 = L.icon({
+					iconUrl: "/assets/images/map-location-icon-red.png",
+					iconSize: [24, 24],
+					iconAnchor: [12, 24],
+					popupAnchor: [0, -22]
+				});
+	
+				var control = L.Routing.control({
+					geocoder: L.Control.Geocoder.nominatim(),
+					waypoints: waypoints,
+					show: false,
+					showAlternatives: true,
+					altLineOptions: {
+						styles: [{
+							opacity: 1,
+							weight: 1
+						}]
+					},
+					showAlternatives: true,    
+					router: new L.Routing.osrmv1({
+						language: 'fr',
+						profile: 'car'
+					}),
+					createMarker: function(i, wp, nWps) {
+						switch (i) {
+							case 0:
+								return L.marker(wp.latLng, {
+									draggable: false
+								}).bindPopup("<b> Point de départ </b>");
+							case nWps - 1:
+								return L.marker(wp.latLng, {
+									icon: svgpin_Icon2,
+									draggable: false
+								}).bindPopup(`<b> Point d'arrivée </b>`).openPopup();
+						}
+					}
+				});
+				control.addTo(map);
+	
+				control.on('routesfound', function (e) {
+					distance = e.routes[0].summary.totalDistance;
+					console.log('routing distance: ' + distance);
+				});
+			
+
+
+
+			let routeUs = L.Routing.osrmv1(
+				{
+					// serviceUrl: 'http://router.project-osrm.org/route/v1',
+					language: 'fr',
+					profile: 'car',
+				}
+			);
+
+			var startingPoint = '';
+			var shortestDistance = 1000000000;
+			var bestRoute = 0;
+			var _routesUs = [];
+			var waypointsBefore = waypointsRouting;
+			var waypointsAfter = [waypointsRouting[0]];
+
+			for (var i = 0; i < waypointsRouting.length; i++) {
+				// On saute le premier waypoint 
+				if (i === 0 ) {	
+					// RIEN
+				} 
+				else {
+					// On construit la condition pour le nouveau point de départ
+					if (startingPoint == '') {
+						startingPoint = waypointsRouting[0];
+					}
+					// console.log('startingPoint'+i, startingPoint);
+					// console.exception('The best', shortestDistance)
+					console.log('i val iditra route' , i)
+
+					// routeUs.route(
+					// 	[startingPoint, waypointsRouting[i]], 
+					// 	function andrana(err, routes) {
+					// 		if(!err)
+					// 		{
+					// 			for(let r in routes)
+					// 			{	
+					// 				console.log('i val' , i)
+					// 				console.log('r' , r)
+
+					// 				if(routes[r].summary.totalDistance < shortestDistance) {
+					// 					console.log('ny waypoints tafiditra', routes[r])
+										
+					// 					startingPoint = waypoint;
+
+					// 					if (containsObject(startingPoint.latLng, waypointsAfter)) {
+											
+					// 					} else {
+					// 						waypointsAfter.push(startingPoint) 
+					// 					}
+					// 					const index_way= waypointsRouting.findIndex(object => {
+					// 						return object.latLng === startingPoint.latLng;
+					// 					});
+					// 					waypointsBefore.splice(index_way, 1) 
+
+					// 					shortestDistance = routes[r].summary.totalDistance;
+					// 					// bestRoute = bestRoute.push(i);
+					// 					bestRoute = r;	
+					// 					// _routesUs = routes;
+					// 					_routes = routes;	
+					// 				}
+					// 			}
+					// 			// L.Routing.line(_routes[bestRoute],{
+					// 			// 	styles : [
+					// 			// 		{
+					// 			// 			color : 'blue',
+					// 			// 			weight : '10'
+					// 			// 		}
+					// 			// 	]
+					// 			// })
+					// 			// .addTo(map);
+					// 		}
+					// 	}
+					// );
+
+					routeUs.route(
+						[waypointsRouting], 
+						function andrana(err, routes) {
+							if(!err)
+							{
+								for(let r in routes)
+								{	
+									console.log('i val' , i)
+									console.log('r' , r)
+
+									if(routes[r].summary.totalDistance < shortestDistance) {
+										console.log('ny waypoints tafiditra', routes[r])
+										
+										startingPoint = waypoint;
+
+										if (containsObject(startingPoint.latLng, waypointsAfter)) {
+											
+										} else {
+											waypointsAfter.push(startingPoint) 
+										}
+										const index_way= waypointsRouting.findIndex(object => {
+											return object.latLng === startingPoint.latLng;
+										});
+										waypointsBefore.splice(index_way, 1) 
+										shortestDistance = routes[r].summary.totalDistance;
+										bestRoute = r;	
+										_routes = routes;	
+									}
+								}
+								L.Routing.line(_routes[bestRoute],{
+									styles : [
+										{
+											color : 'white',
+											weight : '10'
+										}
+									]
+								})
+								.addTo(map);
+							}
+						}
+					);
+				}
+				// copie.push(items[i]);
+			}
+
+			// waypointsRouting.forEach((waypoint, index) => { })
+
+			function containsObject(obj, list) {
+				var i;
+
+				for (i = 0; i < list.length; i++) {
+					console.log('deputé', list[i].latLng, obj)
+					if (list[i].latLng === obj) {
+						return true;
+					}
+				}
+				return false;
+			}
+			
+	// }		
+	</script>
+
+	<script>
+
+	// // A NE PAS SUPPRIMER : console.log
+	// // console.log('best route',routes[bestRoute]);
+		function drawShortestPath() {
+			console.log('waypointsBefore', waypointsBefore);
+			console.log('waypointsAfter', waypointsAfter);
+			console.log('waypointsRouting', waypointsRouting);
+
+
+			var control2 = L.Routing.control({
+				geocoder: L.Control.Geocoder.nominatim(),
+				waypoints: waypointsAfter,
+				show: false,
+				altLineOptions: {
+					styles: [{
+						opacity: 1,
+						weight: 1
+					}]
+				},
+				router: new L.Routing.osrmv1({
+					language: 'fr',
+					profile: 'car'
+				}),
+				createMarker: function(i, wp, nWps) {
+					switch (i) {
+						case 0:
+							return L.marker(wp.latLng, {
+								draggable: false
+							}).bindPopup("<b> Point de départ</b>").openPopup();
+						case nWps - 1:
+							return L.marker(wp.latLng, {
+								icon: svgpin_Icon2,
+								draggable: false
+							}).bindPopup(`<b> Point d'arrivée </b>`).openPopup();
+						default:
+							return L.marker(wp.latLng, {
+								draggable: false
+							}).bindPopup(`Arrêt n°${i}`).openPopup();
+					}
+				}
+			});
+			control2.addTo(map);
+
+			// Permet de cacher les popups
+			popupCollection.forEach(popup => {
+				popup.remove()
+			});
+		
+
+
+			// L.Routing.line(_routesUs[bestRoute],{
+			// 	styles : [
+			// 		{
+			// 			color : 'black',
+			// 			weight : '10'
+			// 		}
+			// 	]
+			// })
+			// .addTo(map);
+		}
+
+
+
+
+		function largeMap() {
+			if ($('#map').css('width') == "529px") {
+					$('#map').css('width', '156vh');
+			} else {
+					$('#map').css('width', '529px');
+			}
+		}
+
+		// Select 
+		var dataSelectPahtLine = [
+			{
+				id: 0,
+				text: 'Jour de la commande'
+			},
+			{
+				id: 1,
+				text: 'Jour de la semaine'
+			},
+			{
+				id: 2,
+				text: 'Chemin le plus court'
+			}
+		];
+
+		$("select#js_pathLine").select2({
+			placeholder: "Trier la livraison par",
+			width: '50%',
+			data: dataSelectPahtLine,
+			allowClear: true,
+		})
+
+		if ( {{ app.request.get('queryPathLine') }}  == '1' ){
+			$("select option[value=1]").attr('selected', 'selected');
+		}
+
+		$('#btn-submit-pathLine').on('click', function(){
+			var paramVal = $("select#js_pathLine").val();
+			const  url = "{{ path('admin_order_list') }}";
+			window.location.href = `${url}?queryPathLine=${paramVal}`;
+		}); 
+
+	</script>
+
+{% endblock %}

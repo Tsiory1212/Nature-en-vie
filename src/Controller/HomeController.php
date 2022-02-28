@@ -180,7 +180,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/ferme/contact", name="professionnel")
+     * @Route("/professionnel", name="professionnel")
      */
     public function professionnel(): Response
     {

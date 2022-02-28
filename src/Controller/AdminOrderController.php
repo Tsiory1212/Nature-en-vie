@@ -8,6 +8,7 @@ use App\Repository\OrderRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,9 +27,14 @@ class AdminOrderController extends AbstractController
     /**
      * @Route("/admin/orders", name="admin_order_list")
      */
-    public function admin_order_list(): Response
+    public function admin_order_list(Request $request): Response
     {
-        $orders = $this->repoOrder->findAll();
+        // Si le params url === '1', les utilisateurs sont filtré par le jour de la semaine
+        if ($request->query->get('queryPathLine') === '0' or $request->query->get('queryPathLine') === 'null' or empty($request->query->get('queryPathLine'))) {
+            $orders = $this->repoOrder->findAll();
+        }else if($request->query->get('queryPathLine') === '1') {
+            $orders = $this->repoOrder->findAllOrder_shortByDayslotdelivry();
+        }        
         
         // On stock les utilisateurs dans un tableau sans les répétés
         $users = [];
@@ -36,10 +42,11 @@ class AdminOrderController extends AbstractController
             $users[] = $order->getUser();
         }
         $users = array_unique($users, SORT_REGULAR);
-        
+        $mapbox_apikey = $_ENV['MAPBOX_API_KEY'];
         return $this->render('admin/order/all_orders.html.twig', [
             'orders' => $orders,
-            'users' => $users
+            'users' => $users,
+            'mapbox_apikey' => $mapbox_apikey
         ]);
     }
 

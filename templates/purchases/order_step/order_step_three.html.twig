@@ -65,20 +65,22 @@
                             <select name="reccurent_paypal" id="reccurent_paypal">
                                 <option value="0" selected="selected" class="d-none"></option>
                                 {% for  i in 1..12 %}
-                                    <option value="{{i}}">{{i}} mois</option>
+                                    <option value="{{i}}">{{i}} semaine(s)</option>
                                 {% endfor %}
                             </select>
                         </div>
 
+
+
                         <div class="d-flex justify-content-center">
-                                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
     
                                     <input type="hidden" name="cmd" value="_xclick-subscriptions">
                                     
                                     <!-- Nom du plan (Juste un nom, mais pas) -->
                                     <input type="hidden" name="item_name" value="Abonnement Panier Sur-mesure">
                                 
-                                    <input type="hidden" name="business" value="sb-ikpdu7405512@business.example.com">
+                                    <input type="hidden" name="business" value="c.regnault@au-coin-nature.com">
                                 
                                     <input type="hidden" name="lc" value="US">
                                     <input type="hidden" name="no_note" value="1">
@@ -87,17 +89,17 @@
                                     <!-- Prix  -->
                                     <input type="hidden" name="a3" value="0.00">
                                 
-                                    <!-- Payement chaque mois  -->
+                                    <!-- Payement chaque (mois="M" ou semaine="W")  -->
                                     <input type="hidden" name="p3" value="1">
-                                    <input type="hidden" name="t3" value="M">
+                                    <input type="hidden" name="t3" value="W">
                                     <input type="hidden" name="currency_code" value="EUR">
                                 
                                     <!-- Echellons de payement (durée d'engagement en mois ) -->
                                     <input type="hidden" name="srt" value="0">
                                 
                                     <!-- Specify URLs -->
-                                    <input type='hidden' name='cancel_return' value="{{ path('account_pass_to_order') }}">
-                                    <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}">
+                                    {# <input type='hidden' name='cancel_return' value="{{ path('account_pass_to_order') }}">
+                                    <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}"> #}
                                     <!-- <input type="hidden" name="notify_url" value='XXX.com/users/paymentAccountstatus/1286'>    -->
                                 
                                     <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
@@ -143,19 +145,16 @@
 
 
 
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
 <script src="{{ asset('/assets/js/custom_select2.js')}}"></script>
 <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR"> </script>
 <script>
     $(document).ready(function () {  
+        var paypal_env = "{{paypal_env}}";
         // Paypal : Payement unique
         paypal.Buttons({
-            env: 'sandbox',
+            env: paypal_env,
             createOrder : function (data, actions) {
 
                 // Les produits à payer avec leurs details

@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class PurchasesController extends AbstractController
+class AccountPurchasesController extends AbstractController
 {
 
     protected $session;
@@ -101,10 +101,8 @@ class PurchasesController extends AbstractController
         // Gestion modal : Favorite cart 
         $favoriteCart = new FavoriteCart();
         $currentCart = $this->session->get('panier', []);
-
         $formFavCart = $this->createForm(FavoriteCartType::class, $favoriteCart);
         $formFavCart->handleRequest($request);
-
         if ($formFavCart->isSubmitted() && $formFavCart->isValid()) {
             $favoriteCart->setUser($this->getUser());
             $favoriteCart->setCart($currentCart);
@@ -130,7 +128,7 @@ class PurchasesController extends AbstractController
      */
     public function account_order_step_two(): Response
     {
-        if (count($this->session->get('panier')) < 1) {
+        if (!$this->session->get('panier') || count($this->session->get('panier')) < 1) {
            return $this->redirectToRoute("account_order_step_one", ['error' => 'empty_cart']);
         }
 

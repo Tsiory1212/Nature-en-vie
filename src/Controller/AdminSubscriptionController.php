@@ -31,27 +31,32 @@ class AdminSubscriptionController extends AbstractController
     private $repoProduct;
     private $repoUser;
 
-    public function __construct(EntityManagerInterface $em, CartSubscriptionRepository $repoSubscription, FactureAbonnementRepository $repoFactureAbonnement, ProductRepository $repoProduct, UserRepository $repoUser)
+    protected $paypalService;
+
+    public function __construct(EntityManagerInterface $em, CartSubscriptionRepository $repoSubscription, FactureAbonnementRepository $repoFactureAbonnement, ProductRepository $repoProduct, UserRepository $repoUser, PaypalService $paypalService)
     {
         $this->em = $em;
         $this->repoSubscription = $repoSubscription;
         $this->repoFactureAbonnement = $repoFactureAbonnement;
         $this->repoProduct = $repoProduct;
         $this->repoUser = $repoUser;
+        $this->paypalService = $paypalService;
     }
 
 
     /**
      * @Route("/subscription/liste", name="admin_subscription_list")
      */
-    public function admin_subscription_list(): Response
+    public function admin_subscription_list(PaypalService $paypalService): Response
     {
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
         $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
         $nbrSubscriptionsDisabled = count($this->repoSubscription->findBy(['active' => 0]));
 
-        $subscriptions = $this->repoSubscription->findBy(['active' => 1]);
+        $planInBd = $this->repoSubscription->findBy(['active' => 1]);
+        $subscriptions = $paypalService->getPlanSubscriptionAfterCondition($planInBd);
+        
         return $this->render('admin/subscription/list_subscription.html.twig', [
             'subscriptions' => $subscriptions,
             'nbrProducts' => $nbrProducts,

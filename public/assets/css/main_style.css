@@ -158,6 +158,7 @@ button.btn-close{
 	transform: scale(1.1); 
 }
 
+/* Grand panier */
 #cover-cart-grand-panier{
 	transition: transform .9s;
 	background-image: url('/assets/images/cartSubscription/cover-grand-panier.png');
@@ -180,6 +181,14 @@ button.btn-close{
 
 }
 
+#price-cart-grand-panier{
+	position: absolute;
+	z-index: 6;
+	margin: 366px 245px;
+}
+
+
+/* Moyen panier */
 #cover-cart-moyen-panier{
 	transition: transform .9s;
 	background-image: url('/assets/images/cartSubscription/cover-moyen-panier.png');
@@ -200,6 +209,13 @@ button.btn-close{
 	position: sticky;
 }
 
+#price-cart-moyen-panier{
+	position: absolute;
+	z-index: 6;
+	margin: 4px 0px;
+}
+
+/* Penit panier */
 #cover-cart-petit-panier{
 	transition: transform .9s;
 	background-image: url('/assets/images/cartSubscription/cover-petit-panier.png');
@@ -219,6 +235,13 @@ button.btn-close{
 	position: sticky;
 }
 
+#price-cart-petit-panier{
+	position: absolute;
+	z-index: 6;
+	margin: 366px 229px;
+}
+
+/* Panier sur-mesure */
 #cover-cart-panier-sur-mesure{
 	transition: transform .9s;
 	background-image: url('/assets/images/cartSubscription/cover-panier-sur-mesure.png');

@@ -6,6 +6,7 @@ use App\Entity\FactureAbonnement;
 use App\Entity\PauseLivraison;
 use App\Form\PauseLivraisonType;
 use App\Repository\FactureAbonnementRepository;
+use App\Service\Paypal\PaypalService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,9 +17,12 @@ class AccountSubscriptionController extends AbstractController
 {
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    protected $paypalService;
+
+    public function __construct(EntityManagerInterface $em, PaypalService $paypalService)
     {
         $this->em = $em;
+        $this->paypalService = $paypalService;
     }
 
     /**
@@ -79,5 +83,22 @@ class AccountSubscriptionController extends AbstractController
         );
         return $this->redirectToRoute('dashboard');
 
+    }
+
+    /**
+     * @Route("/test/subcription/test", name="test")
+     */
+    public function test(): Response
+    {
+        dd($this->paypalService->getToken());
+        $clientId = $this->paypalService->clientId;
+        $clientToken = $this->paypalService->getClientToken();
+        $token = $this->paypalService->getToken();
+
+        return $this->render('test.html.twig', [
+            'clientId' => $clientId,
+            'clientToken' => $clientToken,
+            'token' => $token
+        ]);
     }
 }

@@ -1,0 +1,395 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test card crédit custom{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #header {
+            position: relative !important;
+        }
+        .paypal-button-container {
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            padding: 20px;
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .card_container {
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            padding: 20px;
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .card_field{
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+            height:40px;
+            background:white;
+            font-size:17px;
+            color:#3a3a3a;
+            font-family:helvetica, tahoma, calibri, sans-serif;
+        }
+        .card_field_50{
+            width: 50%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+            height:40px;
+            background:white;
+            font-size:17px;
+            color:#3a3a3a;
+            font-family:helvetica, tahoma, calibri, sans-serif;
+        }
+        .card_field_75{
+            width: 75%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+            height:40px;
+            background:white;
+            font-size:17px;
+            color:#3a3a3a;
+            font-family:helvetica, tahoma, calibri, sans-serif;
+        }
+        .row {
+            display: -ms-flexbox; /* IE10 */
+            display: flex;
+            -ms-flex-wrap: wrap; /* IE10 */
+            flex-wrap: wrap;
+            margin: 0 -16px;
+        }
+        .col-25 {
+            -ms-flex: 25%; /* IE10 */
+            flex: 25%;
+        }
+        .col-50 {
+            -ms-flex: 50%; /* IE10 */
+            flex: 50%;
+        }
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+            height:40px;
+            background:white;
+            font-size:17px;
+            color:#3a3a3a;
+            font-family:helvetica, tahoma, calibri, sans-serif;
+        }
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .message_container {
+            border-radius: 5px;
+            background:#FFFFFF;
+            font-size:13px;
+            font-family:monospace;
+            padding: 20px;
+        }
+        #loading {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: block;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 99;
+            text-align: center;
+        }
+        #loading-image {
+            position: absolute;
+            z-index: 15;
+            top: 50%;
+            left: 50%;
+            margin: -100px 0 0 -150px;
+        }
+        .spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -50px; /* half width of the spinner gif */
+            margin-top: -50px; /* half height of the spinner gif */
+            text-align:center;
+            z-index:1234;
+            overflow: auto;
+            width: 100px; /* width of the spinner gif */
+            height: 102px; /* height of the spinner gif +2px to fix IE8 issue */
+        }
+        .button_container {
+            display: flex;
+            justify-content: center;
+        }
+        button:hover {
+            background-color: powderblue;
+        }
+        button {
+            width:229px;
+            height:49px;
+            background:lightblue;
+            border:1px dotted black;
+            font-size:17px;
+            color:#3a3a3a;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+        .btn_small{
+            width:130px;
+            height:39px;
+            background:lightblue;
+            border:1px dotted black;
+            font-size:14px;
+            color:#3a3a3a;
+        }
+        .btn_small:hover {
+            background-color: powderblue;
+        }
+    </style>
+      <link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"/>
+{% endblock %}
+
+{% block body %}
+
+<!-- JavaScript SDK -->
+
+ <script src="https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id={{clientId}}" data-client-token="{{clientToken}}" ></script>
+
+   <!-- Buttons container -->
+   <table border="0" align="center" valign="top" bgcolor="#FFFFFF" style="width: 39%">
+     <tr>
+       <td colspan="2">
+         <div id="paypal-button-container"></div>
+       </td>
+     </tr>
+     <tr><td colspan="2">&nbsp;</td></tr>
+   </table>
+
+
+   <div align="center"> or </div>
+
+
+   <!-- Advanced credit and debit card payments form -->
+
+   <div class="card_container">
+
+     <form id="card-form">
+       <label for="card-number">Card Number</label><div id="card-number" class="card_field"></div>
+       <div>
+         <label for="expiration-date">Expiration Date</label>
+         <div id="expiration-date" class="card_field"></div>
+       </div>
+
+       <div>
+         <label for="cvv">CVV</label><div id="cvv" class="card_field"></div>
+       </div>
+
+       <label for="card-holder-name">Name on Card</label>
+       <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off" placeholder="card holder name"/>
+
+       <div>
+         <label for="card-billing-address-street">Billing Address</label>
+         <input type="text" id="card-billing-address-street" name="card-billing-address-street" autocomplete="off" placeholder="street address"/>
+       </div>
+
+       <div>
+         <label for="card-billing-address-unit">&nbsp;</label>
+         <input type="text" id="card-billing-address-unit" name="card-billing-address-unit" autocomplete="off" placeholder="unit"/>
+       </div>
+
+       <div>
+         <input type="text" id="card-billing-address-city" name="card-billing-address-city" autocomplete="off" placeholder="city"/>
+       </div>
+
+       <div>
+         <input type="text" id="card-billing-address-state" name="card-billing-address-state" autocomplete="off" placeholder="state"/>
+       </div>
+
+       <div>
+         <input type="text" id="card-billing-address-zip" name="card-billing-address-zip" autocomplete="off" placeholder="zip / postal code"/>
+       </div>
+
+       <div>
+         <input type="text" id="card-billing-address-country" name="card-billing-address-country" autocomplete="off" placeholder="country code" />
+       </div>
+
+       <br/><br/>
+       <button value="submit" id="submit" class="btn">Pay</button>
+     </form>
+
+   </div>
+{% endblock %}
+
+{% block javascripts %}
+   <!-- Implementation -->
+   <script>
+
+     let orderId;
+     // Displays PayPal buttons
+     paypal.Buttons({
+        style: {
+          layout: 'horizontal'
+        },
+		createOrder: function(data, actions) {
+			return actions.order.create({
+				purchase_units: [{
+					amount: {
+					value: "1.00"
+					}
+				}]
+			});
+		},
+		onApprove: function(data, actions) {
+			return actions.order.capture().then(function(details) {
+				window.location.href = '/success.html';
+			});
+		}
+     }).render("#paypal-button-container");
+
+
+     // If this returns false or the card fields aren't visible, see Step #1.
+    if (paypal.HostedFields.isEligible()) {
+		// Renders card fields
+		paypal.HostedFields.render({
+			// Call your server to set up the transaction
+			createOrder: function () {
+				var url = "{{ path('account_paypal_create_order')}}" ; 
+                
+                // return $.ajax({
+                //     type: 'post',
+                //     url: url,
+                //     success: function (orderData) {
+                //         orderId = orderData.id;
+				// 	    return orderId;
+                //     }
+                // })
+
+			
+				return fetch(url, {
+					method: 'post'
+				}).then(function(res) {
+					return res.json();
+				}).then(function(orderData) {
+                    console.log(orderData)
+					orderId = orderData.orderId;
+					return orderId;
+				});
+			},
+			styles: {
+				'.valid': {
+					'color': 'green'
+				},
+				'.invalid': {
+					'color': 'red'
+				}
+			},
+			fields: {
+				number: {
+					selector: "#card-number",
+					placeholder: "4111 1111 1111 1111"
+				},
+				cvv: {
+					selector: "#cvv",
+					placeholder: "123"
+				},
+				expirationDate: {
+					selector: "#expiration-date",
+					placeholder: "MM/YY"
+				}
+			}
+        }).then(function (cardFields) {  
+
+            document.querySelector("#card-form").addEventListener('submit', (event) => {
+                event.preventDefault();
+                cardFields.submit({
+                    // Cardholder's first and last name
+                    cardholderName: document.getElementById('card-holder-name').value,
+                    // Billing Address
+                    billingAddress: {
+                        // Street address, line 1
+                        streetAddress: document.getElementById('card-billing-address-street').value,
+                        // Street address, line 2 (Ex: Unit, Apartment, etc.)
+                        extendedAddress: document.getElementById('card-billing-address-unit').value,
+                        // State
+                        region: document.getElementById('card-billing-address-state').value,
+                        // City
+                        locality: document.getElementById('card-billing-address-city').value,
+                        // Postal Code
+                        postalCode: document.getElementById('card-billing-address-zip').value,
+                        // Country Code
+                        countryCodeAlpha2: document.getElementById('card-billing-address-country').value
+                    }
+                }).then(function () {
+
+                    var original_url = '/your-server/api/order/' + orderId + '/capture/';
+                    var test_url = '/test/deux/card/credit/paypal/'+orderId;
+                    
+                    fetch(test_url, {
+                        method: 'post'
+                    }).then(function(res) {
+                        return res.json();
+                    }).then(function (orderData) {
+                        // Three cases to handle:
+                        //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                        //   (2) Other non-recoverable errors -> Show a failure message
+                        //   (3) Successful transaction -> Show confirmation or thank you
+
+                        // This example reads a v2/checkout/orders capture response, propagated from the server
+                        // You could use a different API or structure for your 'orderData'
+                        var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+                        if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                        return actions.restart(); // Recoverable state, per:
+                        // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                        }
+
+                        if (errorDetail) {
+                            var msg = 'Sorry, your transaction could not be processed.';
+                            if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                            if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                            return alert(msg); // Show a failure message
+                        }
+                        // Show a success message or redirect
+                        alert('Transaction completed!');
+                    })
+                }).catch(function (err) {
+                    // console.log( JSON.stringify(err));
+                    alert('Payment could not be captured! ' + JSON.stringify(err))
+                });
+            });
+        });
+    } else {
+        // Hides card fields if the merchant isn't eligible
+        document.querySelector("#card-form").style = 'display: none';
+    }
+
+   </script>
+{% endblock %}

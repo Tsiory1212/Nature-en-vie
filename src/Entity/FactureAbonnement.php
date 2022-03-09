@@ -19,6 +19,8 @@ class FactureAbonnement
     private $id;
 
     /**
+     * NB: planSubscriptionId in Paypal
+     * 
      * @ORM\Column(type="string", length=30)
      */
     private $subscriptionId;

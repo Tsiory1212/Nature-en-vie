@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\SampleDatas;
 use App\Form\ProductType;
 use App\Entity\SearchEntity\ProductSearch;
 use App\Form\SearchForm\ProductSearchType;
@@ -155,22 +156,23 @@ class AdminProductController extends AbstractController
             ->getForm()
         ;
         $form->handleRequest($request);
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $spreadsheetService->importFileExcel();
-        //     return $this->redirectToRoute('admin_product_excel_import');
-        // }
 
         return $this->render('admin/file/excel/import_file_excel.html.twig', [
             'form' => $form->createView()
         ]);
     }
 
+
     /**
+     * Permet d'importer un fichier Excel vers la base de données en fonction du nom de la classe
+     *
      * @Route("/admin/product/excel/import/execute", name="admin_product_excel_import_execute")
+     * @param SpreadsheetService $spreadsheetService
+     * @return json
      */
     public function admin_product_excel_import_execute(SpreadsheetService $spreadsheetService)
     {
-        $result =  $spreadsheetService->importFileExcel();
+        $result =  $spreadsheetService->importFileExcel(Product::class);
         return  $this->json(
             ['result'=> $result],
             200

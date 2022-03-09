@@ -3,91 +3,191 @@
 {% block title %} {{subscription.nameSubscriptionPlan}} {% endblock %}
 
 {% block stylesheets %}
-  <style>
-        #header {
-            position: absolute !important;
-        }
+    <link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"/>
+
+    <style>
+            #header {
+                position: absolute !important;
+            }
+
+            body{
+                z-index: 10;
+                background-image: url('/biolife/assets/images/home-01/main-slide-02.png');
+                background-position: center center;
+            }
+
+            .fond-name-subscription{
+                background-image: url('/assets/images/cart-name-squelette.png');
+                height: 58px;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+                color: white;
+                font-size: 30px;
+                font-weight: bold;
+                margin-top: 20px;
+                padding: 58px;
+                align-content: end;
+                display: grid;
+            }
+
+            .fond-price-subscription{
+                background-image: url('/assets/images/cart-price-squelette.png');
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+                color: white;
+                font-size: 30px;
+                font-weight: bold;
+
+                display: grid;
+                width: 77px;
+                height: 77px;
+                align-content: center;
+                margin-left: 61px;
+            }
+
+            .interval_unit{
+                position: absolute !important;
+                margin-left: 52px;
+            }
+
+            .card-show-subscription{
+                margin-top: 350px;
+                background-color: #fff;
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 1px solid rgba(0,0,0,.125);
+                border-radius: 20px;
+            }
 
 
-      .card-show-subscription{
-        background-color: #fff;
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid rgba(0,0,0,.125);
-        border-radius: 20px;
-      }
+            .col-PayPal-button{
+                padding-left: 10%;
+                padding-right: 10%;
+            }
 
+            .font-bg-stylized-2{
+                width: 319px;
+                margin-top: 10px;
+                padding: 11px;
+            }
+    </style>
 
-      .col-PayPal-button{
-          padding-left: 10%;
-          padding-right: 10%;
-      }
-
-
-  </style>
 {% endblock %}
 
 {% block body %}
-<body class="biolife-body">
-    <div class="page-contain">
-        <!-- Image bannière  -->
-        <div class="banner-media-layout-01"></div>
-        
-        <div class="text-content3">  
+    <!-- block card-show-subscription  -->
+    <div class="mx-5 row card-show-subscription">
+        <div class="col-md-4">
+            <div class="text-center">
+                <div class="card-body">
+                    <!-- <div class="fond-name-subscription">
+                        {{ subscription.nameSubscriptionPlan }}
+                    </div> -->
 
-            <!-- block card-show-subscription  -->
-            <div class="mx-5 row card-show-subscription">
-                    <div class="col-md-4">
-                        <div class="text-center">
-                            <div class="card-body">
-                                <div class="name-cart-subscription p-3 my-4 text-white">
-                                    <h1 class="card-title">{{ subscription.nameSubscriptionPlan }}</h1>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="210">
+                    <h1 class="font-bg-stylized-2 text-white fw-bold">{{ subscription.nameSubscriptionPlan }}</h1>
+                    <div class="row mt-5">
+                        <div class="col-8">
+                            <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="335">
+                        </div>
+                        <div class="col-4">
+                            <div class="fond-price-subscription">
+                                {{subscription.priceSubscription}}€
+                            </div>
+                            <span class="interval_unit position-absolute"> /semaine </span>
+                        </div>
+                        <!-- <h6>Engagement pendant {{subscription.durationMonthSubscription}} MOIS </h6> -->
+                    </div>
+                    {% if app.user %}
+                        <div class="paypal-button-block">
+                            <div id="paypal-button-container"></div>
+                            <div align="center"> or </div>
+                            <!-- Advanced credit and debit card payments form -->
+                            <div class="card_container">
+                                <form id="card-form">
+                                    <label for="card-number">Numéro de carte</label><div id="card-number" class="card_field"></div>
+                                    <div>
+                                        <label for="expiration-date">Expiration Date</label>
+                                        <div id="expiration-date" class="card_field"></div>
                                     </div>
-                                    <div class="col">
-                                        <h1 class="fw-bolder periode-cart-subscription">{{subscription.durationMonthSubscription}} MOIS</h1>
-                                        <h1 class="fw-bolder">{{subscription.priceSubscription}} €</h1>
+
+                                    <div>
+                                        <label for="cvv">CVV</label><div id="cvv" class="card_field"></div>
                                     </div>
-                                </div>
+
+                                    <div class="optional-form d-none">
+                                        <label for="card-holder-name">Name on Card</label>
+                                        <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off" placeholder="card holder name" value="{{app.user.fullName}}"/>
+    
+                                        <div>
+                                            <label for="card-billing-address-street">Billing Address</label>
+                                            <input type="text" id="card-billing-address-street" name="card-billing-address-street" autocomplete="off" placeholder="street address" value="{{app.user.delivry.address}}"/>
+                                        </div>
+    
+                                        <div>
+                                            <label for="card-billing-address-unit">&nbsp;</label>
+                                            <input type="text" id="card-billing-address-unit" name="card-billing-address-unit" autocomplete="off" placeholder="unit" value="Unit"/>
+                                        </div>
+    
+                                        <div>
+                                            <input type="text" id="card-billing-address-city" name="card-billing-address-city" autocomplete="off" placeholder="city"/ value="test city">
+                                        </div>
+    
+                                        <div>
+                                            <input type="text" id="card-billing-address-state" name="card-billing-address-state" autocomplete="off" placeholder="state"/ value="test state">
+                                        </div>
+    
+                                        <div>
+                                            <input type="text" id="card-billing-address-zip" name="card-billing-address-zip" autocomplete="off" placeholder="zip / postal code" value="{{app.user.delivry.postalcode}}"/>
+                                        </div>
+    
+                                        <div>
+                                            <input type="text" id="card-billing-address-country" name="card-billing-address-country" autocomplete="off" placeholder="country code" value="FR"/>
+                                        </div>
+                                    </div>
+
+                                    <br/><br/>
+                                    <button value="submit" id="submit" class="btn btn-success">Payer</button>
+                                </form>
                             </div>
                         </div>
-                    </div>
-                
-                <div class="col-md-8 py-5 col-PayPal-button">
-                    <h1 class="third-line text-center">
-                        {{ subscription.descriptionSubscriptionPlan}}
-                    </h1> 
-                    <h3 class="third-line text-center my-5">
-                        {{ subscription.detailedDescription|raw  }}
-                    </h3> 
-                    {% if app.user %}
-                        <div id="paypal-button-container"></div>
                     {% endif %}
                 </div>
             </div>
         </div>
+        
+        <div class="col-md-8 py-5 col-PayPal-button">
+            <h1 class="third-line text-center">
+                {{ subscription.descriptionSubscriptionPlan}}
+            </h1> 
+            <h3 class="third-line text-center my-5">
+                {{ subscription.detailedDescription|raw  }}
+            </h3> 
+        </div>
     </div>
-</body>
+
 {% endblock %}
 
 
 {% block javascripts %}
     {% if app.user %}
-        <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&vault=true"> </script>
+        {# <script src="https://www.paypal.com/sdk/js?client-id={{paypal_clientId}}&vault=true"> </script> #}
+        <script src="https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id={{paypal_clientId}}&vault=true&intent=subscription" data-client-token="{{paypal_clientToken}}" ></script>
 
         <script>
+            var paypal_env = "{{paypal_env}}";
+
             paypal.Buttons({
-                env: 'sandbox',
+                env: paypal_env,
                 style: {
-                    label: 'subscribe'
+                    label: 'subscribe',
+                    layout: 'horizontal'
                 },
                 createSubscription: function (data, actions) {
                     return actions.subscription.create({
@@ -95,6 +195,11 @@
                     });
                 },
                 onApprove: function (data, actions) {
+                    console.log('eto data', data);
+                    console.log('eto action', actions);
+
+                    // subscription.id => id de la carte d'abonnement sur l'entity
+                    // subscriptionID => id du plan d'abonnement dans PayPal 
                     const url = "/account/abonnement/"+{{subscription.id}}+"/"+data.subscriptionID;
                     
                     axios.post(url)
@@ -111,6 +216,163 @@
                     alert("Abonnement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
                 }
             }).render('#paypal-button-container');
+
+
+
+
+
+
+            // If this returns false or the card fields aren't visible, see Step #1.
+            if (paypal.HostedFields.isEligible()) {
+                let subscriptionId;
+                let link;
+                
+                let planId = "{{subscription.idSubscriptionPlanPaypal}}";
+                let emailAddress = "{{app.user.email}}";
+                let userFullName = "{{app.user.fullName}}";
+                let adress = $('#card-billing-address-street').val()
+                let countryCode = $('#card-billing-address-country').val()
+               
+                // Renders card fields
+                paypal.HostedFields.render({ 
+                    // Call your server to set up the transaction
+                  
+                    createOrder: function () {
+                        var url = '/account/paypal/subscription/create/'+planId+'/'+emailAddress+'/'+userFullName+'/'+adress+'/'+countryCode;
+                        return fetch(url, {
+                            method: 'post'
+                        }).then(function(res) {
+                            return res.json();
+                        }).then(function(subscriptionData) {
+                            subscriptionId = subscriptionData.subscriptionId;
+                             link = subscriptionData.links['0'].href;
+
+                            return subscriptionId;
+                            
+                        });
+                    },
+                    styles: {
+                        '.valid': {
+                            'color': 'green'
+                        },
+                        '.invalid': {
+                            'color': 'red'
+                        }
+                    },
+                    fields: {
+                        number: {
+                            selector: "#card-number",
+                            placeholder: "4111 1111 1111 1111"
+                        },
+                        cvv: {
+                            selector: "#cvv",
+                            placeholder: "123"
+                        },
+                        expirationDate: {
+                            selector: "#expiration-date",
+                            placeholder: "MM/YY"
+                        }
+                    }
+                }).then(function (cardFields) {  
+                    document.querySelector("#card-form").addEventListener('submit', (event) => {
+                        event.preventDefault();
+                        // Simulate a mouse click:
+                        // return window.location.href = link;
+                        // return window.location.replace(link);
+
+                        // const url = '/test/show/detail/subcription/'+subscriptionId;
+                        // fetch(url, {
+                        //     method: 'post'
+                        // }).then(function(res) {
+                        //     return res.json();
+                        // }).then(function (orderData) {
+                        //    return window.location.replace(orderData.links[href]);
+                        // });
+
+
+                        cardFields.submit({
+                            // Cardholder's first and last name
+                            cardholderName: document.getElementById('card-holder-name').value,
+                            // Billing Address
+                            billingAddress: {
+                                // Street address, line 1
+                                streetAddress: document.getElementById('card-billing-address-street').value,
+                                // Street address, line 2 (Ex: Unit, Apartment, etc.)
+                                extendedAddress: document.getElementById('card-billing-address-unit').value,
+                                // State
+                                region: document.getElementById('card-billing-address-state').value,
+                                // City
+                                locality: document.getElementById('card-billing-address-city').value,
+                                // Postal Code
+                                postalCode: document.getElementById('card-billing-address-zip').value,
+                                // Country Code
+                                countryCodeAlpha2: document.getElementById('card-billing-address-country').value
+                            }
+                        }).then(function () {
+
+                            // const url = '/test/show/detail/subcription/'+subscriptionId;
+                            // fetch(url, {
+                            //     method: 'post'
+                            // }).then(function(res) {
+                            //     return res.json();
+                            // }).then(function (orderData) {
+                            // return window.location.replace(orderData.links[href]);
+                            // });
+
+
+
+                            // // var original_url = '/your-server/api/order/' + subscriptionId + '/capture/';
+                            // var test_url = '/test/deux/card/credit/paypal/'+subscriptionId;
+                            
+                            // // subscription.id => id de la carte d'abonnement sur l'entity
+                            // // subscriptionID => id du plan d'abonnement dans PayPal 
+                            // // const url = "/account/abonnement/"+{{subscription.id}}+"/"+data.subscriptionID;
+                            // const url = '/test/show/detail/subcription/'+subscriptionId;
+                            
+                          
+
+
+
+                            // fetch(url, {
+                            //     method: 'post'
+                            // }).then(function(res) {
+                            //     return res.json();
+                            // }).then(function (orderData) {
+                            //     // Three cases to handle:
+                            //     //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                            //     //   (2) Other non-recoverable errors -> Show a failure message
+                            //     //   (3) Successful transaction -> Show confirmation or thank you
+
+                            //     // This example reads a v2/checkout/orders capture response, propagated from the server
+                            //     // You could use a different API or structure for your 'orderData'
+                            //     var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+                            //     if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                            //     return actions.restart(); // Recoverable state, per:
+                            //     // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                            //     }
+
+                            //     if (errorDetail) {
+                            //         var msg = 'Sorry, your transaction could not be processed.';
+                            //         if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                            //         if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                            //         return alert(msg); // Show a failure message
+                            //     }
+                            //     // Show a success message or redirect
+                            //     alert('Transaction completed!');
+                            // })
+                        }).catch(function (err) {
+                            return window.location.replace(link);
+
+                            // console.log( JSON.stringify(err));
+                            // alert('Le paiement n a pas pu être capturé ! ' + JSON.stringify(err))
+                            // console.log(err)
+                        });
+                    });
+                });
+            } else {
+                // Hides card fields if the merchant isn't eligible
+                document.querySelector("#card-form").style = 'display: none';
+            }
         </script>                           
     {% endif %}
 {% endblock %}

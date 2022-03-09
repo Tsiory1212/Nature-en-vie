@@ -8,6 +8,7 @@ use App\Entity\PauseLivraison;
 use App\Form\PauseLivraisonType;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\FactureAbonnementRepository;
+use App\Service\Paypal\PaypalService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,9 +20,12 @@ class SubscriptionController extends AbstractController
 {
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    protected $paypalService;
+
+    public function __construct(EntityManagerInterface $em, PaypalService $paypalService)
     {
         $this->em = $em;
+        $this->paypalService = $paypalService;
     }
 
 
@@ -47,14 +51,19 @@ class SubscriptionController extends AbstractController
      * @Route("/abonnement/{id}/show", name="cart_subscription_show")
      */
     public function cart_subscription_show(CartSubscription $subscription, CartSubscriptionRepository $repoAbonnement): Response
-    {
-        $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
+    {  
+        $paypal_env = $_ENV['PAYPAL_ENV'];
+        $paypalClientId = $this->paypalService->clientId;
+        $paypalClientToken = $this->paypalService->getClientToken();
+        
         $idSubscriptionPlanPaypal = $repoAbonnement->find($subscription->getId())->getIdSubscriptionPlanPaypal() ;
 
         return $this->render('subscription/show_subscription.html.twig', [
-            'paypal_client_id' => $paypal_client_id,
             'subscription' => $subscription,
-            'idSubscriptionPlanPaypal' => $idSubscriptionPlanPaypal
+            'idSubscriptionPlanPaypal' => $idSubscriptionPlanPaypal,
+            'paypal_clientId' => $paypalClientId,
+            'paypal_clientToken' => $paypalClientToken,
+            'paypal_env' => $paypal_env 
         ]);
     }
 

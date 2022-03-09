@@ -1,111 +1,138 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ferme!{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block stylesheets %}
     <style>
+        body{
+            background-image: url('/assets/images/fond-contact.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            /* height: 1170px; */
+        }
+
         #header {
             position: relative !important;
         }
-        
-        .fond-ruban{
-            float: left;
-            background-size: auto;
-        
-            /* background: url('/images/fond-article.png')no-repeat center top;
-            background-color: #a3a276; */
-            background-size: contain;
-            width: 100%;  
-            padding: 20px 170px;
-        }
-        .fond-ruban .content-text{
-            background-color: rgb(255, 255, 255);   
-        }
 
-        .content-text h1{
-            font-family: 'Amatic SC', cursive;
-            color: #89b17a;
-            padding: 30px;
+        .info-bar{
+            background-color: rgb(31, 30, 30);
+            margin-top: 150px;
+            padding: 20px 276px;
             text-align: center;
         }
+        .info-bar h4{
+            color: rgb(212, 149, 68);
+            font-weight: bold;
+            padding-bottom: 10px;
 
-        .content-text h3{
-            color: #89b17a;
+        }
+        .info-bar h3{
+            color: white;
         }
 
-        .content-text h3{
-            color: #89b17a;
+        .under-info-bar{
+            background-color: white;
+            padding: 0 38px;
+            border-bottom-left-radius: 2%;
+            border-bottom-right-radius: 2%;
+        }
+        .under-info-bar .content-under-info-bar .row p{
+            font-size: 16px;
+        }
+        .under-info-bar .content-under-info-bar .row h2{
             text-transform: uppercase;
+            font-size: 16px;
+            color: #058e05;
+            margin-bottom: 12px;
+            margin-top: 20px;
         }
-
-        .col-md-6 h2{
-            color: #89b17a;
-            text-transform: uppercase;
-        }
-
-        
     </style>
 {% endblock %}
 
 {% block body %}
 
-    <body>
-        <div class="container">
-            <div class="fond-ruban">
-                <div class="content-text" style="padding: 30px;">
-                <h1>Où nous trouver ? </h1>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h2>Le magasin :</h2>
-                        <h4>15 rue Laussedat</h4>
-                        <h4>03000 Moulins – Allier</h4>
-                        <p>Tél. : 04 70 35 08 96</p>
-                        <a href="magasin@au-coin-nature.com">magasin@au-coin-nature.com</a>
 
-                        <h4 style="color: red;">Horaires d’ouverture PENDANT LE CONFINEMENT :</h4>
-                        <p>DU mardi au vendredi de 8h00 à 13h00</p>
-                        <p>Le samedi de 9h00 à 12h30 puis de 15h00 à 18h00</p>
-                        <p>Fermé le lundi et dimanche</p>
-                        
-                        <p>
-                            Horaires d’ouverture ordinaires : <br>
-                            Du mardi au jeudi de 8h30 à 12h30 et 15h00 à 19h00 <br>
-                            Le vendredi de 7h30 à 13h00 et 15h00 à 19h00 <br>
-                            Le samedi de 9h00 à 12h30 et 15h00 à 18h30 <br>
-                            Fermé le lundi et le dimanche <br>
-                        </p>
-                    </div>
-
-                    <div class="col-md-6">
-                        <h2>Les marchés :</h2>
-                        <p>Le marché de Bourbon l’Archambault – le samedi matin</p>
-                        <p>Le marché de Saint Amand Montrond – le samedi matin</p>
-                        <p>Le marché Boulevard des Batignolles à Paris – le samedi matin (suspendu durant le confinement)</p>
-                        <p>Le marché Boulevard Raspail à Paris – le dimanche matin (suspendu durant le confinement)</p>
-                        <p>Le marché de Cosne-d’Allier – le mardi matin</p>
-                        <p>Le marché de Neuvy – le mercredi matin</p>
-                        <p>Le marché de Souvigny – le jeudi matin</p>
-                        <p>A Villefranche (parking SOCOPA) – le vendredi matin</p>
-                        <p>Le marché de Tronget – le vendredi 17h-20h</p>
-                        <a href="">Aller à la page des Marchés</a>
-                    </div>
+        <div class="info-bar">
+            <div class="row">
+                <div class="col">
+                    <img src="/assets/images/icon/icon1.png" alt="adress-info" width="35">
+                    <h4>Adressse</h4>
+                    <h3>Les Rondard 03210 Marigny </h3>
                 </div>
-
-                <h1>Contactez-nous</h1>
-                <p>Pour toute demande d’information, vous pouvez utiliser notre formulaire de contact ci-dessous.</p>
-                <p>Nous répondrons à votre demande dans les plus brefs délais.</p>
-
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-
-                <p>Ce formulaire collecte votre identité et votre adresse mail afin de vous recontacter. Consultez notre page politique de confidentialité pour comprendre comment nous protégeons et traitons vos données.</p>
+                <div class="col">
+                    <img src="/assets/images/icon/icon2.png" alt="email-info" width="50" style="margin-top: 15px;">
+                    <h4>Adresse mail</h4>
+                    <h3>info@nature-en-vie.fr</h3>
+                </div>
+                <div class="col">
+                    <img src="/assets/images/icon/icon3.png" alt="contact-info" width="50" style="margin-top: 7px;">
+                    <h4>Contact info</h4>
+                    <h3>04 70 35 08 96</h3>
                 </div>
             </div>
-        </div>     
-    </body>
+        </div>
+        <div class="container mb-5">
+            <div class="under-info-bar">
+                <div class="content-under-info-bar">
+                    <div class="content-text" style="padding: 30px;">
+                    <div class="row">
+                        <div class="col-md-6 pe-5">
+                            <h2>Contactez-nous</h2>
+                            <p>Pour toute demande d’information, vous pouvez utiliser notre formulaire de contact ci-dessous.</p>
+                            <p>Nous répondrons à votre demande dans les plus brefs délais.</p>
+                            <p>Ce formulaire collecte votre identité et votre adresse mail afin de vous recontacter. Consultez notre page politique de confidentialité pour comprendre comment nous protégeons et traitons vos données.</p>
+
+
+
+                            <!-- <h2>Le magasin :</h2>
+                            <h4>15 rue Laussedat</h4>
+                            <h4>03000 Moulins – Allier</h4>
+                            <p>Tél. : 04 70 35 08 96</p>
+                            <a href="magasin@au-coin-nature.com">magasin@au-coin-nature.com</a> -->                           
+                        </div>
+    
+                        <div class="col-md-6 pe-5">
+                            <h2>Horaires d’ouverture PENDANT LE CONFINEMENT :</h2>
+                            <p>
+                                Du mardi au vendredi de 8h00 à 13h00 <br>
+                                Le samedi de 9h00 à 12h30 puis de 15h00 à 18h00 <br>
+                                Fermé le lundi et dimanche <br>
+                            </p>
+
+                            <h2>Horaires d’ouverture ordinaires : </h2>
+                            <p>
+                                Du mardi au jeudi de 8h30 à 12h30 et 15h00 à 19h00 <br>
+                                Le vendredi de 7h30 à 13h00 et 15h00 à 19h00 <br>
+                                Le samedi de 9h00 à 12h30 et 15h00 à 18h30 <br>
+                                Fermé le lundi et le dimanche <br>
+                            </p>
+
+                            
+                            <h2>Les marchés :</h2>
+                            <p>
+                                Le marché de Bourbon l’Archambault – le samedi matin<br>
+                                Le marché de Saint Amand Montrond – le samedi matin<br>
+                                Le marché Boulevard des Batignolles à Paris – le samedi matin (suspendu durant le confinement)<br>
+                                Le marché Boulevard Raspail à Paris – le dimanche matin (suspendu durant le confinement)<br>
+                                Le marché de Cosne-d’Allier – le mardi matin<br>
+                                Le marché de Neuvy – le mercredi matin<br>
+                                Le marché de Souvigny – le jeudi matin<br>
+                                A Villefranche (parking SOCOPA) – le vendredi matin<br>
+                                Le marché de Tronget – le vendredi 17h-20h<br>
+                                <a href="">Aller à la page des Marchés</a>
+                            </p>
+                        </div>
+                    </div>
+    
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
  
+
 {% endblock %}
 

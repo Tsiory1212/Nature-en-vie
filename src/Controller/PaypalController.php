@@ -5,22 +5,26 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Repository\OrderRepository;
 use App\Service\Panier\PanierService;
+use App\Service\Paypal\PaypalService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\DataTransformer\StringToFloatTransformer;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaypalController extends AbstractController
 {
-    protected $em;
+    private $em;
     protected $session;
+    private $paypalService;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session)
+    public function __construct(EntityManagerInterface $em, SessionInterface $session, PaypalService $paypalService)
     {
         $this->em = $em;
         $this->session = $session;
+        $this->paypalService = $paypalService;
     }
 
   /**
@@ -71,5 +75,44 @@ class PaypalController extends AbstractController
         ]);
       }
       
+    }
+
+    /**
+     * @Route("/account/paypal/subscription/create/{planId}/{email}/{fullName}/{address}/{countryCode}", name="account_paypal_create_subscription")
+     */
+    public function account_paypal_create_subscription($planId, $email, $fullName, $address, $countryCode)
+    {
+      $priceSubscription = 100;
+        $subscriptionId = $this->paypalService->createSubscription($planId, $email, $fullName, $address, $countryCode);   
+        return $this->json([
+          'code' => 200, 
+          'message' => 'create_subscription_ok',
+          'subscriptionId' => $subscriptionId["id"],
+          'links' =>  $subscriptionId["links"]
+        ]);
+        
+    }
+
+    /**
+     * @Route("/test/show/detail/subcription/{subscriptionId}", name="test_show_detail_subscription")
+     */
+    public function test_show_detail_subscription($subscriptionId): Response
+    {
+      return $this->json(
+        $this->paypalService->showSubscriptionDetails($subscriptionId)   
+      );
+    }
+
+       /**
+     * @Route("/test/deux/card/credit/paypal/{orderId}", name="test_deux_card_credit_paypal")
+     */
+    public function test_deux_card_credit_paypal($orderId)
+    {
+      // return $this->json(
+      //   $this->paypalService->captureOrder($orderId)   
+      // );
+      return $this->json(
+        $this->paypalService->showSubscriptionDetails($orderId)   
+      );
     }
 }

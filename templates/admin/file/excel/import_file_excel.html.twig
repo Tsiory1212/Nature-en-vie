@@ -57,6 +57,12 @@
                     $('#impor_excel_form')[0].reset();
                     $('#import').attr('disabled', false);
                     $('#import').val('Import');
+                }, 
+                error: function (){
+                    $('#message').html('<div class="alert alert-danger text-center">Une erreur s\'est produite</div>');
+                    $('#impor_excel_form')[0].reset();
+                    $('#import').attr('disabled', false);
+                    $('#import').val('Import');
                 }
             })
         })

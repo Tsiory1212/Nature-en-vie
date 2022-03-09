@@ -101,14 +101,14 @@
                                     <div class="bg-white-radius-1">
                                             
                                         {% if  app.session.get('panier')  %}
-                                            <a href="{{path('all_products')}}" class="button button1 order-block"> 
+                                            <a href="{{path('subscription_list')}}" class="button button1 order-block"> 
                                                 <i class="fas fa-shopping-cart"></i> Revenir à mes courses
                                             </a>
                                             <a href="{{path('account_order_step_one')}}" class="button button1 order-block"> 
                                                 <i class="fas fa-shopping-basket"></i> Mon panier en cours
                                             </a>
                                         {% else %}
-                                            <a href="{{path('all_products')}}" class="button button1 order-block"><i class="fas fa-shopping-cart"></i> Faire des courses </a>
+                                            <a href="{{path('subscription_list')}}" class="button button1 order-block"><i class="fas fa-shopping-cart"></i> Faire des courses </a>
                                         {% endif %} 
                                         <br>
                                         <a href="{{path('account_order_show')}}" class="button button1 order-block"><i class="fas fa-file-invoice"></i> Voir l'historique</a>

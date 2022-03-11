@@ -3,7 +3,7 @@
 {% block title %} {{subscription.nameSubscriptionPlan}} {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"/> -->
 
     <style>
             #header {
@@ -113,9 +113,9 @@
                         <div class="paypal-button-block">
                             <div id="paypal-button-container"></div>
                             {% if app.user.delivry %}
-                            <div align="center"> or </div>
-                            <!-- Advanced credit and debit card payments form -->
-                                <div class="card_container">
+                                <!-- <div align="center"> or </div> -->
+                                <!-- Advanced credit and debit card payments form -->
+                                <div class="card_container d-none">
                                     <form id="card-form">
                                         <label for="card-number">Numéro de carte</label><div id="card-number" class="card_field"></div>
                                         <div>
@@ -186,8 +186,8 @@
 
 {% block javascripts %}
     {% if app.user %}
-        {# <script src="https://www.paypal.com/sdk/js?client-id={{paypal_clientId}}&vault=true"> </script> #}
-        <script src="https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id={{paypal_clientId}}&vault=true&intent=subscription" data-client-token="{{paypal_clientToken}}" ></script>
+        <script src="https://www.paypal.com/sdk/js?client-id={{paypal_clientId}}&vault=true"> </script>
+        {# <script src="https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id={{paypal_clientId}}&vault=true&intent=subscription" data-client-token="{{paypal_clientToken}}" ></script> #}
 
         <script>
             var paypal_env = "{{paypal_env}}";
@@ -195,8 +195,7 @@
             paypal.Buttons({
                 env: paypal_env,
                 style: {
-                    label: 'subscribe',
-                    layout: 'horizontal'
+                    label: 'subscribe'
                 },
                 createSubscription: function (data, actions) {
                     return actions.subscription.create({

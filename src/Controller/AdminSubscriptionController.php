@@ -54,8 +54,7 @@ class AdminSubscriptionController extends AbstractController
         $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
         $nbrSubscriptionsDisabled = count($this->repoSubscription->findBy(['active' => 0]));
 
-        $planInBd = $this->repoSubscription->findBy(['active' => 1]);
-        $subscriptions = $paypalService->getPlanSubscriptionAfterCondition($planInBd);
+        $subscriptions = $paypalService->getPlanSubscriptionAfterCondition();
         
         return $this->render('admin/subscription/list_subscription.html.twig', [
             'subscriptions' => $subscriptions,

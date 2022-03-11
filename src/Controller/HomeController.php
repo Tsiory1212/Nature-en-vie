@@ -27,14 +27,16 @@ class HomeController extends AbstractController
     protected $repoCategory;
     protected $repoSubCart;
     protected $repoBlog;
+    protected $repoCartSubscription;
 
-    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, CategoryRepository $repoCategory, CartSubscriptionRepository $repoSubCart, BlogRepository $repoBlog)
+    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, CategoryRepository $repoCategory, CartSubscriptionRepository $repoSubCart, BlogRepository $repoBlog, CartSubscriptionRepository $repoCartSubscription)
     {
         $this->paginator = $paginator;
         $this->repoProduct = $repoProduct;
         $this->repoCategory = $repoCategory;
         $this->repoSubCart = $repoSubCart;
         $this->repoBlog = $repoBlog;
+        $this->repoCartSubscription = $repoCartSubscription;
     }
 
     
@@ -108,20 +110,16 @@ class HomeController extends AbstractController
      *
      * @return Response
      */
-    public function home_subscription(CartSubscriptionRepository $repoCartSubscription): Response
+    public function home_subscription(): Response
     {
-        $allSubscriptionCart = $this->repoSubCart->findAll();
-        $subscriptions = $repoCartSubscription->findAll();
-        $grandPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier']);
-        $moyenPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier']);
-        $petitPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier']);
+        $grandPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier']);
+        $moyenPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier']);
+        $petitPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier']);
 
         $fruitJuices = $this->repoProduct->findBy(['category' => '12'], ['id' => 'ASC'], 10);
         $blogs = $this->repoBlog->findBy([], ['created_at' => 'DESC'], 3);
 
         return $this->render('home/home_subscription.html.twig', [
-            'subscriptions' => $subscriptions,
-            'allSubscriptionCart' => $allSubscriptionCart,
             'blogs' => $blogs,
             'fruitJuices' => $fruitJuices,
             'grandPanier' => $grandPanier,
@@ -184,7 +182,15 @@ class HomeController extends AbstractController
      */
     public function professionnel(): Response
     {
-        return $this->render('home/professionnel.html.twig');
+        $grandPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier']);
+        $moyenPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier']);
+        $petitPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier']);
+
+        return $this->render('home/professionnel.html.twig', [
+            'grandPanier' => $grandPanier,
+            'moyenPanier' => $moyenPanier,
+            'petitPanier' => $petitPanier
+        ]);
     }
 
     /**
@@ -222,5 +228,6 @@ class HomeController extends AbstractController
             'recentPosts' => $recentPosts
         ]);
     }
+
 
 }

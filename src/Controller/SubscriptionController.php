@@ -4,28 +4,25 @@ namespace App\Controller;
 
 use App\Entity\CartSubscription;
 use App\Entity\FactureAbonnement;
-use App\Entity\PauseLivraison;
-use App\Form\PauseLivraisonType;
 use App\Repository\CartSubscriptionRepository;
-use App\Repository\FactureAbonnementRepository;
 use App\Service\Paypal\PaypalService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SubscriptionController extends AbstractController
 {
     private $em;
-
     protected $paypalService;
+    protected $repoSubCart;
 
-    public function __construct(EntityManagerInterface $em, PaypalService $paypalService)
+    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, CartSubscriptionRepository $repoSubCart)
     {
         $this->em = $em;
         $this->paypalService = $paypalService;
+        $this->repoSubCart = $repoSubCart;
     }
 
 

@@ -1,6 +1,7 @@
 <?php
 namespace App\Service\Paypal;
 
+use App\Repository\CartSubscriptionRepository;
 use Exception;
 
 class PaypalService  
@@ -9,9 +10,12 @@ class PaypalService
     public $secret;
     public $env;
     public $idSubscriptionPlanPaypal;
+    private $repoCartSubscription;
 
-    public function __construct()
+    public function __construct(CartSubscriptionRepository $repoCartSubscription)
     {
+        $this->repoCartSubscription = $repoCartSubscription;
+
         if ($_ENV['PAYPAL_ENV'] == 'sandbox')  {
             $this->clientId = $_ENV['PAYPAL_SANDBOX_CLIENT_ID'];
             $this->secret = $_ENV['PAYPAL_SANDBOX_SECRET'];
@@ -235,7 +239,7 @@ class PaypalService
         string $fullName, 
         string $addressLine1, 
         string $countryCode, 
-        ){
+    ){
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://api-m'.$this->env.'.paypal.com/v1/billing/subscriptions');
@@ -375,11 +379,11 @@ class PaypalService
     /**
      * Permet de recupérer/filtrer tous les plans d'abonnement après condition (if plansInBd is in plansInApi))
      *
-     * @param array $planInBd
-     * @return void
+     * @return array
      */
-    public function getPlanSubscriptionAfterCondition($planInBd)
+    public function getPlanSubscriptionAfterCondition()
     {
+        $planInBd = $this->repoCartSubscription->findBy(['active' => 1]);
         $plansIdInApi = [];
         foreach ($this->getAllSubscriptionPlanInProduct() as $plan) {
             $plansIdInApi[] = $plan['id'];

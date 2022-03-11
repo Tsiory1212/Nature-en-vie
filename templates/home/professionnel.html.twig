@@ -3,155 +3,352 @@
 {% block title %}Professionnel{% endblock %}
 
 {% block stylesheets %}
-
     <style>
-        #header{
-            position: relative!important;
+        #header {
+            position: absolute !important;
         }
 
-        .banner-01{
-            background-image: url('/assets/images/test/bio-professionel-banner.webp');
-            background-position: center;
+        #biolife-quickview-block {
+            z-index: 9992!important;
+        }
+        
+        .subscription-block{
+            background-image: linear-gradient(#dba800, #dba800 , white);
+        }
+
+        .delivry-information{
+            margin-top: 20%;
+            position: relative;
+        }
+        .content-delivry-information{
+            margin-top: -150px;
+            padding-left: 67px;
+        }
+        .content-delivry-information h1{
+            color: black;
+        }
+        .under-delivry-information{
+            background-image: url('/assets/images/professionnel/fond-plateau.png');
+            height: 2100px;
+            background-repeat: no-repeat;
+            background-position: center center;
             background-size: cover;
-            display: flex;
-            align-items: center;
-            height: 96rem;
-            overflow: hidden;
-            position: relative;
+            margin-top: -36px;
+        }
+        .under-delivry-information .plateau{
+            background-image: url('/assets/images/professionnel/plateau.png');
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: 813px;
+            padding-top: 100%;
+        }
+        .content-plateau{
+            margin-top: -200vh;
+        }
+        .header-plateau h1{
+            padding: 0 35%;
+            margin-bottom: 2%;
+            font-weight: 950;
+        }
+        .header-plateau h5{
+            padding: 0 25%;
+        }
+        .under-header-plateau{
+            margin-top: 3%;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+        #content-plateau-img1{
+            width: 55%;
+            height: 55%;
+            margin-bottom: 2%;
+            border-radius: 1em;
+        }
+        #content-plateau-img2{
+            width: 55%;
+            height: 55%;
+            border-radius: 1em;
+        }
+        @media all and (min-width: 1600px){
+            .content-plateau{
+                margin-top: -172vh;
+            }
+            .under-delivry-information .plateau{
+                background-size: 1020px;
+            }
+            #content-plateau-img1{
+                width: 50%;
+                height: 50%;
+                margin-bottom: 2%;
+            }
+            #content-plateau-img2{
+                width: 50%;
+                height: 50%;
+            }
         }
 
-        .content-banner-01{
-            max-width: 56em;
-            margin-bottom: .75rem;
-            padding-left: 6rem;
+        .under-content-plateau{
+            margin-top: 10%;
+            padding: 0 9%;
         }
-        .content-banner-01 h1{
-            font-size: 6rem;
-            line-height: 1em;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
+        .under-content-plateau h2{
+            font-size: 42px;
+            font-weight: 900;
+            color: black;
         }
-        .content-banner-01 h4{
-            font-size: 2rem;
+        .under-content-plateau span{
+            color: black;
+            font-size: 22px;
         }
-
-        .content-banner-02 h1, .content-banner-02 h4{
-            text-align: center;
-            max-width: 59rem;
-            margin: 0 auto 3.5rem auto;
-            /* font-size: 1.875rem; */
-            font-weight: 800;
-            line-height: 1.25em;
+        .under-content-plateau img{
+            width: 60px;
+        }
+        .under-content-plateau .row{
+            margin-top: 3%;
+        }
+        .under-content-plateau .row .col{
+            padding-left: 10%;
         }
 
-        .content-banner-03 .row .col-6{
-            padding: 10px;
-            font-size: 2rem;
+        .comment-ca-marche{
+            margin: 0 3em;
+            height: 400px;
         }
-        .banner-03 i{
-            font-size: 50px;
+        .comment-ca-marche h1{
+            font-weight: 900;
+            font-size: revert-layer;
+            margin: 57px 0;
         }
-        .content-banner-04 .row .col-3{
-            padding:10px;
-            font-size: 50px;
-        }
+        
     </style>
 {% endblock %}
-
 {% block body %}
-    <div class="content-page">
-        <div class="banner-01">
-            <div class="content-banner-01 text-white">
-                <h1> Des paniers de fruits et légumes livrés dans votre entreprise </h1>
-                <h4> Potager City vous accompagne !</h4>
-            </div>
-        </div>
-        <div class="banner-02 container-fluid">
-            <div class="content-banner-02 text-center">
-                <h1>Des paniers de fruits et légumes livrés au bureau… pour la maison !</h1>
-                <h4>Potager City accompagne les entreprises de toutes tailles dans l'installation d'un point de retrait entièrement dédié à leur personnel. Les employés reçoivent, chaque semaine, des paniers de fruits et légumes livrés au bureau et peuvent bénéficier d'une participation offerte par votre entreprise. </h4>
-                <div class="" style="height: 8rem;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" viewBox="0 0 500 500" preserveAspectRatio="none" class="potager-wave__svg">
-                        <path fill="#fff" d="M0 500L500 500C500 166.7 500 0 500 0 481.3 58.6 452.9 105.3 409.7 137.3 256.4 251 151.6 130.6 95.5 137.3 58.1 141.8 26.2 228.4 0 397.2L0 500Z"></path>
-                    </svg>
-                </div>
-                <img class="img-fluid" src="/assets/images/test/packshot_entreprise_produits.jpg" alt="">
-                <div class="" style="height: 9rem;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" viewBox="0 0 500 500" preserveAspectRatio="none" class="potager-wave__svg">
-                        <path fill="#fff" d="M0 460.3C60.4 515.6 110.1 513.1 148.9 453 209.6 358.9 296.2 256.3 377.2 256.3 426.1 256.3 467 195.9 500 75.2 500 75.2 500 50.4 500 1 500 1 333.3 0.7 0 0L0 460.3Z"></path>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        <div class="banner-03 container">
-            <div class="content-banner-03">
-                <h1 class="text-center fw-bold mb-5">On s'occupe de tout ! </h1>
-                <div class="row">
-                    <div class="col-6">
-                        <i class="fa-solid fa-gift"></i>
-                        La mise en place du service est gratuite
-                    </div>
-                    <div class="col-6">
-                        <i class="fa-solid fa-rss"></i>
-                        Il n'y a pas d’engagement
-                    </div>
-                    <div class="col-6">
-                        <i class="fa-solid fa-user-check"></i>
-                        Vous n’avez rien à gérer au quotidien, chaque salarié est autonome
-                    </div>
-                    <div class="col-6">
-                        <i class="fa-solid fa-universal-access"></i>
-                        Les employés bénéficient de tarifs préférentiels
-                    </div>
-                    <div class="col-6">
-                        <i class="fa-brands fa-42-group"></i>
-                        L'entreprise peut financer une partie des commandes des paniers de fruits et légumes pour ses employés (à partir de 3€ par commande)
-                    </div>
-                    <div class="col-6">
-                        <i class="fa-solid fa-user-check"></i>
-                        Et le plus important : vos collaborateurs sont contents !
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <button class="mt-5 button button1">CONTACTEZ-NOUS</button>
-                </div>
-            </div>
-        </div>
 
-        <div class="banner-04 mt-5">
-            <div class="content-banner-04">
-                <h1 class="text-center fw-bold mb-5">Comment ça marche ?  </h1>
-                <div class="row text-center ">
-                    <div class="col-3">
-                        <i class="fa-solid fa-user-check"></i> <br>
-                        <h1>1 - Vos envies ?</h1>
-                        <h4>Vous nous exprimez vos envies et pouvez définir un montant de participation par commande.</h4>
-                    </div>
-                    <div class="col-3">
-                        <i class="fa-solid fa-gift"></i> <br>
-                        <h1>2 - Installation</h1>
-                        <h4>Nous installons le service de paniers de fruits et légumes dans votre entreprise. .</h4>
-                    </div>
-                    <div class="col-3">
-                        <i class="fa-brands fa-42-group"></i> <br>
-                        <h1>3 - Lancement </h1>
-                        <h4>Nous organisons le lancement du service via différentes actions de communication (animation, dégustation). </h4>
-                    </div>
-                    <div class="col-3">
-                        <i class="fa-solid fa-user-check"></i> <br>
-                        <h1>4 - Commandes  </h1>
-                        <h4>Chaque salarié passe ses commandes de fruits et légumes de saison en toute autonomie sur notre site. </h4>
+<body class="biolife-body">
+
+    <!-- Page Contain -->
+    <div class="page-contain">
+
+        <!-- Main content -->
+        <div id="main-content" class="main-content">
+
+            <!-- Block 01: Main slide block-->
+            <div class="main-slide block-slider" style="z-index: 2;">
+                <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
+
+                            <!-- Image bannière  -->
+                            <div class="media"></div>
+
+                            <div class="text-content" style="z-index: 50">     
+                                <h2 class="second-line">Fruits & Légumes</h2>
+                                <p class="third-line">Bio et Demeter de nos producteurs maraîchers.</p>
+                                <p class="buttons">
+                                    <a href="{{path('all_products')}}" class="button button1 p-4 px-5">Commander</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 slide-bgr-mode03-02">
+                            <div class="media">
+                            </div>
+                            <div class="text-content">
+                                <!-- <i class="first-line">Pomegranate</i> -->
+                                <h2 class="second-line">Frais et Bio...</h3> 
+                                <p class="third-line">Les produits de nos commerces au Lieu-dit Les Rondards.</p>
+                                <p class="buttons">
+                                    <a href="{{path('all_products')}}" class="button button1 p-4 px-5">Commander</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="slide-contain slider-opt03__layout01 mode-03 slide-bgr-mode03-03">
+                            <div class="media">
+                            </div>
+                            <div class="text-content">
+                                <!-- <i class="first-line">Pomegranate</i>-->
+                                <h3 class="second-line">Made in Bio</h3> 
+                                <p class="third-line">Des vins Biodynamiques, des produits d'épicerie et divers articles.</p>
+                                <p class="buttons">
+                                    <a href="#" class="button button1 p-4 px-5">Commander</a>
+                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Block 02: Subscription -->
+            {% include "partials/subscription/_list_subscription.html.twig" %}
+           
+            <!-- Block 03: Floating cart-->
+            <div class="banner-promotion xs-margin-top-0 sm-margin-top-260px sm-margin-top-60px xs-margin-top-100">
+                <div class="biolife-banner promotion6 biolife-banner__promotion6">
+                    <div class="banner-contain">
+                        <div class="media">
+                            <div class="img-moving position-1">
+                                <img src="/assets/images/floating-vegetable-.png" width="491" height="408" alt="img msv">
+                            </div>
+
+                            <div class="img-moving position-1">
+                                <a href="#" class="banner-link">
+                                    <img src="/assets/images/box.png" width="300"  alt="box_demeter" style="margin-right: 78px;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="text-content">
+                            {# <i class="text1">Panier sur-mesure</i> #}
+                            <b class="text2" style="font-size: 40px">Qu’est-ce-que le Label Demeter?</b>
+                            <p class="buttons">
+                                <a href="{{path('all_products')}}" class="btn btn-thin">Découvrir</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Block 04: Delivry information -->
+            <div class="delivry-information">
+                <img src="/assets/images/professionnel/Fond-jaune.png" class="img-fluid">
                 <div class="row">
+                    <div class="col-5">
+                        <div class="content-delivry-information">
+                            <h1 class="text-black fw-bolder">De délicieux fruits et légumes bio livrés directement dans vos locaux !</h1>
+                            <h2 class="text-white">Natur’en Vie vous prête ses services</h2>
+                        </div>
+                    </div>
                     <div class="col"></div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <div class="under-delivry-information">
+                <div class="plateau"></div>
+                <div class="content-plateau">
+                    <div class="header-plateau text-white text-center">
+                        <h1>Des paniers bio remplis de bonnes choses à récupérer au bureau</h1>
+                        <h5>Natur’en Vie travaille en partenariat avec les entreprises en vue d’installer des points de retrait à l’intention de leurs personnels. Chaque semaine, un panier de fruits et légumes bio est livré au bureau. Ainsi, les salariés n’ont plus qu’à récupérer le leur. Tout simplement !</h5>
+                        <h5>Et parce que la santé et le confort de vos employés comptent, votre entreprise est en mesure de financer une partie de ce service.</h5>
+                    </div>
+                    <div class="under-header-plateau text-center">
+                        <img src="/assets/images/professionnel/inside-photo-1.jpg" id="content-plateau-img1" alt="">
+                        <img src="/assets/images/professionnel/inside-photo-2.jpg" id="content-plateau-img2" alt="">
+                    </div>
+                </div>
+                <div class="under-content-plateau text-center">
+                    <h2 class="text-center">Faites-nous confiance !</h2>
+                    <div class="container mt-5">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="/assets/images/professionnel/icone-1.png">
+                                    </div>
+                                    <div class="col-10">
+                                        <span>Nous mettons GRATUITEMENT en place le service.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="/assets/images/professionnel/icone-4.png">
+                                    </div>
+                                    <div class="col-10">
+                                        <span>Aucun engagement</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <span>Chaque salarié est libre de gérer ses commandes par lui-même : rien ne nécessite votre intervention.</span>
+                                    </div>
+                                    <div class="col-2">
+                                        <img src="/assets/images/professionnel/icone-2.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <span>Les employés bénéficient de tarifs préférentiels</span>
+                                    </div>
+                                    <div class="col-2">
+                                        <img src="/assets/images/professionnel/icone-5.png">
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="/assets/images/professionnel/icone-3.png">
+                                    </div>
+                                    <div class="col-10">
+                                        <span>L’entreprise est en mesure d’offrir sa participation financière à ce service.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="/assets/images/professionnel/icone-6.png">
+                                    </div>
+                                    <div class="col-10">
+                                        <span>N’oubliez pas : des employés heureux et en bonne santé sont souvent plus performants et motivés.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 05: Comment ça marche ? -->
+            <div class="comment-ca-marche text-center">
+                <h1>Comment ça marche ?</h1>
+                <div class="row ">
                     <div class="col">
-                        <img src="/assets/images/test/Fruit-and-Vegetable-Basket-panier-fruits-legumes-1.jpg" alt="bio logo" width="750">
+                        <img src="/assets/images/professionnel/icone-7.png" alt="">
+                        <h2>1- La souscription</h2>
+                        <h4>Faites-nous part de vos envies : Choisissez l’offre à laquelle vous souhaitez souscrire. Vous pouvez également établir un montant de participation par commande.</h4>
+                    </div>
+                    <div class="col">
+                        <img src="/assets/images/professionnel/icone-8.png" alt="">
+                        <h2>2- Installation</h2>
+                        <h4>Nous nous chargeons de l’installation du service de livraison de panier de fruits et légumes bio au sein de votre entreprise</h4>
+                    </div>
+                    <div class="col">
+                        <img src="/assets/images/professionnel/icone-9.png" alt="">
+                        <h2>3- La communication</h2>
+                        <h4>Pour lancer ce service, nous procédons à plusieurs événements communicationnels : dégustation, animations, …</h4>
+                    </div>
+                    <div class="col">
+                        <img src="/assets/images/professionnel/icone-10.png" alt="">
+                        <h2>4- Commandes</h2>
+                        <h4>Chaque salarié est entièrement autonome. Il passe lui-même commande via notre site.</h4>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Scroll Top Button -->
+    <a class="btn-scroll-top"><i class="biolife-icon icon-left-arrow"></i></a>
+</body>
+{% endblock %}
+
+{% block javascripts %}
+
 {% endblock %}
 

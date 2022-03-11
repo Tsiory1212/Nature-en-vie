@@ -1,5 +1,5 @@
 /************************
-* Global Settings       *
+*    Global Settings    *
 *************************/
 body{
     font-family: 'Cairo', sans-serif;
@@ -10,6 +10,12 @@ body{
 	/* Pour sauter à la ligne quand il commence à déborder */
     -ms-word-wrap: break-word;
     word-wrap: break-word;
+}
+
+@media all and (min-width: 1600px) {
+	#header{
+		padding: 0 20%!important;
+	}
 }
 
 a{
@@ -40,6 +46,7 @@ button.btn-close{
 		display: block;
     }
 }
+
 
 /* HEADER if other than home  */
 #header ul.dropdown-menu-account ul.dropdown-menu{
@@ -139,7 +146,7 @@ button.btn-close{
 	.banner-media-layout-01 {
 		height: 1290px;
 	}
-  }
+}
 
 .banner-media-layout-01 {
 	z-index: 10;
@@ -159,6 +166,7 @@ button.btn-close{
 }
 
 /* Grand panier */
+
 #cover-cart-grand-panier{
 	transition: transform .9s;
 	background-image: url('/assets/images/cartSubscription/cover-grand-panier.png');
@@ -168,23 +176,16 @@ button.btn-close{
 	background-size: cover;
 	position: sticky;
 }
-#name-cart-grand-panier{
-	background-image: url('/assets/images/cartSubscription/name-grand-panier.png');
-	height: 100px;
+#name-and-price-grand-panier{
+	background-image: url('/assets/images/cartSubscription/name-and-price-grand-panier.png');
+	height: 200px;
 	background-repeat: no-repeat;
 	background-position: center center;
-	margin: -126px 0 0 -3px;
-	margin-top: -126px;
-	background-size: 289px 84px;
+	margin-top: -205px;
+	background-size: 293px 117px;
 	z-index: 5;
 	position: sticky;
 
-}
-
-#price-cart-grand-panier{
-	position: absolute;
-	z-index: 6;
-	margin: 366px 245px;
 }
 
 
@@ -197,23 +198,19 @@ button.btn-close{
 	background-position: center center;
 	background-size: cover;
 }
-#name-cart-moyen-panier{
-	background-image: url('/assets/images/cartSubscription/name-moyen-panier.png');
-	height: 100px;
+#name-and-price-moyen-panier{
+	background-image: url('/assets/images/cartSubscription/name-and-price-moyen-panier.png');
+	height: 200px;
 	background-repeat: no-repeat;
 	background-position: center center;
 	margin: -126px 0 0 -3px;
-	margin-top: -506px;
-	background-size: 289px 84px;
+	margin-top: -550px;
+	background-size: 291px 118px;
 	z-index: 5;
 	position: sticky;
 }
 
-#price-cart-moyen-panier{
-	position: absolute;
-	z-index: 6;
-	margin: 4px 0px;
-}
+
 
 /* Penit panier */
 #cover-cart-petit-panier{
@@ -224,21 +221,15 @@ button.btn-close{
 	background-position: center center;
 	background-size: cover;
 }
-#name-cart-petit-panier{
-	background-image: url('/assets/images/cartSubscription/name-petit-panier.png');
-	height: 100px;
+#name-and-price-petit-panier{
+	background-image: url('/assets/images/cartSubscription/name-and-price-petit-panier.png');
+	height: 200px;
 	background-repeat: no-repeat;
 	background-position: center center;
 	margin: -126px 0 0 -3px;
-	margin-top: -126px;
+	margin-top: -199px;
 	background-size: 289px 103px;
 	position: sticky;
-}
-
-#price-cart-petit-panier{
-	position: absolute;
-	z-index: 6;
-	margin: 366px 229px;
 }
 
 /* Panier sur-mesure */
@@ -255,12 +246,34 @@ button.btn-close{
 	height: 100px;
 	background-repeat: no-repeat;
 	background-position: center center;
-	margin: -126px 0 0 -3px;
 	margin-top: -505px;
 	background-size: 289px 78px;
 	position: sticky;
 }
 
+@media all and (min-width: 1600px){
+	#cover-cart-grand-panier, #cover-cart-moyen-panier, #cover-cart-petit-panier {
+		height: 140%;
+	}
+
+	#name-and-price-grand-panier{
+		margin-top: -205px;
+	}
+
+	#name-and-price-moyen-panier{
+		margin-top: -725px;
+	}
+	#cover-cart-panier-sur-mesure{
+		height: 680px;
+	}
+	#name-cart-panier-sur-mesure{
+		margin-top: -650px;
+	}
+	.sm-margin-top-260px
+	{
+		margin-top: 260px!important;
+	}
+}
 
 
 .title-cart-subscription{

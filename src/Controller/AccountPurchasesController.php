@@ -10,6 +10,7 @@ use App\Repository\DelivryRepository;
 use App\Repository\FavoriteCartRepository;
 use App\Repository\OrderRepository;
 use App\Service\Panier\PanierService;
+use App\Service\Paypal\PaypalService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,16 +26,17 @@ class AccountPurchasesController extends AbstractController
     protected $em;
     protected $repoOrder;
     protected $repoDelivry;
-
     protected $repoFavCart;
+    protected $paypalService;
 
-    public function __construct(SessionInterface $session, EntityManagerInterface $em, OrderRepository $repoOrder, DelivryRepository $repoDelivry, FavoriteCartRepository $repoFavCart)
+    public function __construct(SessionInterface $session, EntityManagerInterface $em, OrderRepository $repoOrder, DelivryRepository $repoDelivry, FavoriteCartRepository $repoFavCart,PaypalService $paypalService)
     {
         $this->session = $session;
         $this->em = $em;
         $this->repoOrder = $repoOrder;
         $this->repoDelivry = $repoDelivry;
         $this->repoFavCart = $repoFavCart;
+        $this->paypalService = $paypalService;
     }
 
     
@@ -43,7 +45,7 @@ class AccountPurchasesController extends AbstractController
      */
     public function account_pass_to_order(PanierService $panierService, Request $request): Response
     {
-        $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
+        $paypal_client_id = $this->paypalService->clientId;
 
         $user = $this->getUser();
 
@@ -150,29 +152,30 @@ class AccountPurchasesController extends AbstractController
      */
     public function account_order_step_three(PanierService $panierService): Response
     {
-        if ($_ENV['PAYPAL_ENV'] == 'sandbox')  {
-            $paypal_client_id = $_ENV['PAYPAL_SANDBOX_CLIENT_ID'];
-            $paypal_env = 'sandbox';
-        } else {
-            $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
-            $paypal_env = 'live';
-        }
-
-
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
+        $paypal_client_id = $this->paypalService->clientId;
+        $paypal_env =  $_ENV['PAYPAL_ENV'];
+        $paypal_env_endpoint = $this->paypalService->env;
+        $paypal_email_marchand = $_ENV['PAYPAL_EMAIL_MARCHAND'];        
+        $rootPathApp = $this->paypalService->rootPathApp;
+
         if (is_null($this->session->get('panier'))){
             return  $this->redirectToRoute("account_order_step_one", ['error' => 'empty_cart']);
         }else if ($user->getDelivry() == null) {
             return  $this->redirectToRoute("account_order_step_two", ['error' => 'empty_delivry']);
         }
 
-        $paypal_client_id = $_ENV['PAYPAL_CLIENT_ID'];
-
         return $this->render('purchases/order_step/order_step_three.html.twig', [
             'items' => $panierService->getFullcart(),
             'total' => $panierService->getTotal(),
             'paypal_client_id' => $paypal_client_id,
-            'paypal_env' => $paypal_env
+            'paypal_env' => $paypal_env,
+            'paypal_env_endpoint' => $paypal_env_endpoint,
+            'paypal_email_marchand' => $paypal_email_marchand,
+            'rootPathApp' => $rootPathApp
         ]);
     }
     

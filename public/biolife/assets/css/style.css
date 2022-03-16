@@ -4516,7 +4516,7 @@ body.open-overlay #overlay{
     clear: both;
 }
 .single-layout.product-tabs{
-    margin-top: 191px;
+    /* margin-top: 191px; */
 }
 .product-tabs.single-layout .tab-head .tabs{
     display: block;
@@ -13811,7 +13811,7 @@ body.open-quickview-block .biolife-quickview-block{
     }
     /***************************************************/
     .sumary-product.single-layout{
-        min-height: 430px;
+        /* min-height: 430px; */
     }
     .biolife-brd-container:not(.transparent-effect) figure{
         display: inline-block;

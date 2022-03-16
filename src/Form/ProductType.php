@@ -19,7 +19,11 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('referenceId')
+            ->add('referenceId', null, [
+                'attr' => [
+                    'readonly' => true
+                ]
+            ])
             ->add('name')
             ->add('price', null, [
                 'attr' => [

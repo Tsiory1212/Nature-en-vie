@@ -3,26 +3,62 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\SearchEntity\ProductSearch;
+use App\Form\SearchForm\ProductSearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Service\Panier\PanierService;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    protected $repoProduit;
-
+    protected $repoProduct;
     protected $repoCategory;
+    protected $paginator;
 
-    public function __construct(ProductRepository $repoProduit, CategoryRepository $repoCategory)
+    public function __construct(ProductRepository $repoProduct, CategoryRepository $repoCategory, PaginatorInterface $paginator)
     {
-        $this->repoProduit = $repoProduit;
+        $this->repoProduct = $repoProduct;
         $this->repoCategory = $repoCategory;
+        $this->paginator = $paginator;
     }
 
+     /**
+     * @Route("/account/all-products", name="all_products")
+     */
+    public function all_products(Request $request, PanierService $panierService): Response
+    {
+        $categories_in_navbar = $this->repoCategory->findAll();
+
+
+        $search = new ProductSearch();
+        $form = $this->createForm(ProductSearchType::class, $search)
+            ->remove('gamme')
+        ;
+        $form->handleRequest($request);
+
+        $products = $this->paginator->paginate(
+            $this->repoProduct->findAllVisibleQuery($search),
+            $request->query->getInt('page', 1),
+            30
+        );
+
+        return $this->render('home/all_products.html.twig', [
+            'products'=> $products,
+            'form' => $form->createView(),
+            'items' => $panierService->getFullcart(),
+            'total' => $panierService->getTotal(),
+            'allQuantityItem' => $panierService->allQuantityItem(),
+            'categories_in_navbar' => $categories_in_navbar,
+
+        ]);
+    }
+    
     /**
      * @Route("/product/{id}/show/{slug}", name="product_show", requirements={"slug": "[a-z0-9\-]*"})
      */
@@ -36,7 +72,7 @@ class ProductController extends AbstractController
             ], 301);
         }
 
-        $relatedProducts = $this->repoProduit->findBy(['category' => $currentProduct->getCategory()], null, 11);
+        $relatedProducts = $this->repoProduct->findBy(['category' => $currentProduct->getCategory()], null, 11);
         $panier = $session->get('panier', []);
         $quantity_item = 0;
         $categories_in_navbar = $this->repoCategory->findAll();

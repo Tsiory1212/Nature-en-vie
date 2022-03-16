@@ -20,14 +20,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        $('#product_price').attr('type', 'number');
-        $('#product_referenceId').attr('readonly', true);
-
-        function activeInput(){
-            $('#product_referenceId').attr('readonly', false)
-        }
-      
-       
-    </script>
+    <script src="/assets/js/product/_product_form.js"></script>
 {% endblock %}

@@ -48,7 +48,7 @@
                         </div>
 
                         <!--Categories Widget-->
-                        <div class="widget biolife-filter">
+                        {# <div class="widget biolife-filter">
                             <h4 class="wgt-title">Categories</h4>
                             <div class="wgt-content">
                                 <ul class="cat-list">
@@ -59,7 +59,7 @@
                                     <li class="cat-list-item"><a href="#" class="cat-link">Travel (10)</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> #}
 
                         <!--Posts Widget-->
                         <div class="widget posts-widget">
@@ -77,7 +77,7 @@
                                                             {% if blog.imageName %}
                                                                 <img src="{{vich_uploader_asset(blog, 'imageFile')}}"  width="80" height="58" alt="">
                                                             {% else %}
-                                                                <img src="/images/blog_default.png"  width="80" height="58" alt="">
+                                                                <img src="/assets/images/empty-300x240.jpg"  width="80" height="58" alt="">
                                                             {% endif %}
                                                         </a>
                                                     </div>
@@ -96,7 +96,7 @@
                         </div>
 
                         <!--Comments Widget-->
-                        <div class="widget comment-widget">
+                        {# <div class="widget comment-widget">
                             <h4 class="wgt-title">Recent Comments</h4>
                             <div class="wgt-content">
                                 <ul class="comment-list">
@@ -114,7 +114,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> #}
 
                     </div>
                 </aside>
@@ -130,7 +130,7 @@
                                     {% if currentblog.imageName %}
                                         <img src="{{vich_uploader_asset(currentblog, 'imageFile')}}"  width="870" height="635" alt="">
                                     {% else %}
-                                        <img src="/images/blog_default.png"  width="870" height="635" alt="">
+                                        <img src="/assets/images/empty-300x240.jpg"  width="870" height="635" alt="">
                                     {% endif %}
                                 </figure>
                             </div>
@@ -146,7 +146,7 @@
                             {{ currentblog.content|raw }}
                         </div>
 
-                        <div class="post-foot">
+                        {# <div class="post-foot">
 
                             <div class="post-tags">
                                 <span class="tag-title">Tags:</span>
@@ -178,12 +178,12 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> #}
 
                     </div>
 
                     <!--Comment Block-->
-                    <div class="post-comments">
+                    {# <div class="post-comments">
                         <h3 class="cmt-title">Comments<sup>(26)</sup></h3>
 
                         <div class="comment-form">
@@ -263,7 +263,7 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> #}
 
                 </div>
 

@@ -3,27 +3,34 @@ namespace App\Service\Paypal;
 
 use App\Repository\CartSubscriptionRepository;
 use Exception;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PaypalService  
 {
     public $clientId;
     public $secret;
     public $env;
+    public $rootPathApp;
     public $idSubscriptionPlanPaypal;
     private $repoCartSubscription;
+    private $router;
 
-    public function __construct(CartSubscriptionRepository $repoCartSubscription)
+
+    public function __construct(CartSubscriptionRepository $repoCartSubscription, UrlGeneratorInterface $router)
     {
+        $this->router = $router;
         $this->repoCartSubscription = $repoCartSubscription;
 
         if ($_ENV['PAYPAL_ENV'] == 'sandbox')  {
             $this->clientId = $_ENV['PAYPAL_SANDBOX_CLIENT_ID'];
             $this->secret = $_ENV['PAYPAL_SANDBOX_SECRET'];
             $this->env = '.sandbox';
+            $this->rootPathApp = 'https://127.0.0.1:8000';
         } else if($_ENV['PAYPAL_ENV'] == 'live') {
             $this->clientId = $_ENV['PAYPAL_CLIENT_ID'];
             $this->secret = $_ENV['PAYPAL_SECRET'];
             $this->env = '';
+            $this->rootPathApp = 'https://nature-en-vie.fr';
         }
         
     }
@@ -49,9 +56,10 @@ class PaypalService
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
+        if ($result == '{"error":"invalid_client","error_description":"Client Authentication failed"}') {
+            return throw new Exception( "Client Authentication failed =>  API PayPal", true);
+        }
 
-        // dd($result);
-        if(empty($result))die("Error: No response.");
         if (curl_errno($ch)) {
             throw new Exception( curl_error($ch), true);
         }
@@ -383,15 +391,16 @@ class PaypalService
      */
     public function getPlanSubscriptionAfterCondition()
     {
-        $planInBd = $this->repoCartSubscription->findBy(['active' => 1]);
+        $activePlansInBd = $this->repoCartSubscription->findBy(['active' => 1]);
         $plansIdInApi = [];
         foreach ($this->getAllSubscriptionPlanInProduct() as $plan) {
             $plansIdInApi[] = $plan['id'];
         }
-      
-        foreach ($planInBd as $plan) {
+        
+        $plansAfterCondition = [];
+        foreach ($activePlansInBd as $plan) {
             if (in_array($plan->getIdSubscriptionPlanPaypal(), $plansIdInApi) ) {
-               $plansAfterCondition[] = $plan;
+                $plansAfterCondition[] = $plan;
             }
         }
         return $plansAfterCondition;
@@ -510,10 +519,11 @@ class PaypalService
      *
      * @param string $planName
      * @param string $planDescription
-     * @param integer $durationMonth
+     * @param integer $total_cycles
+     * @param string $interval_unit (DAY, WEEK, MONTH, YEAR)
      * @param string $price
      */
-    public function createSubscriptionPlan(string $productId, string $planName, string $planDescription, string $interval_unit, int $durationMonth, string $price)
+    public function createSubscriptionPlan(string $productId, string $planName, string $planDescription, string $interval_unit, int $total_cycles, string $price)
     {
         $ch = curl_init();
 
@@ -530,16 +540,31 @@ class PaypalService
                         \"interval_unit\": \"$interval_unit\",                
                         \"interval_count\": 1            
                     },           
-                    \"tenure_type\": \"REGULAR\",            
+                    \"tenure_type\": \"TRIAL\",            
                     \"sequence\": 1,            
-                    \"total_cycles\": $durationMonth,            
+                    \"total_cycles\": 1,            
                     \"pricing_scheme\": {                
                         \"fixed_price\": {                    
                             \"value\": \"$price\",                    
                             \"currency_code\": \"EUR\"                
                         }            
                     }        
-                }      
+                },     
+                {            
+                    \"frequency\": {                
+                        \"interval_unit\": \"$interval_unit\",                
+                        \"interval_count\": 1            
+                    },           
+                    \"tenure_type\": \"REGULAR\",            
+                    \"sequence\": 2,            
+                    \"total_cycles\": $total_cycles,            
+                    \"pricing_scheme\": {                
+                        \"fixed_price\": {                    
+                            \"value\": \"$price\",                    
+                            \"currency_code\": \"EUR\"                
+                        }            
+                    }        
+                }  
             ],      
             \"payment_preferences\": {        
                 \"auto_bill_outstanding\": true,        
@@ -624,7 +649,7 @@ class PaypalService
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, "https://api-m".$this->env.".com/v1/billing/plans/$planSubscriptionId/deactivate");
+        curl_setopt($ch, CURLOPT_URL, "https://api-m".$this->env.".paypal.com/v1/billing/plans/$planSubscriptionId/deactivate");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         
@@ -714,6 +739,11 @@ class PaypalService
         return $response;
     }
 
+    /**
+     * Permet de transformer la date php en format de date et d'heure Internet
+     * @see https://tools.ietf.org/html/rfc3339#section-5.6
+     *
+     */
     public function getCurrentTime()
     {
         return date('Y-m-d\\TH:i:s\\Z', time());
@@ -727,22 +757,38 @@ class PaypalService
         // customer_id VARCHAR(16), agreement_id VARCHAR(14), created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     }
 
-    public function getAprovalURL($planid)
+    /**
+     * Permet aussi de créer une abonnement (pas encore actif), pour ensuite faire une redirection vers PayPal 
+     * ATTENTION : le prix est 0.00 EUR, on ne sait pas pourquoi !!!!!!!
+     */
+    public function getAprovalURL($paypalPlanId)
     {
+        $return_url = $this->router->generate('account_order_step_three', [], urlGeneratorInterface::ABSOLUTE_URL);
+        $time = $this->getCurrentTime();
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://api-m'.$this->env.'.paypal.com/v1/billing/subscriptions');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-
-        $time = $this->getCurrentTime();
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n      \"plan_id\": $planid,\n      \"start_time\": $time,\n      \"application_context\": {\n        \"brand_name\": \"example company\",\n        \"locale\": \"fr-FR\",\n        \"shipping_preference\": \"SET_PROVIDED_ADDRESS\",\n        \"user_action\": \"SUBSCRIBE_NOW\",\n        \"payment_method\": {\n          \"payer_selected\": \"PAYPAL\",\n          \"payee_preferred\": \"IMMEDIATE_PAYMENT_REQUIRED\"\n        },\n        \"return_url\": \"https://example.com/returnUrl\",\n        \"cancel_url\": \"https://example.com/cancelUrl\"\n      }\n    }");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+            \"plan_id\": \"$paypalPlanId\",
+            \"start_time\": \"$time\",
+            \"application_context\": {
+                \"locale\": \"fr-FR\",
+                \"shipping_preference\": \"SET_PROVIDED_ADDRESS\",
+                \"user_action\": \"SUBSCRIBE_NOW\",
+                \"payment_method\": {
+                    \"payer_selected\": \"PAYPAL\",
+                    \"payee_preferred\": \"IMMEDIATE_PAYMENT_REQUIRED\"
+                },
+                \"return_url\": \"$return_url\",
+                \"cancel_url\": \"$return_url\"
+            }
+        }");
 
         $headers = array();
         $headers[] = 'Accept: application/json';
-        // $headers[] = 'Authorization: _ENV["Bearer .this->getToken()"];
-        $headers[] = 'Authorization: _ENV["Bearer .this->getToken()"]';
+        $headers[] = 'Authorization: Bearer '.$this->getToken();
         $headers[] = 'Prefer: return=representation';
         $headers[] = 'Content-Type: application/json';
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -753,27 +799,19 @@ class PaypalService
         }
         curl_close($ch);
         $response = json_decode($result, true);
-        $this->pushRequestID($response->id);
-        return $response->link[0]->href;
+        // The subscription Id (facture)
+        // $response->id;
+        return $response["links"][0]["href"];
 
-    }
-
-    public function customerIdFromRequestId($id)
-    {
-       //SELECT customer_id FROM paypal_agreement_requests WHERE agreement_id=:id;
-       // :id => $id;
-       // return $data->customer_id;
     }
 
     public function getAgreement($id)
     {
-        // Generated by curl-to-PHP: http://incarnate.github.io/curl-to-php/
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://api-m'.$this->env.'.paypal.com/v1/payments/billing-agreements/'.$id);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
 
         $headers = array();
         $headers[] = 'Content-Type: application/json';
@@ -781,66 +819,36 @@ class PaypalService
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
+
         if (curl_errno($ch)) {
             echo 'Error:' . curl_error($ch);
         }
         curl_close($ch);
         return json_decode($result, true);
-
     }
 
-    /*** ORIGINAL */
-    // public function processBody($body = file_get_contents('php://input'))
-    // {
-    //     $agreementId = $body->ressource->id;
 
-    //     $agreement = $this->getAgreement($id);
-    //     $status = $agreement->status;
-
-
-
-    //     if ($status == 'ACTIVE') {
-    //         $customer = new Customer();
-    //         $customer = $customer->fromId($this->customerIdFromRequestId());
-    //         $customer->setSubscribed(true);
-    //     } else if($status == 'ACTIVE') {
-    //         $customer->setSubscribed(true);
-    //     } else{
-    //         $customer->setSubscribed(false);
-    //         $customer->sendNotification("your plan subscription status its ".$status.", please, renew it by clicking here: ".$agreement->links[1]->href." or cancel it here: ".$agreement->links[0]->href);
-    //     }
-    // }
-
-    public function processBody($id)
+    /**
+     * Permet de verifier si un plan créér 
+     *
+     * @param [type] $plan
+     * @return boolean
+     */
+    public function plan_isInActivePlans($namePlan)
     {
-        $body = file_get_contents('php://input');
-        $agreementId = $body->ressource->id;
-
-        $agreement = $this->getAgreement($id);
-        $status = $agreement->status;
-
-
-
-        if ($status == 'ACTIVE') {
-            $customer = new Customer();
-            $customer = $customer->fromId($this->customerIdFromRequestId($id));
-            $customer->setSubscribed(true);
-        } else if($status == 'ACTIVE') {
-            $customer->setSubscribed(true);
-        } else{
-            $customer->setSubscribed(false);
-            $customer->sendNotification("your plan subscription status its ".$status.", please, renew it by clicking here: ".$agreement->links[1]->href." or cancel it here: ".$agreement->links[0]->href);
+        $testResults = [];
+        $activePlansInBd = $this->repoCartSubscription->findBy(['active' => 1]);
+        foreach ($activePlansInBd as $activePlan) {
+            if ($namePlan === $activePlan->getNameSubscriptionPlan()) {
+                $testResults[] = true;
+            } else {
+                $testResults[] = false;
+            }
+        }
+        if (in_array(true, $testResults)) {
+            return true;
+        } else {
+            return false;
         }
     }
-
-/**
-    ---------------------REDIRECT TO APPROVE------------------------
-    $paypalAPI = new Paypal();
-    $agreementURL = $paypalAPI->getAprovalURL();
-    header("Location:".$agreementURL);
-
-    ---------------------WEBHOOK RESPONSE ENDPOINT------------------------
-    $paypalAPI = new Paypal();
-    $paypalAPI->processBody(file_get_contents('php://input));
- */
 }

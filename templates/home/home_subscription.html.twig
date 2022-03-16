@@ -40,7 +40,7 @@
                                 <h2 class="second-line">Fruits & Légumes</h2>
                                 <p class="third-line">Bio et Demeter de nos producteurs maraîchers.</p>
                                 <p class="buttons">
-                                    <a href="{{path('all_products')}}" class="button button1 p-4 px-5">Commander</a>
+                                    <a href="{{path('subscription_list')}}" class="button button1 p-4 px-5">Commander</a>
                                     <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
@@ -55,7 +55,7 @@
                                 <h2 class="second-line">Frais et Bio...</h3> 
                                 <p class="third-line">Les produits de nos commerces au Lieu-dit Les Rondards.</p>
                                 <p class="buttons">
-                                    <a href="{{path('all_products')}}" class="button button1 p-4 px-5">Commander</a>
+                                    <a href="{{path('subscription_list')}}" class="button button1 p-4 px-5">Commander</a>
                                     <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
                                 </p>
                             </div>
@@ -163,7 +163,7 @@
                             {# <i class="text1">Panier sur-mesure</i> #}
                             <b class="text2" style="font-size: 40px">Qu’est-ce-que le Label Demeter?</b>
                             <p class="buttons">
-                                <a href="{{path('all_products')}}" class="btn btn-thin">Découvrir</a>
+                                <a href="{{path('demeter')}}" class="btn btn-thin">Découvrir</a>
                             </p>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                                             {% if blog.imageName %}
                                                 <img src="{{vich_uploader_asset(blog, 'imageFile')}}" class="img-fluid card-img-top" width="370" height="270">
                                             {% else %}
-                                                <img src="/images/blog_default.png" class="card-img-top" class="img-fluid card-img-top"  width="370" height="270">
+                                                <img src="/assets/images/empty-300x240.jpg" class="card-img-top" class="img-fluid card-img-top"  width="370" height="270">
                                             {% endif %}
                                         </a>
                                         <div class="post-date">
@@ -227,7 +227,7 @@
             </div>
 
             <!-- Block 08: Advance Product-->
-            <div class="banner-block">
+            {# <div class="banner-block">
                 <div class="biolife-banner special-03 biolife-banner__special-03">
                     <div class="banner-contain">
                         <div class="container">
@@ -251,7 +251,7 @@
                                                 <h4 class="product-title"><a href="#" class="pr-name">{{ item.name }}</a></h4>
                                                 <div class="price ">
                                                     <ins><span class="price-amount"> {{ item.price}} €</span></ins>
-                                                    {# <del><span class="price-amount"><span class="currencySymbol">€</span>29.00</span></del> #}
+                                                    <!-- <del><span class="price-amount"><span class="currencySymbol">€</span>29.00</span></del> -->
                                                 </div>
                                                 <div class="rating">
                                                     <p class="star-rating"><span class="width-80percent"></span></p>
@@ -271,7 +271,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> #}
 
             <!-- Block 09: Instagram-->
             {# <div class="biolife-instagram-block sm-margin-top-76px xs-margin-top-60px">
@@ -379,7 +379,7 @@
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/assets/images/logo/logo-footer/Logo_confédération_paysanne.jpg" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/Logo_confédération_paysanne.jpg" width="280" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
@@ -393,7 +393,7 @@
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/assets/images/demeter.jpg" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/demeter.jpg" width="210" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
@@ -407,7 +407,7 @@
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/assets/images/logo/logo-footer/Logo_confédération_paysanne.jpg" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/logo/logo-footer/Logo_confédération_paysanne.jpg" width="280" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>
@@ -421,7 +421,7 @@
                         <li>
                             <div class="biolife-brd-container transparent-effect">
                                 <a href="#" class="link">
-                                    <figure><img src="/assets/images/demeter.jpg" width="199" height="110" alt=""></figure>
+                                    <figure><img src="/assets/images/demeter.jpg" width="210" height="110" alt=""></figure>
                                 </a>
                             </div>
                         </li>

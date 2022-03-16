@@ -6,6 +6,8 @@ use App\Entity\Category;
 use App\Entity\Classement;
 use App\Entity\Product;
 use App\Entity\SearchEntity\ProductSearch;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,7 +34,20 @@ class ProductSearchType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'choice_value' => 'name',
-                
+                'query_builder' => function (EntityRepository $er) {
+                    // $category = [];
+                    // $products = $repoProduct->findAll();
+                    // foreach ($repoProduct as $product) {
+                    //     # code...
+                    // }
+
+                    // dd($er);
+                    // return ['test' => 'skdfj'];
+                    return $er->createQueryBuilder('c')
+                        // ->where('f.draft = false')
+                    ;
+
+                }
             ])
             ->add('classement', EntityType::class, [
                 'required' => false,

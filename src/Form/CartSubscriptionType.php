@@ -49,7 +49,7 @@ class CartSubscriptionType extends AbstractType
                 'label' => 'Durrée de l\'engagement. (En mois)',
                 'attr' => [
                     'min' => 0,
-                    'max' => 24
+                    'max' => 999
                 ]
             ])
         ;

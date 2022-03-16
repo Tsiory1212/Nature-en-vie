@@ -47,12 +47,13 @@
                     <tr>
                         <th scope="row">{{category.name}}</th>
                         <td>Image</td>
+
                         <td>
                             <a href="{{path('admin_category_edit', {id: category.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
-                            <form method="post" action="{{path('admin_category_delete', {id: category.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+                            <form onsubmit="return confirmDelete() " id="dltCategoryForm" method="post" action="{{path('admin_category_delete', {id: category.id})}}" style="display: inline-block;" >
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
-                                <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -62,3 +63,18 @@
     </div>
 </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        function confirmDelete() {
+            var mssg = "Attention ! \nÊtes vous vraiment sûr de supprimer cette catégorie ?  \nTous produits ayant reliés avec cette catégories seront suprimés.";
+            var conf = confirm(mssg);
+            if (conf === true) {
+                
+            } else {
+                return false;
+            }
+        }
+    </script>
+{% endblock %}
+

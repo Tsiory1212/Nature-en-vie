@@ -1,6 +1,14 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}Ajout produit{% endblock %}
+{% block stylesheets %}
+    <style>
+        #product_referenceId[readonly]{
+            cursor: not-allowed;
+            background-color: #cfcfcf85;
+        } 
+    </style>
+{% endblock %}
 
 {% block body %}
 
@@ -13,7 +21,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        $('#product_price').attr('type', 'number')
-    </script>
+    <script src="/assets/js/product/_product_form.js"></script>
 {% endblock %}

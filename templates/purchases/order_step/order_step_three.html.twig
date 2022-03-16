@@ -69,35 +69,42 @@
                                 {% endfor %}
                             </select>
                         </div>
-
+                        <pre>
+                            {{ dump( ) }}
+                        </pre>
+                        
                         <div class="d-flex justify-content-center">
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <form action="https://www{{paypal_env_endpoint}}.paypal.com/cgi-bin/webscr" method="post" target="_top">
 
                                 <input type="hidden" name="cmd" value="_xclick-subscriptions">
                                 
                                 <!-- Nom du plan (Juste un nom, mais pas) -->
                                 <input type="hidden" name="item_name" value="Abonnement Panier Sur-mesure">
                             
-                                <input type="hidden" name="business" value="c.regnault@au-coin-nature.com">
+                                <input type="hidden" name="business" value="{{ paypal_email_marchand}}">
                             
-                                <input type="hidden" name="lc" value="US">
+                                {# <input type="hidden" name="lc" value="EUR"> #}
                                 <input type="hidden" name="no_note" value="1">
+
+                                <!-- S'il est défini sur "1", le paiement sera répété à moins que le client n'annule l'abonnement -->
                                 <input type="hidden" name="src" value="1">
                             
-                                <!-- Prix  -->
+                                <!-- Montant à facturer à chaque récurrence -->
                                 <input type="hidden" name="a3" value="0.00">
                             
-                                <!-- Payement chaque (mois="M" ou semaine="W")  -->
+                                <!-- Nombre de périodes entre chaque récurrence -->
                                 <input type="hidden" name="p3" value="1">
+
+                                <!-- Période de temps (D=days, W=weeks, M=months, Y=years)  -->
                                 <input type="hidden" name="t3" value="W">
                                 <input type="hidden" name="currency_code" value="EUR">
                             
-                                <!-- Echellons de payement (durée d'engagement en mois ) -->
+                                <!-- Echellons de payement (durée d'engagement en fonction de W, M, Y) -->
                                 <input type="hidden" name="srt" value="0">
                             
                                 <!-- Specify URLs -->
-                                {# <input type='hidden' name='cancel_return' value="{{ path('account_pass_to_order') }}">
-                                <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}"> #}
+                                <input type='hidden' name='cancel_return' value="{{ rootPathApp ~ path('account_order_step_three') }}">
+                                {# <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}"> #}
                                 <!-- <input type="hidden" name="notify_url" value='XXX.com/users/paymentAccountstatus/1286'>    -->
                             
                                 <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
@@ -217,6 +224,7 @@
         $('input[name="a3"]').val(total_price);
 
         // Choix de durrée de l'engagement 
+
         $('#reccurent_paypal').change(function(){ 
             var value = $(this).val();
             $('input[name="srt"]').val(value);

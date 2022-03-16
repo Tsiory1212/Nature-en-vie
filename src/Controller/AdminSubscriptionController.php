@@ -47,14 +47,14 @@ class AdminSubscriptionController extends AbstractController
     /**
      * @Route("/subscription/liste", name="admin_subscription_list")
      */
-    public function admin_subscription_list(PaypalService $paypalService): Response
+    public function admin_subscription_list(): Response
     {
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
         $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
         $nbrSubscriptionsDisabled = count($this->repoSubscription->findBy(['active' => 0]));
 
-        $subscriptions = $paypalService->getPlanSubscriptionAfterCondition();
+        $subscriptions = $this->paypalService->getPlanSubscriptionAfterCondition();
         
         return $this->render('admin/subscription/list_subscription.html.twig', [
             'subscriptions' => $subscriptions,
@@ -104,10 +104,21 @@ class AdminSubscriptionController extends AbstractController
             $productNumber = $form->getData()->getIdProductPlanPaypal();
             $interval_unit = $form->getData()->getIntervalUnit();
 
+            // On annulle la création du plan si aucun produit n'est rattaché avec cet abonnement
             if (is_null($productNumber)) {
                 return $this->redirectToRoute('admin_subscription_create', ['error' => 'null_product']);
             }
-            // On utilise le service paypal pour synchroniser le traitrement dans PAYPAL.com
+            
+            // On annulle la création du plan si il y a duplication de nom (vérification seulment dans les plans actifsd)
+            if ($this->paypalService->plan_isInActivePlans($nameSubscriptionPlan)) {
+                $this->addFlash(
+                    'danger',
+                    "Duplication de l'abonnement $nameSubscriptionPlan , penser à désactiver l'ancien abonnement avant de créer un abonnement de même nom"
+                );
+                
+                return $this->redirectToRoute('admin_subscription_list');
+            }
+            // On utilise le paypalService pour synchroniser le traitrement dans PAYPAL
             $paypalService->createSubscriptionPlan(
                 $productNumber,
                 $nameSubscriptionPlan, 
@@ -117,6 +128,7 @@ class AdminSubscriptionController extends AbstractController
                 $priceSubscription
             );
 
+            // On obtien idSubscriptionPlanPaypal, après la création du plan avec l'api
             $abonnement->setIdProductPlanPaypal($productNumber);
             $abonnement->setIdSubscriptionPlanPaypal($paypalService->idSubscriptionPlanPaypal);
 

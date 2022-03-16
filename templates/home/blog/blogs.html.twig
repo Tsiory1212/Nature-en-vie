@@ -21,11 +21,11 @@
 <body class="biolife-body">
    <!--Hero Section-->
    <div class="hero-section hero-background style-02">
-    <h1 class="page-title">Organic Fruits</h1>
+    <h1 class="page-title">Natur'en vie</h1>
     <nav class="biolife-nav">
         <ul>
-            <li class="nav-item"><a href="index.html" class="permal-link">Home</a></li>
-            <li class="nav-item"><span class="current-page">Our Blog</span></li>
+            <li class="nav-item"><a href="{{path('home')}}" class="permal-link">Accueil</a></li>
+            <li class="nav-item"><span class="current-page">Blog</span></li>
         </ul>
     </nav>
 </div>
@@ -47,7 +47,7 @@
                                         {% if blog.imageName %}
                                             <img src="{{vich_uploader_asset(blog, 'imageFile')}}" class="img-fluid card-img-top" width="370" height="270">
                                         {% else %}
-                                            <img src="/images/blog_default.png" class="card-img-top" class="img-fluid card-img-top" width="370" height="270">
+                                            <img src="/assets/images/empty-300x240.jpg" class="card-img-top" class="img-fluid card-img-top" width="370" height="270">
                                         {% endif %}
                                     </a>
                                 </div>

@@ -4,11 +4,12 @@
         <div class="container">
             <div class="top-bar left">
                 <ul class="horizontal-menu">
-                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>info@nature-en-vie.fr</a></li>
+                    <li><a href="mailto:info@nature-en-vie.fr"><i class="fa fa-envelope" aria-hidden="true"></i>info@nature-en-vie.fr</a></li>
                 </ul>
                 <ul class="social-list circle-layout">
-                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="https://www.instagram.com/nature_en_vie"><i class="fa-brands fa-linkedin"></i></a></li>
+                    <li><a href="https://www.instagram.com/nature_en_vie"><i class="fa-brands fa-instagram-square"></i></a></li>
+                    <li><a href="https://www.facebook.com/coinnat?_rdc=1&_rdr"><i class="fab fa-facebook"></i></a></li>
                     <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
                 </ul>
             </div>
@@ -114,15 +115,14 @@
                                     {% for subscriptionCart in subscriptionPlans %}
                                         <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.nameSubscriptionPlan }}</a></li>
                                     {% endfor %}
-                                    <hr>
-                                    <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mesure</a></li>
+                                    {# <hr> #}
+                                    {# <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mesure</a></li> #}
                                 </ul>
                             </li>
                             <li class="menu-item"><a href="{{path('subscription_list')}}">Abonnement</a></li>
                             <li class="menu-item"><a href="{{path('professionnel')}}">Professionnel</a></li>
                             <li class="menu-item"><a href="{{ path('blog') }}">Blog</a></li>
                             <li class="menu-item"><a href="{{path('contact')}}">Contact</a></li>
-                            {# <li class="menu-item"><a href="{{path('test_curl')}}">Curl</a></li> #}
                         </ul>
                     </div>
                 </div>

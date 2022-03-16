@@ -31,9 +31,10 @@ class SubscriptionController extends AbstractController
      */
     public function subscription_list( CartSubscriptionRepository $repoCartSubscription)
     {
-        $grandPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier']);
-        $moyenPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier']);
-        $petitPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier']);
+        $grandPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier', 'active' => true]);
+        $moyenPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier', 'active' => true]);
+        $petitPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier', 'active' => true]);
+
    
         $subscriptions = $repoCartSubscription->findAll();
         return $this->render('subscription/list_subscription.html.twig', [

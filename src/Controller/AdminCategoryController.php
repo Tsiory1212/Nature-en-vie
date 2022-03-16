@@ -96,9 +96,20 @@ class AdminCategoryController extends AbstractController
      *
      * @return Response
      */
-    public function admin_category_delete(Category $category, Request $request): Response
+    public function admin_category_delete(Category $category, Request $request, ProductRepository $repoProduct): Response
     {
         if ($this->isCsrfTokenValid('delete'. $category->getId(), $request->get('_token'))) {
+            
+            // (1) On change la catégorie des produits à supprimer pour éviter de les supprimer car il y a la notion de relativité
+            $productsRelatedCat = $repoProduct->findByIdCat($category->getId());
+            $otherCat = $this->repoCategory->findOneBy(['name' => 'Autre']); 
+            foreach ($productsRelatedCat as $product) {
+                $product->setCategory($otherCat);
+                $this->em->persist($product);
+                $this->em->flush();
+            }
+            
+            // (2) On Supprime maintenant la catégorie
             $this->em->remove($category);
             $this->em->flush();
             $this->addFlash(

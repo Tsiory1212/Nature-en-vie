@@ -40,36 +40,6 @@ class HomeController extends AbstractController
     }
 
     
-    /**
-     * @Route("/account/all-products", name="all_products")
-     */
-    public function all_products(Request $request, PanierService $panierService): Response
-    {
-        $categories_in_navbar = $this->repoCategory->findAll();
-
-
-        $search = new ProductSearch();
-        $form = $this->createForm(ProductSearchType::class, $search)
-            ->remove('gamme')
-        ;
-        $form->handleRequest($request);
-
-        $products = $this->paginator->paginate(
-            $this->repoProduct->findAllVisibleQuery($search),
-            $request->query->getInt('page', 1),
-            30
-        );
-
-        return $this->render('home/all_products.html.twig', [
-            'products'=> $products,
-            'form' => $form->createView(),
-            'items' => $panierService->getFullcart(),
-            'total' => $panierService->getTotal(),
-            'allQuantityItem' => $panierService->allQuantityItem(),
-            'categories_in_navbar' => $categories_in_navbar,
-
-        ]);
-    }
 
     /**
      * @Route("/", name="home")
@@ -112,9 +82,9 @@ class HomeController extends AbstractController
      */
     public function home_subscription(): Response
     {
-        $grandPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier']);
-        $moyenPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier']);
-        $petitPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier']);
+        $grandPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier', 'active' => true]);
+        $moyenPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier', 'active' => true]);
+        $petitPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier', 'active' => true]);
 
         $fruitJuices = $this->repoProduct->findBy(['category' => '12'], ['id' => 'ASC'], 10);
         $blogs = $this->repoBlog->findBy([], ['created_at' => 'DESC'], 3);
@@ -229,5 +199,12 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/le-demeter", name="demeter")
+     */
+    public function demeter(): Response
+    {
+        return $this->render('home/demeter.html.twig', []);
+    }
 
 }

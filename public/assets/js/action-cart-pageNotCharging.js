@@ -112,7 +112,7 @@ $(document).ready(function(){
                 price_per_weight = product_price / product_weight;
                 product_explanation_quick_view.text(price_per_weight.toFixed(2) + '€ /Kg')
             }else{
-                product_explanation_quick_view.text(product_price + '/Kg')
+                product_explanation_quick_view.text(product_price + '€ /Kg')
             }
         });
     })

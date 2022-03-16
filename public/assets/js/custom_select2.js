@@ -2,7 +2,7 @@
 $( document ).ready(function() {
     // Customisation select2 
     $("select#category").select2({
-        placeholder: "Catégory",
+        placeholder: "Catégorie",
         allowClear: true
     });
     $("select#classement").select2({

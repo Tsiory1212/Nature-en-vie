@@ -113,33 +113,33 @@ class AdminEditorController extends AbstractController
     }
 
   
-     /**
-      * @IsGranted("ROLE_ADMIN")
-      * @Route("/admin/redacteur/{id}/edit ", name="admin_editor_edit", methods="GET|POST")
-      */
-      public function admin_editor_edit(User $redacteur, Request $request, UserPasswordEncoderInterface $encoder): Response
-      {
-  
+    /**
+     * @IsGranted("ROLE_ADMIN")
+    * @Route("/admin/redacteur/{id}/edit ", name="admin_editor_edit", methods="GET|POST")
+    */
+    public function admin_editor_edit(User $redacteur, Request $request, UserPasswordEncoderInterface $encoder): Response
+    {
+
         $form = $this->createForm(UserType::class, $redacteur);
         $form->handleRequest($request);
 
-          if ($form->isSubmitted() && $form->isValid()) {
-            $password = $form->get('password')->getData();
-            $hash = $encoder->encodePassword($redacteur, $password);
-            $redacteur->setPassword($hash);
+        if ($form->isSubmitted() && $form->isValid()) {
+        $password = $form->get('password')->getData();
+        $hash = $encoder->encodePassword($redacteur, $password);
+        $redacteur->setPassword($hash);
 
-              $this->em->flush();
-              $this->addFlash(
-                 'success',
-                 'Modification avec succès'
-              );
-              return $this->redirectToRoute('admin_editor_list');
-          }
+            $this->em->flush();
+            $this->addFlash(
+                'success',
+                'Modification avec succès'
+            );
+            return $this->redirectToRoute('admin_editor_list');
+        }
 
-          return $this->render('admin/editor/add.html.twig', [
-              'formEditor' => $form->createView(),
-          ]);
-      }
+        return $this->render('admin/editor/add.html.twig', [
+            'formEditor' => $form->createView(),
+        ]);
+    }
 
 
     /**
@@ -237,7 +237,7 @@ class AdminEditorController extends AbstractController
             return $this->redirectToRoute('admin_blog_list');
         }
 
-        return $this->render('admin/editor/blog/add.html.twig', [
+        return $this->render('admin/editor/blog/add_blog.html.twig', [
             'formBlog' => $form->createView(),
             'blog' => $blog,
             'button' => 'Enregistrer'

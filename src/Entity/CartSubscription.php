@@ -15,10 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=CartSubscriptionRepository::class)
  * @Vich\Uploadable()
- * @UniqueEntity(
- *      fields={"nameSubscriptionPlan"},
- *      message="{{ value }} existe déjà"
- * )
  */
 class CartSubscription
 {

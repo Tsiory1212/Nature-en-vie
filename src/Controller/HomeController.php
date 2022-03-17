@@ -83,7 +83,7 @@ class HomeController extends AbstractController
     public function home_subscription(): Response
     {
         $grandPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier', 'active' => true]);
-        $moyenPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier', 'active' => true]);
+        $panierMoyen = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Panier moyen', 'active' => true]);
         $petitPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier', 'active' => true]);
 
         $fruitJuices = $this->repoProduct->findBy(['category' => '12'], ['id' => 'ASC'], 10);
@@ -93,7 +93,7 @@ class HomeController extends AbstractController
             'blogs' => $blogs,
             'fruitJuices' => $fruitJuices,
             'grandPanier' => $grandPanier,
-            'moyenPanier' => $moyenPanier,
+            'panierMoyen' => $panierMoyen,
             'petitPanier' => $petitPanier
         ]);
     }
@@ -188,10 +188,17 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/blog/{id}/single", name="home_blog_show")
+     * @Route("/blog/{id}/{slug}", name="home_blog_show", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function home_blog_show(Blog $currentblog): Response
+    public function home_blog_show(Blog $currentblog, string $slug): Response
     {
+        if ($currentblog->getSlug() !== $slug) {
+            return $this->redirectToRoute('home_blog_show', [
+                'id' => $currentblog->getId(),
+                'slug' => $currentblog->getSlug()
+            ], 301);
+        }
+
         $recentPosts = $this->repoBlog->findBy([], ['created_at' => 'DESC'], 4);
         return $this->render('home/blog/show_blog.html.twig', [
             'currentblog' => $currentblog,
@@ -207,4 +214,11 @@ class HomeController extends AbstractController
         return $this->render('home/demeter.html.twig', []);
     }
 
+    /**
+     * @Route("/condition-generale-de-vente", name="condition_generale_vente")
+     */
+    public function condition_generale_vente(): Response
+    {
+        return $this->render('home/condition_generale_de_vente.html.twig', []);
+    }
 }

@@ -14,6 +14,9 @@
             color: #666666;
             margin: 14px 0 0;
         }
+        .excerpt{
+            color: black;
+        }
     </style>
 {% endblock %}
 {% block body %}
@@ -43,7 +46,7 @@
                         <li class="post-elem col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="post-item effect-04 style-bottom-info">
                                 <div class="thumbnail">
-                                    <a href="{{ path('home_blog_show', {id : blog.id})}}" class="link-to-post">
+                                    <a href="{{ path('home_blog_show', {id : blog.id, slug: blog.slug})}}" class="link-to-post">
                                         {% if blog.imageName %}
                                             <img src="{{vich_uploader_asset(blog, 'imageFile')}}" class="img-fluid card-img-top" width="370" height="270">
                                         {% else %}
@@ -52,12 +55,15 @@
                                     </a>
                                 </div>
                                 <div class="post-content">
-                                    <h4 class="post-name"><a href="{{ path('home_blog_show', {id : blog.id})}}" class="linktopost">{{ blog.title }}</a></h4>
-                                    <p class="post-archive"><b class="post-cat">CATEGORIE</b><span class="post-date">/ {{ blog.createdAt|date('d M, Y')}}</span>
+                                    <h4 class="post-name"><a href="{{ path('home_blog_show', {id : blog.id, slug: blog.slug})}}" class="linktopost">{{ blog.title }}</a></h4>
+                                    <p class="post-archive">
+                                        <b class="post-cat">Natur'en vie</b><span class="post-date"> / {{ blog.createdAt|date('d M, Y')}}</span>
+                                    </p>
                                     {# <span class="author">Posté par : Natur'en vie</span></p> #}
-                                    <p class="excerpt">{{blog.content|slice(0, 200)|raw }}...</p>
+                                    <span class="excerpt">{{blog.content }}...</span>
+                                    {# <p class="excerpt">{{blog.content|slice(0, 300) }}...</p> #}
                                     <div class="group-buttons">
-                                        <a href="{{ path('home_blog_show', {id: blog.id})}}" class="btn readmore">Lire la suite</a>
+                                        <a href="{{ path('home_blog_show', {id: blog.id, slug: blog.slug})}}" class="btn readmore">Lire la suite</a>
                                         {# <a href="#" class="btn count-number liked"><i class="biolife-icon icon-heart-1"></i><span class="number">20</span></a>
                                         <a href="#" class="btn count-number commented"><i class="biolife-icon icon-conversation"></i><span class="number">06</span></a> #}
                                     </div>
@@ -78,6 +84,15 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        var excerpts =  $('.excerpt');
+        excerpts.each(function (index) {
+            var that = $(this)
+            console.log(index, that.text().slice(0, 10))
+            var rawExerpt = that.text().slice(0, 300);
+            that.replaceWith('<span class="excerpt" style="color: black;">'+rawExerpt+'</span>...');
+        })
 
+    </script>
 {% endblock %}
 

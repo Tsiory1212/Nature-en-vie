@@ -112,11 +112,11 @@
             <div class="text-center">
                 <div class="card-body">
                     <!-- <div class="fond-name-subscription"> {{ subscription.nameSubscriptionPlan }} </div> -->
-                        {% if subscription.nameSubscriptionPlan == "Grand panier" or subscription.id == 1 %}                            
+                        {% if subscription.nameSubscriptionPlan == "Grand panier" and subscription.active == true  %}                            
                             <img src="/assets/images/cartSubscription/name-and-price-grand-panier.png" Class="name-and-price-cart" alt="image grand panier" width="270" >
-                        {% elseif subscription.nameSubscriptionPlan == "Panier moyen" or subscription.id == 2 %}
-                            <img src="/assets/images/cartSubscription/name-and-price-moyen-panier.png" alt="image grand panier" width="335">
-                        {% elseif subscription.nameSubscriptionPlan == "Petit panier" or subscription.id == 3 %}
+                        {% elseif subscription.nameSubscriptionPlan == "Panier moyen" and subscription.active == true %}
+                        <img src="/assets/images/cartSubscription/name-and-price-moyen-panier.png" alt="image grand panier" width="335">
+                        {% elseif subscription.nameSubscriptionPlan == "Petit panier" and subscription.active == true %}
                             <img src="/assets/images/cartSubscription/name-and-price-petit-panier.png" alt="image petit panier" width="280" >
                         {% else %}
                             Prix et nom du panier
@@ -125,11 +125,11 @@
                     {# <h1 class="font-bg-stylized-2 text-white fw-bold" >{{ subscription.nameSubscriptionPlan }}</h1> #}
                     <div class="row mt-5">
                         <div class="col-12">
-                            {% if subscription.nameSubscriptionPlan == "Grand panier" or subscription.id == 1 %}
+                            {% if subscription.nameSubscriptionPlan == "Grand panier" and subscription.active == true %}
                                 <img src="/assets/images/cartSubscription/cover-grand-panier.png" alt="image grand panier" width="335" class="rotate" style="margin-top: -72px;">
-                            {% elseif subscription.nameSubscriptionPlan == "Panier moyen" or subscription.id == 2 %}
+                            {% elseif subscription.nameSubscriptionPlan == "Panier moyen" and subscription.active == true %}
                                 <img src="/assets/images/cartSubscription/cover-moyen-panier.png" alt="image panier moyen" width="335"  style="margin-top: -72px;">
-                            {% elseif subscription.nameSubscriptionPlan == "Petit panier" or subscription.id == 2 %}
+                            {% elseif subscription.nameSubscriptionPlan == "Petit panier" and subscription.active == true %}
                                 <img src="/assets/images/cartSubscription/cover-petit-panier.png" alt="image petit panier" width="335"  style="margin-top: -42px;" class="rotate">
                             {% else %}
                                 <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="335">
@@ -201,8 +201,6 @@
                                     </div>
                                 {% endif %}
                             </div>
-                        {% else %}
-                            <a href="{{ path('dashboard') }}" class="button button1 ">Ajouter au panier</a>
                         {% endif %}
                     </div>
                 </div>
@@ -211,19 +209,24 @@
         
         <div class="col-md-8 col-lg-8 py-5 col-PayPal-button">
             <h1 class="third-line text-start fw-bolder cart-name-subscriptionPlan">
-                {{ subscription.nameSubscriptionPlan}} des fruis et légumes bio
+                {{ subscription.nameSubscriptionPlan}} des fruits et légumes bio
                 {# {{ subscription.descriptionSubscriptionPlan}} #}
             </h1> 
             <hr>
 
-            <div class="row ">
+            <div class="row mb-3">
                 <div class="col-3"><i class="fa-solid fa-calendar-days fa-4x" style="color: #00800094;"></i></div>
                 <div class="col float-start">
                     <h3 class="fw-bolder" style="color: rgba(255, 0, 0, 0.822);"><span>Aujourd'hui</span> &ensp;&ensp; <span class="ms-4">{{subscription.priceSubscription}}€</span></h3>
                     <h3 class="fw-bolder"><span>Dans 1 mois</span>  <span class="ms-5">{{subscription.priceSubscription}}€</span></h3>
                     <h3 class="fw-bolder"><span>Dans 2 mois</span> <span class="ms-5">{{subscription.priceSubscription}}€</span></h3>
+                    <h3 class="fw-bolder">Et ainsi de suite … </h3>
                 </div>
             </div>
+            {% if not app.user %}
+                <a href="{{ path('dashboard') }}" class="button button1 ">Ajouter au panier</a>
+            {% endif %}
+            
             <hr>
             <h3 class="third-line text-center my-5">
                 {{ subscription.detailedDescription|raw  }}

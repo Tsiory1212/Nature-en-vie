@@ -160,6 +160,13 @@ button.btn-close{
 /**********************
    Cart Subscription    
 ***********************/
+@media (max-width: 600px) {
+	#cover-cart-moyen-panier{
+		transition: transform .9s;
+		background-image: url('/assets/images/cartSubscription/cover-moyen-panier.png');
+		height: 1263px;
+	}
+} 
 
 #cover-cart-grand-panier:hover, #cover-cart-petit-panier:hover, #cover-cart-moyen-panier:hover, #cover-cart-panier-sur-mesure:hover {
 	transform: scale(1.1); 
@@ -202,9 +209,8 @@ button.btn-close{
 	background-image: url('/assets/images/cartSubscription/name-and-price-moyen-panier.png');
 	height: 200px;
 	background-repeat: no-repeat;
-	background-position: center center;
-	margin: -126px 0 0 -3px;
-	margin-top: -550px;
+	background-position: center top;
+	margin-top: -504px;
 	background-size: 291px 118px;
 	z-index: 5;
 	position: sticky;
@@ -245,13 +251,18 @@ button.btn-close{
 	background-image: url('/assets/images/cartSubscription/name-panier-sur-mesure.png');
 	height: 100px;
 	background-repeat: no-repeat;
-	background-position: center center;
-	margin-top: -505px;
+	background-position: center top;
+	margin-top: -482px;
 	background-size: 289px 78px;
 	position: sticky;
 }
 
+/* Very extra large devices  */
 @media all and (min-width: 1600px){
+	.subscription-cart-list-block{
+		/* height: 63vh; */
+	}
+
 	#cover-cart-grand-panier, #cover-cart-moyen-panier, #cover-cart-petit-panier {
 		height: 140%;
 	}

@@ -31,7 +31,7 @@ class CartSubscriptionType extends AbstractType
                 'label' => 'Nom abonnement',
                 'choices' => [
                     'Grand panier' => 'Grand panier',
-                    'Moyen panier' => 'Moyen panier',
+                    'Panier moyen' => 'Panier moyen',
                     'Petit panier' => 'Petit panier'
                 ]
             ])

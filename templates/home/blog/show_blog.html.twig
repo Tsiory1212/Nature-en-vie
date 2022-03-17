@@ -73,7 +73,7 @@
                                             <li>
                                                 <div class="wgt-post-item">
                                                     <div class="thumb">
-                                                        <a href="{{ path('home_blog_show', {id: blog.id})}}">
+                                                        <a href="{{ path('home_blog_show', {id: blog.id, slug: blog.slug})}}">
                                                             {% if blog.imageName %}
                                                                 <img src="{{vich_uploader_asset(blog, 'imageFile')}}"  width="80" height="58" alt="">
                                                             {% else %}
@@ -82,7 +82,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="detail">
-                                                        <h4 class="post-name"><a href="{{ path('home_blog_show', {id: blog.id})}}">{{ blog.title }}</a></h4>
+                                                        <h4 class="post-name"><a href="{{ path('home_blog_show', {id: blog.id, slug: blog.slug})}}">{{ blog.title }}</a></h4>
                                                         <p class="post-archive"> {{ blog.createdAt|date('d M Y') }}
                                                             {# <span class="comment">15 Comments</span> #}
                                                         </p>

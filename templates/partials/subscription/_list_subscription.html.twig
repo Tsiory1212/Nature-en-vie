@@ -28,27 +28,27 @@
 </div> #}
 
 
-<div class="subscription-list-block">
-    <div class="row" style="height: 503px;">
-        <div class="col-lg-4 col-sm-12">
+<div class="subscription-cart-list-block">
+    <div class="row">
+        <div class="col-lg-4 col-sm-12 h-100">
             <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}">
                 <div id="cover-cart-grand-panier"></div>
                 <div id="name-and-price-grand-panier"></div>
             </a>
         </div>
-        <div class="col-lg-4 col-sm-12">
-            <a href="{{ path('cart_subscription_show', {id: moyenPanier.id}) }}">
+        <div class="col-lg-4 col-sm-12 h-100">
+            <a href="{{ path('cart_subscription_show', {id: panierMoyen.id}) }}">
                 <div id="cover-cart-moyen-panier"></div>
                 <div id="name-and-price-moyen-panier"></div>
             </a>
         </div>
-        <div class="col-lg-4 col-sm-12">
+        <div class="col-lg-4 col-sm-12 h-100">
             <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}">
                 <div id="cover-cart-petit-panier"></div>
                 <div id="name-and-price-petit-panier"></div>
             </a>
         </div>
-        {# <div class="col-lg-3 col-sm-12">
+        {# <div class="col-lg-3 col-sm-12 h-100">
             <a href="{{ path('all_products') }}">
                 <div id="cover-cart-panier-sur-mesure"></div>
                 <div id="name-cart-panier-sur-mesure"></div>

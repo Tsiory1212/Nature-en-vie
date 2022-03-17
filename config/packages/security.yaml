@@ -53,6 +53,7 @@ security:
             form_login:
                 login_path: security_login
                 check_path: security_login
+                default_target_path: dashboard
                 
             logout:
                 path: security_logout

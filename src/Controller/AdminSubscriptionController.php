@@ -166,6 +166,16 @@ class AdminSubscriptionController extends AbstractController
             $nameSubscriptionPlan = $form->getData()->getNameSubscriptionPlan();
             $descriptionSubscriptionPlan = $form->getData()->getDescriptionSubscriptionPlan();
             
+            // On annulle la création du plan si il y a duplication de nom (vérification seulment dans les plans actifsd)
+            if ($this->paypalService->plan_isInActivePlans($nameSubscriptionPlan)) {
+                $this->addFlash(
+                    'danger',
+                    "Duplication de l'abonnement $nameSubscriptionPlan , penser à désactiver l'ancien abonnement avant de créer un abonnement de même nom"
+                );
+                
+                return $this->redirectToRoute('admin_subscription_list');
+            }
+
             // On utilise le service paypal pour synchroniser le traitrement dans PAYPAL.com
             $paypalService->editSubscriptionPlan(
                 $subscription->getIdSubscriptionPlanPaypal(),

@@ -10,6 +10,7 @@ use App\Form\SearchForm\ProductSearchType;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use App\Repository\SubscriptionPlanRepository;
 use App\Repository\UserRepository;
 use App\Service\ProductService;
 use App\Service\SpreadsheetService;
@@ -28,15 +29,15 @@ class AdminProductController extends AbstractController
     private $em;
     private $repoProduct;
     private $repoUser;
-    private $repoSubscription;
+    private $repoPlan;
     private $repoOrder;
 
-    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, CartSubscriptionRepository $repoSubscription, OrderRepository $repoOrder)
+    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder)
     {
         $this->em = $em;
         $this->repoProduct = $repoProduct;
         $this->repoUser = $repoUser;
-        $this->repoSubscription = $repoSubscription;
+        $this->repoPlan = $repoPlan;
         $this->repoOrder = $repoOrder;
     }
 
@@ -58,7 +59,7 @@ class AdminProductController extends AbstractController
 
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
-        $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
+        $nbrSubscriptions = count($this->repoPlan->findBy(['status' => 'active']));
         $nbrOrders = count($this->repoOrder->findAll());
 
         return $this->render('admin/product/list_product.html.twig', [

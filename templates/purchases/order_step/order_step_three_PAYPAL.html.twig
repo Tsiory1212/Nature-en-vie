@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Paypal étape 3
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/assets/css/order_stepper.css') }}">
+    <style>
+        #paypal-button-recurring {
+            position: relative;
+            width: 400px;
+            height: 50px;
+            box-sizing: border-box;
+            border: none;
+            vertical-align: top;
+            cursor: pointer;
+            overflow: hidden;
+            display: inline-block;
+            text-align: center;
+            background-color: #ffc439;
+            color: #2C2E2F;
+
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+<body class="biolife-body">
+	<div class="page-contain">
+        <!-- Image bannière  -->
+        <div class="banner-media-layout-01"></div>
+
+        <div class="text-content3">   
+            {% include "partials/_order_stepper_progress_bar.html.twig" %}
+
+            <div class="container bg-glass2 my-5">
+                <div class="d-flex text-white justify-content-center my-3">
+                    <h1 class="font-bg-stylized-1">3- Paiement</h1>
+                </div>
+
+                <!-- Etape 3 : Plage horraire  -->
+                <div class="block-stepper-global-content mb-3">
+                    <!-- 1. Payement unique -->
+                    <div class="block-stepper-content shadow-lg  mt-5 p-5 bg-white ">
+                        <h1 class="text-center">Payement unique</h1>
+                            <div class="container">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-md-6 text-center mt-4">
+                                        <form   method="post" id="payment-form">
+                                            <div id="card-elements"></div>
+                                
+                                            <div id="card-errors" role="alert"></div>
+                                            <button id="card-button-submit" class="btn btn-primary mt-4">Acheter {{ cartItems_subcriberEvent['totalPrice'] }}</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2. Payement reccurent -->
+                    <div class="block-stepper-content shadow-lg  mt-5 p-5 bg-white ">
+                        <h1 class="text-center">Payement reccurent</h1>
+                        <div class="d-flex justify-content-center">
+                            <label for="reccurent_paypal">Engagement : </label>
+                            <select name="reccurent_paypal" id="reccurent_paypal">
+                                <option value="0" selected="selected" class="d-none"></option>
+                                {% for  i in 1..12 %}
+                                    <option value="{{i}}">{{i}} semaine(s)</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <pre>
+                            {{ dump( ) }}
+                        </pre>
+                        
+                        <div class="d-flex justify-content-center">
+                            <form action="https://www{{paypal_env_endpoint}}.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+                                <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                                
+                                <!-- Nom du plan (Juste un nom, mais pas) -->
+                                <input type="hidden" name="item_name" value="Abonnement Panier Sur-mesure">
+                            
+                                <input type="hidden" name="business" value="{{ paypal_email_marchand}}">
+                            
+                                {# <input type="hidden" name="lc" value="EUR"> #}
+                                <input type="hidden" name="no_note" value="1">
+
+                                <!-- S'il est défini sur "1", le paiement sera répété à moins que le client n'annule l'abonnement -->
+                                <input type="hidden" name="src" value="1">
+                            
+                                <!-- Montant à facturer à chaque récurrence -->
+                                <input type="hidden" name="a3" value="0.00">
+                            
+                                <!-- Nombre de périodes entre chaque récurrence -->
+                                <input type="hidden" name="p3" value="1">
+
+                                <!-- Période de temps (D=days, W=weeks, M=months, Y=years)  -->
+                                <input type="hidden" name="t3" value="W">
+                                <input type="hidden" name="currency_code" value="EUR">
+                            
+                                <!-- Echellons de payement (durée d'engagement en fonction de W, M, Y) -->
+                                <input type="hidden" name="srt" value="0">
+                            
+                                <!-- Specify URLs -->
+                                <input type='hidden' name='cancel_return' value="{{ rootPathApp ~ path('account_order_step_three') }}">
+                                {# <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}"> #}
+                                <!-- <input type="hidden" name="notify_url" value='XXX.com/users/paymentAccountstatus/1286'>    -->
+                            
+                                <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
+
+                                <button id="paypal-button-recurring" class="btn btn-primary" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> <h1>Passer à la souscription</h1> </button>
+                                <!-- <input type="image" src="https://www.sandbox.paypal.com/fr_FR/FR/i/btn/btn_subscribe_SM.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> -->
+                                <!-- <img alt="" border="0" src="https://www.sandbox.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1"> -->
+                            </form>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+{# On initialise le token #}
+{% set token = csrf_token('order' ~ app.user.id) %}
+
+{# On converti le format du tableau produit pour que paypal le prend en charge #}
+{% set product_convert_in_paypal = {} %}
+{% for  item in items %}
+    {% set product_convert_in_paypal = product_convert_in_paypal|merge([
+        {
+            'name' : item.product.name , 
+            'quantity' :item.quantity, 
+            'unit_amount' :{ 
+                'currency_code' : 'EUR', 
+                'value' :item.product.price
+        }
+        } 
+    ]) %}
+{% endfor %}
+
+{# On transforme ensuite le tableau en json,  #}
+{# mettre ses valeurs dans un DOM, afin qu'on puisse les recupérés dans JS  #}
+<span class="d-none" data-id="{{ product_convert_in_paypal|json_encode }}" id="some-link">Link</span>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+<script src="{{ asset('/assets/js/custom_select2.js')}}"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR"> </script>
+<script>
+    $(document).ready(function () {  
+        var paypal_env = "{{paypal_env}}";
+        // Paypal : Payement unique
+        paypal.Buttons({
+            env: paypal_env,
+            createOrder : function (data, actions) {
+
+                // Les produits à payer avec leurs details
+                var product_convert_in_paypal = $('#some-link').data('id');
+                var produits = product_convert_in_paypal;
+
+                // Le total des produits
+                var total_amount = produits.reduce(function (total, product) {
+                    return total + product.unit_amount.value * product.quantity;
+                }, 0);
+                
+                
+                total_amount = Math.round(total_amount*100)/100;
+
+                // La transaction
+                return actions.order.create({
+                    purchase_units : [{
+                        items : produits,
+                        amount : {
+                            value : total_amount,
+                            currency_code : "EUR",
+                            breakdown : {
+                                item_total : { value : total_amount, currency_code : "EUR" }
+                            }
+                        }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {                        
+                    $.ajax({
+                        type: 'POST',
+                        async: false,
+                        url: '{{ path('account_payment_paypal') }}',
+                        data: details,
+                        headers: { 
+                            "token": '{{token}}',
+                        },
+                        success :  function(result){
+                            if(result.cause == "invalid token"){
+                                var error_block = $('.error-purchace-block');
+                                error_block.addClass('alert alert-danger')
+                                error_block.html('Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement');
+                            }else if(result.paypal_purchase == "Transaction successfull" && result.status == "200") {
+                                {# window.location.replace("http://stackoverflow.com"); #}
+                                $('.button-purchace-block').html('<div class="alert alert-success">Transaction réussie !</div>');
+                            }
+                        }
+                    });
+                });
+            },
+            onCancel: function (data) {
+                alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
+            },
+            onError: function (err) {
+                alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+            }
+        }).render('#paypal-boutons');
+
+        //PayPal : Payement reccurent
+        // Prix total du panier à mettre dans abonnement 
+        const total_price =  {{ total }}
+        $('input[name="a3"]').val(total_price);
+
+        // Choix de durrée de l'engagement 
+
+        $('#reccurent_paypal').change(function(){ 
+            var value = $(this).val();
+            $('input[name="srt"]').val(value);
+        });
+
+
+    });
+</script>
+{% endblock %}

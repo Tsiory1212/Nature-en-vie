@@ -112,8 +112,8 @@
                             <li class="menu-item menu-item-has-children has-child text-start">
                                 <a href="#" class="menu-name" data-title="Product">Nos Paniers</a>
                                 <ul class="sub-menu">
-                                    {% for subscriptionCart in subscriptionPlans %}
-                                        <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.nameSubscriptionPlan }}</a></li>
+                                    {% for subscriptionCart in subscriptionPlans_subcriberEvent %}
+                                        <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.name }}</a></li>
                                     {% endfor %}
                                     {# <hr> #}
                                     {# <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mesure</a></li> #}
@@ -148,9 +148,12 @@
                             </div>
                         </div>
 
+
+
                         {# MINI PANIER #}
-                        {% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %}
-                            <div class="minicart-block layout-02">
+                        {% if app.user and cartItems_subcriberEvent['items']|length > 0 or app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show'    %}
+                        {# {% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %} #}
+                            <div class="minicart-block layout-02" {% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %} style="left: 0; top: 0;" {% endif %}>
                                 <div class="minicart-contain">
                                     <div class="icon-contain">
                                         <div class="span-index">
@@ -158,7 +161,7 @@
                                             <span class="qty">8</span>
 
                                             <span class="sub-total"> 
-                                                <span class="quantity-item">{{allQuantityItem}}</span>  article(s) - <span class="total-price">{{total}} </span> € 
+                                                <span class="quantity-item">{{cartItems_subcriberEvent['quantity'] }}</span>  article(s) - <span class="total-price">{{ cartItems_subcriberEvent['totalPrice'] }} </span> € 
                                             </span>
                                         </div>
                                         <a href="#" class="btn-to-cart">Go</a>
@@ -166,15 +169,15 @@
                                     <div class="cart-content">
                                         <div class="cart-inner">
                                             <ul class="products">
-                                                {% for item in items %}
+                                                {% for item in cartItems_subcriberEvent['items'] %}
                                                     <li>
                                                         <div class="minicart-item">
                                                             <div class="thumb">
                                                                 <a href="{{path('product_show', {id: item.product.id, slug: item.product.slug})}}">
                                                                     {% if item.product.imageName %}
-                                                                        <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" width="90" height="90">
+                                                                        <img src="{{ vich_uploader_asset(item.product, 'imageFile') }}" width="60" height="60">
                                                                     {% else %}
-                                                                        <img src="/uploads/produit/images/defaultImage.png"  width="90" height="90">
+                                                                        <img src="/uploads/produit/images/defaultImage.png"  width="60" height="60">
                                                                     {% endif %}
                                                                 </a>
                                                             </div>
@@ -199,17 +202,9 @@
                                                     </li>
                                                 {% endfor %}
                                             </ul>
-                                            {% if app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show'  %}
-                                                <p class="btn-control">
-                                                    <a href="{{path('account_order_step_one')}}" class="btn view-cart">Commander</a>
-                                                </p>
-                                            {% elseif app.request.get('_route') == 'home' %}
-                                                <p class="btn-control">
-                                                    <a href="{{path('panier_show')}}" class="btn view-cart">Mon panier</a>
-                                                    {# <a href="#" class="btn">checkout</a> #}
-                                                </p>
-                                            {% endif %}
-                                            
+                                            <p class="btn-control">
+                                                <a href="{{path('account_order_step_one')}}" class="btn view-cart">Commander</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

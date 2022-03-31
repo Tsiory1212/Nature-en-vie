@@ -31,10 +31,9 @@ class ProductController extends AbstractController
      /**
      * @Route("/account/all-products", name="all_products")
      */
-    public function all_products(Request $request, PanierService $panierService): Response
+    public function all_products(Request $request): Response
     {
         $categories_in_navbar = $this->repoCategory->findAll();
-
 
         $search = new ProductSearch();
         $form = $this->createForm(ProductSearchType::class, $search)
@@ -51,9 +50,6 @@ class ProductController extends AbstractController
         return $this->render('home/all_products.html.twig', [
             'products'=> $products,
             'form' => $form->createView(),
-            'items' => $panierService->getFullcart(),
-            'total' => $panierService->getTotal(),
-            'allQuantityItem' => $panierService->allQuantityItem(),
             'categories_in_navbar' => $categories_in_navbar,
 
         ]);
@@ -94,7 +90,7 @@ class ProductController extends AbstractController
             'productInCart' => $productInCart,
             'items' => $panierService->getFullcart(),
             'allQuantityItem' => $panierService->allQuantityItem(),
-            'total' => $panierService->getTotal()
+            'total' => $panierService->getTotalPrice()
         ]);
     }
 }

@@ -11,13 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
 {
-    private $repoFactureAbonnement;
 
     protected $repoFavoriteCart;
 
-    public function __construct(FactureAbonnementRepository $repoFactureAbonnement, FavoriteCartRepository $repoFavoriteCart)
+    public function __construct( FavoriteCartRepository $repoFavoriteCart)
     {
-        $this->repoFactureAbonnement = $repoFactureAbonnement;
         $this->repoFavoriteCart = $repoFavoriteCart;
     }
 
@@ -28,11 +26,11 @@ class AccountController extends AbstractController
     {
         $user = $this->getUser();
         $maLivraison = $repoDelivry->findOneBy(['user' => $user]);
-        $mesFactures = $this->repoFactureAbonnement->findBy(['user' => $user]);
+        // $mesFactures = $this->repoFactureAbonnement->findBy(['user' => $user]);
         $mesFavoriteCarts = $this->repoFavoriteCart->findBy(['user' => $user]);
         
         return $this->render('account/dashboard.html.twig', [
-            'mesFactures' => $mesFactures,
+            // 'mesFactures' => $mesFactures,
             'mesFavoriteCarts' => $mesFavoriteCarts,
             'maLivraison' => $maLivraison
         ]);

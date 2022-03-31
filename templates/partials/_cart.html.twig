@@ -24,13 +24,13 @@
                     </td>
                     <td> {{ item.product.name }} </td>
                     <td> {{ item.product.price }} € </td>
-                    <td> x{{ item.quantity }} </td>
+                    <td> x<span class="item_quantity"> {{ item.quantity }}</span> </td>
                     <td> {{ item.product.price * item.quantity }} € </td>
                     <td>
-                        <a href="{{ path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-cart-item">
+                        <a href="{{ path('panier_add_one', {id: item.product.id})}}" class="btn btn-success js-cart-add-item">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <a href="{{ path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-item">
+                        <a href="{{ path('panier_remove_one', {id: item.product.id})}}" class="btn btn-warning js-cart-remove-item">
                             <i class="fas fa-minus"></i>
                         </a>
                         <a href="{{ path('panier_delete_item', {id: item.product.id}) }}" class="btn btn-danger js-cart-item_delete">

@@ -2,6 +2,8 @@
 namespace App\EventSubscriber;
 
 use App\Repository\CartSubscriptionRepository;
+use App\Repository\SubscriptionPlanRepository;
+use App\Service\Panier\PanierService;
 use App\Service\Paypal\PaypalService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,15 +20,17 @@ class CartSubscriber implements EventSubscriberInterface {
  
     private Environment $environment;
     private $em;
-    private $repoCartSubscription;
+    private $repoPlan;
     private $paypalService;
+    private $panierService;
 
-    public function __construct(Environment $environment, EntityManagerInterface $em, CartSubscriptionRepository $repoCartSubscription, PaypalService $paypalService)
+    public function __construct(Environment $environment, EntityManagerInterface $em, SubscriptionPlanRepository $repoPlan, PaypalService $paypalService, PanierService $panierService)
     {
         $this->environment = $environment;
         $this->em = $em;
-        $this->repoCartSubscription = $repoCartSubscription;
+        $this->repoPlan = $repoPlan;
         $this->paypalService = $paypalService;
+        $this->panierService = $panierService;
     }
 
  
@@ -36,14 +40,16 @@ class CartSubscriber implements EventSubscriberInterface {
      * @param ControllerEvent $event
      */
     public function onKernelController(ControllerEvent $event) {
-        $subscriptionPlans = $this->paypalService->getPlanSubscriptionAfterCondition();
+        $subscriptionPlans = $this->repoPlan->findBy(['status' => 'active']);
 
- 
-        //
-        //$this->environment->addGlobal('cart', $this->em->getRepository(Cart::class)->findAll());
-        // Injection de la variable cart dans Twig
-        $this->environment->addGlobal('subscriptionPlans', $subscriptionPlans);
-       // dans une vue twig, on peut faire {{ dump(cart) }}
+        $cartItems['items'] = $this->panierService->getFullcart();
+        $cartItems['quantity'] = $this->panierService->allQuantityItem();
+        $cartItems['totalPrice'] = $this->panierService->getTotalPrice();
+
+  
+        $this->environment->addGlobal('subscriptionPlans_subcriberEvent', $subscriptionPlans);
+        $this->environment->addGlobal('cartItems_subcriberEvent', $cartItems);
+        
     }
  
     /**

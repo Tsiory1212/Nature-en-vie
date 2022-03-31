@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Paypal étape 2
+    Stripe étape 2
 {% endblock %}
 
 {% block stylesheets %}
@@ -92,7 +92,8 @@
 
 		window.onload = () => {
 			map = L.map('detailsMap').setView(myPosition, 11);
-			
+            map.scrollWheelZoom.disable();
+
 			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				attribution: 'Map data &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> ODbL - rendu <a href="https://www.openstreetmap.fr/">OSM France</a>',
 				minZoom: 1,

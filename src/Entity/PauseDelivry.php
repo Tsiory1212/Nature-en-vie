@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PauseLivraisonRepository;
+use App\Repository\PauseDelivryRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PauseLivraisonRepository::class)
+ * @ORM\Entity(repositoryClass=PauseDelivryRepository::class)
  */
-class PauseLivraison
+class PauseDelivry
 {
     /**
      * @ORM\Id
@@ -27,15 +27,13 @@ class PauseLivraison
     /**
      * @ORM\Column(type="datetime")
      * @Assert\GreaterThan(propertyPath="start_date", message="La date de fin doit être plus éloignée que la date de début !")
-     * 
      */
     private $end_date;
 
     /**
-     * @ORM\OneToOne(targetEntity=FactureAbonnement::class, inversedBy="pause_livraison")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=Order::class, mappedBy="pause_delivry", cascade={"persist", "remove"})
      */
-    private $facture_abonnement;
+    private $order_paused;
 
     public function getId(): ?int
     {
@@ -66,22 +64,24 @@ class PauseLivraison
         return $this;
     }
 
-    /**
-     * Get the value of facture_abonnement
-     */ 
-    public function getFactureAbonnement()
+    public function getOrderPaused(): ?Order
     {
-        return $this->facture_abonnement;
+        return $this->order_paused;
     }
 
-    /**
-     * Set the value of facture_abonnement
-     *
-     * @return  self
-     */ 
-    public function setFactureAbonnement($facture_abonnement)
+    public function setOrderPaused(?Order $order_paused): self
     {
-        $this->facture_abonnement = $facture_abonnement;
+        // unset the owning side of the relation if necessary
+        if ($order_paused === null && $this->order_paused !== null) {
+            $this->order_paused->setPauseDelivry(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($order_paused !== null && $order_paused->getPauseDelivry() !== $this) {
+            $order_paused->setPauseDelivry($this);
+        }
+
+        $this->order_paused = $order_paused;
 
         return $this;
     }

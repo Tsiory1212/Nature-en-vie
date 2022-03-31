@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\CartSubscription;
+use App\Entity\SubscriptionPlan;
 use App\Form\CartSubscriptionType;
+use App\Form\SubscriptionPlanType;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\FactureAbonnementRepository;
 use App\Repository\ProductRepository;
+use App\Repository\SubscriptionPlanRepository;
 use App\Repository\UserRepository;
 use App\Service\Paypal\PaypalService;
+use App\Service\StripeService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,21 +30,19 @@ use Symfony\Component\Security\Csrf\CsrfTokenManager;
 class AdminSubscriptionController extends AbstractController
 {
     private $em;
-    private $repoSubscription;
-    private $repoFactureAbonnement;
+    private $repoPlan;
     private $repoProduct;
     private $repoUser;
 
-    protected $paypalService;
+    protected $stripeService;
 
-    public function __construct(EntityManagerInterface $em, CartSubscriptionRepository $repoSubscription, FactureAbonnementRepository $repoFactureAbonnement, ProductRepository $repoProduct, UserRepository $repoUser, PaypalService $paypalService)
+    public function __construct(EntityManagerInterface $em, SubscriptionPlanRepository $repoPlan, ProductRepository $repoProduct, UserRepository $repoUser, StripeService $stripeService)
     {
         $this->em = $em;
-        $this->repoSubscription = $repoSubscription;
-        $this->repoFactureAbonnement = $repoFactureAbonnement;
+        $this->repoPlan = $repoPlan;
         $this->repoProduct = $repoProduct;
         $this->repoUser = $repoUser;
-        $this->paypalService = $paypalService;
+        $this->stripeService = $stripeService;
     }
 
 
@@ -51,10 +53,10 @@ class AdminSubscriptionController extends AbstractController
     {
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
-        $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
-        $nbrSubscriptionsDisabled = count($this->repoSubscription->findBy(['active' => 0]));
+        $nbrSubscriptions = count($this->repoPlan->findBy(['status' => 'active']));
+        $nbrSubscriptionsDisabled = count($this->repoPlan->findBy(['status' => 0]));
 
-        $subscriptions = $this->paypalService->getPlanSubscriptionAfterCondition();
+        $subscriptions = $this->repoPlan->findBy(['status' => 'active']);
         
         return $this->render('admin/subscription/list_subscription.html.twig', [
             'subscriptions' => $subscriptions,
@@ -72,8 +74,8 @@ class AdminSubscriptionController extends AbstractController
     {
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
-        $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
-        $subscriptionsDisabled = $this->repoSubscription->findBy(['active' => 0]);
+        $nbrSubscriptions = count($this->repoPlan->findBy(['active' => 1]));
+        $subscriptionsDisabled = $this->repoPlan->findBy(['active' => 0]);
 
         return $this->render('admin/subscription/list_subscription_disabled.html.twig', [
             'nbrProducts' => $nbrProducts,
@@ -86,31 +88,24 @@ class AdminSubscriptionController extends AbstractController
     /**
      * @Route("/subcription/create", name="admin_subscription_create")
      */
-    public function admin_subscription_create(Request $request, PaypalService $paypalService): Response
+    public function admin_subscription_create(Request $request): Response
     {
+        $plan = new SubscriptionPlan();
 
-        $abonnement = new CartSubscription();
-
-        $form = $this->createForm(CartSubscriptionType::class, $abonnement);
+        $form = $this->createForm(SubscriptionPlanType::class, $plan);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             //On recupère les données soumises
-            $nameSubscriptionPlan = $form->getData()->getNameSubscriptionPlan();
-            $descriptionSubscriptionPlan = $form->getData()->getDescriptionSubscriptionPlan();
-            $priceSubscription = $form->getData()->getPriceSubscription();
-            $durationMonthSubscription = $form->getData()->getDurationMonthSubscription();
-            $productNumber = $form->getData()->getIdProductPlanPaypal();
-            $interval_unit = $form->getData()->getIntervalUnit();
-
-            // On annulle la création du plan si aucun produit n'est rattaché avec cet abonnement
-            if (is_null($productNumber)) {
-                return $this->redirectToRoute('admin_subscription_create', ['error' => 'null_product']);
-            }
+            $nameSubscriptionPlan = $form->get('name')->getData();
+            $amountSubscription = $form->get('amount')->getData();
+            // $durationMonthSubscription = $form->getData()->getDurationMonthSubscription();
+            $interval_unit = $form->get('interval_unit')->getData();
+            // $trialPeriodDays = $form->get('trialPeriodDays')->getData();
+            $description = $form->get('description')->getData();
             
             // On annulle la création du plan si il y a duplication de nom (vérification seulment dans les plans actifsd)
-            if ($this->paypalService->plan_isInActivePlans($nameSubscriptionPlan)) {
+            if ($this->stripeService->plan_isInActivePlans($nameSubscriptionPlan)) {
                 $this->addFlash(
                     'danger',
                     "Duplication de l'abonnement $nameSubscriptionPlan , penser à désactiver l'ancien abonnement avant de créer un abonnement de même nom"
@@ -118,21 +113,20 @@ class AdminSubscriptionController extends AbstractController
                 
                 return $this->redirectToRoute('admin_subscription_list');
             }
-            // On utilise le paypalService pour synchroniser le traitrement dans PAYPAL
-            $paypalService->createSubscriptionPlan(
-                $productNumber,
-                $nameSubscriptionPlan, 
-                $descriptionSubscriptionPlan,
-                $interval_unit, 
-                $durationMonthSubscription,
-                $priceSubscription
-            );
 
-            // On obtien idSubscriptionPlanPaypal, après la création du plan avec l'api
-            $abonnement->setIdProductPlanPaypal($productNumber);
-            $abonnement->setIdSubscriptionPlanPaypal($paypalService->idSubscriptionPlanPaypal);
+            // On utilise le stripeService pour synchroniser le traitrement dans Stripe
+            $productStripe = $this->stripeService->createProduct($nameSubscriptionPlan);
+            $productId = $productStripe->id;
+            $plan->setProductIdStripe($productId);
 
-            $this->em->persist($abonnement);
+            $priceStripe = $this->stripeService->createPrice($amountSubscription, $interval_unit, $productId, $description);
+            $plan->setPriceIdStripe($priceStripe->id);
+
+            // $planStripe = $this->stripeService->createPlan($amountSubscription, $interval_unit, $productId, $trialPeriodDays, $description);
+            // $plan->setPlanIdStripe($planStripe->id);
+
+            $plan->setStatus('active');
+            $this->em->persist($plan);
             $this->em->flush();
 
             $this->addFlash(
@@ -150,9 +144,9 @@ class AdminSubscriptionController extends AbstractController
      /**
      * @Route("/subcription/{id}/edit", name="admin_subscription_edit")
      */
-    public function admin_subscription_edit(CartSubscription $subscription, Request $request, PaypalService $paypalService): Response
+    public function admin_subscription_edit(SubscriptionPlan $plan, Request $request, PaypalService $paypalService): Response
     {
-        $form = $this->createForm(CartSubscriptionType::class, $subscription)
+        $form = $this->createForm(CartSubscriptionType::class, $plan)
             ->remove('idProductPlanPaypal')
             ->remove('priceSubscription')
             ->remove('durationMonthSubscription')
@@ -270,7 +264,7 @@ class AdminSubscriptionController extends AbstractController
      */
     public function admin_subscriber_list(): Response
     {
-        $factures = $this->repoFactureAbonnement->findAll();
+        // $factures = $this->repoFactureAbonnement->findAll();
 
         return $this->render('admin/subscription/list_subscriber.html.twig', [
             'factures' => $factures
@@ -284,10 +278,10 @@ class AdminSubscriptionController extends AbstractController
      */
     public function admin_subscriber_plan_list(CartSubscription $cartSubscription): Response
     {
-        $factures = $this->repoFactureAbonnement->findBy(['cartSubscription' => $cartSubscription]);
+        // $factures = $this->repoFactureAbonnement->findBy(['cartSubscription' => $cartSubscription]);
 
         return $this->render('admin/subscription/list_subscriber.html.twig', [
-            'factures' => $factures
+            // 'factures' => $factures
         ]);
     }
 

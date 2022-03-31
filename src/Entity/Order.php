@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order
 {
+    const PAYMENT_TYPE = [
+        0 => 'paiement_unique',
+        1 => 'paiement_recurrent',
+        2 => 'souscription_plan'
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -25,7 +31,7 @@ class Order
     private $user;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="array", nullable=true)
      */
     private $cart = [];
 
@@ -39,30 +45,51 @@ class Order
      */
     private $created_at;
 
+
+    /**
+     * Permet de savoir si la commande est livrée ou non
+     * 
+     * @ORM\Column(type="boolean")
+     */
+    private $status_delivry;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reference;
+
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+    /**
+     * @ORM\OneToOne(targetEntity=PauseDelivry::class, inversedBy="order_paused", cascade={"persist", "remove"})
+     */
+    private $pause_delivry;
+
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $payer_id_paypal;
+    private $payment_type;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="array")
      */
-    private $payer_address_email_paypal;
+    private $stripe_data = [];
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="array", nullable=true)
      */
-    private $transaction_number_paypal;
+    private $SubscriptionPlanDatas = [];
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $status;
+
 
     public function __construct()
     {
         $this->created_at = new DateTime();
-        $this->status = 0;
+        $this->status_delivry = 0;
     }
     
     public function getId(): ?int
@@ -118,51 +145,99 @@ class Order
         return $this;
     }
 
-    public function getPayerIdPaypal(): ?string
+
+    public function getStatusDelivry(): ?bool
     {
-        return $this->payer_id_paypal;
+        return $this->status_delivry;
     }
 
-    public function setPayerIdPaypal(string $payer_id_paypal): self
+    public function setStatusDelivry(bool $status_delivry): self
     {
-        $this->payer_id_paypal = $payer_id_paypal;
+        $this->status_delivry = $status_delivry;
 
         return $this;
     }
 
-    public function getPayerEmailPaypal(): ?string
+    public function getReference(): ?string
     {
-        return $this->payer_address_email_paypal;
+        return $this->reference;
     }
 
-    public function setPayerEmailPaypal(?string $payer_address_email_paypal): self
+    public function setReference(string $reference): self
     {
-        $this->payer_address_email_paypal = $payer_address_email_paypal;
+        $this->reference = $reference;
 
         return $this;
     }
 
-    public function getTransactionNumberPaypal(): ?string
+
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->transaction_number_paypal;
+        return $this->updated_at;
     }
 
-    public function setTransactionNumberPaypal(string $transaction_number_paypal): self
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
-        $this->transaction_number_paypal = $transaction_number_paypal;
+        $this->updated_at = $updated_at;
 
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getPauseDelivry(): ?PauseDelivry
     {
-        return $this->status;
+        return $this->pause_delivry;
     }
 
-    public function setStatus(bool $status): self
+    public function setPauseDelivry(?PauseDelivry $pause_delivry): self
     {
-        $this->status = $status;
+        $this->pause_delivry = $pause_delivry;
 
         return $this;
     }
+
+    public function getPaymentType(): ?string
+    {
+        return $this->payment_type;
+    }
+
+    public function setPaymentType(string $payment_type): self
+    {
+        $this->payment_type = $payment_type;
+
+        return $this;
+    }
+
+    public function getStripeData(): ?array
+    {
+        return $this->stripe_data;
+    }
+
+    public function setStripeData(array $stripe_data): self
+    {
+        $this->stripe_data = $stripe_data;
+
+        return $this;
+    }
+
+    /**
+     * Pemet de récupérer le type de paiment 
+     */
+    public function getOrderPaymentType(): string
+    {
+        return self::PAYMENT_TYPE[$this->payment_type];
+    }
+
+    public function getSubscriptionPlanDatas(): ?array
+    {
+        return $this->SubscriptionPlanDatas;
+    }
+
+    public function setSubscriptionPlanDatas(?array $SubscriptionPlanDatas): self
+    {
+        $this->SubscriptionPlanDatas = $SubscriptionPlanDatas;
+
+        return $this;
+    }
+
 }

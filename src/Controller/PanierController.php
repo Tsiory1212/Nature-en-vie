@@ -57,7 +57,7 @@ class PanierController extends AbstractController
 
         return $this->render('/account/panier/panier.html.twig', [
             'items' => $panierService->getFullcart(),
-            'total' => $panierService->getTotal(),
+            'total' => $panierService->getTotalPrice(),
             'allQuantityItem' => $panierService->allQuantityItem(),
             'formFavCart' => $formFavCart->createView(),
             'paypal_client_id' => $paypal_client_id
@@ -76,7 +76,7 @@ class PanierController extends AbstractController
             'code' => 200, 
             'message' => 'produit ajouté',
             'allQuantityItem' => $panierService->allQuantityItem(),
-            'totalPrice' => $panierService->getTotal()
+            'total_price' => $panierService->getTotalPrice()
         ]);
     }
 
@@ -90,7 +90,7 @@ class PanierController extends AbstractController
 
         $product_item_quantity = $this->session->get('panier', [])[$refId];
         $total_price_item = $product_item_quantity * $product->getPrice();
-        $total_price = $panierService->getTotal();
+        $total_price = $panierService->getTotalPrice();
 
         return $this->json([
             'code' => 200, 
@@ -112,7 +112,7 @@ class PanierController extends AbstractController
 
         $product_item_quantity = $this->session->get('panier', [])[$refId];
         $total_price_item = $product_item_quantity * $product->getPrice();
-        $total_price = $panierService->getTotal();
+        $total_price = $panierService->getTotalPrice();
 
         return $this->json([
             'code' => 200, 
@@ -127,16 +127,18 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/{id}/delete", name="panier_delete_item")
      */
-    public function panier_delete_item( Product $product, PanierService $panierService )
+    public function panier_delete_item( Product $product, PanierService $panierService, Request $request)
     {
         $refId =  $product->getReferenceId();
         $panierService->remove($refId);
+        // dd($panierService->getTotalPrice());
 
         return $this->json([
             'code' => 200, 
+            'route' => $routeName = $request->get('_route'),
             'message' => 'produit supprimé',
             'allQuantityItem' => $panierService->allQuantityItem(),
-            'total_price' => $panierService->getTotal()
+            'total_price' => $panierService->getTotalPrice()
         ]);
     }
 

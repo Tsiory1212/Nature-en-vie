@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\PauseLivraison;
+use App\Entity\PauseDelivry;
 use App\Form\DataTransformer\FrenchToDateTimeTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PauseLivraisonType extends AbstractType
+class PauseDelivryType extends AbstractType
 {
     private $transformer;
 
@@ -33,7 +33,7 @@ class PauseLivraisonType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PauseLivraison::class,
+            'data_class' => PauseDelivry::class,
         ]);
     }
 }

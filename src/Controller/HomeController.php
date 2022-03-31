@@ -9,6 +9,7 @@ use App\Repository\BlogRepository;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Repository\SubscriptionPlanRepository;
 use App\Service\Panier\PanierService;
 use App\Service\Paypal\PaypalService;
 use App\Service\Paypal\PaypalSubscription;
@@ -17,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 use Sample\PayPalClient;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -25,18 +28,16 @@ class HomeController extends AbstractController
     protected $paginator;
     protected $repoProduct;
     protected $repoCategory;
-    protected $repoSubCart;
     protected $repoBlog;
-    protected $repoCartSubscription;
+    protected $repoPlan;
 
-    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, CategoryRepository $repoCategory, CartSubscriptionRepository $repoSubCart, BlogRepository $repoBlog, CartSubscriptionRepository $repoCartSubscription)
+    public function __construct(PaginatorInterface $paginator, ProductRepository $repoProduct, CategoryRepository $repoCategory, BlogRepository $repoBlog, SubscriptionPlanRepository $repoPlan)
     {
         $this->paginator = $paginator;
         $this->repoProduct = $repoProduct;
         $this->repoCategory = $repoCategory;
-        $this->repoSubCart = $repoSubCart;
         $this->repoBlog = $repoBlog;
-        $this->repoCartSubscription = $repoCartSubscription;
+        $this->repoPlan = $repoPlan;
     }
 
     
@@ -82,9 +83,9 @@ class HomeController extends AbstractController
      */
     public function home_subscription(): Response
     {
-        $grandPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier', 'active' => true]);
-        $panierMoyen = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Panier moyen', 'active' => true]);
-        $petitPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier', 'active' => true]);
+        $grandPanier = $this->repoPlan->findOneBy(['name' => 'Grand Panier', 'status' => 'active']);
+        $panierMoyen = $this->repoPlan->findOneBy(['name' => 'Panier moyen', 'status' => 'active']);
+        $petitPanier = $this->repoPlan->findOneBy(['name' => 'Petit panier', 'status' => 'active']);
 
         $fruitJuices = $this->repoProduct->findBy(['category' => '12'], ['id' => 'ASC'], 10);
         $blogs = $this->repoBlog->findBy([], ['created_at' => 'DESC'], 3);
@@ -152,15 +153,8 @@ class HomeController extends AbstractController
      */
     public function professionnel(): Response
     {
-        $grandPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier']);
-        $moyenPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Moyen panier']);
-        $petitPanier = $this->repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier']);
 
-        return $this->render('home/professionnel.html.twig', [
-            'grandPanier' => $grandPanier,
-            'moyenPanier' => $moyenPanier,
-            'petitPanier' => $petitPanier
-        ]);
+        return $this->render('home/professionnel.html.twig', []);
     }
 
     /**

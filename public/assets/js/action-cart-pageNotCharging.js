@@ -1,34 +1,66 @@
 $(document).ready(function(){
-
-    // Add one OR remove one item
-    $('a.js-cart-item').on('click', function(e) {
+    /** PANIER avant checkout (stepper) */
+    // Add one item
+    $('a.js-cart-add-item').on('click', function(e) {
         e.preventDefault();
 
         // $(this)[0] repésente l'élément => a 
         const url = $(this)[0].href;
         
-        const quantity_item =  $(this).parent().prev().prev()
-        const total_price_item =  $(this).parent().prev()
-        const total_price =  $('td.total-general')
+        const quantity_item =  $(this).parent().prev().prev().children();
+        const total_price_item =  $(this).parent().prev();
+        const total_price =  $('td.total-general');
 
         axios.get(url).then(function(response){
-            quantity_item.text( "x"+response.data.quantity);
+            quantity_item.text( ' '+response.data.quantity);
             total_price_item.text(response.data.total_price_item.toFixed(2));
             total_price.text(response.data.total_price.toFixed(2));
         })
     })
 
+    // Remove one item
+    $('a.js-cart-remove-item').on('click', function(e) {
+        e.preventDefault();
+
+        // $(this)[0] repésente l'élément => a 
+        const url = $(this)[0].href;
+        
+        const quantity_item =  $(this).parent().prev().prev().children();
+        const total_price_item =  $(this).parent().prev();
+        const total_price =  $('td.total-general');
+
+        // On vérifie, si la quantity de l'article ne reste que 1, alors on supprime la ligne où il se positionne
+        if (quantity_item.text() == 1) {
+            const item = $(this).parent().parent().remove();
+            const url = $(this).next()[0].href;
+            axios.get(url).then(function(response){
+                total_price.text(response.data.total_price.toFixed(2));
+            })
+
+        }else{
+            axios.get(url).then(function(response){
+                quantity_item.text( " "+response.data.quantity);
+                total_price_item.text(response.data.total_price_item.toFixed(2));
+                total_price.text(response.data.total_price.toFixed(2));
+            })
+        }
+
+    })
+
     // Delete item
+
     $('a.js-cart-item_delete').on('click',function(e) {
         e.preventDefault();
-        const total_price =  $('td.total-general')
+        const total_price =  $('td.total-general');
 
-        $(this).parent().parent().remove()
+        $(this).parent().parent().remove();
         const url = $(this)[0].href;
         axios.get(url).then(function(response){
             total_price.text(response.data.total_price.toFixed(2));
         })
     })
+
+
    
 
     /** Mini cart */
@@ -39,8 +71,8 @@ $(document).ready(function(){
         // this repésente l'élément => a 
         const url = $(this)[0].href;
         
-        var allQuantityItem =  $('.minicart-block .sub-total .quantity-item')[0]
-        var total_price =  $('.minicart-block .sub-total .total-price')[0]
+        var allQuantityItem =  $('.minicart-block .sub-total .quantity-item');
+        var total_price =  $('.minicart-block .sub-total .total-price');
         var product_element_dom_mini_cart = $('.minicart-block .cart-content .products')[0];
         
         var hidden_li_item_mini_cart =  $('#hidden-li-item-mini-cart')[0];
@@ -52,8 +84,12 @@ $(document).ready(function(){
         axios.get(url)
             .then(function(response){
 
-                allQuantityItem.textContent = response.data.allQuantityItem;
-                total_price.textContent = response.data.totalPrice.toFixed(2);
+                // allQuantityItem.textContent = response.data.allQuantityItem;
+                // total_price.textContent = response.data.total_price.toFixed(2);
+
+                
+                allQuantityItem.text(response.data.allQuantityItem);
+                total_price.text(response.data.total_price.toFixed(2));
                 
                 // On anime le bouton 
                 a.text("Ajouté") ;
@@ -76,7 +112,7 @@ $(document).ready(function(){
         const url = $(this)[0].href;
         axios.get(url).then(function(response){
             allQuantityItem.textContent = response.data.allQuantityItem;
-            total_price.textContent = response.data.totalPrice.toFixed(2);        
+            total_price.textContent = response.data.total_price.toFixed(2);        
         })
     })
 

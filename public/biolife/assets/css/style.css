@@ -14010,6 +14010,8 @@ body.open-quickview-block .biolife-quickview-block{
     }
     .header-area.layout-01 .biolife-cart-info .minicart-block{
         margin-left: 0;
+        left: 822px;
+        top: -46px;
     }
     .biolife-popup .modal-dialog{
         min-width: 770px;

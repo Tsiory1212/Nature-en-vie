@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Paypal étape 3
+    Stripe étape 3
 {% endblock %}
 
 {% block stylesheets %}
@@ -50,7 +50,12 @@
                             <div class="container">
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-md-6 text-center mt-4">
-                                            <div id="paypal-boutons"></div>
+                                        <form   method="post" id="single-payment-form">
+                                            <div id="card-elements"></div>
+                                
+                                            <div id="card-errors" role="alert"></div>
+                                            <button id="card-button-submit" class="button button1 mt-4">Acheter {{ cartItems_subcriberEvent['totalPrice'] }}€</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -61,58 +66,32 @@
                     <div class="block-stepper-content shadow-lg  mt-5 p-5 bg-white ">
                         <h1 class="text-center">Payement reccurent</h1>
                         <div class="d-flex justify-content-center">
-                            <label for="reccurent_paypal">Engagement : </label>
-                            <select name="reccurent_paypal" id="reccurent_paypal">
+                            <!-- <label for="reccurent_stripe">Engagement : </label> -->
+                            <!-- <select name="reccurent_stripe" id="reccurent_stripe">
                                 <option value="0" selected="selected" class="d-none"></option>
                                 {% for  i in 1..12 %}
                                     <option value="{{i}}">{{i}} semaine(s)</option>
                                 {% endfor %}
+                            </select> -->
+                            <label for="stripe_interval_unit">Choisissez le votre abonnement </label>
+                            <select name="stripe_interval_unit" id="stripe_interval_unit">
+                                <option value="week" selected="selected">Semaine</option>
+                                <option value="month">Mois</option>
+                                <option value="year">An</option>
                             </select>
                         </div>
-                        <pre>
-                            {{ dump( ) }}
-                        </pre>
                         
                         <div class="d-flex justify-content-center">
-                            <form action="https://www{{paypal_env_endpoint}}.paypal.com/cgi-bin/webscr" method="post" target="_top">
-
-                                <input type="hidden" name="cmd" value="_xclick-subscriptions">
-                                
-                                <!-- Nom du plan (Juste un nom, mais pas) -->
-                                <input type="hidden" name="item_name" value="Abonnement Panier Sur-mesure">
+                            <form id="subscription-payment-form">
+                                <div id="card-element">
+                                  <!-- Elements will create input elements here -->
+                                </div>
                             
-                                <input type="hidden" name="business" value="{{ paypal_email_marchand}}">
-                            
-                                {# <input type="hidden" name="lc" value="EUR"> #}
-                                <input type="hidden" name="no_note" value="1">
-
-                                <!-- S'il est défini sur "1", le paiement sera répété à moins que le client n'annule l'abonnement -->
-                                <input type="hidden" name="src" value="1">
-                            
-                                <!-- Montant à facturer à chaque récurrence -->
-                                <input type="hidden" name="a3" value="0.00">
-                            
-                                <!-- Nombre de périodes entre chaque récurrence -->
-                                <input type="hidden" name="p3" value="1">
-
-                                <!-- Période de temps (D=days, W=weeks, M=months, Y=years)  -->
-                                <input type="hidden" name="t3" value="W">
-                                <input type="hidden" name="currency_code" value="EUR">
-                            
-                                <!-- Echellons de payement (durée d'engagement en fonction de W, M, Y) -->
-                                <input type="hidden" name="srt" value="0">
-                            
-                                <!-- Specify URLs -->
-                                <input type='hidden' name='cancel_return' value="{{ rootPathApp ~ path('account_order_step_three') }}">
-                                {# <input type='hidden' name='return' value="{{ path('account_pass_to_order') }}"> #}
-                                <!-- <input type="hidden" name="notify_url" value='XXX.com/users/paymentAccountstatus/1286'>    -->
-                            
-                                <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
-
-                                <button id="paypal-button-recurring" class="btn btn-primary" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> <h1>Passer à la souscription</h1> </button>
-                                <!-- <input type="image" src="https://www.sandbox.paypal.com/fr_FR/FR/i/btn/btn_subscribe_SM.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> -->
-                                <!-- <img alt="" border="0" src="https://www.sandbox.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1"> -->
+                                <!-- We'll put the error messages in this element -->
+                                <!-- <div id="card-element-errors" role="alert"></div> -->
+                                <button id="sub-card-button-submit" class="button button1 mt-4" type="submit"><span id="label_subscribe">Abonnement</span>  {{ cartItems_subcriberEvent['totalPrice'] }}€/ <span id="label_interval_unit">Semaine</span> </button>
                             </form>
+                        
                         </div>
                         
 
@@ -122,115 +101,288 @@
         </div>
     </div>
 </body>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        $(function() {
+            // Déclaration des variables
+            {% if stripe_environement == 'test' %}
+                var stripeToken = "{{ stripe_publishable_key_test }}"
+            {% else %}
+                var stripeToken = "{{ stripe_publishable_key_live }}"
+            {% endif %}
+
+            var  stripe = Stripe(stripeToken);
+            var elements = stripe.elements();
+            var clientSecret = "{{ intentSecret }}";
+            var cardHolderName = "{{ app.user.lastname }}";
+            var cardHolderEmail = "{{ app.user.email }}";
+            var totalPrice = "{{ cartItems_subcriberEvent['totalPrice'] }}";
+            var CardHolderPostalCcode = "{{ app.user.delivry.postalCode }}";
+            var displayError = $('#card-errors');
+
+            var styleCustom ={
+                base: {
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+                    color: '#2532d'
+                },
+                invalid: {
+                    iconColor: '#FFC7EE',
+                    color: '#FFC7EE',
+                }
+            }
+
+            // Monter notre form à l'objet Stripe 
+            var card = elements.create('card', {style: styleCustom});
+            card.update({value: {postalCode: CardHolderPostalCcode}});
+
+            card.mount("#card-elements");
+
+            // Message Error 
+            card.on('change', function(event) {
+
+                if (event.error) {
+                    displayError.addClass('alert alert-danger');
+                    displayError.text(event.error.message);
+
+                } else {
+                    displayError.removeClass('alert alert-danger');
+                    displayError.text('')
+                }
+            })
+
+            var cardButton = $('#card-button-submit');
+            var form = $('#single-payment-form');
+            form.on('submit', function(event){
+                event.preventDefault();
+                cardButton.html('<div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div>');
+                cardButton.attr('disabled', true);
 
 
-
-{# On initialise le token #}
-{% set token = csrf_token('order' ~ app.user.id) %}
-
-{# On converti le format du tableau produit pour que paypal le prend en charge #}
-{% set product_convert_in_paypal = {} %}
-{% for  item in items %}
-    {% set product_convert_in_paypal = product_convert_in_paypal|merge([
-        {
-            'name' : item.product.name , 
-            'quantity' :item.quantity, 
-            'unit_amount' :{ 
-                'currency_code' : 'EUR', 
-                'value' :item.product.price
-        }
-        } 
-    ]) %}
-{% endfor %}
-
-{# On transforme ensuite le tableau en json,  #}
-{# mettre ses valeurs dans un DOM, afin qu'on puisse les recupérés dans JS  #}
-<span class="d-none" data-id="{{ product_convert_in_paypal|json_encode }}" id="some-link">Link</span>
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
-<script src="{{ asset('/assets/js/custom_select2.js')}}"></script>
-<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=EUR"> </script>
-<script>
-    $(document).ready(function () {  
-        var paypal_env = "{{paypal_env}}";
-        // Paypal : Payement unique
-        paypal.Buttons({
-            env: paypal_env,
-            createOrder : function (data, actions) {
-
-                // Les produits à payer avec leurs details
-                var product_convert_in_paypal = $('#some-link').data('id');
-                var produits = product_convert_in_paypal;
-
-                // Le total des produits
-                var total_amount = produits.reduce(function (total, product) {
-                    return total + product.unit_amount.value * product.quantity;
-                }, 0);
-                
-                
-                total_amount = Math.round(total_amount*100)/100;
-
-                // La transaction
-                return actions.order.create({
-                    purchase_units : [{
-                        items : produits,
-                        amount : {
-                            value : total_amount,
-                            currency_code : "EUR",
-                            breakdown : {
-                                item_total : { value : total_amount, currency_code : "EUR" }
+                stripe.handleCardPayment(
+                    clientSecret,
+                    card,
+                    {
+                        payment_method_data: {
+                            billing_details: {
+                                name : cardHolderName,
+                                email : cardHolderEmail
                             }
                         }
-                    }]
-                });
-            },
-            onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {                        
-                    $.ajax({
-                        type: 'POST',
-                        async: false,
-                        url: '{{ path('account_payment_paypal') }}',
-                        data: details,
-                        headers: { 
-                            "token": '{{token}}',
-                        },
-                        success :  function(result){
-                            if(result.cause == "invalid token"){
-                                var error_block = $('.error-purchace-block');
-                                error_block.addClass('alert alert-danger')
-                                error_block.html('Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement');
-                            }else if(result.paypal_purchase == "Transaction successfull" && result.status == "200") {
-                                {# window.location.replace("http://stackoverflow.com"); #}
-                                $('.button-purchace-block').html('<div class="alert alert-success">Transaction réussie !</div>');
+                    }
+                ).then((result) => {
+                    if (result.error) {
+                        displayError.addClass('alert alert-danger');
+                        displayError.text(result.error.message);
+                        cardButton.text('Acheter '+totalPrice+'€');
+                        cardButton.attr('disabled', false);
+
+                    }else if('paymentIntent' in result){
+                        cardButton.attr('disabled', true);
+
+                        var urlAjax = "{{ path('account_stripe_payment') }}"
+                        $.ajax({
+                            type: "POST",
+                            url: urlAjax, 
+                            data: result.paymentIntent,
+                            success: function(responseAjax){
+                                successUrl = "{{ path('dashboard') }}";
+                                console.log('Ajax ', responseAjax);
+                                console.log('Result ', result);
+            
+                                document.location.href = successUrl;
                             }
+                        })
+        
+
+                    }
+                })  
+            }) 
+
+
+
+
+
+
+            //payment Recurrent
+            var sub_cardButton = $('#sub-card-button-submit');
+            var formSub = $('#subscription-payment-form');
+            formSub.on('submit', function(event){
+                event.preventDefault();
+                sub_cardButton.html('<div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div>');
+                sub_cardButton.attr('disabled', true);
+
+
+                stripe.handleCardPayment(
+                    clientSecret,
+                    card,
+                    {
+                        payment_method_data: {
+                            billing_details: {
+                                name : cardHolderName,
+                                email : cardHolderEmail
+                            }
+                        }
+                    }
+                ).then((result) => {
+                    if (result.error) {
+                        displayError.addClass('alert alert-danger');
+                        displayError.text(result.error.message);
+                        console.log(sub_cardButton);
+                        sub_cardButton.text('Abonnement '+totalPrice+'€/ '+getIntervalValueFrench($('#stripe_interval_unit').val()));
+                        sub_cardButton.attr('disabled', false);
+
+                    }else if('paymentIntent' in result){
+                        sub_cardButton.attr('disabled', true);
+
+                        createPaymentMethod(card);
+        
+
+                    }
+                })  
+            }) 
+
+            
+            var period = 1;
+            var interval_unit = 'week';
+            var  iteration = 1;
+            $('#reccurent_stripe').change(function(){ 
+                var value = $(this).val();
+                iteration = value;
+                return iteration;
+            });
+
+            $('#stripe_interval_unit').change(function(){ 
+                var value = $(this).val();
+                interval_unit = value;
+                $('#label_interval_unit').text(getIntervalValueFrench(value));
+                return interval_unit;
+            });
+            
+            function getIntervalValueFrench(englishValue) {
+                switch (englishValue) {
+                    case 'week':
+                        return 'Semaine'
+                        break;
+                    case 'month':
+                        return 'Mois'
+                        break;
+                    case 'year':
+                        return 'An'
+                        break;              
+                }
+            }
+
+            function createPaymentMethod(cardElement) {
+                return stripe
+                    .createPaymentMethod({
+                        type: 'card',
+                        card: cardElement,
+                    })
+                    .then((result) => {
+                        if (result.error) {
+                            displayError(error);
+                        } else {
+                            createSubscription({
+                                paymentMethodId: result.paymentMethod.id
+                            });
                         }
                     });
-                });
-            },
-            onCancel: function (data) {
-                alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
-            },
-            onError: function (err) {
-                alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
             }
-        }).render('#paypal-boutons');
 
-        //PayPal : Payement reccurent
-        // Prix total du panier à mettre dans abonnement 
-        const total_price =  {{ total }}
-        $('input[name="a3"]').val(total_price);
 
-        // Choix de durrée de l'engagement 
 
-        $('#reccurent_paypal').change(function(){ 
-            var value = $(this).val();
-            $('input[name="srt"]').val(value);
+            function createSubscription({paymentMethodId}) {
+                var data = {
+                    "price": totalPrice,
+                    "interval_unit" : interval_unit,
+                    "iteration": iteration,
+                    "paymentMethodId": paymentMethodId
+                };
+                var urlSubscription = "{{ path('account_stripe_subscription') }}";
+                return (
+                    // $.ajax({
+                    //     type: 'POST',
+                    //     async: false,
+                    //     url: urlSubscription,
+                    //     data: data,
+                    //     dataType  : 'json',
+                    //     headers: { 
+                    //         'Content-type': 'application/json',
+                    //         'Accept': 'application/json'
+                    //     },
+                    //     success :  function(result){
+                    //         console.log('response', response);
+                    //         return response.json();
+                    //     },
+                    //     error: function(error){
+                    //         console.log('error', error)
+                            
+                    //         sub_cardButton.text('Subscribe');
+                    //         sub_cardButton.attr('disabled', false);
+                    //         displayError.addClass('alert alert-danger');
+                    //         displayError.text('Une erreur s\'est survenue');
+                    //     }
+                    // })
+
+                    fetch(urlSubscription, {
+                        method: 'post',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        data: data,
+                        body: JSON.stringify({
+                            data
+                        }),
+                    })
+                    .then((response) => {
+                        successUrl = "{{ path('dashboard') }}";
+                        return document.location.href = successUrl;
+                        // return response.json();
+                    })
+                    // If the card is declined, display an error to the user.
+                    .then((result) => {
+                        if (result.error) {
+                            // The card had an error when trying to attach it to a customer.
+                            throw result;
+                        }
+                        console.log('result', result);
+
+                        return result;
+                    })
+                    // Normalize the result to contain the object returned by Stripe.
+                    // Add the additional details we need.
+                    .then((result2) => {
+                        console.log('result2', result2);
+
+                        return {
+                            paymentMethodId: paymentMethodId,
+                            priceId: priceId,
+                            subscription: result2,
+                        };
+                    })
+                    // // Some payment methods require a customer to be on session
+                    // // to complete the payment process. Check the status of the
+                    // // payment intent to handle these actions.
+                    // .then(handlePaymentThatRequiresCustomerAction)
+                    // // If attaching this card to a Customer object succeeds,
+                    // // but attempts to charge the customer fail, you
+                    // // get a requires_payment_method error.
+                    // .then(handleRequiresPaymentMethod)
+                    // // No more actions required. Provision your service for the user.
+                    // .then(onSubscriptionComplete)
+                    .catch((error) => {
+                        // An error has happened. Display the failure to the user here.
+                        // We utilize the HTML element we created.
+                        // showCardError(error);
+                    })
+                );
+            }
         });
-
-
-    });
-</script>
+    </script>
 {% endblock %}

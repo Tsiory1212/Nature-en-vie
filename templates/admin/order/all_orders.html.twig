@@ -147,8 +147,8 @@
 						<tbody>
 							{% for user in users %}
 							{% set ordersNotDelivred = 0 %}
-							{% for order in user.orders %}
-								{% if order.status == 0 %}
+							{% for order in user.orders %}			
+								{% if order.statusDelivry == 0 %}
 									{% set ordersNotDelivred = ordersNotDelivred + 1 %}
 								{% endif %}
 							{% endfor %}

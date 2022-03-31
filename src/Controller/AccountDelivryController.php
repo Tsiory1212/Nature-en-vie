@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Delivry;
+use App\Entity\User;
 use App\Form\OrderDelivryType;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,14 +30,16 @@ class AccountDelivryController extends AbstractController
      */
     public function account_delivry_edit(Request $request): Response
     {
-      
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
         $delivry = $user->getDelivry();
         if ($delivry == null) {
             $delivry = new Delivry();
         }
         
-        $ordersNotDelivred = $this->repoOrder->findBy(['user' => $user, 'status' => 0]);
+        $ordersNotDelivred = $this->repoOrder->findBy(['user' => $user, 'status_delivry' => 0]);
         if (count($user->getOrders()) == 0) {
            $nbrOrdersNotDelivred = 0;
         } else {

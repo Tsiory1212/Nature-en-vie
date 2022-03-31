@@ -56,7 +56,7 @@ class AdminOrderController extends AbstractController
     public function admin_user_order(User $user): Response
     {
         $userOrders = $this->repoOrder->findBy(['user' => $user]);
-        $ordersNotDelivred = $this->repoOrder->findBy(['user' => $user, 'status' => 0]);
+        $ordersNotDelivred = $this->repoOrder->findBy(['user' => $user, 'status_delivry' => 0]);
 
         return $this->render('admin/order/show_user_orders.html.twig', [
             'orders' => $userOrders,
@@ -71,7 +71,7 @@ class AdminOrderController extends AbstractController
     public function admin_user_order_deliver(User $user, Order $order): Response
     {   
         $orderUser = $this->repoOrder->findOneBy(['user' => $user, 'id' => $order->getId()]);
-        $orderUser->setStatus(1);
+        $orderUser->setStatusDelivry(1);
         $this->em->persist($orderUser);
         $this->em->flush();
         return $this->redirectToRoute('admin_user_order', ['user' => $user->getId()]);
@@ -83,7 +83,7 @@ class AdminOrderController extends AbstractController
      */
     public function admin_user_order_cart_show(Order $order, PanierService $panierService): Response
     {
-        $cart = $order->getCart();
+        $cart = $order->getCart()[0];
         
         return $this->render('admin/order/show_cart_in_order_history.html.twig', [
             'cart' => $order->getCart(),

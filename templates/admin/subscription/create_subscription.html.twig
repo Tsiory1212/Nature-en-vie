@@ -9,31 +9,26 @@
     <h1 class="text-center fw-bold">Création abonnement </h1>
     {{ form_start(form) }}
         <div class="row">
-            {% if app.request.get('error') == "null_product" %}
-                <div class="alert alert-danger text-center">
-                    Vous devez choisir un produit pour faire référence à l'abonnement
-                </div>
-            {% endif %}
-            {{ form_row(form.idProductPlanPaypal) }}
+            {{ form_row(form.name) }}
         </div>
         <div class="row">
-            {{ form_row(form.nameSubscriptionPlan) }}
+            {{ form_row(form.description) }}
         </div>
         <div class="row">
-            {{ form_row(form.descriptionSubscriptionPlan) }}
+            {{ form_row(form.detailed_description) }}
         </div>
         <div class="row">
-            {{ form_row(form.detailedDescription) }}
-        </div>
-        <div class="row">
-            {{ form_row(form.priceSubscription) }}
+            {{ form_row(form.amount) }}
         </div>
         <div class="row">
             {{ form_row(form.interval_unit) }}
         </div>
-        <div class="row">
+        {# <div class="row">
+            {{ form_row(form.trialPeriodDays) }}
+        </div> #}
+        {# <div class="row">
             {{ form_row(form.durationMonthSubscription) }}
-        </div>
+        </div> #}
         
         <button class="button button1">Créer</button>
     {{ form_end(form) }}

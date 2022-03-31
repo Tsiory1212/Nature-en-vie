@@ -7,6 +7,7 @@ use App\Form\SearchForm\UserSearchType;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use App\Repository\SubscriptionPlanRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -24,16 +25,16 @@ class AdminUserController extends AbstractController
     private $em;
     private $repoProduct;
     private $repoUser;
-    private $repoSubscription;
+    private $repoPlan;
     private $paginator;
     private $repoOrder;
 
-    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, CartSubscriptionRepository $repoSubscription, PaginatorInterface $paginator, OrderRepository $repoOrder)
+    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, SubscriptionPlanRepository $repoPlan, PaginatorInterface $paginator, OrderRepository $repoOrder)
     {
         $this->em = $em;
         $this->repoProduct = $repoProduct;
         $this->repoUser = $repoUser;
-        $this->repoSubscription = $repoSubscription;
+        $this->repoPlan = $repoPlan;
         $this->paginator = $paginator;
         $this->repoOrder = $repoOrder;
     }
@@ -45,7 +46,7 @@ class AdminUserController extends AbstractController
     {
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
-        $nbrSubscriptions = count($this->repoSubscription->findBy(['active' => 1]));
+        $nbrSubscriptions = count($this->repoPlan->findBy(['active' => 1]));
         $nbrOrders = count($this->repoOrder->findAll());
 
         $search = new UserSearch();

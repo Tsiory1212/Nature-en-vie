@@ -4,10 +4,15 @@ namespace App\Controller;
 
 use App\Entity\CartSubscription;
 use App\Entity\FactureAbonnement;
+use App\Entity\SubscriptionPlan;
 use App\Repository\CartSubscriptionRepository;
+use App\Repository\SubscriptionPlanRepository;
+use App\Service\Panier\PanierService;
 use App\Service\Paypal\PaypalService;
+use App\Service\StripeService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Plan;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,27 +21,27 @@ class SubscriptionController extends AbstractController
 {
     private $em;
     protected $paypalService;
-    protected $repoSubCart;
+    protected $repoPlan;
 
-    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, CartSubscriptionRepository $repoSubCart)
+    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, SubscriptionPlanRepository $repoPlan)
     {
         $this->em = $em;
         $this->paypalService = $paypalService;
-        $this->repoSubCart = $repoSubCart;
+        $this->repoPlan = $repoPlan;
     }
 
 
     /**
      * @Route("/abonnements", name="subscription_list")
      */
-    public function subscription_list( CartSubscriptionRepository $repoCartSubscription)
+    public function subscription_list()
     {
-        $grandPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Grand Panier', 'active' => true]);
-        $panierMoyen = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Panier Moyen', 'active' => true]);
-        $petitPanier = $repoCartSubscription->findOneBy(['nameSubscriptionPlan' => 'Petit panier', 'active' => true]);
+        $grandPanier = $this->repoPlan->findOneBy(['name' => 'Grand Panier', 'status' => 'active']);
+        $panierMoyen = $this->repoPlan->findOneBy(['name' => 'Panier Moyen', 'status' => 'active']);
+        $petitPanier = $this->repoPlan->findOneBy(['name' => 'Petit panier', 'status' => 'active']);
 
    
-        $subscriptions = $repoCartSubscription->findAll();
+        $subscriptions = $this->repoPlan->findAll();
         return $this->render('subscription/list_subscription.html.twig', [
             'subscriptions' => $subscriptions,
             'grandPanier' => $grandPanier,
@@ -48,30 +53,36 @@ class SubscriptionController extends AbstractController
     /**
      * @Route("/abonnement/{id}/show", name="cart_subscription_show")
      */
-    public function cart_subscription_show(CartSubscription $subscription, CartSubscriptionRepository $repoAbonnement): Response
+    public function cart_subscription_show(SubscriptionPlan $plan, StripeService $stripeService): Response
     {  
+        $user = $this->getUser();
         $paypal_env = $_ENV['PAYPAL_ENV'];
         $paypalClientId = $this->paypalService->clientId;
-        $paypalClientToken = $this->paypalService->getClientToken();
         
-        $idSubscriptionPlanPaypal = $repoAbonnement->find($subscription->getId())->getIdSubscriptionPlanPaypal() ;
+        if ($user) {
+            $intentSecret = $stripeService->intentSecret();
+        }else{
+            $intentSecret = '';
+        }
+
+        $inerval_unit = $plan::INTERVAL_UNIT[$plan->getIntervalUnit()];
 
         return $this->render('subscription/show_subscription.html.twig', [
-            'subscription' => $subscription,
-            'idSubscriptionPlanPaypal' => $idSubscriptionPlanPaypal,
+            'subscription' => $plan,
             'paypal_clientId' => $paypalClientId,
-            'paypal_clientToken' => $paypalClientToken,
-            'paypal_env' => $paypal_env 
+            'paypal_env' => $paypal_env,
+            'intentSecret' => $intentSecret,
+            'inerval_unit' => $inerval_unit
         ]);
     }
 
     /**
      * @Route("/account/abonnement/{id}/{subcriptionId}", name="account_subscription_cart")
      */
-    public function account_subscription_cart($id, $subcriptionId, CartSubscriptionRepository $repoCartSubscription): Response
+    public function account_subscription_cart($id, $subcriptionId): Response
     {
         $user = $this->getUser();
-        $currentCartSubscription = $repoCartSubscription->find($id);
+        $currentCartSubscription = $this->repoPlan->find($id);
         
         $facture = new FactureAbonnement();
         $facture->setSubscriptionId($subcriptionId);

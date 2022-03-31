@@ -94,7 +94,7 @@ class PanierService {
     }
 
     /**
-     * Permet de recupérer les données dans la session ("panier") et les transforment en tableau sous la forme => "ref_product" => quantity_produc
+     * Permet de recupérer les données dans la session ("panier") en les transformant en tableau sous la forme => "ref_product" => quantity_produc
      * 
      * @return array
      */
@@ -108,7 +108,7 @@ class PanierService {
         return $itemsInTab;
     }
 
-    public function getTotal() : float
+    public function getTotalPrice() : float
     {
         $total = 0;
         foreach ($this->getFullcart() as $item ) {
@@ -128,6 +128,18 @@ class PanierService {
         }
 
         return $allQuantityItem;
+    }
+
+
+    public function destroyPanierSession()
+    {
+        $panier = $this->session->get('panier');
+
+        if ($panier) {
+            $this->session->remove('panier');
+        }
+        
+        return $panier;
     }
 
 
@@ -197,10 +209,10 @@ class PanierService {
     public function getFullFavoriteCart(array $favoriteCart) : array
     {
         $panier = $favoriteCart;
-
         $panierWithData = [];
-
+        
         foreach ($panier as $ref => $quantity ) {
+            // dd($ref);
             $panierWithData[] = [
                 'product' => $this->productRepository->findOneBy(['referenceId' => $ref]),
                 'quantity' => $quantity
@@ -219,9 +231,10 @@ class PanierService {
     public function getTotalPriceFavoriteCart(array $favoriteCart) : float
     {
         $total = 0;
+        // dd($favoriteCart);
+        // dd($this->getFullFavoriteCart($favoriteCart));
 
         foreach ($this->getFullFavoriteCart($favoriteCart) as $item ) {
-            // dd($this->getFullFavoriteCart($favoriteCart));
             // dd($item['product']);
             $total += $item['product']->getPrice() * $item['quantity'];
         }

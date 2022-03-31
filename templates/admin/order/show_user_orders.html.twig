@@ -64,7 +64,7 @@
 					<td>{{ order.createdAt|date() }}</td>
 					<td> <a href="{{path('admin_user_order_cart_show', {order: order.id}) }}">Consulter</a> </td>
 					<td>
-						{% if order.status == 0 %}
+						{% if order.statusDelivry == 0 %}
 						<a href="{{ path('admin_user_order_deliver', {user: user.id, order: order.id}) }}"><i class="fas fa-spinner"></i></a>
 						{% else %}
 						<i class="fas fa-check"></i>

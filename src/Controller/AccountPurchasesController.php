@@ -11,6 +11,7 @@ use App\Repository\FavoriteCartRepository;
 use App\Repository\OrderRepository;
 use App\Service\Panier\PanierService;
 use App\Service\Paypal\PaypalService;
+use App\Service\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +76,7 @@ class AccountPurchasesController extends AbstractController
 
         return $this->render('purchases/order.html.twig', [
             'items' => $panierService->getFullcart(),
-            'total' => $panierService->getTotal(),
+            'total' => $panierService->getTotalPrice(),
             'allQuantityItem' => $panierService->allQuantityItem(),
             'myDelivryInfo' => $myDelivryInfo,
             'myLastFavCart' => $myLastFavCart,
@@ -88,8 +89,18 @@ class AccountPurchasesController extends AbstractController
     /**
      * @Route("/account/order/step/one", name="account_order_step_one")
      */
-    public function account_order_step_one(PanierService $panierService, Request $request): Response
+    public function account_order_step_one(PanierService $panierService, Request $request, StripeService $stripeService): Response
     {
+
+
+        // dd(
+        //     // $stripeService->getProduct('prod_LPTckQKPmapPIT'),
+        //     // $stripeService->allSubscriptions(),
+        //     // $stripeService->allCustomers()
+        //     $stripeService->allPlans(10)
+        // );
+
+
         $user = $this->getUser();
         $myDelivryInfo = $this->repoDelivry->findOneBy(['user' => $user]);
         $myLastFavCart = $this->repoFavCart->findBy(['user' =>  $user], ['id'=>'DESC'],1,0);
@@ -115,7 +126,7 @@ class AccountPurchasesController extends AbstractController
 
         return $this->render('purchases/order_step/order_step_one.html.twig', [
             'items' => $panierService->getFullcart(),
-            'total' => $panierService->getTotal(),
+            'total' => $panierService->getTotalPrice(),
             'allQuantityItem' => $panierService->allQuantityItem(),
             'myDelivryInfo' => $myDelivryInfo,
             'myLastFavCart' => $myLastFavCart,
@@ -150,32 +161,27 @@ class AccountPurchasesController extends AbstractController
     /**
      * @Route("/account/order/step/three", name="account_order_step_three")
      */
-    public function account_order_step_three(PanierService $panierService): Response
+    public function account_order_step_three(PanierService $panierService, StripeService $stripeService): Response
     {
+
         /**
          * @var User $user
          */
         $user = $this->getUser();
-        $paypal_client_id = $this->paypalService->clientId;
-        $paypal_env =  $_ENV['PAYPAL_ENV'];
-        $paypal_env_endpoint = $this->paypalService->env;
-        $paypal_email_marchand = $_ENV['PAYPAL_EMAIL_MARCHAND'];        
-        $rootPathApp = $this->paypalService->rootPathApp;
 
-        if (is_null($this->session->get('panier'))){
+        if ($this->session->get('panier') == null){
             return  $this->redirectToRoute("account_order_step_one", ['error' => 'empty_cart']);
         }else if ($user->getDelivry() == null) {
             return  $this->redirectToRoute("account_order_step_two", ['error' => 'empty_delivry']);
         }
 
+        $intentSecret = $stripeService->intentSecret();
+
         return $this->render('purchases/order_step/order_step_three.html.twig', [
             'items' => $panierService->getFullcart(),
-            'total' => $panierService->getTotal(),
-            'paypal_client_id' => $paypal_client_id,
-            'paypal_env' => $paypal_env,
-            'paypal_env_endpoint' => $paypal_env_endpoint,
-            'paypal_email_marchand' => $paypal_email_marchand,
-            'rootPathApp' => $rootPathApp
+            'total' => $panierService->getTotalPrice(),
+            'intentSecret' => $intentSecret,
+
         ]);
     }
     
@@ -197,7 +203,7 @@ class AccountPurchasesController extends AbstractController
      */
     public function account_order_cart_show(Order $order, PanierService $panierService): Response
     {
-        $cart = $order->getCart();
+        $cart = $order->getCart()[0];
         
         return $this->render('purchases/show_cart_in_order_history.html.twig', [
             'cart' => $order->getCart(),

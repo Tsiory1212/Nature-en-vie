@@ -2,24 +2,25 @@
 namespace App\Service\Paypal;
 
 use App\Repository\CartSubscriptionRepository;
+use App\Repository\SubscriptionPlanRepository;
 use Exception;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PaypalService  
 {
     public $clientId;
-    public $secret;
+    private $secret;
     public $env;
     public $rootPathApp;
     public $idSubscriptionPlanPaypal;
-    private $repoCartSubscription;
+    private $repoPlan;
     private $router;
 
 
-    public function __construct(CartSubscriptionRepository $repoCartSubscription, UrlGeneratorInterface $router)
+    public function __construct(SubscriptionPlanRepository $repoPlan, UrlGeneratorInterface $router)
     {
         $this->router = $router;
-        $this->repoCartSubscription = $repoCartSubscription;
+        $this->repoPlan = $repoPlan;
 
         if ($_ENV['PAYPAL_ENV'] == 'sandbox')  {
             $this->clientId = $_ENV['PAYPAL_SANDBOX_CLIENT_ID'];
@@ -391,7 +392,7 @@ class PaypalService
      */
     public function getPlanSubscriptionAfterCondition()
     {
-        $activePlansInBd = $this->repoCartSubscription->findBy(['active' => 1]);
+        $activePlansInBd = $this->repoPlan->findBy(['status' => 'active']);
         $plansIdInApi = [];
         foreach ($this->getAllSubscriptionPlanInProduct() as $plan) {
             $plansIdInApi[] = $plan['id'];
@@ -399,7 +400,7 @@ class PaypalService
         
         $plansAfterCondition = [];
         foreach ($activePlansInBd as $plan) {
-            if (in_array($plan->getIdSubscriptionPlanPaypal(), $plansIdInApi) ) {
+            if (in_array($plan->getPlanIdStripe(), $plansIdInApi) ) {
                 $plansAfterCondition[] = $plan;
             }
         }
@@ -837,9 +838,9 @@ class PaypalService
     public function plan_isInActivePlans($namePlan)
     {
         $testResults = [];
-        $activePlansInBd = $this->repoCartSubscription->findBy(['active' => 1]);
+        $activePlansInBd = $this->repoPlan->findBy(['status' => 'active']);
         foreach ($activePlansInBd as $activePlan) {
-            if ($namePlan === $activePlan->getNameSubscriptionPlan()) {
+            if ($namePlan === $activePlan->getName()) {
                 $testResults[] = true;
             } else {
                 $testResults[] = false;

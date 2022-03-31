@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{subscription.nameSubscriptionPlan}} {% endblock %}
+{% block title %} {{subscription.name}} {% endblock %}
 
 {% block stylesheets %}
     <!-- <link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"/> -->
@@ -111,97 +111,34 @@
         <div class="col-md-4 col-lg-4">
             <div class="text-center">
                 <div class="card-body">
-                    <!-- <div class="fond-name-subscription"> {{ subscription.nameSubscriptionPlan }} </div> -->
-                        {% if subscription.nameSubscriptionPlan == "Grand panier" and subscription.active == true  %}                            
+                    <!-- <div class="fond-name-subscription"> {{ subscription.name }} </div> -->
+                        {% if subscription.name == "Grand panier" and subscription.status == 'active'  %}                            
                             <img src="/assets/images/cartSubscription/name-and-price-grand-panier.png" Class="name-and-price-cart" alt="image grand panier" width="270" >
-                        {% elseif subscription.nameSubscriptionPlan == "Panier moyen" and subscription.active == true %}
+                        {% elseif subscription.name == "Panier moyen" and subscription.status == 'active' %}
                         <img src="/assets/images/cartSubscription/name-and-price-moyen-panier.png" alt="image grand panier" width="335">
-                        {% elseif subscription.nameSubscriptionPlan == "Petit panier" and subscription.active == true %}
+                        {% elseif subscription.name == "Petit panier" and subscription.status == 'active' %}
                             <img src="/assets/images/cartSubscription/name-and-price-petit-panier.png" alt="image petit panier" width="280" >
                         {% else %}
                             Prix et nom du panier
                         {% endif %}
 
-                    {# <h1 class="font-bg-stylized-2 text-white fw-bold" >{{ subscription.nameSubscriptionPlan }}</h1> #}
+                    {# <h1 class="font-bg-stylized-2 text-white fw-bold" >{{ subscription.name }}</h1> #}
                     <div class="row mt-5">
                         <div class="col-12">
-                            {% if subscription.nameSubscriptionPlan == "Grand panier" and subscription.active == true %}
+                            {% if subscription.name == "Grand panier" and subscription.status == 'active' %}
                                 <img src="/assets/images/cartSubscription/cover-grand-panier.png" alt="image grand panier" width="335" class="rotate" style="margin-top: -72px;">
-                            {% elseif subscription.nameSubscriptionPlan == "Panier moyen" and subscription.active == true %}
+                            {% elseif subscription.name == "Panier moyen" and subscription.status == 'active' %}
                                 <img src="/assets/images/cartSubscription/cover-moyen-panier.png" alt="image panier moyen" width="335"  style="margin-top: -72px;">
-                            {% elseif subscription.nameSubscriptionPlan == "Petit panier" and subscription.active == true %}
+                            {% elseif subscription.name == "Petit panier" and subscription.status == 'active' %}
                                 <img src="/assets/images/cartSubscription/cover-petit-panier.png" alt="image petit panier" width="335"  style="margin-top: -42px;" class="rotate">
                             {% else %}
                                 <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="335">
                             {% endif %}
                             <img src="/assets/images/demeter.jpg" class="partner-logo"  width="50">
-                            
                         </div>
-                        {# <div class="col-4 engagement-card" style="z-index: 50;">
-                            <div class="fond-price-subscription">
-                                {{subscription.priceSubscription}}€
-                            </div>
-                            <span class="interval_unit position-absolute"> /semaine </span>
-                        </div> #}
-                        <!-- <h6>Engagement pendant {{subscription.durationMonthSubscription}} MOIS </h6> -->
                     </div>
                     <div class="bnt-purchase mt-5">
-                        {% if app.user %}
-                            <div class="paypal-button-block">
-                                <div id="paypal-button-container"></div>
-                                {% if app.user.delivry %}
-                                    <!-- <div align="center"> or </div> -->
-                                    <!-- Advanced credit and debit card payments form -->
-                                    <div class="card_container d-none">
-                                        <form id="card-form">
-                                            <label for="card-number">Numéro de carte</label><div id="card-number" class="card_field"></div>
-                                            <div>
-                                                <label for="expiration-date">Expiration Date</label>
-                                                <div id="expiration-date" class="card_field"></div>
-                                            </div>
-    
-                                            <div>
-                                                <label for="cvv">CVV</label><div id="cvv" class="card_field"></div>
-                                            </div>
-    
-                                            <div class="optional-form d-none">
-                                                <label for="card-holder-name">Name on Card</label>
-                                                <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off" placeholder="card holder name" value="{{app.user.fullName}}"/>
-            
-                                                <div>
-                                                    <label for="card-billing-address-street">Billing Address</label>
-                                                    <input type="text" id="card-billing-address-street" name="card-billing-address-street" autocomplete="off" placeholder="street address" value="{{app.user.delivry.address}}"/>
-                                                </div>
-            
-                                                <div>
-                                                    <label for="card-billing-address-unit">&nbsp;</label>
-                                                    <input type="text" id="card-billing-address-unit" name="card-billing-address-unit" autocomplete="off" placeholder="unit" value="Unit"/>
-                                                </div>
-            
-                                                <div>
-                                                    <input type="text" id="card-billing-address-city" name="card-billing-address-city" autocomplete="off" placeholder="city"/ value="test city">
-                                                </div>
-            
-                                                <div>
-                                                    <input type="text" id="card-billing-address-state" name="card-billing-address-state" autocomplete="off" placeholder="state"/ value="test state">
-                                                </div>
-            
-                                                <div>
-                                                    <input type="text" id="card-billing-address-zip" name="card-billing-address-zip" autocomplete="off" placeholder="zip / postal code" value="{{app.user.delivry.postalcode}}"/>
-                                                </div>
-            
-                                                <div>
-                                                    <input type="text" id="card-billing-address-country" name="card-billing-address-country" autocomplete="off" placeholder="country code" value="FR"/>
-                                                </div>
-                                            </div>
-    
-                                            <br/><br/>
-                                            <button value="submit" id="submit" class="btn btn-success">Payer</button>
-                                        </form>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endif %}
+                       
                     </div>
                 </div>
             </div>
@@ -209,7 +146,7 @@
         
         <div class="col-md-8 col-lg-8 py-5 col-PayPal-button">
             <h1 class="third-line text-start fw-bolder cart-name-subscriptionPlan">
-                {{ subscription.nameSubscriptionPlan}} des fruits et légumes bio
+                {{ subscription.name}} des fruits et légumes bio
                 {# {{ subscription.descriptionSubscriptionPlan}} #}
             </h1> 
             <hr>
@@ -217,13 +154,21 @@
             <div class="row mb-3">
                 <div class="col-3"><i class="fa-solid fa-calendar-days fa-4x" style="color: #00800094;"></i></div>
                 <div class="col float-start">
-                    <h3 class="fw-bolder" style="color: rgba(255, 0, 0, 0.822);"><span>Aujourd'hui</span> &ensp;&ensp; <span class="ms-4">{{subscription.priceSubscription}}€</span></h3>
-                    <h3 class="fw-bolder"><span>Dans 1 mois</span>  <span class="ms-5">{{subscription.priceSubscription}}€</span></h3>
-                    <h3 class="fw-bolder"><span>Dans 2 mois</span> <span class="ms-5">{{subscription.priceSubscription}}€</span></h3>
+                    <h3 class="fw-bolder" style="color: rgba(255, 0, 0, 0.822);"><span>Aujourd'hui</span> &ensp;&ensp; <span class="ms-4">{{subscription.amount}}€</span></h3>
+                    <h3 class="fw-bolder"><span>Dans 1 mois</span>  <span class="ms-5">{{subscription.amount}}€</span></h3>
+                    <h3 class="fw-bolder"><span>Dans 2 mois</span> <span class="ms-5">{{subscription.amount}}€</span></h3>
                     <h3 class="fw-bolder">Et ainsi de suite … </h3>
                 </div>
             </div>
-            {% if not app.user %}
+            {% if app.user %}
+                <form id="subscription-payment-form">
+                    <div id="card-elements">
+                    </div>
+                
+                    <div id="card-errors" role="alert"></div>
+                    <button id="sub-card-button-submit" class="button button1 mt-4" type="submit"><span id="label_subscribe">Souscrire</span>  {{subscription.amount}}€/ <span id="label_interval_unit">{{ inerval_unit }}</span> </button>
+                </form>
+            {% else %}
                 <a href="{{ path('dashboard') }}" class="button button1 ">Ajouter au panier</a>
             {% endif %}
             
@@ -234,207 +179,162 @@
         </div>
     </div>
 
+
 {% endblock %}
 
 
 {% block javascripts %}
     {% if app.user %}
-        <script src="https://www.paypal.com/sdk/js?client-id={{paypal_clientId}}&vault=true"> </script>
-        {# <script src="https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id={{paypal_clientId}}&vault=true&intent=subscription" data-client-token="{{paypal_clientToken}}" ></script> #}
+        <script src="https://js.stripe.com/v3/"></script>
 
+    {% if app.user %}
         <script>
-            var paypal_env = "{{paypal_env}}";
+            $(function() {
+                // Déclaration des variables
+                {% if stripe_environement == 'test' %}
+                    var stripeToken = "{{ stripe_publishable_key_test }}"
+                {% else %}
+                    var stripeToken = "{{ stripe_publishable_key_live }}"
+                {% endif %}
 
-            paypal.Buttons({
-                env: paypal_env,
-                style: {
-                    label: 'subscribe'
-                },
-                createSubscription: function (data, actions) {
-                    return actions.subscription.create({
-                        'plan_id': "{{idSubscriptionPlanPaypal}}"
-                    });
-                },
-                onApprove: function (data, actions) {
-                    console.log('eto data', data);
-                    console.log('eto action', actions);
+                var stripe = Stripe(stripeToken);
+                var elements = stripe.elements();
+                var clientSecret = "{{ intentSecret }}";
+                var stripePriceId = "{{ subscription.priceIdStripe}}";
+                var planSubscriptionName = "{{ subscription.name}}";
+                var planSubscriptionId = "{{ subscription.id}}";
+                var cardHolderName = "{{ app.user.lastname }}";
+                var cardHolderEmail = "{{ app.user.email }}";
+                var CardHolderPostalCcode = "{{ app.user.delivry.postalCode }}";
+                var displayError = $('#card-errors');
+                
+                var styleCustom ={
+                    base: {
+                        fontSize: '16px',
+                        fontWeight: '500',
+                        fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+                        color: '#2532d'
+                    },
+                    invalid: {
+                        iconColor: '#FFC7EE',
+                        color: '#FFC7EE',
+                    }
+                }
 
-                    // subscription.id => id de la carte d'abonnement sur l'entity
-                    // subscriptionID => id du plan d'abonnement dans PayPal 
-                    const url = "/account/abonnement/"+{{subscription.id}}+"/"+data.subscriptionID;
-                    
-                    axios.post(url)
-                        .then(function(response){                            
-                            if(response.data.code == '200'){
-                                alert('Subscription successfull')
+                // Monter notre form à l'objet Stripe 
+                var card = elements.create('card', {style: styleCustom});
+                card.update({value: {postalCode: CardHolderPostalCcode}});
+
+                card.mount("#card-elements");
+
+                // Message Error 
+                card.on('change', function(event) {
+
+                    if (event.error) {
+                        displayError.addClass('alert alert-danger');
+                        displayError.text(event.error.message);
+
+                    } else {
+                        displayError.removeClass('alert alert-danger');
+                        displayError.text('')
+                    }
+                })
+
+                // Gestion du form
+                var sub_cardButton = $('#sub-card-button-submit');
+                var formSub = $('#subscription-payment-form');
+                formSub.on('submit', function(event){
+                    event.preventDefault();
+                    sub_cardButton.html('<div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div>');
+                    sub_cardButton.attr('disabled', true);
+
+
+                    stripe.handleCardPayment(
+                        clientSecret,
+                        card,
+                        {
+                            payment_method_data: {
+                                billing_details: {
+                                    name : cardHolderName,
+                                    email : cardHolderEmail
+                                }
+                            }
+                        }
+                    ).then((result) => {
+                        if (result.error) {
+                            displayError.addClass('alert alert-danger');
+                            displayError.text(result.error.message);
+                            console.log(sub_cardButton);
+                            sub_cardButton.text('Souscrire');
+                            sub_cardButton.attr('disabled', false);
+
+                        }else if('paymentIntent' in result){
+                            sub_cardButton.attr('disabled', true);
+
+                            createPaymentMethod(card);
+            
+
+                        }
+                    })  
+                }) 
+
+
+                function createPaymentMethod(cardElement) {
+                    return stripe
+                        .createPaymentMethod({
+                            type: 'card',
+                            card: cardElement,
+                        })
+                        .then((result) => {
+                            if (result.error) {
+                                displayError(error);
+                            } else {
+                                createSubscription({
+                                    paymentMethodId: result.paymentMethod.id
+                                });
+                            }
+                        });
+                }
+
+
+
+                function createSubscription({paymentMethodId}) {
+                    var data = {
+                        "stripePriceId": stripePriceId,
+                        "paymentMethodId": paymentMethodId,
+                        "planSubscriptionName": planSubscriptionName,
+                        "planSubscriptionId": planSubscriptionId
+                    };
+                    var urlSubscription = "{{ path('account_stripe_subscription_plan') }}";
+                    return (
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            url: urlSubscription,
+                            data: JSON.stringify({data}),
+                            dataType  : 'json',
+                            headers: { 
+                                'Content-type': 'application/json'
+                            },
+                            success :  function(result){
+                                successUrl = "{{ path('dashboard') }}";
+                                return document.location.href = successUrl;
+                            },
+                            error: function(error){
+                                console.log('error', error)
+                                
+                                sub_cardButton.text('Souscrire');
+                                sub_cardButton.attr('disabled', false);
+                                displayError.addClass('alert alert-danger');
+                                displayError.text('Une erreur s\'est survenue');
                             }
                         })
-                },
-                onCancel: function (data) {
-                    alert("Abonnement annulé : vous avez fermé la fenêtre de paiement.");
-                },
-                onError: function (err) {
-                    alert("Abonnement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+                    );
                 }
-            }).render('#paypal-button-container');
-
-
-
-
-
-
-            // If this returns false or the card fields aren't visible, see Step #1.
-            if (paypal.HostedFields.isEligible()) {
-                let subscriptionId;
-                let link;
-                
-                let planId = "{{subscription.idSubscriptionPlanPaypal}}";
-                let emailAddress = "{{app.user.email}}";
-                let userFullName = "{{app.user.fullName}}";
-                let adress = $('#card-billing-address-street').val()
-                let countryCode = $('#card-billing-address-country').val()
-               
-                // Renders card fields
-                paypal.HostedFields.render({ 
-                    // Call your server to set up the transaction
-                  
-                    createOrder: function () {
-                        var url = '/account/paypal/subscription/create/'+planId+'/'+emailAddress+'/'+userFullName+'/'+adress+'/'+countryCode;
-                        return fetch(url, {
-                            method: 'post'
-                        }).then(function(res) {
-                            return res.json();
-                        }).then(function(subscriptionData) {
-                            subscriptionId = subscriptionData.subscriptionId;
-                             link = subscriptionData.links['0'].href;
-
-                            return subscriptionId;
-                            
-                        });
-                    },
-                    styles: {
-                        '.valid': {
-                            'color': 'green'
-                        },
-                        '.invalid': {
-                            'color': 'red'
-                        }
-                    },
-                    fields: {
-                        number: {
-                            selector: "#card-number",
-                            placeholder: "4111 1111 1111 1111"
-                        },
-                        cvv: {
-                            selector: "#cvv",
-                            placeholder: "123"
-                        },
-                        expirationDate: {
-                            selector: "#expiration-date",
-                            placeholder: "MM/YY"
-                        }
-                    }
-                }).then(function (cardFields) {  
-                    document.querySelector("#card-form").addEventListener('submit', (event) => {
-                        event.preventDefault();
-                        // Simulate a mouse click:
-                        // return window.location.href = link;
-                        // return window.location.replace(link);
-
-                        // const url = '/test/show/detail/subcription/'+subscriptionId;
-                        // fetch(url, {
-                        //     method: 'post'
-                        // }).then(function(res) {
-                        //     return res.json();
-                        // }).then(function (orderData) {
-                        //    return window.location.replace(orderData.links[href]);
-                        // });
-
-
-                        cardFields.submit({
-                            // Cardholder's first and last name
-                            cardholderName: document.getElementById('card-holder-name').value,
-                            // Billing Address
-                            billingAddress: {
-                                // Street address, line 1
-                                streetAddress: document.getElementById('card-billing-address-street').value,
-                                // Street address, line 2 (Ex: Unit, Apartment, etc.)
-                                extendedAddress: document.getElementById('card-billing-address-unit').value,
-                                // State
-                                region: document.getElementById('card-billing-address-state').value,
-                                // City
-                                locality: document.getElementById('card-billing-address-city').value,
-                                // Postal Code
-                                postalCode: document.getElementById('card-billing-address-zip').value,
-                                // Country Code
-                                countryCodeAlpha2: document.getElementById('card-billing-address-country').value
-                            }
-                        }).then(function () {
-
-                            // const url = '/test/show/detail/subcription/'+subscriptionId;
-                            // fetch(url, {
-                            //     method: 'post'
-                            // }).then(function(res) {
-                            //     return res.json();
-                            // }).then(function (orderData) {
-                            // return window.location.replace(orderData.links[href]);
-                            // });
-
-
-
-                            // // var original_url = '/your-server/api/order/' + subscriptionId + '/capture/';
-                            // var test_url = '/test/deux/card/credit/paypal/'+subscriptionId;
-                            
-                            // // subscription.id => id de la carte d'abonnement sur l'entity
-                            // // subscriptionID => id du plan d'abonnement dans PayPal 
-                            // // const url = "/account/abonnement/"+{{subscription.id}}+"/"+data.subscriptionID;
-                            // const url = '/test/show/detail/subcription/'+subscriptionId;
-                            
-                          
-
-
-
-                            // fetch(url, {
-                            //     method: 'post'
-                            // }).then(function(res) {
-                            //     return res.json();
-                            // }).then(function (orderData) {
-                            //     // Three cases to handle:
-                            //     //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-                            //     //   (2) Other non-recoverable errors -> Show a failure message
-                            //     //   (3) Successful transaction -> Show confirmation or thank you
-
-                            //     // This example reads a v2/checkout/orders capture response, propagated from the server
-                            //     // You could use a different API or structure for your 'orderData'
-                            //     var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
-                            //     if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
-                            //     return actions.restart(); // Recoverable state, per:
-                            //     // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
-                            //     }
-
-                            //     if (errorDetail) {
-                            //         var msg = 'Sorry, your transaction could not be processed.';
-                            //         if (errorDetail.description) msg += '\n\n' + errorDetail.description;
-                            //         if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
-                            //         return alert(msg); // Show a failure message
-                            //     }
-                            //     // Show a success message or redirect
-                            //     alert('Transaction completed!');
-                            // })
-                        }).catch(function (err) {
-                            return window.location.replace(link);
-
-                            // console.log( JSON.stringify(err));
-                            // alert('Le paiement n a pas pu être capturé ! ' + JSON.stringify(err))
-                            // console.log(err)
-                        });
-                    });
-                });
-            } else {
-                // Hides card fields if the merchant isn't eligible
-                document.querySelector("#card-form").style = 'display: none';
-            }
+            });
         </script>                           
+    {% endif %}
+    
     {% endif %}
 {% endblock %}
 

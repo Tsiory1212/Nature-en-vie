@@ -1,6 +1,10 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes: ['bootstrap_4_layout.html.twig']
+    globals: 
+        stripe_environement : '%env(STRIPE_ENV)%'
+        stripe_publishable_key_test: '%env(STRIPE_PUBLISHABLE_KEY_TEST)%'
+        stripe_public_key_live: '%env(STRIPE_PUBLISHABLE_KEY_LIVE)%'
 
 when@test:
     twig:

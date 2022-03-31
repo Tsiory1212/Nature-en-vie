@@ -62,10 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $phone;
 
-    /**
-     * @ORM\OneToMany(targetEntity=FactureAbonnement::class, mappedBy="user")
-     */
-    private $factureAbonnements;
 
     /**
      * @ORM\OneToMany(targetEntity=FavoriteCart::class, mappedBy="user", orphanRemoval=true)
@@ -83,11 +79,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $stripe_customer_id;
+
     public function __construct()
     {
-        $this->factureAbonnements = new ArrayCollection();
         $this->favoriteCarts = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->created_at = new \Datetime();
+        $this->updated_at = new \Datetime();
     }
 
     public function getId(): ?int
@@ -215,35 +227,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|FactureAbonnement[]
-     */
-    public function getFactureAbonnements(): Collection
-    {
-        return $this->factureAbonnements;
-    }
 
-    public function addFactureAbonnement(FactureAbonnement $factureAbonnement): self
-    {
-        if (!$this->factureAbonnements->contains($factureAbonnement)) {
-            $this->factureAbonnements[] = $factureAbonnement;
-            $factureAbonnement->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFactureAbonnement(FactureAbonnement $factureAbonnement): self
-    {
-        if ($this->factureAbonnements->removeElement($factureAbonnement)) {
-            // set the owning side to null (unless already changed)
-            if ($factureAbonnement->getUser() === $this) {
-                $factureAbonnement->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|FavoriteCart[]
@@ -326,5 +310,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function fullName()
     {
         return $this->lastname . $this->firstname;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getStripeCustomerId(): ?string
+    {
+        return $this->stripe_customer_id;
+    }
+
+    public function setStripeCustomerId(?string $stripe_customer_id): self
+    {
+        $this->stripe_customer_id = $stripe_customer_id;
+
+        return $this;
     }
 }

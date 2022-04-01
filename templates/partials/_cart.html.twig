@@ -22,7 +22,7 @@
                             {% endif %}
                         </a>
                     </td>
-                    <td> {{ item.product.name }} </td>
+                    <td> {{ item.product.name }} {% if item.product.packaging > 1 %} ---{{ item.product.packaging }} {{ item.product.quantityUnit }}---{% endif %}</td>
                     <td> {{ item.product.price }} € </td>
                     <td> x<span class="item_quantity"> {{ item.quantity }}</span> </td>
                     <td> {{ item.product.price * item.quantity }} € </td>

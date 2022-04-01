@@ -33,15 +33,22 @@
                     </label>
                     {{ form_widget(form.referenceId, { 'attr' : { 'placeholder' : 'Réference du produit'} } ) }}
                 {% endif %}
+                {{ form_row(form.refCode) }}
                 {{ form_row(form.name) }}
-                {{ form_row(form.price, {'attr' : {'type' : 'number'}}) }}
-                {{ form_row(form.weight) }}
-                {{ form_row(form.quantity) }}
+                {{ form_row(form.packaging) }}
+                {{ form_row(form.price) }}
+                {{ form_row(form.price_acn_allier) }}
+                {# {{ form_row(form.quantity) }} #}
+                {{ form_row(form.quantity_unit) }}
+                {{ form_row(form.volume) }}
                 {{ form_row(form.detail) }}
                 {{ form_row(form.description) }}
+                {{ form_row(form.availability) }}
             </div>
             <div class="col-md-4">
                 {{ form_row(form.category) }}
+                {{ form_row(form.product_type_label) }}
+                {{ form_row(form.origin_production) }}
                 {{ form_row(form.classement) }}
                 {{ form_row(form.gamme) }}
             </div>

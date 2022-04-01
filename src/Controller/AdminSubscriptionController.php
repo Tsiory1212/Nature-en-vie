@@ -8,6 +8,7 @@ use App\Form\CartSubscriptionType;
 use App\Form\SubscriptionPlanType;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\FactureAbonnementRepository;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SubscriptionPlanRepository;
 use App\Repository\UserRepository;
@@ -33,16 +34,17 @@ class AdminSubscriptionController extends AbstractController
     private $repoPlan;
     private $repoProduct;
     private $repoUser;
-
     protected $stripeService;
+    protected $repoOrder;
 
-    public function __construct(EntityManagerInterface $em, SubscriptionPlanRepository $repoPlan, ProductRepository $repoProduct, UserRepository $repoUser, StripeService $stripeService)
+    public function __construct(EntityManagerInterface $em, SubscriptionPlanRepository $repoPlan, ProductRepository $repoProduct, UserRepository $repoUser, StripeService $stripeService, OrderRepository $repoOrder)
     {
         $this->em = $em;
         $this->repoPlan = $repoPlan;
         $this->repoProduct = $repoProduct;
         $this->repoUser = $repoUser;
         $this->stripeService = $stripeService;
+        $this->repoOrder = $repoOrder;
     }
 
 
@@ -276,12 +278,13 @@ class AdminSubscriptionController extends AbstractController
      * 
      * @Route("/subscribers/plan/{id}", name="admin_subscriber_plan_list")
      */
-    public function admin_subscriber_plan_list(CartSubscription $cartSubscription): Response
+    public function admin_subscriber_plan_list(SubscriptionPlan $plan): Response
     {
-        // $factures = $this->repoFactureAbonnement->findBy(['cartSubscription' => $cartSubscription]);
+
+        $orders = $this->repoOrder->findBy(['subscription_plan' => $plan->getId()]);
 
         return $this->render('admin/subscription/list_subscriber.html.twig', [
-            // 'factures' => $factures
+            'orders' => $orders
         ]);
     }
 

@@ -72,7 +72,10 @@
                                 </ul>
                             </div>
                             <div class="product-attribute">
-                                <h3 class="title">{{currentProduct.name}}</h3>
+                                <h3 class="title">
+                                    {{currentProduct.name}} <br>
+                                    {% if currentProduct.packaging > 1 %} [{{ currentProduct.packaging }} {{ currentProduct.quantityUnit }}] {% endif %}
+                                </h3>
                                 {# <div class="rating">
                                     <p class="star-rating"><span class="width-80percent"></span></p>
                                     <span class="review-count">(04 Reviews)</span>
@@ -82,15 +85,29 @@
                                 <span class="sku">Ref: {{currentProduct.referenceId}}</span>
                                 <p class="excerpt">{{currentProduct.detail|nl2br}}</p>   
                                 <div class="price">
-                                    <ins><span class="price-amount">{{currentProduct.price}} <span class="currencySymbol">€</span></span></ins>
+                                    <span class="price-amount" style="font-size: 20px">
+                                        {% if currentProduct.packaging > 1 %} 
+                                            Gros : {{ currentProduct.price}} € <br>
+                                            Unité : {{ (currentProduct.price  / currentProduct.packaging)|number_format(2) }} €/{{ currentProduct.quantityUnit }}
+                                        {% else %}
+                                            {{ currentProduct.price}} €
+                                        {% endif %}
+                                    </span>
+                                    {# <ins><span class="price-amount">{{currentProduct.price}} <span class="currencySymbol">€</span></span></ins>
                                     {% if currentProduct.weight > 1 %}
                                         NB : {{ currentProduct.price / currentProduct.weight }} par Kilo
                                     {% else %}
                                        <span class="price-amount">/ {{currentProduct.weight}} Kg</span>
-                                    {% endif %}
+                                    {% endif %} #}
                                 </div>
                             </div>
-                            {% if app.user %}
+                                <div class="action-form">
+                                    {{currentProduct.description}}
+                                </div>
+
+
+
+                            {% if app.user.lastname == 'sfdf'  %}
                                 <div class="action-form">
                                     <div class="quantity-box">
                                         <span class="title">Quantité:</span>
@@ -141,7 +158,7 @@
                                         </ul>
                                     </div> #}
                                 </div>
-                            {% else %}
+                            {% elseif app.user.lastname == 'sfdsf' %}
                                 <div class="action-form">
                                     {{currentProduct.description}}
                                 </div>

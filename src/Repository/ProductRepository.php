@@ -23,12 +23,16 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
-     *
+     * Permet de récupérer les produits disponibles ou non-disponible
      * @return Query
      */
-    public function findAllVisibleQuery(ProductSearch $search): Query
+    public function findAllQuery(ProductSearch $search, $availableProduct = true): Query
     {
-        $query = $this->findVisibleQuery();
+        if ($availableProduct === true) {
+            $query = $this->findAvailableProductQuery();
+        }else {
+            $query = $this->createQueryBuilder('p');
+        }
 
         if ($search->getName()) {
             $query = $query
@@ -73,6 +77,8 @@ class ProductRepository extends ServiceEntityRepository
         return $query->getQuery();
     }
 
+ 
+
     /**
      * @return Product[] Returns an array of Product objects
      */
@@ -87,6 +93,8 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     
+
+
 
     // /**
     //  * @return Product[] Returns an array of Product objects
@@ -117,11 +125,11 @@ class ProductRepository extends ServiceEntityRepository
     }
     */
     
-    private function findVisibleQuery() : QueryBuilder
+    private function findAvailableProductQuery() : QueryBuilder
     {
         return $this->createQueryBuilder('p')
         // à revoir 
-        // ->where('p.sold = false')
+        ->where('p.availability = true')
         // ->orderBy('p.name', 'ASC')
         ;
     }

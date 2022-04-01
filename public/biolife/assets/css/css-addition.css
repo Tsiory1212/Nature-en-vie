@@ -2574,11 +2574,11 @@ input.biolife-input__rounded {
   display: block;
   height: 695px;
   overflow: hidden;
-  background: #fff url( ../images/home-10/slide-01.jpg) no-repeat center center;
+  background: #fff url( ../images/home-10/ferme-slide-01.png) no-repeat center center;
   position: relative;
 }
 .biolife-slide__ten--elm-02{
-  background: #fff url( ../images/home-10/slide-02.jpg) no-repeat center center;
+  background: #fff url( ../images/home-10/ferme-slide-02.png) no-repeat center center;
 }
 .biolife-slide__ten .text-content{
   display: block;
@@ -2599,10 +2599,11 @@ input.biolife-input__rounded {
   display: block;
   margin: 0;
   font-family: 'Alex Brush', cursive;
-    font-size: 180px;
-    line-height: 62px;
-    color: #ffffff;
-    font-weight: 400;
+  font-size: 55px;
+  line-height: 62px;
+  color: #ffffff;
+  font-weight: 400;
+  margin-top: -333px;
 }
 .biolife-slide__ten .text-content .second-line{
   display: block;
@@ -2622,8 +2623,8 @@ input.biolife-input__rounded {
   font-size: 15px;
   line-height: 24px;
   color: #fff;
-    margin-top: 47px;
-    max-width: 440px
+  margin-top: 47px;
+  /* max-width: 440px */
 }
 .biolife-slide__ten .text-content .buttons{
   display: block;

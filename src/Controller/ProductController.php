@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
+    /** @var ProductRepository $repoProduct */
     protected $repoProduct;
     protected $repoCategory;
     protected $paginator;
@@ -42,7 +43,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         $products = $this->paginator->paginate(
-            $this->repoProduct->findAllVisibleQuery($search),
+            $this->repoProduct->findAllQuery($search),
             $request->query->getInt('page', 1),
             30
         );
@@ -68,7 +69,7 @@ class ProductController extends AbstractController
             ], 301);
         }
 
-        $relatedProducts = $this->repoProduct->findBy(['category' => $currentProduct->getCategory()], null, 11);
+        $relatedProducts = $this->repoProduct->findBy(['category' => $currentProduct->getCategory(), 'availability' => true], null, 11);
         $panier = $session->get('panier', []);
         $quantity_item = 0;
         $categories_in_navbar = $this->repoCategory->findAll();

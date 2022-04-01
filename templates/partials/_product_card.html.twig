@@ -11,33 +11,27 @@
         <a class="js-quick-view-block lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
     </div>
     <div class="info">
-        <b class="categories">{{ product.category.name}}</b>
-        <h4 class="product-title"><a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="pr-name">{{ product.name}}</a></h4>
-        <h4 class="product-description visually-hidden">{{product.description}}</h4>
+        <b class="categories">{{ product.category.name}} </b>
+        <h4 class="product-title"><a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="pr-name">{{ product.name}} {% if product.packaging > 1 %} [{{product.packaging}} {{product.quantityUnit}}]{% endif %}</a></h4>
+        <h4 class="product-description visually-hidden">{{product.description}}  </h4>
+        <span class="product-packaging visually-hidden"> <span class="quantity"> {{product.packaging}}</span> <span class="quantity_unit">{{product.quantityUnit}}</span></span>
+    
 
         <div class="price">
             <ins>
                 <span class="price-amount"> 
-                    <span id="js-price-amount">{{ product.price}}</span> 
+                    <span id="js-price-amount">
+                        {{ product.price}}                        
+                    </span> 
                     <span class="price-unity"> €</span>
                 </span>
             </ins>
             <ins>
                 <span class="product-weight visually-hidden">
-                    <span id="js-product-weight">{{ product.weight}}</span> 
-                    <span class="price-weight"> Kg</span> 
+                    <span id="js-product-weight">{{ product.packaging}}</span> 
+                    <span class="price-weight"> {{ product.quantityUnit}}</span> 
                 </span>
             </ins>
-
-            {% if product.weight %}
-                {% if product.weight > 1 %}
-                    <ins><span class="price-per-weight">{{ product.price / product.weight}} /Kg</span></ins>
-                {% elseif product.weight == 1 %}
-                    <ins><span class="price-per-weight">{{ product.weight}} Kg</span></ins>
-                {% endif %}
-            {% else %}
-                <ins><span class="price-amount-with-weight"> Prix à la botte</span></ins>
-            {% endif %}
         </div>
   
         <div class="shipping-info">
@@ -45,7 +39,15 @@
             {# <p class="for-today">{{ product.detail}}</p> #}
         </div>
         <div class="slide-down-box">
-            <p class="message">{{ product.detail}}</p>
+            <p class="message">
+                {% if product.packaging > 1 %}
+                    Gros : {{ product.priceAcnAllier }} €<br>
+                    Unité: {{ (product.price / product.packaging )|number_format(2)}} €/{{product.quantityUnit}}
+                    <br>
+                    <br>
+                {% endif %}
+                {{ product.detail}}
+            </p>
 
             <div class="buttons">
                 {# <a id="btn-show-toast-js" href="#" class="btn wishlist-btn"><i class="fa fa-heart" aria-hidden="true"></i></a> #}

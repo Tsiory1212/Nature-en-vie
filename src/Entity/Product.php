@@ -48,11 +48,6 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $weight;
-
-    /**
      * @ORM\Column(type="integer", options={"default": 1})
      */
     private $quantity;
@@ -94,7 +89,7 @@ class Product
     private $category;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $gamme;
 
@@ -108,10 +103,53 @@ class Product
      */
     private $referenceId;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $availability;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $volume;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $quantity_unit;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $ref_code;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $packaging;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $origin_production;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $price_acn_allier;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $product_type_label;
+
+
     public function __construct()
     {
         $this->updated_at = new \DateTime();
         $this->quantity = 1;
+        $this->quantity_unit = ' ';
+        $this->volume = 'Détail';
     }
 
     public function getId(): ?int
@@ -144,17 +182,7 @@ class Product
         return $this;
     }
 
-    public function getWeight(): ?float
-    {
-        return $this->weight;
-    }
 
-    public function setWeight(float $weight): self
-    {
-        $this->weight = $weight;
-
-        return $this;
-    }
 
     public function getQuantity(): ?int
     {
@@ -263,7 +291,7 @@ class Product
         return $this->gamme;
     }
 
-    public function setGamme(int $gamme): self
+    public function setGamme(?int $gamme): self
     {
         $this->gamme = $gamme;
 
@@ -298,5 +326,101 @@ class Product
 
         return $this;
     }
-    
+
+    public function getAvailability(): ?bool
+    {
+        return $this->availability;
+    }
+
+    public function setAvailability(bool $availability): self
+    {
+        $this->availability = $availability;
+
+        return $this;
+    }
+
+    public function getVolume(): ?string
+    {
+        return $this->volume;
+    }
+
+    public function setVolume(?string $volume): self
+    {
+        $this->volume = $volume;
+
+        return $this;
+    }
+
+    public function getQuantityUnit(): ?string
+    {
+        return $this->quantity_unit;
+    }
+
+    public function setQuantityUnit(string $quantity_unit): self
+    {
+        $this->quantity_unit = $quantity_unit;
+
+        return $this;
+    }
+
+    public function getRefCode(): ?string
+    {
+        return $this->ref_code;
+    }
+
+    public function setRefCode(string $ref_code): self
+    {
+        $this->ref_code = $ref_code;
+
+        return $this;
+    }
+
+    public function getPackaging(): ?int
+    {
+        return $this->packaging;
+    }
+
+    public function setPackaging(int $packaging): self
+    {
+        $this->packaging = $packaging;
+
+        return $this;
+    }
+
+    public function getOriginProduction(): ?string
+    {
+        return $this->origin_production;
+    }
+
+    public function setOriginProduction(?string $origin_production): self
+    {
+        $this->origin_production = $origin_production;
+
+        return $this;
+    }
+
+    public function getPriceAcnAllier(): ?float
+    {
+        return $this->price_acn_allier;
+    }
+
+    public function setPriceAcnAllier(?float $price_acn_allier): self
+    {
+        $this->price_acn_allier = $price_acn_allier;
+
+        return $this;
+    }
+
+    public function getProductTypeLabel(): ?string
+    {
+        return $this->product_type_label;
+    }
+
+    public function setProductTypeLabel(string $product_type_label): self
+    {
+        $this->product_type_label = $product_type_label;
+
+        return $this;
+    }
+
 }

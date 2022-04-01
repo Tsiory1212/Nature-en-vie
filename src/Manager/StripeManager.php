@@ -3,6 +3,7 @@ namespace App\Manager;
 
 use App\Entity\Order;
 use App\Entity\User;
+use App\Repository\SubscriptionPlanRepository;
 use App\Service\Panier\PanierService;
 use App\Service\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,11 +21,13 @@ class StripeManager {
      */
     protected $panierService;
 
-    public function __construct(EntityManagerInterface $em, StripeService $stripeService, PanierService $panierService)
+    protected $repoPlan;
+    public function __construct(EntityManagerInterface $em, StripeService $stripeService, PanierService $panierService, SubscriptionPlanRepository $repoPlan)
     {
         $this->em = $em;
         $this->stripeService = $stripeService;
         $this->panierService = $panierService;
+        $this->repoPlan = $repoPlan;
     }
 
  
@@ -129,6 +132,7 @@ class StripeManager {
         }
 
         if ($resource !== null ) {
+            $plan = $this->repoPlan->findOneBy(['id' => $planSubscriptionId]);
             $order = new Order();
             $paymentType = $order::PAYMENT_TYPE[2];
 
@@ -140,6 +144,7 @@ class StripeManager {
             $order->setReference(uniqid('', false));
             $order->setPaymentType($paymentType);
             $order->setStripeData($resource);
+            $order->setSubscriptionPlan($plan);
 
             $this->em->persist($order);
             $this->em->flush();

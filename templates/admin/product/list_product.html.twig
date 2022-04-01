@@ -48,7 +48,6 @@
 						<div class="col-1">Ref</div>
 						<div class="col-3" style="width: 18%;">Nom</div>
 						<div class="col-1">Prix</div>
-						<div class="col-1" style="width: 5.333%;">Poids</div>
 						<div class="col-1">Quantité</div>
 						<div class="col-2" style="width: 13.667%;">Catégorie</div>
 						<div class="col-2" style="width: 14.667%;">ACTION</div>
@@ -73,6 +72,13 @@
 					</div>
 					<div class="content-table-body col bg-white mt-2 rounded h5">
 						<div class="p-5">
+							<div class="my-2">
+								{% if available %}
+									<a class="btn btn-primary" href="{{ path('admin_product_list') }}">Tout</a>
+								{% else %}
+									<a class="btn btn-success" href="{{ path('admin_product_list', {available: 'true'}) }}">Disponible</a>
+								{% endif %}
+							</div>
 							{% for produit in products %}
 								<div class="row item-product-row text-center">
 									<div class="col-1">
@@ -85,13 +91,6 @@
 									<div class="col-1">{{produit.referenceId}}</div>
 									<div class="col-3">{{produit.name}}</div>
 									<div class="col-1">{{produit.price}} €</div>
-									<div class="col-1">
-										{% if produit.weight %}
-											{{produit.weight}} Kg
-										{% else %}
-											-
-										{% endif %}
-									</div>
 									<div class="col-1">{{produit.quantity}}</div>
 									<div class="col-2">
 										{% if produit.category.name is defined %}

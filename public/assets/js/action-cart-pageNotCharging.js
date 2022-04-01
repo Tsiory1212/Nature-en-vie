@@ -131,9 +131,10 @@ $(document).ready(function(){
             // in product_card_block 
             const product_name =   $(this).parent().next().children('.product-title').text();
             const product_detail =  $(this).parent().next().children('.product-description').text();
-            const product_price = parseInt($(this).parent().next().children('.price').children('ins').children('.price-amount').children('#js-price-amount').text()) ;
+            const product_price = $(this).parent().next().children('.price').children('ins').children('.price-amount').children('#js-price-amount').text() ;
             const product_category =  $(this).parent().next().children('.categories').text();
-            const product_weight = parseInt($(this).parent().next().children('.price').children('ins').children('.product-weight').children('#js-product-weight').text()) ;
+            const product_packaging = $(this).parent().next().children('.product-packaging').children('.quantity').text();
+            const product_quantity_unit = $(this).parent().next().children('.product-packaging').children('.quantity_unit').text();
             const product_cover =  $(this).prev().children('img').attr('src')
 
             // Affectation
@@ -144,9 +145,9 @@ $(document).ready(function(){
             product_cover_quick_view.attr('src', product_cover);
 
 
-            if(product_weight > 1){
-                price_per_weight = product_price / product_weight;
-                product_explanation_quick_view.text(price_per_weight.toFixed(2) + '€ /Kg')
+            if(product_packaging > 1){
+                price_per_unity = product_price / product_packaging;
+                product_explanation_quick_view.text(price_per_unity.toFixed(2) + '€ /'+product_quantity_unit)
             }else{
                 product_explanation_quick_view.text(product_price + '€ /Kg')
             }

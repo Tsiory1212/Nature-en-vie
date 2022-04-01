@@ -84,6 +84,11 @@ class Order
      */
     private $SubscriptionPlanDatas = [];
 
+    /**
+     * @ORM\ManyToOne(targetEntity=SubscriptionPlan::class, inversedBy="subscription_plan_orders")
+     */
+    private $subscription_plan;
+
 
 
     public function __construct()
@@ -236,6 +241,18 @@ class Order
     public function setSubscriptionPlanDatas(?array $SubscriptionPlanDatas): self
     {
         $this->SubscriptionPlanDatas = $SubscriptionPlanDatas;
+
+        return $this;
+    }
+
+    public function getSubscriptionPlan(): ?SubscriptionPlan
+    {
+        return $this->subscription_plan;
+    }
+
+    public function setSubscriptionPlan(?SubscriptionPlan $subscription_plan): self
+    {
+        $this->subscription_plan = $subscription_plan;
 
         return $this;
     }

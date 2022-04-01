@@ -1,259 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ferme!{% endblock %}
+{% block title %}La ferme{% endblock %}
 
 {% block stylesheets %}
-    <style>
-* {box-sizing: border-box}
-body {
-    margin:0;
-    z-index: 10;
-    background-image: url('/assets/images/fond-02.png');
-    background-position: center center;
-    background-size: cover;
-}
+  <style>
+    .body-la-ferme{
+      margin-top: 301px;
+    }
 
-#header {
-    position: relative !important;
-}
-.mySlides {display: none}
-img {vertical-align: middle;}
+    p span.third-line-child{
+      display: inline-block;
+      margin: 0;
+      font-size: 15px;
+      line-height: 24px;
+      color: #fff;
+      margin-top: 10px;
+    }
 
-/* Slideshow container */
-.slideshow-container {
-    max-width: 1000px;
-    position: relative;
-    margin: 90px auto 0 auto;
-}
-
-.slideshow-container .page{
-    margin: -480px 950px;
-    font-size: 40px;
-    font-weight: 600;
-    position: absolute;
-}
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
-
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Number text (1/3 etc) */
-.content-text-slide-1 {
-    font-size: 12px;
-    padding: 3% 28% 0 5%;
-    position: absolute;
-    top: 0;
-}
-.content-text-slide-2 {
-    font-size: 12px;
-    padding: 3% 5% 0 5%;
-    position: absolute;
-    top: 0;
-}
-.content-text-slide-3 {
-    color: white;
-    font-size: 12px;
-    padding: 3% 5% 0 5%;
-    position: absolute;
-    top: 0;
-}
-
-/* The dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
-
-.active, .dot:hover {
-  background-color: #717171;
-}
-
-/* Fading animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@-webkit-keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
-
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
-
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
-}
-        
-    </style>
+    .biolife-slide__ten.biolife-slide__ten--elm-02 .text-content .first-line{
+      font-size: 49px;
+      font-size: 51px; 
+      color: #856b6b;
+    }
+    .biolife-slide__ten.biolife-slide__ten--elm-02 .text-content .third-line{
+      color: #833d3d;
+    }
+    
+  </style>
 {% endblock %}
 
 {% block body %}
-    <body>
-        <div class="slideshow-container">
-            <div class="mySlides ">
-              <div class="content-text-slide-1">
-                <h1>Présentation de la ferme</h1>
-                <p>La SCEA les sabots d’argile est créée en 2009 par Alain et Christophe ,cinquième d’une fratrie de 6 enfants. Elle cultive les terres argilo-calcaires de la SCI Les Rondards sur une surface d’environ 14 hectares de légumes de pleine terre, 2.3 hectares de serres froides et 3 hectares de prairies pour la faune et la flore auxiliaires.</p>
-                <p>Le climat semi-continental du Bourbonnais et les terres très lourdes nous obligent à relever un double défi au quotidien, c’est pourquoi nous nous efforçons de ne produire que ce que la terre et le climat nous permettent sans trop d’artifices.</p>
-                <p>Elle emploie selon la saison entre 12 et 25 salariés managés par Nicolas et Jonathan.</p>
-                <p>Alain assurait la partie technique et Christophe gère le commerce et les finances parallèlement à son activité de maraîcher.</p>
-              </div>
-              <img src="/assets/images/slide/ferme-slide-01.png" style="width:100%">
-              <div class="page">1</div>
-            </div>
-            
-            <div class="mySlides ">
-              <div class="content-text-slide-2">
-                <p>Au départ en retraite d’Alain, en 2019, le statut juridique de la société est transformé en EURL. </p>
-                <p>Sur le point de vue technique, Nicolas a été promu au poste de responsable de culture, il assure la qualité et la continuité du travail réalisé jusque là tout en conservant un soutien ponctuel d’Alain.</p>
-                <h3> Le parc de matériel agricole :</h3>
-                <p>La taille de l’entreprise nécessite la possession d’un parc de matériel conséquent à sa disposition. (6 tracteurs, 1 roto bêches,1 fraise, 2 cultirateaux, 5 semoirs, 2 planteuses, 2 herses étrilles, 1 bineuse, 1 herse rotative, 2 broyeurs d’engrais vert, 1 équeuteuse d’oignons, 2 récolteuses, 4 enrouleurs canon pour l’irrigation, 4 quads équipés de leur remorque, 2 dynamiseurs, 1 “pulvé” pour les préparations biodynamiques, 2 épandeurs à compost, 2 presses mottes pour le plant, plusieurs cultivateurs ou canadiens et de multiples petits matériels).</p>
-                <h3>Producteurs de plants :</h3>
-                <p>Nous sommes également producteurs de plants maraîchers (reconnus par le GNIS) pour satisfaire nos propres besoins ainsi que ceux d’une trentaine de collègues producteurs. Plus de 2 millions de plants sont produits chaque année . Environ 45% de ces plantes sont pour nous. Ils sont préparés à l’aide des presses mottes équipées de leur semoir afin d’en semer le moins possible manuellement …</p>
-              </div>
-              <img src="/assets/images/slide/ferme-slide-02.png" style="width:100%">
-              <div class="page">2</div>
-            </div>
-            
-            <div class="mySlides ">
-              <div class="content-text-slide-3">
-                <h3>La production de légumes :</h3>
-                <p>La EURL vend environ la moitié de sa production en gros à Rungis et à divers commerçants détaillants, l’autre moitié au détail au travers de la SAS Au coin nature.</p>
-                <h1> Un peu d’histoire</h1>
-                <p> Historiquement, Alain et Christine s’installent en maraîchage biologique en 1976 à Bourbon l’Archambault et vendent leurs premières récoltes sous l’ancien marché couvert de Moulins.</p>
-                <p> Ils pratiquent la biodynamie en 1984 (marque DEMETER) lorsqu’ils déplacent leur maraîchage à Marigny sur la ferme paternelle en polyculture élevage alors en bio depuis 1970.</p>
-                <p> Le maraîchage s’agrandit alors d’environ 1 hectare chaque année et en 1989 les 115 hectares de la ferme polyculture élevage paternelle sont repris et conduits en biodynamie également.</p>
-                </div>
-              <img src="/assets/images/slide/ferme-slide-03.png" style="width:100%">
-              <div class="page">3</div>
-            </div>
-
-            <div class="mySlides ">
-                <div class="content-text-slide-1">
-                    <p> La reprise de cette ferme assure une autonomie de compost pour la fertilisation des légumes. A cette époque nous produisions de la viande bovine, viande porcine transformée en charcuterie et la farine de nos blés en plus de nos légumes.</p>
-                    <p> Cette situation idyllique a connu sa fin en 2004 pour des raisons familiales regrettables et « uniquement » l’activité maraîchère a perduré et s’est développée pour atteindre la taille actuelle.</p>
-                    <p> C’est en 2009 que la SCEA Les sabots d’argile a été créée entre Alain et Christophe, puis en 2019 Alain prend sa retraite et la SCEA est transformée en EURL.</p>
-                </div>
-                <img src="/assets/images/slide/ferme-slide-01.png" style="width:100%">
-                <div class="page">4</div>
-            </div>
-            
-            <div class="mySlides ">
-                <div class="content-text-slide-2">
-                    <h1>Notre engagement qualité</h1>
-                    <p>Nous travaillons sous la certification DEMETER depuis bientôt 30 ans maintenant.</p>
-                    <p>Demeter est la marque des produits de l’agriculture biodynamique certifiée.</p>
-                    <p>Elle est présente dans plus de 50 pays, sur tous les continents.</p>
-                    <p>En France, nous sommes 430 producteurs et viticulteurs et 70 autres entreprises à être aujourd’hui certifiés et à vous garantir des aliments de qualité.</p>
-                    <p>Nous nous engageons quotidiennement pour un futur respectueux des hommes et de la terre et nous vous apportons des aliments vivants et savoureux.</p>
-                    <p>Un contrôle et une certification sont obligatoires chaque année pour nous.</p>
-                    <p>L’approche holistique de Demeter dépasse le seul respect des cahiers des charges européens de l’agriculture biologique.</p>
-                </div>
-                <img src="/assets/images/slide/ferme-slide-02.png" style="width:100%">
-                <div class="page">5</div>
-            </div>
+    <div class="body-la-ferme">
+      <!-- Block 01: Main slide block-->
+      <div class="main-slide block-slider home-10__elm-01">
+          <ul class="biolife-carousel nav-none-on-mobile nav-insite-grid-1170 nav-larger" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
               
-            <div class="mySlides ">
-                <div class="content-text-slide-3">
-                    <p>Il ne s’agit pas uniquement d’exclure l’utilisation de produits chimiques de synthèse en agriculture.</p>
-                    <p>Nous travaillons quotidiennement pour renforcer les processus de vie dans le sol qui donneront des plantes et des aliments savoureux pour vous tous, chers consommateurs.</p> 
+              <li>
+                  <div class="slide-contain biolife-slide__ten biolife-slide__ten--elm-01">
+                      <div class="media"></div>
+                      <div class="text-content">
+                          <b class="first-line">Présentation de la ferme</b>
+                          <!-- <b class="second-line">100% Fresh</b> -->
+                          <p class="third-line">
+                            La ferme est cultivée sur les terres argilo-calcaires de la SCI Les Rondards, sur une surface d’environ 14 hectares de légumes, 2.3 hectares de serres froides et 3 hectares de prairies pour la faune et la flore auxiliaires.
+                            Notre principal défi : cultiver à travers une terre lourde et un climat semi-continental du Bourbonnais, c’est pourquoi nous nous efforçons de ne produire que ce que la terre et le climat nous permettent, sans trop d’artifices.
+                          </p>
+                          <p>
+                            <span class="third-line-child text-start">
+                               Matériels utilisés : <br>
+                              - 6 tracteurs<br>
+                              - 1 roto-bêche, etc.
+                            </span>
+                          </p>
+
+                      </div>
                   </div>
-                <img src="/assets/images/slide/ferme-slide-03.png" style="width:100%">
-                <div class="page">6</div>
-            </div>
-        
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-            
-        </div>
-        <br>
-            
-        <div style="text-align:center; margin-bottom: 85px;">
-            <span class="dot" onclick="currentSlide(1)"></span> 
-            <span class="dot" onclick="currentSlide(2)"></span> 
-            <span class="dot" onclick="currentSlide(3)"></span> 
-            <span class="dot" onclick="currentSlide(4)"></span> 
-            <span class="dot" onclick="currentSlide(5)"></span> 
-            <span class="dot" onclick="currentSlide(6)"></span> 
-        </div>
-    </body>
- 
-{% endblock %}
-
-{% block javascripts %}
-
-<script>
-    var slideIndex = 1;
-    showSlides(slideIndex);
-    
-    function plusSlides(n) {
-      showSlides(slideIndex += n);
-    }
-    
-    function currentSlide(n) {
-      showSlides(slideIndex = n);
-    }
-    
-    function showSlides(n) {
-      var i;
-      var slides = document.getElementsByClassName("mySlides");
-      var dots = document.getElementsByClassName("dot");
-      if (n > slides.length) {slideIndex = 1}    
-      if (n < 1) {slideIndex = slides.length}
-      for (i = 0; i < slides.length; i++) {
-          slides[i].style.display = "none";  
-      }
-      for (i = 0; i < dots.length; i++) {
-          dots[i].className = dots[i].className.replace(" active", "");
-      }
-      slides[slideIndex-1].style.display = "block";  
-      dots[slideIndex-1].className += " active";
-    }
-</script>
+              </li>
+              <li>
+                  <div class="slide-contain biolife-slide__ten biolife-slide__ten--elm-02">
+                      <div class="media"></div>
+                      <div class="text-content">
+                          <b class="first-line">Notre engagement qualité</b>
+                          <p class="third-line">
+                            Nous travaillons sous la certification DEMETER depuis bientôt 30 maintenant. Il s’agit de la marque des produits de l’agriculture biodynamique certifiée, présente dans plus de 50 pays sur tous les continents. <br>
+                            En France, nous sommes 430 producteurs/viticulteurs, et près de 70 autres entreprises certifiées à vous garantir des aliments de qualité. Chez Nature En Vie, nous nous engageons quotidiennement pour un futur respectueux des hommes et de la terre en vous apportant des aliments vivants et savoureux.
+                          </p>
+                      </div>
+                  </div>
+              </li>
+          </ul>
+      </div>
+    </div>
 {% endblock %}

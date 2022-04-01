@@ -76,13 +76,14 @@ class SubscriptionPlan
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="planId")
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="subscription_plan")
      */
-    private $orders;
+    private $subscription_plan_orders;
 
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->subscription_plan_orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,30 +199,36 @@ class SubscriptionPlan
         return $this;
     }
 
+
+
+
+
+  
+
     /**
      * @return Collection<int, Order>
      */
-    public function getOrders(): Collection
+    public function getSubscriptionPlanOrders(): Collection
     {
-        return $this->orders;
+        return $this->subscription_plan_orders;
     }
 
-    public function addOrder(Order $order): self
+    public function addSubscriptionPlanOrder(Order $subscriptionPlanOrder): self
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setPlanId($this);
+        if (!$this->subscription_plan_orders->contains($subscriptionPlanOrder)) {
+            $this->subscription_plan_orders[] = $subscriptionPlanOrder;
+            $subscriptionPlanOrder->setSubscriptionPlan($this);
         }
 
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeSubscriptionPlanOrder(Order $subscriptionPlanOrder): self
     {
-        if ($this->orders->removeElement($order)) {
+        if ($this->subscription_plan_orders->removeElement($subscriptionPlanOrder)) {
             // set the owning side to null (unless already changed)
-            if ($order->getPlanId() === $this) {
-                $order->setPlanId(null);
+            if ($subscriptionPlanOrder->getSubscriptionPlan() === $this) {
+                $subscriptionPlanOrder->setSubscriptionPlan(null);
             }
         }
 

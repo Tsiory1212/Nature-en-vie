@@ -10,6 +10,7 @@ use App\Form\SearchForm\ProductSearchType;
 use App\Repository\CartSubscriptionRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use App\Repository\SampleDatasRepository;
 use App\Repository\SubscriptionPlanRepository;
 use App\Repository\UserRepository;
 use App\Service\ProductService;
@@ -45,14 +46,19 @@ class AdminProductController extends AbstractController
     /**
      * @Route("/admin/produit/liste", name="admin_product_list")
      */
-    public function admin_product_list(Request $request, PaginatorInterface $paginator): Response
+    public function admin_product_list(Request $request, PaginatorInterface $paginator, SampleDatasRepository $s, ProductRepository $pro): Response
     {
         $search = new ProductSearch();
         $form = $this->createForm(ProductSearchType::class, $search);
         $form->handleRequest($request);
 
+        if ($request->query->get('available') === 'true') {
+            $available = true;
+        }else{
+            $available = false;
+        }
         $products = $paginator->paginate(
-            $this->repoProduct->findAllVisibleQuery($search),
+            $this->repoProduct->findAllQuery($search, $available),
             $request->query->getInt('page', 1),
             30
         );
@@ -69,6 +75,7 @@ class AdminProductController extends AbstractController
             'nbrUsers' => $nbrUsers,
             'nbrOrders' => $nbrOrders,
             'nbrSubscriptions' => $nbrSubscriptions,
+            'available' => $available
         ]);
     }
 
@@ -77,9 +84,8 @@ class AdminProductController extends AbstractController
      */
     public function admin_product_add(Request $request, ProductService $productService): Response
     {
-        // On génère un nouveau "referenceId"        
-        $lastProduct = $this->repoProduct->findBy([], ['id'=>'DESC'],1,0)[0];
-        $newRefId = $productService->generateNewRefId($lastProduct);
+        
+        $newRefId = $productService->generateNewRefId();
 
         $produit = new Product();
         $form = $this->createForm(ProductType::class, $produit);
@@ -178,5 +184,16 @@ class AdminProductController extends AbstractController
             ['result'=> $result],
             200
         );
+    }
+
+
+    /**
+     * @Route("/admin/princy/import-export", name="admin_princy_import_export")
+     */
+    public function admin_princy_import_export(SampleDatasRepository $SampleRepository): Response
+    {
+        return $this->render('princy/index.html.twig', [
+            'products' => $SampleRepository->findAll(),
+        ]);
     }
 }

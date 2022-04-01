@@ -41,32 +41,33 @@
 									<th scope="col">Abonné</th>
 									<th scope="col">Abonnement</th>
 									<th scope="col">Prix</th>
-									<th scope="col">Date debut</th>
-									<th scope="col">Date fin</th>
-									<th scope="col">N° abonnement (Paypal)</th>
+									<th scope="col">Cycle</th>
+									<th scope="col">Status</th>
 									<th scope="col">Pause</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for facture in factures %}
+								{% for order in orders %}
 									<tr>
-										<td>{{facture.user.lastname}}</td>
-										<td>{{facture.cartSubscription.nameSubscriptionPlan}}</td>
-										<td>{{facture.cartSubscription.priceSubscription}} €</td>
-										<td>{{facture.createdAt|date('d/m/Y')}}</td>
-										<td>{{facture.subscriptionEnd|date('d/m/Y')}}</td>
-										<td>{{facture.subscriptionId}}</td>
+									
+
+										<td>{{order.user.lastname}}</td>
+										<td>{{order.subscriptionPlan.name}}</td>
+										<td>{{order.subscriptionPlan.amount}} €</td>
+										<td>{{order.subscriptionPlan.intervalUnit}}</td>
+										<td>{{order.subscriptionPlan.status}}</td>
+										{# <td>{{order.subscriptionId}}</td> #}
 										<td>
-											{% if facture.pauseLivraison %}
+											{% if order.pauseDelivry %}
 												<i class="fas fa-exclamation-circle" style="color: red" data-bs-toggle="modal" data-bs-target="#pauseDate"></i>
 											{% else %}
 												-
 											{% endif %}
 		
 											<div class="d-none hidden-pause-livraison">
-												{% if facture.pauseLivraison %}
-													<p class="hidden-start-date" > {{ facture.pauseLivraison.startDate|date('d/m/Y') }} </p>
-													<p class="hidden-end-date" > {{ facture.pauseLivraison.endDate|date('d/m/Y') }} </p>
+												{% if order.pauseDelivry %}
+													<p class="hidden-start-date" > {{ order.pauseDelivry.startDate|date('d/m/Y') }} </p>
+													<p class="hidden-end-date" > {{ order.pauseDelivry.endDate|date('d/m/Y') }} </p>
 												{% endif %}
 											</div>
 										</td>

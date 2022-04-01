@@ -15,6 +15,34 @@
         .subscription-block{
             background-image: linear-gradient(#dba800, #dba800 , white);
         }
+
+    
+        .subscrition-plan-block .grand-panier-block .plan-description{
+            z-index: 8;
+            color: #5e4b4b;
+            font-size: 23px;
+            line-height: 24px;
+            font-weight: bold;
+            position: absolute;
+            margin-top: -474px;
+            padding: 0 45px;
+        }
+        .subscrition-plan-block .grand-panier-block .plan-amount{
+            z-index: 8;
+            color: #5e4b4b;
+            font-size: 23px;
+            line-height: 24px;
+            font-weight: bold;
+            position: absolute;
+            margin-top: -404px;
+            padding: 0 45px;
+        }
+
+        .particularity-block{
+            margin-top: 104px;
+        }
+       
+
     </style>
 {% endblock %}
 {% block body %}
@@ -28,55 +56,12 @@
         <div id="main-content" class="main-content">
 
             <!-- Block 01: Main slide block-->
-            <div class="main-slide block-slider" style="z-index: 2;">
-                <ul class="biolife-carousel nav-none-on-mobile" data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}' >
-                    <li>
-                        <div class="slide-contain slider-opt03__layout01 mode-03 black-color slide-bgr-mode03-01">
-
-                            <!-- Image bannière  -->
-                            <div class="media"></div>
-
-                            <div class="text-content" style="z-index: 50">     
-                                <h2 class="second-line">Fruits & Légumes</h2>
-                                <p class="third-line">Bio et Demeter de nos producteurs maraîchers.</p>
-                                <p class="buttons">
-                                    <a href="{{path('subscription_list')}}" class="button button1 p-4 px-5">Commander</a>
-                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="slide-contain slider-opt03__layout01 mode-03 slide-bgr-mode03-02">
-                            <div class="media">
-                            </div>
-                            <div class="text-content">
-                                <!-- <i class="first-line">Pomegranate</i> -->
-                                <h2 class="second-line">Frais et Bio...</h3> 
-                                <p class="third-line">Les produits de nos commerces au Lieu-dit Les Rondards.</p>
-                                <p class="buttons">
-                                    <a href="{{path('subscription_list')}}" class="button button1 p-4 px-5">Commander</a>
-                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="slide-contain slider-opt03__layout01 mode-03 slide-bgr-mode03-03">
-                            <div class="media">
-                            </div>
-                            <div class="text-content">
-                                <!-- <i class="first-line">Pomegranate</i>-->
-                                <h3 class="second-line">Made in Bio</h3> 
-                                <p class="third-line">Des vins Biodynamiques, des produits d'épicerie et divers articles.</p>
-                                <p class="buttons">
-                                    <a href="#" class="button button1 p-4 px-5">Commander</a>
-                                    <!-- <a href="#" class="btn btn-thin">View lookbook</a> -->
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            {% include "partials/_banner_home.html.twig" %}
+       
+            <!-- Block 04: Subscription -->
+            {% if grandPanier %}{% endif %}
+            <div class="subscrition-plan-block my-5">
+                {% include "partials/subscription/_list_subscription2.html.twig" %}
             </div>
 
             <!-- Block 02: Grid Banners-->
@@ -140,11 +125,116 @@
                 </div>
 
             </div> #}
+            <div class="biolife-service type01 biolife-service__type01 sm-margin-top-0 xs-margin-top-45px">
+                <b class="txt-show-01" >100%Nature</b>
+                <i class="txt-show-02" style="font-size: 60px;"> Des Fruits Et Légumes Frais</i>
+                <ul class="services-list">
+                    <li>
+                        <div class="service-inner color-reverse">
+                            <span class="number">1</span>
+                            <span class="biolife-icon icon-beer"></span>
+                            <a class="srv-name" href="#">
+                                Sélectionnez un  <br> panier de produits <br> entièrement certifiés
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="service-inner color-reverse">
+                            <span class="number">2</span>
+                            <span class="biolife-icon icon-schedule"></span>
+                            <a class="srv-name" href="#">Localisation et livraison <br> à temps plein</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="service-inner color-reverse">
+                            <span class="number">3</span>
+                            <span class="biolife-icon icon-car"></span>
+                            <a class="srv-name" href="#">0 frais de livraison</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="text-center">
+                <span class="mt-5 fw-bolder">Les meilleurs produits Nature En Vie pour vous</span>
+            </div>
 
-            <!-- Block 04: Subscription -->
-            {% if grandPanier %}{% endif %}
-            
-            {% include "partials/subscription/_list_subscription.html.twig" %}
+            <!--Block 05: Showcase-->
+            <div class="particularity-block">
+                <div class="home-11__elm-05">
+                    <div class="container">
+                        <div class="biolife-title-box biolife-title-box__bold-center">
+                            <span class="subtitle">Les particularités de nos fruits et légumes</span>
+                            <h3 class="main-title"> Label DEMETER, 100 % BIO</h3>
+                        </div>
+                        <div class="biolife-showcase">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="sc-item">
+                                            <img src="/biolife/assets/images/home-11/sc-item-01.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                            <p class="sc-desc">
+                                                <b class="sc-title">Certification d’une agriculture biodynamique</b>
+                                                <!-- <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="sc-item">
+                                            <img src="/biolife/assets/images/home-11/sc-item-02.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                            <p class="sc-desc">
+                                                <b class="sc-title">Des produits écologiques</b>
+                                                <!-- <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="sc-item">
+                                            <img src="/biolife/assets/images/home-11/sc-item-03.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                            <p class="sc-desc">
+                                                <b class="sc-title">Culture soucieuse de l’environnement</b>
+                                                <!-- <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <figure><img src="/biolife/assets/images/home-11/bn-showcase.png" width="449" height="467" alt="biolife products"></figure>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="sc-item">
+                                            <img src="/biolife/assets/images/home-11/sc-item-04.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                            <p class="sc-desc">
+                                                <b class="sc-title">L’utilisation d’engrais « vert »</b>
+                                                <!-- <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="sc-item">
+                                            <img src="/biolife/assets/images/home-11/sc-item-05.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                            <p class="sc-desc">
+                                                <b class="sc-title">Une économie rurale sans pesticides et autres produits néfastes</b>
+                                                <!-- <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="sc-item">
+                                            <img src="/biolife/assets/images/home-11/sc-item-06.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                            <p class="sc-desc">
+                                                <b class="sc-title">Des fruits et légumes cueillis à la source et directement servis dans vos paniers</b>
+                                                <!-- <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
            
             <!-- Block 04: Floating cart-->
             <div class="banner-promotion xs-margin-top-0 sm-margin-top-260px sm-margin-top-60px xs-margin-top-100">

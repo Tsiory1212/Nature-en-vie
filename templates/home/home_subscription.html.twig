@@ -5,7 +5,7 @@
 {% block stylesheets %}
     <style>
         #header {
-            position: absolute !important;
+            position: relative !important;
         }
 
         #biolife-quickview-block {
@@ -59,7 +59,6 @@
             {% include "partials/_banner_home.html.twig" %}
        
             <!-- Block 04: Subscription -->
-            {% if grandPanier %}{% endif %}
             <div class="subscrition-plan-block my-5">
                 {% include "partials/subscription/_list_subscription2.html.twig" %}
             </div>
@@ -127,7 +126,7 @@
             </div> #}
             <div class="biolife-service type01 biolife-service__type01 sm-margin-top-0 xs-margin-top-45px">
                 <b class="txt-show-01" >100%Nature</b>
-                <i class="txt-show-02" style="font-size: 60px;"> Des Fruits Et Légumes Frais</i>
+                <i class="txt-show-02" style="font-size: 60px; font-family: Brush Script MT, Brush Script Std, cursive;"> Des Fruits Et Légumes Frais</i>
                 <ul class="services-list">
                     <li>
                         <div class="service-inner color-reverse">
@@ -159,7 +158,7 @@
             </div>
 
             <!--Block 05: Showcase-->
-            <div class="particularity-block">
+            {# <div class="particularity-block">
                 <div class="home-11__elm-05">
                     <div class="container">
                         <div class="biolife-title-box biolife-title-box__bold-center">
@@ -168,7 +167,7 @@
                         </div>
                         <div class="biolife-showcase">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-sm-4">
                                     <div class="row">
                                         <div class="sc-item">
                                             <img src="/biolife/assets/images/home-11/sc-item-01.png" alt="showcase media" width="60" height="60" alt="biolife food">
@@ -197,10 +196,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <figure><img src="/biolife/assets/images/home-11/bn-showcase.png" width="449" height="467" alt="biolife products"></figure>
+                                <div class="col-sm-4 d-mobile-none">
+                                    <figure><img class="img-fluid" src="/biolife/assets/images/home-11/bn-showcase.png" width="449" height="467" alt="biolife products"></figure>
                                 </div>
-                                <div class="col">
+                                <div class="col-sm-4">
                                     <div class="row">
                                         <div class="sc-item">
                                             <img src="/biolife/assets/images/home-11/sc-item-04.png" alt="showcase media" width="60" height="60" alt="biolife food">
@@ -233,7 +232,85 @@
                         </div>
                     </div>
                 </div>
+            </div> #}
+
+            <!--Block 05: Showcase-->
+            <div class="home-11__elm-05">
+                <div class="container">
+                    <div class="biolife-title-box biolife-title-box__bold-center">
+                        <span class="subtitle">Les particularités de nos fruits et légumes</span>
+                        <h3 class="main-title">Label DEMETER, 100 % BIO</h3>
+                    </div>
+                    <div class="biolife-showcase">
+                        <div class="sc-row wrap-sc-list">
+                            <ul class="sc-list sc-list-reverse">
+                                <li>
+                                    <div class="sc-item">
+                                        <img src="/biolife/assets/images/home-11/sc-item-01.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                        <p class="sc-desc">
+                                            <b class="sc-title">Certification d’une agriculture biodynamique</b>
+                                            {# <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> #}
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sc-item">
+                                        <img src="/biolife/assets/images/home-11/sc-item-02.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                        <p class="sc-desc">
+                                            <b class="sc-title">Des produits écologiques</b>
+                                            {# <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> #}
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sc-item">
+                                        <img src="/biolife/assets/images/home-11/sc-item-03.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                        <p class="sc-desc">
+                                            <b class="sc-title">Culture soucieuse de l’environnement</b>
+                                            {# <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> #}
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="sc-row sc-banner-center">
+                            <figure><img class="img-h-auto" src="/biolife/assets/images/home-11/bn-showcase.png" width="449" height="467" alt="biolife products"></figure>
+                        </div>
+                        <div class="sc-row wrap-sc-list">
+                            <ul class="sc-list">
+                                <li>
+                                    <div class="sc-item">
+                                        <img src="/biolife/assets/images/home-11/sc-item-04.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                        <p class="sc-desc">
+                                            <b class="sc-title">L’utilisation d’engrais « vert »</b>
+                                            {# <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> #}
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sc-item">
+                                        <img src="/biolife/assets/images/home-11/sc-item-05.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                        <p class="sc-desc">
+                                            <b class="sc-title">Une économie rurale sans pesticides et autres produits néfastes</b>
+                                            {# <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> #}
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sc-item">
+                                        <img src="/biolife/assets/images/home-11/sc-item-06.png" alt="showcase media" width="60" height="60" alt="biolife food">
+                                        <p class="sc-desc">
+                                            <b class="sc-title">Des fruits et légumes cueillis à la source et directement servis dans vos paniers</b>
+                                            {# <span class="text">Lorem ipsum dolor sit amet, consectuer adipiscing elit, sed diam nonummy.</span> #}
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
 
            
             <!-- Block 04: Floating cart-->

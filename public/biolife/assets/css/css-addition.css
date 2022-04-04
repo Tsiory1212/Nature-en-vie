@@ -561,7 +561,8 @@ input.biolife-input__rounded {
   font-size: 0;
   line-height: 0;
   height: 780px;
-  background: #ffffff url(../images/home-09/slide-01.jpg) no-repeat center center;
+  background: #ffffff url(../images/home-09/slide-01.png) no-repeat center center;
+  background-size: cover;
   position: relative; }
 .biolife-slide__layout-nine .text-content {
   position: absolute;
@@ -627,7 +628,9 @@ input.biolife-input__rounded {
     left: 0;
     right: 0; } }
 .biolife-slide__layout-nine--elm-02 {
-  background: #ffffff url(../images/home-09/slide-02.jpg) no-repeat center center; }
+  background: #ffffff url(../images/home-09/slide-02.png) no-repeat center center; 
+  background-size: cover;
+}
 
 .main-slide .nav-insite-grid-1170 .slick-arrow {
   opacity: 1;
@@ -1159,7 +1162,9 @@ input.biolife-input__rounded {
   display: inline-block;
   width: 100%;
   height: 580px;
-  background: #ffffff url(../images/home-08/bn16-01.jpg) no-repeat center; }
+  background: #ffffff url(../images/home-08/bn16-01.png) no-repeat center; 
+  background-size: contain;
+}
 .biolife-banner__style-16 .link-cat {
   font-size: 28px;
   color: #222222;
@@ -1201,7 +1206,9 @@ input.biolife-input__rounded {
   display: inline-block;
   width: 100%;
   height: 271px;
-  background: #F7919E url(../images/home-08/bn17.jpg) no-repeat center; }
+  background: #ffffff url(../images/home-08/bn17.png) no-repeat center; 
+  background-size: contain; 
+}
 .biolife-banner__style-17 .link-cat {
   font-size: 28px;
   color: #222222;
@@ -1229,6 +1236,125 @@ input.biolife-input__rounded {
     top: 19px;
     left: 17px;
     right: auto; } }
+    .biolife-banner__style-17 {
+  font-size: 0;
+  line-height: 0; }
+.biolife-banner__style-17 .media {
+  display: inline-block;
+  width: 100%;
+  height: 271px;
+  background: #ffffff url(../images/home-08/bn17.png) no-repeat center; 
+  background-size: contain; 
+
+}
+.biolife-banner__style-17 .link-cat {
+  font-size: 28px;
+  color: #222222;
+  display: inline-block;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1;
+  top: 99px;
+  right: 48px;
+  position: absolute;
+  z-index: 1;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s; }
+@media (max-width: 1199px) {
+  .biolife-banner__style-17 .link-cat {
+    font-size: 21px; } }
+@media (max-width: 767px) {
+  .biolife-banner__style-17 .link-cat {
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    top: 19px;
+    left: 17px;
+    right: auto; } }
+
+
+
+    .biolife-banner__style-17_02 {
+      font-size: 0;
+      line-height: 0; 
+    }
+    .biolife-banner__style-17_02 .media {
+      display: inline-block;
+      width: 100%;
+      height: 271px;
+      background: #ffffff url(../images/home-08/bn17_02.png) no-repeat center;
+      background-size: contain; 
+    }
+    .biolife-banner__style-17_02 .link-cat {
+      font-size: 28px;
+      color: #222222;
+      display: inline-block;
+      margin: 0;
+      text-transform: uppercase;
+      font-weight: 700;
+      line-height: 1;
+      top: 99px;
+      right: 48px;
+      position: absolute;
+      z-index: 1;
+      -webkit-transition: 0.5s;
+      -moz-transition: 0.5s;
+      -ms-transition: 0.5s;
+      -o-transition: 0.5s;
+      transition: 0.5s; }
+    @media (max-width: 1199px) {
+      .biolife-banner__style-17_02 .link-cat {
+        font-size: 21px; } }
+    @media (max-width: 767px) {
+      .biolife-banner__style-17_02 .link-cat {
+        padding: 15px;
+        background-color: rgba(255, 255, 255, 0.8);
+        top: 19px;
+        left: 17px;
+        right: auto; } }
+        .biolife-banner__style-17_02 {
+      font-size: 0;
+      line-height: 0; }
+    .biolife-banner__style-17_02 .media {
+      display: inline-block;
+      width: 100%;
+      height: 271px;
+      background: #ffffff url(../images/home-08/bn17_02.png) no-repeat center; 
+      background-size: contain; 
+    }
+    .biolife-banner__style-17_02 .link-cat {
+      font-size: 28px;
+      color: #222222;
+      display: inline-block;
+      margin: 0;
+      text-transform: uppercase;
+      font-weight: 700;
+      line-height: 1;
+      top: 99px;
+      right: 48px;
+      position: absolute;
+      z-index: 1;
+      -webkit-transition: 0.5s;
+      -moz-transition: 0.5s;
+      -ms-transition: 0.5s;
+      -o-transition: 0.5s;
+      transition: 0.5s; }
+    @media (max-width: 1199px) {
+      .biolife-banner__style-17_02 .link-cat {
+        font-size: 21px; } }
+    @media (max-width: 767px) {
+      .biolife-banner__style-17_02 .link-cat {
+        padding: 15px;
+        background-color: rgba(255, 255, 255, 0.8);
+        top: 19px;
+        left: 17px;
+        right: auto; } }
+
+
+
 .biolife-banner__style-18 {
   display: block;
   font-size: 0;
@@ -2574,11 +2700,13 @@ input.biolife-input__rounded {
   display: block;
   height: 695px;
   overflow: hidden;
-  background: #fff url( ../images/home-10/ferme-slide-01.png) no-repeat center center;
+  background: #fff url( ../images/home-10/ferme_presentation_1920x703px.png) no-repeat center center;
   position: relative;
+  background-size: contain;
 }
 .biolife-slide__ten--elm-02{
-  background: #fff url( ../images/home-10/ferme-slide-02.png) no-repeat center center;
+  background: #fff url( ../images/home-10/ferme_engagement_1920x703px.png) no-repeat center center;
+  background-size: contain;
 }
 .biolife-slide__ten .text-content{
   display: block;

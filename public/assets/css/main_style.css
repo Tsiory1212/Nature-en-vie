@@ -22,10 +22,20 @@ a{
 	text-decoration: none!important;
 }
 
+.img-h-auto{
+	max-width: 100%;
+    height: auto;
+    outline: none;
+}
+
 button.btn-close{
 	font-size: large;
 }
-
+@media ( max-width: 575px){
+	.d-mobile-none{
+		display: none!important;
+	}
+}
 /* **************
 *	Header		 *  
 *****************/

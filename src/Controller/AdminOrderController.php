@@ -56,12 +56,23 @@ class AdminOrderController extends AbstractController
     public function admin_user_order(User $user): Response
     {
         $userOrders = $this->repoOrder->findBy(['user' => $user]);
-        $ordersNotDelivred = $this->repoOrder->findBy(['user' => $user, 'status_delivry' => 0]);
+        $ordersNotDelivred = [];
+
+        $uniqPaymentorders = $this->repoOrder->findBy(['user' => $user, 'status_delivry' => 0, 'payment_type' => Order::PAYMENT_TYPE[0]]);
+        $recurringPaymentorders = $this->repoOrder->findBy(['user' => $user, 'status_delivry' => 0, 'payment_type' => Order::PAYMENT_TYPE[1]]);
+        
+        if (!empty($uniqPaymentorders)) {
+            $ordersNotDelivred[] = $uniqPaymentorders;
+        }
+        if (!empty($recurringPaymentorders)) {
+            $ordersNotDelivred[] = $recurringPaymentorders;
+        }
+        
 
         return $this->render('admin/order/show_user_orders.html.twig', [
-            'orders' => $userOrders,
+            // 'orders' => $userOrders,
             'user' => $user,
-            'ordersNotDelivred' => $ordersNotDelivred
+            'ordersNotDelivred' => $ordersNotDelivred[0]
         ]);
     }
 

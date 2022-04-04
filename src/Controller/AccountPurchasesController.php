@@ -191,10 +191,12 @@ class AccountPurchasesController extends AbstractController
     public function account_order_show(): Response
     {
         $user = $this->getUser();
-        $myOrders = $this->repoOrder->findBy(['user' => $user]);
+        $myUniqPaymentOrders = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[0]]);
+        $myRecurringPaymentOrders = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[1]]);
 
         return $this->render('purchases/show_my_orders.html.twig', [
-            'myOrders' => $myOrders
+            'myUniqPaymentOrders' => $myUniqPaymentOrders,
+            'myRecurringPaymentOrders' => $myRecurringPaymentOrders
         ]);
     }
 

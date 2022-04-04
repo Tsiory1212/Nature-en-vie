@@ -236,7 +236,9 @@ class PanierService {
 
         foreach ($this->getFullFavoriteCart($favoriteCart) as $item ) {
             // dd($item['product']);
-            $total += $item['product']->getPrice() * $item['quantity'];
+            if ($item['product'] !== null) {
+                $total += $item['product']->getPrice() * $item['quantity'];
+            }
         }
         return $total;
     }

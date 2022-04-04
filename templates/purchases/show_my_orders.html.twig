@@ -5,33 +5,61 @@
 {% block body %}
 <body class="biolife-body">
 	<div class="page-contain">
-      <!-- Image bannière  -->
       <div class="banner-media-layout-01"></div>
       <div class="text-content4">
         <div class="container bg-white panier_body shadow-lg p-3 mb-5 bradius-3rem">
-          <table class="table">
-            <thead class="text-center">
-              <tr>
-                <th scope="col">Prix</th>
-                <th scope="col">Type de livraision</th>
-                <th scope="col">Date de commande</th>
-                <th scope="col">Panier</th>
-                <th scope="col">Livré</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for myOrder in myOrders %}
-                  <tr>
-                      <td>{{ myOrder.totalPrice }} €</td>
-                      <td>{{ app.user.delivry.delivryType  }}</td>
-                      <td>{{ myOrder.createdAt|date() }}</td>
-                      <td> <a href="{{path('account_order_cart_show', {order: myOrder.id}) }}">Consulter</a> </td>
-                      <td><i class="fas fa-spinner"></i></td>
-
-                  </tr>
-            {% endfor %}
-            </tbody>
-          </table>
+          <div class="button-toggle">
+            <button id="btn-show-uniq-payment" class="button button1">Payment unique</button>
+            <button id="btn-show-recurring-payment" class="button button1">Payment récurrent</button>
+          </div>
+          <div class="uniq-payment-orders-block">
+            <table class="table">
+              <thead class="text-center">
+                <tr>
+                  <th scope="col">Prix</th>
+                  <th scope="col">Type de livraision</th>
+                  <th scope="col">Date de commande</th>
+                  <th scope="col">Panier</th>
+                  <th scope="col">Livré</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for myOrder in myRecurringPaymentOrders %}
+                    <tr>
+                        <td>{{ myOrder.totalPrice }} €</td>
+                        <td>{{ app.user.delivry.delivryType  }}</td>
+                        <td>{{ myOrder.createdAt|date() }}</td>
+                        <td> <a href="{{path('account_order_cart_show', {order: myOrder.id}) }}">Consulter</a> </td>
+                        <td><i class="fas fa-spinner"></i></td>
+                    </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="recurring-payment-orders-block">
+            <table class="table">
+              <thead class="text-center">
+                <tr>
+                  <th scope="col">Prix</th>
+                  <th scope="col">Type de livraision</th>
+                  <th scope="col">Date de commande</th>
+                  <th scope="col">Panier</th>
+                  <th scope="col">Livré</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for myOrder in myUniqPaymentOrders %}
+                    <tr>
+                        <td>{{ myOrder.totalPrice }} €</td>
+                        <td>{{ app.user.delivry.delivryType  }}</td>
+                        <td>{{ myOrder.createdAt|date() }}</td>
+                        <td> <a href="{{path('account_order_cart_show', {order: myOrder.id}) }}">Consulter</a> </td>
+                        <td><i class="fas fa-spinner"></i></td>
+                    </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
         </div>
       </div>
@@ -40,3 +68,26 @@
 </body>
 {% endblock %}
 
+
+{% block javascripts %} 
+  <script>
+    $(function() {
+      $('#btn-show-uniq-payment').hide();
+      $('.recurring-payment-orders-block').hide();
+
+
+      $('#btn-show-uniq-payment').on('click', function () {
+        $('.recurring-payment-orders-block').hide();
+        $('.uniq-payment-orders-block').show();
+        $('#btn-show-uniq-payment').hide();
+        $('#btn-show-recurring-payment').show();
+      })
+      $('#btn-show-recurring-payment').on('click', function () {
+        $('.uniq-payment-orders-block').hide();
+        $('.recurring-payment-orders-block').show();
+        $('#btn-show-uniq-payment').show();
+        $('#btn-show-recurring-payment').hide();
+      })
+    })
+  </script>
+{% endblock %}

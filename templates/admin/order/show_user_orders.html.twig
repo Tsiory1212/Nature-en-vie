@@ -48,12 +48,13 @@
 				<th scope="col">Type de livraision</th>
 				<th scope="col">Date de commande</th>
 				<th scope="col">Panier</th>
+				<th scope="col">Type</th>
 				<th scope="col">Livré</th>
 			</tr>
 			</thead>
 			<tbody>
-			{% for order in orders %}
-				<tr class="item"
+			{% for order in ordersNotDelivred %}
+				<tr class="item h5"
 					data-address="{{user.delivry.address}}"
 					data-lat="{{user.delivry.latPosition}}"
 					data-lng="{{user.delivry.lngPosition}}"
@@ -63,6 +64,7 @@
 					<td>{{ user.delivry.delivryType  }}</td>
 					<td>{{ order.createdAt|date() }}</td>
 					<td> <a href="{{path('admin_user_order_cart_show', {order: order.id}) }}">Consulter</a> </td>
+					<td> {{ order.paymentType}} </td>
 					<td>
 						{% if order.statusDelivry == 0 %}
 						<a href="{{ path('admin_user_order_deliver', {user: user.id, order: order.id}) }}"><i class="fas fa-spinner"></i></a>

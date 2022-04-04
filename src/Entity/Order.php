@@ -257,4 +257,11 @@ class Order
         return $this;
     }
 
+    public function isPaused()
+    {
+        if ($this->pause_delivry) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -54,20 +54,20 @@
                             <div class="col-md-4 col-sm-12 mb-5">
                                 <h1 class="font-bg-stylized-1">Mes abonnements</h1>
                                 <div class="bg-white-radius-1 text-secondary">
-                                    {# {% for facture in mesFactures %}
+                                    {% for mySubscription in myPlanSubscriptions %}
                                         <h2> 
-                                            {{ facture.cartSubscription.nameSubscriptionPlan }} 
-                                            {% if facture.isPaused %}
+                                            {{ mySubscription.subscriptionPlan.name }} 
+                                            {% if mySubscription.isPaused %}
                                                 <i class="fas fa-exclamation-circle information-subscription-popover" data-bs-toggle="tooltip" title="{{ facture.pauseLivraison.startDate|date('d/m/Y') ~ " - " ~ facture.pauseLivraison.endDate|date('d/m/Y') }}" data-bs-placement="top"></i>
                                             {% endif %} 
                                             
-                                            {% if facture.isPaused %}
-                                                <a href="{{path('account_delivery_continue', {id: facture.id})}}" class="btn"><i class="fas fa-play-circle fa-2x"></i></a>
+                                            {% if mySubscription.isPaused %}
+                                                <a href="{{path('account_delivery_continue', {id: mySubscription.id})}}" class="btn"><i class="fas fa-play-circle fa-2x"></i></a>
                                             {% else %}
-                                                <a href="{{path('account_delivery_suspend', {id: facture.id})}}" class="btn"><i class="far fa-pause-circle fa-2x"></i></a>
+                                                <a href="{{path('account_delivery_suspend', {id: mySubscription.id})}}" class="btn"><i class="far fa-pause-circle fa-2x"></i></a>
                                             {% endif %} 
                                         </h2>
-                                    {% endfor %} #}
+                                    {% endfor %}
                                 </div>
                             </div>
 

@@ -60,7 +60,7 @@
                                         <b class="post-cat">Natur'en vie</b><span class="post-date"> / {{ blog.createdAt|date('d M, Y')}}</span>
                                     </p>
                                     {# <span class="author">Posté par : Natur'en vie</span></p> #}
-                                    <span class="excerpt">{{blog.content }}...</span>
+                                    {# <span class="excerpt">{{blog.content }}...</span> #}
                                     {# <p class="excerpt">{{blog.content|slice(0, 300) }}...</p> #}
                                     <div class="group-buttons">
                                         <a href="{{ path('home_blog_show', {id: blog.id, slug: blog.slug})}}" class="btn readmore">Lire la suite</a>
@@ -93,6 +93,8 @@
             that.replaceWith('<span class="excerpt" style="color: black;">'+rawExerpt+'</span>...');
         })
 
+
+        $('#simple-translate').hide();
     </script>
 {% endblock %}
 

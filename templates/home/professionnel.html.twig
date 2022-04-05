@@ -119,6 +119,101 @@
             font-size: revert-layer;
             margin: 57px 0;
         }
+
+        @media (max-width: 744px){
+            .delivry-information{
+                margin-top: 10%;
+            }
+        }
+        @media (max-width: 570px){
+            .delivry-information img{
+                height: 29rem;
+                max-width: inherit;
+            }
+
+            .delivry-information{
+                margin-top: 9%;
+                height: 30rem;
+            }
+            .content-delivry-information{
+                margin-top: -115px;
+                padding-left: 19px;
+            }
+            .content-plateau {
+                margin-top: -52vh;
+            }
+            .content-plateau h1, .content-plateau h5{
+                padding: 0 5%;
+            }
+            .header-plateau{
+                padding: 0 5%;
+            }
+            .under-header-plateau{
+                display: none;
+            }
+            .under-content-plateau{
+                margin-top: 32%;
+            }
+
+            .under-content-plateau img {
+                width: 38px;
+            }
+
+            .under-delivry-information {
+                background-image: url(/assets/images/professionnel/fond-plateau.png);
+                height: 1420px;
+            }
+            .comment-ca-marche {
+                margin: 0 0em;
+                height: 881px;
+            }
+        }
+
+        @media (max-width: 370px){
+            .delivry-information img{
+                height: 29rem;
+                max-width: inherit;
+            }
+
+            .delivry-information{
+                margin-top: 9%;
+                height: 30rem;
+            }
+            .content-delivry-information{
+                margin-top: -115px;
+                padding-left: 19px;
+            }
+            .content-plateau {
+                margin-top: -52vh;
+            }
+            .content-plateau h1, .content-plateau h5{
+                padding: 0 5%;
+            }
+            .header-plateau{
+                padding: 0 5%;
+            }
+            .under-header-plateau{
+                display: none;
+            }
+            .under-content-plateau{
+                margin-top: 32%;
+            }
+
+            .under-content-plateau img {
+                width: 38px;
+            }
+
+            .under-delivry-information {
+                background-image: url(/assets/images/professionnel/fond-plateau.png);
+                height: 1420px;
+            }
+            .comment-ca-marche {
+                margin: 0 0em;
+                height: 881px;
+            }
+        }
+
+        
         
     </style>
 {% endblock %}
@@ -136,7 +231,7 @@
             <div class="delivry-information">
                 <img src="/assets/images/professionnel/Fond-jaune.png" class="img-fluid">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-sm-10 col-md-8 col-lg-5">
                         <div class="content-delivry-information">
                             <h1 class="text-black fw-bolder">De délicieux fruits et légumes bio livrés directement dans vos locaux !</h1>
                             <h2 class="text-white">Natur’en Vie vous prête ses services</h2>
@@ -237,22 +332,22 @@
             <div class="comment-ca-marche text-center">
                 <h1>Comment ça marche ?</h1>
                 <div class="row ">
-                    <div class="col">
+                    <div class="col-sm-12 col-md-8">
                         <img src="/assets/images/professionnel/icone-7.png" alt="">
                         <h2>1- La souscription</h2>
                         <h4>Faites-nous part de vos envies : Choisissez l’offre à laquelle vous souhaitez souscrire. Vous pouvez également établir un montant de participation par commande.</h4>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-12 col-md-8 mt-3">
                         <img src="/assets/images/professionnel/icone-8.png" alt="">
                         <h2>2- Installation</h2>
                         <h4>Nous nous chargeons de l’installation du service de livraison de panier de fruits et légumes bio au sein de votre entreprise</h4>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-12 col-md-8 mt-3">
                         <img src="/assets/images/professionnel/icone-9.png" alt="">
                         <h2>3- La communication</h2>
                         <h4>Pour lancer ce service, nous procédons à plusieurs événements communicationnels : dégustation, animations, …</h4>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-12 col-md-8 mt-3">
                         <img src="/assets/images/professionnel/icone-10.png" alt="">
                         <h2>4- Commandes</h2>
                         <h4>Chaque salarié est entièrement autonome. Il passe lui-même commande via notre site.</h4>

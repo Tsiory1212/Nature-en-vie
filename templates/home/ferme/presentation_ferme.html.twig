@@ -4,9 +4,25 @@
 
 {% block stylesheets %}
   <style>
-    .body-la-ferme{
-      margin-top: 301px;
+
+    
+    @media ( max-width: 600px) {
+      .main-slide .slick-slide.slick-active .biolife-slide__ten .text-content{
+        margin-top: 15px!important;
+        width: fit-content;
+        padding: 0 13px;
+      }
+
+      .biolife-slide__ten .text-content .first-line {
+        font-size: xx-large;
+      }
     }
+
+
+    header{
+      position: relative!important;
+    }
+
 
     p span.third-line-child{
       display: inline-block;
@@ -17,13 +33,12 @@
       margin-top: 10px;
     }
 
-    .biolife-slide__ten.biolife-slide__ten--elm-02 .text-content .first-line{
-      font-size: 49px;
-      font-size: 51px; 
-      color: #856b6b;
-    }
-    .biolife-slide__ten.biolife-slide__ten--elm-02 .text-content .third-line{
-      color: #833d3d;
+    #hr-under-title{
+      height: 7px;
+      color: #fff;
+      opacity: inherit;
+      margin-left: 25%;
+      margin-right: 25%;
     }
     
   </style>
@@ -38,33 +53,35 @@
               <li>
                   <div class="slide-contain biolife-slide__ten biolife-slide__ten--elm-01">
                       <div class="media"></div>
-                      <!-- <div class="text-content">
-                          <b class="first-line">Présentation de la ferme</b>
+                      <div class="text-content">
+                        <b class="first-line">Présentation de la ferme</b>
+                        <div class="div_hr_under_title text-center">
+                          <hr id="hr-under-title">
+                        </div>
                           <p class="third-line">
-                            La ferme est cultivée sur les terres argilo-calcaires de la SCI Les Rondards, sur une surface d’environ 14 hectares de légumes, 2.3 hectares de serres froides et 3 hectares de prairies pour la faune et la flore auxiliaires.
+                            La ferme est cultivée sur les terres argilo-calcaires de la SCI Les Rondards, sur une surface d’environ 14 hectares de légumes, 2.3 hectares de serres froides et 3 hectares de prairies pour la faune et la flore auxiliaires. <br><br>
                             Notre principal défi : cultiver à travers une terre lourde et un climat semi-continental du Bourbonnais, c’est pourquoi nous nous efforçons de ne produire que ce que la terre et le climat nous permettent, sans trop d’artifices.
                           </p>
-                          <p>
-                            <span class="third-line-child text-start">
-                               Matériels utilisés : <br>
-                              - 6 tracteurs<br>
+                            <span class="third-line mt-5">
+                               Matériels utilisés :
+                              - 6 tracteurs
                               - 1 roto-bêche, etc.
                             </span>
                           </p>
 
-                      </div> -->
+                      </div>
                   </div>
               </li>
               <li>
                   <div class="slide-contain biolife-slide__ten biolife-slide__ten--elm-02">
                       <div class="media"></div>
-                      <!-- <div class="text-content">
+                      <div class="text-content">
                           <b class="first-line">Notre engagement qualité</b>
                           <p class="third-line">
-                            Nous travaillons sous la certification DEMETER depuis bientôt 30 maintenant. Il s’agit de la marque des produits de l’agriculture biodynamique certifiée, présente dans plus de 50 pays sur tous les continents. <br>
+                            Nous travaillons sous la certification DEMETER depuis bientôt 30 maintenant. Il s’agit de la marque des produits de l’agriculture biodynamique certifiée, présente dans plus de 50 pays sur tous les continents. <br><br>
                             En France, nous sommes 430 producteurs/viticulteurs, et près de 70 autres entreprises certifiées à vous garantir des aliments de qualité. Chez Nature En Vie, nous nous engageons quotidiennement pour un futur respectueux des hommes et de la terre en vous apportant des aliments vivants et savoureux.
                           </p>
-                      </div> -->
+                      </div>
                   </div>
               </li>
           </ul>

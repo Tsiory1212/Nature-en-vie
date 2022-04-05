@@ -113,11 +113,11 @@
                 <div class="card-body">
                     <!-- <div class="fond-name-subscription"> {{ subscription.name }} </div> -->
                         {% if subscription.name == "Grand panier" and subscription.status == 'active'  %}                            
-                            <img src="/assets/images/cartSubscription/name-and-price-grand-panier.png" Class="name-and-price-cart" alt="image grand panier" width="270" >
+                            <img src="/assets/images/cartSubscription/name-and-price-grand-panier.png" Class="name-and-price-cart img-fluid" alt="image grand panier" width="270" >
                         {% elseif subscription.name == "Panier moyen" and subscription.status == 'active' %}
-                        <img src="/assets/images/cartSubscription/name-and-price-moyen-panier.png" alt="image grand panier" width="335">
+                        <img src="/assets/images/cartSubscription/name-and-price-moyen-panier.png" class="img-fluid" alt="image grand panier" width="335">
                         {% elseif subscription.name == "Petit panier" and subscription.status == 'active' %}
-                            <img src="/assets/images/cartSubscription/name-and-price-petit-panier.png" alt="image petit panier" width="280" >
+                            <img src="/assets/images/cartSubscription/name-and-price-petit-panier.png" class="img-fluid" alt="image petit panier" width="280" >
                         {% else %}
                             Prix et nom du panier
                         {% endif %}
@@ -126,11 +126,11 @@
                     <div class="row mt-5">
                         <div class="col-12">
                             {% if subscription.name == "Grand panier" and subscription.status == 'active' %}
-                                <img src="/assets/images/cartSubscription/cover-grand-panier.png" alt="image grand panier" width="335" class="rotate" style="margin-top: -72px;">
+                                <img src="/assets/images/cartSubscription/cover-grand-panier.png" alt="image grand panier" width="335" class="rotate img-fluid" style="margin-top: -72px;">
                             {% elseif subscription.name == "Panier moyen" and subscription.status == 'active' %}
-                                <img src="/assets/images/cartSubscription/cover-moyen-panier.png" alt="image panier moyen" width="335"  style="margin-top: -72px;">
+                                <img src="/assets/images/cartSubscription/cover-moyen-panier.png" alt="image panier moyen" width="335"  class="img-fluid" style="margin-top: -72px;">
                             {% elseif subscription.name == "Petit panier" and subscription.status == 'active' %}
-                                <img src="/assets/images/cartSubscription/cover-petit-panier.png" alt="image petit panier" width="335"  style="margin-top: -42px;" class="rotate">
+                                <img src="/assets/images/cartSubscription/cover-petit-panier.png" alt="image petit panier" width="335"  class="rotate img-fluid" style="margin-top: -42px;">
                             {% else %}
                                 <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="335">
                             {% endif %}

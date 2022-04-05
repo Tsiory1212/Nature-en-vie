@@ -148,7 +148,7 @@ class AdminSubscriptionController extends AbstractController
      */
     public function admin_subscription_edit(SubscriptionPlan $plan, Request $request, PaypalService $paypalService): Response
     {
-        $form = $this->createForm(CartSubscriptionType::class, $plan)
+        $form = $this->createForm(SubscriptionPlanType::class, $plan)
             ->remove('idProductPlanPaypal')
             ->remove('priceSubscription')
             ->remove('durationMonthSubscription')
@@ -159,28 +159,24 @@ class AdminSubscriptionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
            
             //On recupère les données soumises
-            $nameSubscriptionPlan = $form->getData()->getNameSubscriptionPlan();
-            $descriptionSubscriptionPlan = $form->getData()->getDescriptionSubscriptionPlan();
+            $nameSubscriptionPlan = $form->getData()->getName();
+            $descriptionSubscriptionPlan = $form->getData()->getDescription();
             
             // On annulle la création du plan si il y a duplication de nom (vérification seulment dans les plans actifsd)
-            if ($this->paypalService->plan_isInActivePlans($nameSubscriptionPlan)) {
-                $this->addFlash(
-                    'danger',
-                    "Duplication de l'abonnement $nameSubscriptionPlan , penser à désactiver l'ancien abonnement avant de créer un abonnement de même nom"
-                );
+            // if ($this->stripeService->plan_isInActivePlans($nameSubscriptionPlan)) {
+            //     $this->addFlash(
+            //         'danger',
+            //         "Duplication de l'abonnement $nameSubscriptionPlan , penser à désactiver l'ancien abonnement avant de créer un abonnement de même nom"
+            //     );
                 
-                return $this->redirectToRoute('admin_subscription_list');
-            }
+            //     return $this->redirectToRoute('admin_subscription_list');
+            // }
 
-            // On utilise le service paypal pour synchroniser le traitrement dans PAYPAL.com
-            $paypalService->editSubscriptionPlan(
-                $subscription->getIdSubscriptionPlanPaypal(),
-                $nameSubscriptionPlan, 
-                $descriptionSubscriptionPlan, 
-            );
+            // On utilise le service Stripe pour synchroniser le traitrement dans PAYPAL.com
 
 
-            $this->em->persist($subscription);
+
+            $this->em->persist($plan);
             $this->em->flush();
             $this->addFlash(
                'success',
@@ -190,7 +186,7 @@ class AdminSubscriptionController extends AbstractController
         }
         return $this->render('admin/subscription/edit_subscription.html.twig', [
             'form' => $form->createView(),
-            'subscription' => $subscription
+            'subscription' => $plan
         ]);
     }
 

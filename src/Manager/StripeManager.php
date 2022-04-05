@@ -3,6 +3,7 @@ namespace App\Manager;
 
 use App\Entity\Order;
 use App\Entity\User;
+use App\Repository\OrderRepository;
 use App\Repository\SubscriptionPlanRepository;
 use App\Service\Panier\PanierService;
 use App\Service\StripeService;
@@ -22,12 +23,15 @@ class StripeManager {
     protected $panierService;
 
     protected $repoPlan;
-    public function __construct(EntityManagerInterface $em, StripeService $stripeService, PanierService $panierService, SubscriptionPlanRepository $repoPlan)
+    protected $repoOrder;
+
+    public function __construct(EntityManagerInterface $em, StripeService $stripeService, PanierService $panierService, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder)
     {
         $this->em = $em;
         $this->stripeService = $stripeService;
         $this->panierService = $panierService;
         $this->repoPlan = $repoPlan;
+        $this->repoOrder = $repoOrder;
     }
 
  
@@ -114,9 +118,12 @@ class StripeManager {
     public function persistSubscriptionPlan($stripePriceId, $paymentMethodId, $planSubscriptionName, $planSubscriptionId, $user)
     {
         $data = $this->stripeService->getDatasAfterSubscriptionPlan($stripePriceId, $paymentMethodId, $planSubscriptionName, $user);
+        $plan = $this->repoPlan->findOneBy(['id' => $planSubscriptionId]);
+        
         $planDatas = [
             'planSubscriptionId' => $planSubscriptionId,
-            'planSubscriptionName' => $planSubscriptionName
+            'planSubscriptionName' => $planSubscriptionName,
+            'planSubscriptionAmount' => $plan->getAmount()
         ];
 
         if ($data) {
@@ -132,13 +139,12 @@ class StripeManager {
         }
 
         if ($resource !== null ) {
-            $plan = $this->repoPlan->findOneBy(['id' => $planSubscriptionId]);
             $order = new Order();
             $paymentType = $order::PAYMENT_TYPE[2];
 
             $order->setUser($user);
             $order->setSubscriptionPlanDatas($planDatas);
-            $order->setTotalPrice($this->panierService->getTotalPrice());
+            $order->setTotalPrice($plan->getAmount());
             $order->setUpdatedAt(new \DateTime());
             $order->setCreatedAt(new \DateTime());
             $order->setReference(uniqid('', false));
@@ -149,5 +155,24 @@ class StripeManager {
             $this->em->persist($order);
             $this->em->flush();
         }
+    }
+
+    public function cancelSubscriptionPlan($orderId, $stripeSubscriptionId)
+    {
+        $data = $this->stripeService->cancelSubscription($stripeSubscriptionId);
+        // $data = $this->stripeService->getSubscription($stripeSubscriptionId);
+        // $subscription = $this->stripeService->getSubscription($stripeSubscriptionId);
+        
+        $orderPlan = $this->repoOrder->findOneBy(['id' => $orderId]);
+        
+        // if ($data) {
+            $orderPlan->setUpdatedAt(new \DateTime());
+            // $orderPlan->setStatusStripeData($data->status);
+            $orderPlan->setStatusStripeData('canceled');
+            // dd($orderPlan);
+            $this->em->persist($orderPlan);
+        // }
+
+        return $data;
     }
 }

@@ -425,6 +425,26 @@ class StripeService
     }
 
 
+
+    /**
+     * Permet de se désaboner à un abonnment
+     *
+     * @param string $subscriptionId
+     */
+    public function cancelSubscription($subscriptionId)
+    {
+        $stripe = new \Stripe\StripeClient($this->secretKey);
+
+        $subscription = $stripe->subscriptions->cancel(
+            $subscriptionId,
+            []
+        );
+
+        
+        return $subscription;
+    }
+
+
     /**
      * Permet de créer un abonnemnet programmé/plannifié (ex: pendant 3 mois, 1 ans, ...)
      * On peut aussi démarrer l'abonnement dans une date future via le params 'start_date'
@@ -452,6 +472,18 @@ class StripeService
             ]
         ]);
         return $createScheduleSubscription;
+    }
+
+    public function getSubscription($subscriptionId)
+    {
+        $stripe = new \Stripe\StripeClient($this->secretKey);
+
+        $subscription = $stripe->subscriptions->retrieve(
+            $subscriptionId,
+            []
+        );
+
+        return $subscription;
     }
 
     public function allSubscriptions()

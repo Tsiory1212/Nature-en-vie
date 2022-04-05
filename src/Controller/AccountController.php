@@ -30,11 +30,11 @@ class AccountController extends AbstractController
     {
         $user = $this->getUser();
         $maLivraison = $repoDelivry->findOneBy(['user' => $user]);
-        $myPlanSubscriptions = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[2]]);
+        $myOrderPlanSubscriptions = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[2]]);
         $mesFavoriteCarts = $this->repoFavoriteCart->findBy(['user' => $user]);
         
         return $this->render('account/dashboard.html.twig', [
-            'myPlanSubscriptions' => $myPlanSubscriptions,
+            'myOrderPlanSubscriptions' => $myOrderPlanSubscriptions,
             'mesFavoriteCarts' => $mesFavoriteCarts,
             'maLivraison' => $maLivraison
         ]);

@@ -6,6 +6,7 @@ use App\Entity\CartSubscription;
 use App\Entity\FactureAbonnement;
 use App\Entity\SubscriptionPlan;
 use App\Repository\CartSubscriptionRepository;
+use App\Repository\OrderRepository;
 use App\Repository\SubscriptionPlanRepository;
 use App\Service\Panier\PanierService;
 use App\Service\Paypal\PaypalService;
@@ -23,11 +24,14 @@ class SubscriptionController extends AbstractController
     protected $paypalService;
     protected $repoPlan;
 
-    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, SubscriptionPlanRepository $repoPlan)
+    protected $repoOrder;
+
+    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder)
     {
         $this->em = $em;
         $this->paypalService = $paypalService;
         $this->repoPlan = $repoPlan;
+        $this->repoOrder = $repoOrder;
     }
 
 
@@ -60,15 +64,22 @@ class SubscriptionController extends AbstractController
         $paypalClientId = $this->paypalService->clientId;
         
         if ($user) {
-            $intentSecret = $stripeService->intentSecret();
+            $order = $this->repoOrder->findOneBy(['user' => $user, 'subscription_plan' => $plan]);
+            if ($order === null) {
+                $intentSecret = $stripeService->intentSecret();
+            }else {
+                $intentSecret = '';
+            }
         }else{
             $intentSecret = '';
+            $order = null;
         }
 
         $inerval_unit = $plan::INTERVAL_UNIT[$plan->getIntervalUnit()];
 
         return $this->render('subscription/show_subscription.html.twig', [
             'subscription' => $plan,
+            'order' => $order,
             'paypal_clientId' => $paypalClientId,
             'paypal_env' => $paypal_env,
             'intentSecret' => $intentSecret,

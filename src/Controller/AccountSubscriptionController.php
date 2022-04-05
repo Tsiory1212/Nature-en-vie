@@ -3,10 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\FactureAbonnement;
+use App\Entity\Order;
+use App\Entity\PauseDelivry;
 use App\Entity\PauseLivraison;
+use App\Entity\SubscriptionPlan;
 use App\Form\PauseLivraisonType;
+use App\Manager\StripeManager;
 use App\Repository\FactureAbonnementRepository;
+use App\Repository\OrderRepository;
 use App\Service\Paypal\PaypalService;
+use App\Service\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +25,21 @@ class AccountSubscriptionController extends AbstractController
 
     protected $paypalService;
 
-    public function __construct(EntityManagerInterface $em, PaypalService $paypalService)
+    /** @var OrderRepository $repoOrder */
+    protected $repoOrder;
+
+    /** @var StripeService $stripeService */
+    protected $stripeService;
+
+    protected $stripeManager;
+
+    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, OrderRepository $repoOrder, StripeService $stripeService, StripeManager $stripeManager)
     {
         $this->em = $em;
         $this->paypalService = $paypalService;
+        $this->repoOrder = $repoOrder;
+        $this->stripeService = $stripeService;
+        $this->stripeManager = $stripeManager;
     }
 
     /**
@@ -30,21 +47,21 @@ class AccountSubscriptionController extends AbstractController
      */
     public function account_delivery_suspend($id, Request $request, FactureAbonnementRepository $repoFacture)
     {
-        $pauseLivraison = new PauseLivraison();
+        $pauseDelivry = new PauseDelivry();
 
         /**
          * @var FactureAbonnement $currentFacture 
          */
         $currentFacture = $repoFacture->find($id);
 
-        $form = $this->createForm(PauseLivraisonType::class, $pauseLivraison);
+        $form = $this->createForm(PauseDelivryType::class, $pauseDelivry);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $currentFacture->setPauseLivraison($pauseLivraison);
-            $pauseLivraison->setFactureAbonnement($currentFacture);
+            $currentFacture->setPauseLivraison($pauseDelivry);
+            $pauseDelivry->setFactureAbonnement($currentFacture);
             
-            $this->em->persist($pauseLivraison);
+            $this->em->persist($pauseDelivry);
             $this->em->flush();
             $this->addFlash(
                'success',
@@ -52,7 +69,7 @@ class AccountSubscriptionController extends AbstractController
             );
             return $this->redirectToRoute('dashboard');
         }
-        return $this->render('account/abonnement/pause_livraison.html.twig', [
+        return $this->render('account/subscription/pause_delivry.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -86,19 +103,34 @@ class AccountSubscriptionController extends AbstractController
     }
 
     /**
-     * @Route("/test/subcription/test", name="test")
+     * @Route("/account/order/{orderId}/plan/show/detail", name="account_order_plan_show_detail")
      */
-    public function test(): Response
+    public function account_order_plan_show_detail(Order $orderId ): Response
     {
-        dd($this->paypalService->getToken());
-        $clientId = $this->paypalService->clientId;
-        $clientToken = $this->paypalService->getClientToken();
-        $token = $this->paypalService->getToken();
 
-        return $this->render('test.html.twig', [
-            'clientId' => $clientId,
-            'clientToken' => $clientToken,
-            'token' => $token
+        $orderPlan = $this->repoOrder->findOneBy(['id' => $orderId]);
+
+        $intervalUnitSubscription = SubscriptionPlan::INTERVAL_UNIT[$orderPlan->getStripeData()['stripe_subscription_interval']] ;
+        return $this->render('/account/subscription/plan/show_subscription_plan_detail.html.twig', [
+            'orderPlan' => $orderPlan,
+            'intervalUnitSubscription' => $intervalUnitSubscription
+        ]);
+    }
+
+    /**
+     * @Route("/account/order/{orderId}/plan/subscription/{stripeSubscriptionId}/cancel", name="account_plan_subscription_cancel")
+     */
+    public function account_plan_subscription_cancel($orderId, $stripeSubscriptionId): Response
+    {
+        // dd(
+        //     $this->stripeService->getSubscription($subscriptionId)
+        // );
+        $subscription = $this->stripeManager->cancelSubscriptionPlan($orderId, $stripeSubscriptionId);
+
+        return $this->json([
+            'code' => 200, 
+            'message' => 'subscription_plan_canceled',
+            'status_subscription_plan' => $subscription->status
         ]);
     }
 }

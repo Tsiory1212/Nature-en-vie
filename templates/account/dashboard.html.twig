@@ -54,18 +54,12 @@
                             <div class="col-md-4 col-sm-12 mb-5">
                                 <h1 class="font-bg-stylized-1">Mes abonnements</h1>
                                 <div class="bg-white-radius-1 text-secondary">
-                                    {% for mySubscription in myPlanSubscriptions %}
+                                    {% for myOrderSubscription in myOrderPlanSubscriptions %}
                                         <h2> 
-                                            {{ mySubscription.subscriptionPlan.name }} 
-                                            {% if mySubscription.isPaused %}
-                                                <i class="fas fa-exclamation-circle information-subscription-popover" data-bs-toggle="tooltip" title="{{ facture.pauseLivraison.startDate|date('d/m/Y') ~ " - " ~ facture.pauseLivraison.endDate|date('d/m/Y') }}" data-bs-placement="top"></i>
-                                            {% endif %} 
-                                            
-                                            {% if mySubscription.isPaused %}
-                                                <a href="{{path('account_delivery_continue', {id: mySubscription.id})}}" class="btn"><i class="fas fa-play-circle fa-2x"></i></a>
-                                            {% else %}
-                                                <a href="{{path('account_delivery_suspend', {id: mySubscription.id})}}" class="btn"><i class="far fa-pause-circle fa-2x"></i></a>
-                                            {% endif %} 
+                                            <a href="{{path('account_order_plan_show_detail', {orderId : myOrderSubscription.id})}}" style="color:#7d8181">
+                                                <i class="fa-solid fa-circle-info me-3"></i>
+                                                {{ myOrderSubscription.subscriptionPlan.name }} 
+                                            </a>
                                         </h2>
                                     {% endfor %}
                                 </div>

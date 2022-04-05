@@ -18,6 +18,8 @@ class Order
         2 => 'souscription_plan'
     ];
 
+    
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -221,6 +223,21 @@ class Order
     public function setStripeData(array $stripe_data): self
     {
         $this->stripe_data = $stripe_data;
+
+        return $this;
+    }
+
+    /**
+     * Permet de modifier le status de l'abonnement
+     *
+     * @param string $SubscriptionStatus
+     * @return self
+     */
+    public function setStatusStripeData($SubscriptionStatus): self
+    {
+        if ($this->stripe_data['stripe_subscription_status']) {
+            $this->stripe_data['stripe_subscription_status'] = $SubscriptionStatus;
+        }
 
         return $this;
     }

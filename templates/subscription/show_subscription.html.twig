@@ -166,7 +166,11 @@
                     </div>
                 
                     <div id="card-errors" role="alert"></div>
-                    <button id="sub-card-button-submit" class="button button1 mt-4" type="submit"><span id="label_subscribe">Souscrire</span>  {{subscription.amount}}€/ <span id="label_interval_unit">{{ inerval_unit }}</span> </button>
+                    {% if order is null %}
+                        <button id="sub-card-button-submit" class="button button1 mt-4" type="submit"><span id="label_subscribe">Souscrire</span>  {{subscription.amount}}€/ <span id="label_interval_unit">{{ inerval_unit }}</span> </button>                    
+                    {% else %}
+                        <button class="button button1 mt-4" disabled> Déjà abonné </button>                    
+                    {% endif %}
                 </form>
             {% else %}
                 <a href="{{ path('dashboard') }}" class="button button1 ">Ajouter au panier</a>
@@ -179,15 +183,13 @@
         </div>
     </div>
 
-
 {% endblock %}
 
 
 {% block javascripts %}
-    {% if app.user %}
+    {% if app.user and order is null  %}
         <script src="https://js.stripe.com/v3/"></script>
 
-    {% if app.user %}
         <script>
             $(function() {
                 // Déclaration des variables
@@ -333,8 +335,6 @@
                 }
             });
         </script>                           
-    {% endif %}
-    
     {% endif %}
 {% endblock %}
 

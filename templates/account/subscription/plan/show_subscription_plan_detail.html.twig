@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modification du profil
+{% endblock %}
+
+{% block body %}
+    <body class="biolife-body">
+        <div class="page-contain">
+            <div class="banner-media-layout-01"></div>
+            <div class="text-content4">
+                <div class="container bg-white panier_body shadow-lg p-3 mb-5 bradius-3rem">
+                    {% set plan = orderPlan.SubscriptionPlanDatas %}
+                    {% set stripeData = orderPlan.stripeData %}
+                    <h2 class="text-center">Abonnement sur {{ orderPlan.SubscriptionPlanDatas.planSubscriptionName }}</h2>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="/biolife/assets/images/home-08/bn16-01.png" class="card-img-top" alt="cover-grand-panier">
+                                <div class="card-body">
+                                    <h5 id="card-plan-amount">Tarif : {{ plan.planSubscriptionAmount }}€</h5>
+                                    <h5 id="card-plan-interval-unit">Cycle : {{ intervalUnitSubscription }}</h5>
+                                    <h5 id="card-subscription-plan-status">Status : <span id="status-subscription">{{ stripeData.stripe_subscription_status }}</span> </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row mt-5">
+                                <div class="col-md-2">
+                                    <a href="#" class="btn btn-warning">Pause</a>
+                                </div>
+                                <div class="col-md-10">
+                                    <p> Vous pouvez définir un interval pour mettre pause la livraison. Nous tenons à préciser que le prélèvement continue, même si la livraison est en pause </p>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-md-2">
+                                    <a id="btn-cancel-subscription-plan" href="{{ path('account_plan_subscription_cancel', {orderId: orderPlan.id, stripeSubscriptionId: stripeData.stripe_subscription_id })  }}" onclick="cancelSubscriptionPlan(event)" class="btn btn-danger">{% if stripeData.stripe_subscription_status == 'canceled' %}Désabonné!{% else %} Se désabonner !{% endif %}  <span id="spinner-cancel-subscription"></span></a>
+                                </div>
+                                <div class="col-md-10">
+                                    <p> Annuler immédiatement l'abonnement. Vous ne serez plus facturé pour cet abonnement. Notez cependant que tous les éléments de facture en attente seront toujours facturés à la fin de la période</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <pre>
+                        {{ dump(orderPlan) }}
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function cancelSubscriptionPlan(event){
+            event.preventDefault();
+            var valConfirm = confirm('Voulez-vous vous désabonner?');
+
+            if (valConfirm === true) {
+                var href_value = $('#btn-cancel-subscription-plan')[0].href;
+                console.log(href_value)
+                $.ajax({
+                    url: href_value,
+                    beforeSend: function() {
+                        $('#spinner-cancel-subscription').html("<div class='spinner-border text-light' role='status'> <span class='visually-hidden'>Loading...</span></div>");
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.code == '200' && response.message == 'subscription_plan_canceled') {
+                            $('#btn-cancel-subscription-plan').html("Désabonné");
+                            $('#card-subscription-plan-status #tatus-subscription').text("Abonnement annulé");
+                        }
+                    },
+                    error: function () {
+                        $('#spinner-cancel-subscription').html("");
+                    }
+                })
+            }
+        }
+    </script>
+{% endblock %}

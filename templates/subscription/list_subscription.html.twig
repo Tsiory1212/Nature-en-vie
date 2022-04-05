@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-    {% block title %}Nos paniers!{% endblock %}
+{% block title %}Nos paniers!{% endblock %}
 
 {% block stylesheets %}
     <style>
@@ -30,12 +30,13 @@
 
         
     </style>
+      <link rel="stylesheet" href="{{ asset('/assets/css/list_subscription.css')}}">
 {% endblock %}
 
 {% block body %}
     <div class="container my-5">
         <!-- block card subscription  -->
-        {% include "partials/subscription/_list_subscription.html.twig" %}
+        {% include "partials/subscription/_list_subscription2.html.twig" %}
     </div>
    
 </body>

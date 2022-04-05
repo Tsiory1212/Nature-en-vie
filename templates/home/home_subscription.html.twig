@@ -8,101 +8,6 @@
             position: relative !important;
         }
 
-
-        .biolife-banner__style-16 .link-cat{
-            top: 492px;
-            left: 27%;
-            right: 27%;
-            color: aliceblue;
-            background-color: #c5d5d58c;
-        }
-
-        .biolife-banner__style-17 .link-cat, .biolife-banner__style-17_02 .link-cat{
-            top: 227px;
-            left: 35%;
-            right: 35%;
-            color: aliceblue;
-            background-color: #c5d5d58c;
-            font-size: large;
-        }
-
-    
-        /** Desktop device */
-        @media (max-width: 1199px){
-            .biolife-banner__style-16 .link-cat{
-                top: 464px;
-            }    
-
-            .biolife-banner__style-17 .link-cat, .biolife-banner__style-17_02 .link-cat{
-                font-size: initial;
-            }    
-
-            .biolife-slide__layout-nine  {
-                margin-top: -154px;
-                background-size: contain;
-            }
-            
-        }
-
-        /** Tablet device */
-        @media (max-width: 970px){
-            .biolife-banner__style-16 .link-cat{
-                top: 411px;
-            }    
-            .biolife-banner__style-17 .link-cat, .biolife-banner__style-17_02 .link-cat{
-                left: 29%;
-                right: 29%;
-            }    
-
-
-        }
-
-        @media (max-width: 744px){
-            .biolife-banner__style-16 .link-cat{
-                top: 374px;
-                padding: 7px;
-            }  
-            .biolife-banner__style-17 .link-cat, .biolife-banner__style-17_02 .link-cat{
-                padding: 7px;
-                top: 221px;
-            }  
-
-            .biolife-slide__layout-nine  {
-                background-size: cover;
-                margin-top: 1px;
-            }  
-            
-        }
-
-        @media (max-width: 570px){
-            .biolife-slide__layout-nine  {
-                margin-top: -112px;
-                background-size: 500px;
-            }
-            
-            .biolife-banner__style-17 .media{
-                height: 571px;
-            }
-            
-            .biolife-banner__style-17_02 .media{
-                height: 571px;
-            }         
-
-            .biolife-banner__style-16 .link-cat, .biolife-banner__style-17 .link-cat, .biolife-banner__style-17_02 .link-cat{
-                top: 469px;
-            }  
-            
-        }
-        
-        /** Mobile device */
-        @media (max-width: 370px){
-            .biolife-banner__style-16 .link-cat, .biolife-banner__style-17 .link-cat, .biolife-banner__style-17_02 .link-cat{
-                top: 413px;
-                padding: 7px;
-            }    
-        }
-
-        
         
         #biolife-quickview-block {
             z-index: 9992!important;
@@ -111,9 +16,10 @@
         .subscription-block{
             background-image: linear-gradient(#dba800, #dba800 , white);
         }
-    
 
     </style>
+    <link rel="stylesheet" href="{{ asset('/assets/css/list_subscription.css')}}">
+
 {% endblock %}
 {% block body %}
 

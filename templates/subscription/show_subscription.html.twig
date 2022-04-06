@@ -166,7 +166,8 @@
                     </div>
                 
                     <div id="card-errors" role="alert"></div>
-                    {% if order is null %}
+                    
+                    {% if order is empty %}
                         <button id="sub-card-button-submit" class="button button1 mt-4" type="submit"><span id="label_subscribe">Souscrire</span>  {{subscription.amount}}€/ <span id="label_interval_unit">{{ inerval_unit }}</span> </button>                    
                     {% else %}
                         <button class="button button1 mt-4" disabled> Déjà abonné </button>                    
@@ -188,7 +189,7 @@
 
 
 {% block javascripts %}
-    {% if app.user and order is null  %}
+    {% if app.user and order is empty  %}
         <script src="https://js.stripe.com/v3/"></script>
 
         <script>
@@ -205,10 +206,12 @@
                 var clientSecret = "{{ intentSecret }}";
                 var stripePriceId = "{{ subscription.priceIdStripe}}";
                 var planSubscriptionName = "{{ subscription.name}}";
+                var planSubscriptionAmount = "{{subscription.amount}}";
+                var planSubscriptionIntervalUnit = "{{ inerval_unit }}";
                 var planSubscriptionId = "{{ subscription.id}}";
                 var cardHolderName = "{{ app.user.lastname }}";
                 var cardHolderEmail = "{{ app.user.email }}";
-                var CardHolderPostalCcode = "{{ app.user.delivry.postalCode }}";
+                var cardHolderPostalCode = "{{ app.user.delivry.postalCode }}";
                 var displayError = $('#card-errors');
                 
                 var styleCustom ={
@@ -226,7 +229,7 @@
 
                 // Monter notre form à l'objet Stripe 
                 var card = elements.create('card', {style: styleCustom});
-                card.update({value: {postalCode: CardHolderPostalCcode}});
+                card.update({value: {postalCode: cardHolderPostalCode}});
 
                 card.mount("#card-elements");
 
@@ -268,7 +271,7 @@
                             displayError.addClass('alert alert-danger');
                             displayError.text(result.error.message);
                             console.log(sub_cardButton);
-                            sub_cardButton.text('Souscrire');
+                            sub_cardButton.text('Souscrire '+planSubscriptionAmount+'€/ '+planSubscriptionIntervalUnit);
                             sub_cardButton.attr('disabled', false);
 
                         }else if('paymentIntent' in result){
@@ -326,7 +329,7 @@
                             error: function(error){
                                 console.log('error', error)
                                 
-                                sub_cardButton.text('Souscrire');
+                                sub_cardButton.text('Souscrire '+planSubscriptionAmount+'€/ '+planSubscriptionIntervalUnit);
                                 sub_cardButton.attr('disabled', false);
                                 displayError.addClass('alert alert-danger');
                                 displayError.text('Une erreur s\'est survenue');

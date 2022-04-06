@@ -158,7 +158,7 @@
                                     <div class="icon-contain">
                                         <div class="span-index">
                                             <i class="icon-cart-mini biolife-icon"></i>
-                                            <span class="qty">8</span>
+                                            <span class="qty">{{cartItems_subcriberEvent['quantity'] }}</span>
 
                                             <span class="sub-total"> 
                                                 <span class="quantity-item">{{cartItems_subcriberEvent['quantity'] }}</span>  article(s) - <span class="total-price">{{ cartItems_subcriberEvent['totalPrice'] }} </span> € 
@@ -166,7 +166,7 @@
                                         </div>
                                         <a href="#" class="btn-to-cart">Go</a>
                                     </div>
-                                    <div class="cart-content">
+                                    <div class="cart-content" style="z-index: 9999!important">
                                         <div class="cart-inner">
                                             <ul class="products">
                                                 {% for item in cartItems_subcriberEvent['items'] %}

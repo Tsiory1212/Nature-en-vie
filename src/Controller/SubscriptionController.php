@@ -11,6 +11,7 @@ use App\Repository\SubscriptionPlanRepository;
 use App\Service\Panier\PanierService;
 use App\Service\Paypal\PaypalService;
 use App\Service\StripeService;
+use App\Service\SubscriptionService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Plan;
@@ -23,15 +24,17 @@ class SubscriptionController extends AbstractController
     private $em;
     protected $paypalService;
     protected $repoPlan;
-
     protected $repoOrder;
+    /** @var SubscriptionService $subscriptionService*/
+    protected $subscriptionService;
 
-    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder)
+    public function __construct(EntityManagerInterface $em, PaypalService $paypalService, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder, SubscriptionService $subscriptionService)
     {
         $this->em = $em;
         $this->paypalService = $paypalService;
         $this->repoPlan = $repoPlan;
         $this->repoOrder = $repoOrder;
+        $this->subscriptionService = $subscriptionService;
     }
 
 
@@ -64,15 +67,19 @@ class SubscriptionController extends AbstractController
         $paypalClientId = $this->paypalService->clientId;
         
         if ($user) {
-            $order = $this->repoOrder->findOneBy(['user' => $user, 'subscription_plan' => $plan]);
-            if ($order === null) {
+            $orders = $this->repoOrder->findBy(['user' => $user, 'subscription_plan' => $plan]);
+            $activeOrderPlan = $this->subscriptionService->getActiveOrderPlanSubscription($orders);
+
+            if (empty($activeOrderPlan)) {
                 $intentSecret = $stripeService->intentSecret();
+                $order = [];
             }else {
+                $order = $activeOrderPlan;
                 $intentSecret = '';
             }
         }else{
             $intentSecret = '';
-            $order = null;
+            $order = [];
         }
 
         $inerval_unit = $plan::INTERVAL_UNIT[$plan->getIntervalUnit()];

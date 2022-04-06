@@ -157,21 +157,18 @@ class StripeManager {
         }
     }
 
-    public function cancelSubscriptionPlan($orderId, $stripeSubscriptionId)
+    public function cancelSubscription($orderId, $stripeSubscriptionId)
     {
         $data = $this->stripeService->cancelSubscription($stripeSubscriptionId);
-        // $data = $this->stripeService->getSubscription($stripeSubscriptionId);
-        // $subscription = $this->stripeService->getSubscription($stripeSubscriptionId);
         
-        $orderPlan = $this->repoOrder->findOneBy(['id' => $orderId]);
+        $order = $this->repoOrder->findOneBy(['id' => $orderId]);
         
-        // if ($data) {
-            $orderPlan->setUpdatedAt(new \DateTime());
-            // $orderPlan->setStatusStripeData($data->status);
-            $orderPlan->setStatusStripeData('canceled');
-            // dd($orderPlan);
-            $this->em->persist($orderPlan);
-        // }
+        if ($data) {
+            $order->setUpdatedAt(new \DateTime());
+            $order->setStatusStripeData($data->status);
+            $this->em->persist($order);
+            $this->em->flush();
+        }
 
         return $data;
     }

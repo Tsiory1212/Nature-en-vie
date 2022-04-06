@@ -91,16 +91,6 @@ class AccountPurchasesController extends AbstractController
      */
     public function account_order_step_one(PanierService $panierService, Request $request, StripeService $stripeService): Response
     {
-
-
-        // dd(
-        //     // $stripeService->getProduct('prod_LPTckQKPmapPIT'),
-        //     // $stripeService->allSubscriptions(),
-        //     // $stripeService->allCustomers()
-        //     $stripeService->allPlans(10)
-        // );
-
-
         $user = $this->getUser();
         $myDelivryInfo = $this->repoDelivry->findOneBy(['user' => $user]);
         $myLastFavCart = $this->repoFavCart->findBy(['user' =>  $user], ['id'=>'DESC'],1,0);
@@ -191,8 +181,8 @@ class AccountPurchasesController extends AbstractController
     public function account_order_show(): Response
     {
         $user = $this->getUser();
-        $myUniqPaymentOrders = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[0]]);
-        $myRecurringPaymentOrders = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[1]]);
+        $myUniqPaymentOrders = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[0]], ['id' => 'DESC']);
+        $myRecurringPaymentOrders = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[1]], ['id' => 'DESC']);
 
         return $this->render('purchases/show_my_orders.html.twig', [
             'myUniqPaymentOrders' => $myUniqPaymentOrders,
@@ -212,6 +202,19 @@ class AccountPurchasesController extends AbstractController
             'items' => $panierService->getFullFavoriteCart($cart),
             'total' => $panierService->getTotalPriceFavoriteCart($cart) ,
             'allQuantityItem' => $panierService->allQuantityItemInFavoriteCart($cart)
+        ]);
+    }
+
+    /**
+     * @Route("/account/order/{order}/recurring/show", name="account_order_reccuring_show")
+     */
+    public function account_order_reccuring_show(Order $order, PanierService $panierService): Response
+    {
+        $intervalUnitSubscription = Order::INTERVAL_UNIT[$order->getStripeData()['stripe_subscription_interval']] ;
+
+        return $this->render('/account/subscription/recurring_payment/show_subscription_detail.html.twig', [
+            'order' => $order,
+            'intervalUnitSubscription' => $intervalUnitSubscription
         ]);
     }
 

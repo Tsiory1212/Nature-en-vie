@@ -118,14 +118,11 @@ class AccountSubscriptionController extends AbstractController
     }
 
     /**
-     * @Route("/account/order/{orderId}/plan/subscription/{stripeSubscriptionId}/cancel", name="account_plan_subscription_cancel")
+     * @Route("/account/order/{orderId}/subscription/{stripeSubscriptionId}/cancel", name="account_subscription_cancel")
      */
-    public function account_plan_subscription_cancel($orderId, $stripeSubscriptionId): Response
+    public function account_subscription_cancel($orderId, $stripeSubscriptionId): Response
     {
-        // dd(
-        //     $this->stripeService->getSubscription($subscriptionId)
-        // );
-        $subscription = $this->stripeManager->cancelSubscriptionPlan($orderId, $stripeSubscriptionId);
+        $subscription = $this->stripeManager->cancelSubscription($orderId, $stripeSubscriptionId);
 
         return $this->json([
             'code' => 200, 
@@ -133,4 +130,7 @@ class AccountSubscriptionController extends AbstractController
             'status_subscription_plan' => $subscription->status
         ]);
     }
+
+
+
 }

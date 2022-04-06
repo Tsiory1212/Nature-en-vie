@@ -44,7 +44,7 @@
                   <th scope="col">Type de livraision</th>
                   <th scope="col">Date de commande</th>
                   <th scope="col">Panier</th>
-                  <th scope="col">Livré</th>
+                  <th scope="col">Info</th>
                 </tr>
               </thead>
               <tbody>
@@ -54,7 +54,7 @@
                         <td>{{ app.user.delivry.delivryType  }}</td>
                         <td>{{ myOrder.createdAt|date() }}</td>
                         <td> <a href="{{path('account_order_cart_show', {order: myOrder.id}) }}">Consulter</a> </td>
-                        <td><i class="fas fa-spinner"></i></td>
+                        <td> <a href="{{path('account_order_reccuring_show', {order: myOrder.id}) }}"><i class="fa-solid fa-eye"></i></a></td>
                     </tr>
               {% endfor %}
               </tbody>

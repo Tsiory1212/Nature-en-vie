@@ -18,6 +18,12 @@ class Order
         2 => 'souscription_plan'
     ];
 
+    const INTERVAL_UNIT = [
+        'day' => 'Jour',
+        'week' => 'Semaine',
+        'month' => 'Mois',
+        'year' => 'An'
+    ];
     
 
     /**

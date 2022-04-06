@@ -24,6 +24,14 @@
             top: 50%;
             transform: translateY(-50%);
         }
+
+        #stripe_interval_unit{
+            width: 50%;
+            color: black;
+            border-radius: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
@@ -62,8 +70,10 @@
                         </div>
                     </div>
                     
+                    <h2 class="text-center text-white fw-bolder">Ou</h2>
+
+                    <div class="block-stepper-content shadow-lg  mt-4 p-5 bg-white ">
                     <!-- 2. Payement reccurent -->
-                    <div class="block-stepper-content shadow-lg  mt-5 p-5 bg-white ">
                         <h1 class="text-center">Payement reccurent</h1>
                         <div class="d-flex justify-content-center">
                             <!-- <label for="reccurent_stripe">Engagement : </label> -->
@@ -73,7 +83,7 @@
                                     <option value="{{i}}">{{i}} semaine(s)</option>
                                 {% endfor %}
                             </select> -->
-                            <label for="stripe_interval_unit">Choisissez le votre abonnement </label>
+                            <label for="stripe_interval_unit" class="mb-2">Choisissez le votre abonnement </label><br>
                             <select name="stripe_interval_unit" id="stripe_interval_unit">
                                 <option value="week" selected="selected">Semaine</option>
                                 <option value="month">Mois</option>
@@ -83,9 +93,9 @@
                         
                         <div class="d-flex justify-content-center">
                             <form id="subscription-payment-form">
-                                <div id="card-element">
+                                {# <div id="card-element">
                                   <!-- Elements will create input elements here -->
-                                </div>
+                                </div> #}
                             
                                 <!-- We'll put the error messages in this element -->
                                 <!-- <div id="card-element-errors" role="alert"></div> -->
@@ -384,5 +394,7 @@
                 );
             }
         });
+
+
     </script>
 {% endblock %}

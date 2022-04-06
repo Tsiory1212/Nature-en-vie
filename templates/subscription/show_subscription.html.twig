@@ -186,6 +186,7 @@
 {% endblock %}
 
 
+
 {% block javascripts %}
     {% if app.user and order is null  %}
         <script src="https://js.stripe.com/v3/"></script>
@@ -336,5 +337,9 @@
             });
         </script>                           
     {% endif %}
+
+    <script>                           
+        $("#simple-translate").hide();
+    </script>                           
 {% endblock %}
 

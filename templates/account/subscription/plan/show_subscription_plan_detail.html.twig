@@ -16,7 +16,18 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card">
-                                <img src="/biolife/assets/images/home-08/bn16-01.png" class="card-img-top" alt="cover-grand-panier">
+
+                                {% if plan.planSubscriptionName == "Grand panier" %}
+                                    <img src="/biolife/assets/images/home-08/bn16-01.png" alt="image grand panier" width="335" class="rotate img-fluid" >
+                                {% elseif plan.planSubscriptionName == "Panier moyen" %}
+                                    <img src="/biolife/assets/images/home-08/bn17.png" alt="image panier moyen" width="335"  class="img-fluid" >
+                                {% elseif plan.planSubscriptionName == "Petit panier" %}
+                                    <img src="/biolife/assets/images/home-08/bn17_02.png" alt="image petit panier" width="335"  class="rotate img-fluid">
+                                {% else %}
+                                    <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="335">
+                                {% endif %}
+                                
+                                {# <img src="/biolife/assets/images/home-08/bn16-01.png" class="card-img-top" alt="cover-grand-panier"> #}
                                 <div class="card-body">
                                     <h5 id="card-plan-amount">Tarif : {{ plan.planSubscriptionAmount }}€</h5>
                                     <h5 id="card-plan-interval-unit">Cycle : {{ intervalUnitSubscription }}</h5>

@@ -213,7 +213,46 @@
             }
         }
 
+        .comment-ca-marche{
+            height: 100%;
+        }
+
+        .comment-ca-marche .grid{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .comment-ca-marche .grid .item{
+            max-width: 300px;
+        }
+
+
+        .under-content-plateau{
+            width: 100%;
+            margin-top: 200px;
+        }
         
+        .under-content-plateau .up-grid{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-around;
+
+        }
+
+        .under-content-plateau .up-grid .up-item{
+            max-width: 400px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 10px;
+        }
         
     </style>
 {% endblock %}
@@ -254,7 +293,7 @@
                         <img src="/assets/images/professionnel/inside-photo-2.jpg" id="content-plateau-img2" alt="">
                     </div>
                 </div>
-                <div class="under-content-plateau text-center">
+                {# <div class="under-content-plateau text-center">
                     <h2 class="text-center">Faites-nous confiance !</h2>
                     <div class="container mt-5">
                         <div class="row">
@@ -326,28 +365,83 @@
                         </div>
                     </div>
                 </div>
+            </div> #}
+
+            <div class="under-content-plateau text-center">
+                    <h2 class="text-center">Faites-nous confiance !</h2>
+                    <div class="up-grid mt-5">
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-1.png">
+                            </div>
+                            <div >
+                                <span>Nous mettons GRATUITEMENT en place le service.</span>
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-4.png">
+                            </div>
+                            <div >
+                                <span>Aucun engagement</span>
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <span>Chaque salarié est libre de gérer ses commandes par lui-même : rien ne nécessite votre intervention.</span>
+                            </div>
+                            <div >
+                                <img src="/assets/images/professionnel/icone-2.png">
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <span>Les employés bénéficient de tarifs préférentiels</span>
+                            </div>
+                            <div >
+                                <img src="/assets/images/professionnel/icone-5.png">
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-3.png">
+                            </div>
+                            <div >
+                                <span>L’entreprise est en mesure d’offrir sa participation financière à ce service.</span>
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-6.png">
+                            </div>
+                            <div >
+                                <span>N’oubliez pas : des employés heureux et en bonne santé sont souvent plus performants et motivés.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Block 05: Comment ça marche ? -->
             <div class="comment-ca-marche text-center">
                 <h1>Comment ça marche ?</h1>
-                <div class="row ">
-                    <div class="col-sm-12 col-md-8">
+                <div class="grid">
+                    <div class="item">
                         <img src="/assets/images/professionnel/icone-7.png" alt="">
                         <h2>1- La souscription</h2>
                         <h4>Faites-nous part de vos envies : Choisissez l’offre à laquelle vous souhaitez souscrire. Vous pouvez également établir un montant de participation par commande.</h4>
                     </div>
-                    <div class="col-sm-12 col-md-8 mt-3">
+                    <div class="item">
                         <img src="/assets/images/professionnel/icone-8.png" alt="">
                         <h2>2- Installation</h2>
                         <h4>Nous nous chargeons de l’installation du service de livraison de panier de fruits et légumes bio au sein de votre entreprise</h4>
                     </div>
-                    <div class="col-sm-12 col-md-8 mt-3">
+                    <div class="item">
                         <img src="/assets/images/professionnel/icone-9.png" alt="">
                         <h2>3- La communication</h2>
                         <h4>Pour lancer ce service, nous procédons à plusieurs événements communicationnels : dégustation, animations, …</h4>
                     </div>
-                    <div class="col-sm-12 col-md-8 mt-3">
+                    <div class="item">
                         <img src="/assets/images/professionnel/icone-10.png" alt="">
                         <h2>4- Commandes</h2>
                         <h4>Chaque salarié est entièrement autonome. Il passe lui-même commande via notre site.</h4>

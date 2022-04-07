@@ -432,6 +432,6 @@ button.btn-close{
 @media (max-width: 570px){
 	#footer .footer-right-side{
 		padding-top: 20px;
-		padding-left: 30%;
+		padding-left: 10%;
 	}
 }

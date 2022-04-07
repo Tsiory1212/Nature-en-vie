@@ -410,3 +410,22 @@ button.btn-close{
 	color:#1e1f1fea!important;
 }
 
+#footer .my-dropdown-menu{
+	position: relative;
+	display: inline-block;
+}
+
+#footer .my-dropdown-menu .sub-menu{
+	display: none;
+	position: absolute;
+	z-index: 1;
+	min-width: 160px;
+  	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	background-color: #fff;
+	padding: 10px;
+}
+
+#footer .my-dropdown-menu:hover .sub-menu{
+	display: block;
+}
+

@@ -68,15 +68,14 @@
                                         <ul class="menu">
                                             <li><a href="{{path('home')}}">Accueil</a></li>
                                             <li><a href="{{path('presentation_ferme')}}">La ferme</a></li>
-                                            <li class="menu-item-has-children has-child text-start">
-                                                <a href="#" class="menu-name" data-title="Product">Nos Paniers</a>
-                                                <ul class="sub-menu">
+                                            <li class="my-dropdown-menu">
+                                                <a href="#" class="menu-name" data-title="Product">Nos Paniers&nbsp;<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                                                <div class="sub-menu">
                                                     {% for subscriptionCart in subscriptionPlans_subcriberEvent %}
-                                                        <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.name }}</a></li>
+                                                        <div><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.name }}</a></div>
                                                     {% endfor %}
-                                                    <hr>
-                                                    <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mesure</a></li>
-                                                </ul>
+                                                    <div><a href="{{ path('all_products') }}">Panier sur mesure</a></div>
+                                                </div>
                                             </li>
                                             <li><a href="{{path('subscription_list')}}">Abonnement</a></li>
                                             <li><a href="{{path('professionnel')}}">Professionnel</a></li>

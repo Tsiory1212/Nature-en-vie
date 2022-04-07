@@ -226,6 +226,25 @@ class StripeService
 
 
     /**
+     * Permet de supprimer un produit
+     *
+     * NB: un produit relié à un Price ne peut pas être supprimé
+     * @param string $productId
+     */
+    public function deleteProduct(string $productId)
+    {
+        $stripe = new \Stripe\StripeClient($this->secretKey);
+
+        $product = $stripe->products->delete(
+            $productId,
+            []
+        );
+
+        return $product;
+    }
+
+
+    /**
      * Permet de récupérer tous les plan d'abonnement
      * @return object 
      */

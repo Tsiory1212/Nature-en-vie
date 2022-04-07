@@ -15,6 +15,7 @@ use App\Repository\SubscriptionPlanRepository;
 use App\Repository\UserRepository;
 use App\Service\ProductService;
 use App\Service\SpreadsheetService;
+use App\Service\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -82,9 +83,12 @@ class AdminProductController extends AbstractController
     /**
      * @Route("/admin/product/add", name="admin_product_add")
      */
-    public function admin_product_add(Request $request, ProductService $productService): Response
+    public function admin_product_add(Request $request, ProductService $productService, StripeService $stripeService): Response
     {
         
+        dd(
+            $stripeService->deleteProduct('prod_LNujLdfj4ASLmp')
+        );
         $newRefId = $productService->generateNewRefId();
 
         $produit = new Product();

@@ -66,11 +66,22 @@
                                     <h3 class="section-title">Nature en vie</h3>
                                     <div class="wrap-custom-menu vertical-menu-2">
                                         <ul class="menu">
-                                            <li><a href="#">Blog</a></li>
+                                            <li><a href="{{path('home')}}">Accueil</a></li>
                                             <li><a href="{{path('presentation_ferme')}}">La ferme</a></li>
-                                            {# <li><a href="#">Mentions Légales</a></li> #}
-                                            <li><a href="{{ path('condition_generale_vente') }}">Conditions Générale de Vente</a></li>
-                                            {# <li><a href="#">Plan du site</a></li> #}
+                                            <li class="menu-item-has-children has-child text-start">
+                                                <a href="#" class="menu-name" data-title="Product">Nos Paniers</a>
+                                                <ul class="sub-menu">
+                                                    {% for subscriptionCart in subscriptionPlans_subcriberEvent %}
+                                                        <li class="menu-item"><a href="{{ path('cart_subscription_show', {id: subscriptionCart.id}) }}">{{ subscriptionCart.name }}</a></li>
+                                                    {% endfor %}
+                                                    <hr>
+                                                    <li class="menu-item"><a href="{{ path('all_products') }}">Panier sur mesure</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="{{path('subscription_list')}}">Abonnement</a></li>
+                                            <li><a href="{{path('professionnel')}}">Professionnel</a></li>
+                                            <li><a href="{{ path('blog') }}">Blog</a></li>
+                                            <li><a href="{{path('contact')}}">Contact</a></li>
                                         </ul>
                                     </div>
                                 </section>

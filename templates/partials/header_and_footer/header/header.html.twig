@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="{% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %}col-lg-6 {% else %}col-lg-12 {% endif %} col-md-10 hidden-sm hidden-xs md-possition-initial">
+                <div class="{% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %}col-lg-6 {% else %}col-lg-9 {% endif %} col-md-10 hidden-sm hidden-xs md-possition-initial {% if app.request.get('_route') != 'all_products' and app.request.get('_route') != 'product_show' %} top-menu {% endif %}">
                     <div class="primary-menu">
                         <ul class="menu biolife-menu clone-main-menu clone-primary-menu" id="primary-menu" data-menuname="main menu">
                             {% if app.user %}
@@ -163,7 +163,7 @@
                         {# MINI PANIER #}
                         {% if app.user and cartItems_subcriberEvent['items']|length > 0 or app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show'    %}
                         {# {% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %} #}
-                            <div class="minicart-block layout-02" {% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %} style="left: 0; top: 0;" {% endif %}>
+                            <div class="minicart-block layout-02" style="left: 0; top: 0;" >
                                 <div class="minicart-contain">
                                     <div class="icon-contain">
                                         <div class="span-index">

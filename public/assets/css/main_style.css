@@ -435,3 +435,9 @@ button.btn-close{
 		padding-left: 10%;
 	}
 }
+
+@media screen and (min-width: 1200px){
+	#header .top-menu{
+		padding-left: 80px;
+	}
+}

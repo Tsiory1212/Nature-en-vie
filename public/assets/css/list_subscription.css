@@ -111,3 +111,14 @@
         .discover-btn-block .button{
             padding: 20px 40px;
         }
+
+        @media (max-width: 400px) {
+            .biolife-banner__style-16 .link-cat, 
+            .biolife-banner__style-17 .link-cat, 
+            .biolife-banner__style-17_02 .link-cat{
+                top: 423px;
+            }
+        }
+        
+        
+    

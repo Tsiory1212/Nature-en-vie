@@ -91,3 +91,13 @@
                 padding: 7px;
             }    
         }
+
+        .txt-show-01{
+            padding-top: 70px;
+        }
+
+        @media (max-width: 600px){
+            .txt-show-01{
+                padding-top: 155px;
+            }
+        }

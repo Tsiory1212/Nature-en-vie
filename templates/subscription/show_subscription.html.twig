@@ -151,7 +151,7 @@
             </h1> 
             <hr>
 
-            <div class="row mb-3">
+            {# <div class="row mb-3">
                 <div class="col-3"><i class="fa-solid fa-calendar-days fa-4x" style="color: #00800094;"></i></div>
                 <div class="col float-start">
                     <h3 class="fw-bolder" style="color: rgba(255, 0, 0, 0.822);"><span>Aujourd'hui</span> &ensp;&ensp; <span class="ms-4">{{subscription.amount}}€</span></h3>
@@ -159,7 +159,7 @@
                     <h3 class="fw-bolder"><span>Dans 2 mois</span> <span class="ms-5">{{subscription.amount}}€</span></h3>
                     <h3 class="fw-bolder">Et ainsi de suite … </h3>
                 </div>
-            </div>
+            </div> #}
             {% if app.user %}
                 <form id="subscription-payment-form">
                     <div id="card-elements">

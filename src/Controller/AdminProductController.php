@@ -85,10 +85,6 @@ class AdminProductController extends AbstractController
      */
     public function admin_product_add(Request $request, ProductService $productService, StripeService $stripeService): Response
     {
-        
-        dd(
-            $stripeService->deleteProduct('prod_LNujLdfj4ASLmp')
-        );
         $newRefId = $productService->generateNewRefId();
 
         $produit = new Product();

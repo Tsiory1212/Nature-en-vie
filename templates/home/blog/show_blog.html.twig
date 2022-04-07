@@ -75,9 +75,9 @@
                                                     <div class="thumb">
                                                         <a href="{{ path('home_blog_show', {id: blog.id, slug: blog.slug})}}">
                                                             {% if blog.imageName %}
-                                                                <img src="{{vich_uploader_asset(blog, 'imageFile')}}"  width="80" height="58" alt="">
+                                                                <img src="{{vich_uploader_asset(blog, 'imageFile')}}" class="img-fluid" width="80" height="58" alt="">
                                                             {% else %}
-                                                                <img src="/assets/images/empty-300x240.jpg"  width="80" height="58" alt="">
+                                                                <img src="/assets/images/empty-300x240.jpg"  class="img-fluid"  width="80" height="58" alt="">
                                                             {% endif %}
                                                         </a>
                                                     </div>
@@ -128,9 +128,9 @@
                             <div class="thumbnail">
                                 <figure>
                                     {% if currentblog.imageName %}
-                                        <img src="{{vich_uploader_asset(currentblog, 'imageFile')}}"  width="870" height="635" alt="">
+                                        <img src="{{vich_uploader_asset(currentblog, 'imageFile')}}" class="img-fluid" width="870" height="635" alt="">
                                     {% else %}
-                                        <img src="/assets/images/empty-300x240.jpg"  width="870" height="635" alt="">
+                                        <img src="/assets/images/empty-300x240.jpg" class="img-fluid"  width="870" height="635" alt="">
                                     {% endif %}
                                 </figure>
                             </div>

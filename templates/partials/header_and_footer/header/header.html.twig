@@ -20,7 +20,7 @@
                             {# <a href="{{path('panier_show')}}" class="btn btn-warning">Panier</a> #}
                         </li>
                         <li><a href="{{path('dashboard')}}" class="login-link"><i class="biolife-icon icon-login"></i>{{app.user.lastname}}</a></li>
-                        <li><a href="{{path('security_logout')}}" class="logout-link"><i class="fas fa-sign-out-alt"></i> Déconnection</a></li>
+                        <li><a href="{{path('security_logout')}}" class="logout-link"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                     {% else %}
                         <li><a href="{{path('security_login')}}" class="login-link"><i class="biolife-icon icon-login"></i>S'inscrire / Se connecter</a></li>
                     {% endif %}
@@ -129,7 +129,7 @@
                             <li class="menu-item"><a href="{{ path('blog') }}">Blog</a></li>
                             <li class="menu-item"><a href="{{path('contact')}}">Contact</a></li>
                             {% if app.user %}
-                            <li class="d-lg-none"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> <a href="{{path('security_logout')}}" class="logout-link"> Déconnection</a></li>
+                            <li class="d-lg-none"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> <a href="{{path('security_logout')}}" class="logout-link"> Déconnexion</a></li>
                             {% endif %}
 
 

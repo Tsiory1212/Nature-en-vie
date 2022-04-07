@@ -73,10 +73,10 @@
 					<div class="content-table-body col bg-white mt-2 rounded h5">
 						<div class="p-5">
 							<div class="my-2">
-								{% if available %}
-									<a class="btn btn-primary" href="{{ path('admin_product_list') }}">Tout</a>
+								{% if available == false %}
+									<a class="btn btn-success" href="{{ path('admin_product_list') }}">Disponible</a>
 								{% else %}
-									<a class="btn btn-success" href="{{ path('admin_product_list', {available: 'true'}) }}">Disponible</a>
+									<a class="btn btn-primary" href="{{ path('admin_product_list', {available: 'false'}) }}">Tout</a>
 								{% endif %}
 							</div>
 							{% for produit in products %}

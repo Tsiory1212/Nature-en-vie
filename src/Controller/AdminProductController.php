@@ -53,10 +53,10 @@ class AdminProductController extends AbstractController
         $form = $this->createForm(ProductSearchType::class, $search);
         $form->handleRequest($request);
 
-        if ($request->query->get('available') === 'true') {
-            $available = true;
-        }else{
+        if ($request->query->get('available') === 'false') {
             $available = false;
+        }else{
+            $available = true;
         }
         $products = $paginator->paginate(
             $this->repoProduct->findAllQuery($search, $available),

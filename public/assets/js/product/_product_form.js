@@ -1,4 +1,5 @@
 $('#product_price').attr('type', 'number')
+$('#product_price_acn_allier').attr('type', 'number')
   
 var _refIdField = $('#product_referenceId');
 const _refIdBtn = $('#btn-refid-edit');

@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\SubscriptionPlan;
+
 class SubscriptionService
 {
 
@@ -21,5 +23,22 @@ class SubscriptionService
         }
 
         return $orderPlanSubscriptionsActive;
+    }
+
+
+    /**
+     * Permet de récupérer le nom des plans 
+     *
+     * @param array $plans
+     * @return array
+     */
+    public function getNamesPlan($plans)
+    {
+        $namesPlan = [];
+        /** @var SubscriptionPlan $plan  */
+        foreach ($plans as $plan) {
+            $namesPlan[] = $plan->getName();
+        }
+        return $namesPlan;
     }
 }

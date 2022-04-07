@@ -19,6 +19,11 @@ class SubscriptionPlan
         'year' => 'An'
     ];
 
+    const STATUS = [
+        'active' => 'active',
+        'canceled' => 'canceled'
+    ];
+    
 
     /**
      * @ORM\Id

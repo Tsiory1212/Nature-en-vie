@@ -139,7 +139,17 @@ class StripeService
         return $plan;
     }
 
-    public function createPrice($unit_amount, $interval_unit, $productId, $nickname)
+
+    /**
+     * Permet de créer un price
+     *
+     * @param integer $unit_amount
+     * @param string $interval_unit
+     * @param string $productId
+     * @param string $nickname
+     * @return void
+     */
+    public function createPrice(int $unit_amount, string $interval_unit, string $productId, string $nickname)
     {
         $stripe = new \Stripe\StripeClient($this->secretKey);
 
@@ -150,6 +160,30 @@ class StripeService
             'product' =>  $productId,
             'nickname' => $nickname
         ]);
+
+        return $price;
+    }
+
+    /**
+     * Permet de modifier un price
+     *
+     * @param integer $unit_amount
+     * @param string $interval_unit
+     * @param string $productId
+     * @param string $nickname
+     */
+    public function updatePrice(string $priceId, int $unit_amount = null, string $interval_unit = null, string $nickname = null)
+    {
+        $stripe = new \Stripe\StripeClient($this->secretKey);
+
+        $price = $stripe->prices->update(
+            $priceId,
+            [
+                // 'unit_amount' => $unit_amount * 100,
+                // 'recurring' => ['interval' => $interval_unit],
+                'nickname' => $nickname
+            ]
+        );
 
         return $price;
     }
@@ -170,6 +204,25 @@ class StripeService
         return $product;
     }
 
+
+    /**
+     * Permet de modifier un produit
+     *
+     * @param string $name
+     */
+    public function updateProduct(string $productId, string $name)
+    {
+        $stripe = new \Stripe\StripeClient($this->secretKey);
+
+        $product = $stripe->products->update(
+            $productId,
+            [
+                'name' => $name
+            ]
+        );
+
+        return $product;
+    }
 
 
     /**

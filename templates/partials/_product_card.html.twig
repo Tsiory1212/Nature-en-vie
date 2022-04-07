@@ -12,7 +12,7 @@
     </div>
     <div class="info">
         <b class="categories">{{ product.category.name}} </b>
-        <h4 class="product-title"><a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="pr-name">{{ product.name}} {% if product.packaging > 1 %} [{{product.packaging}} {{product.quantityUnit}}]{% endif %}</a></h4>
+        <h4 class="product-title"><a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="pr-name">{{ product.name}}</a></h4>
         <h4 class="product-description visually-hidden">{{product.description}}  </h4>
         <span class="product-packaging visually-hidden"> <span class="quantity"> {{product.packaging}}</span> <span class="quantity_unit">{{product.quantityUnit}}</span></span>
     
@@ -40,13 +40,7 @@
         </div>
         <div class="slide-down-box">
             <p class="message">
-                {% if product.packaging > 1 %}
-                    Gros : {{ product.priceAcnAllier }} €<br>
-                    Unité: {{ (product.price / product.packaging )|number_format(2)}} €/{{product.quantityUnit}}
-                    <br>
-                    <br>
-                {% endif %}
-                {{ product.detail}}
+                {{ product.description}}
             </p>
 
             <div class="buttons">

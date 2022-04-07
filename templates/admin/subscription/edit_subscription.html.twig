@@ -10,19 +10,24 @@
         <div class="alert alert-primary text-center">
             <i class="fas fa-info-circle"></i>  Seul le nom et les descriptions peuvent être modifié
         </div>
+
+
         <div class="fields-subscription">
             {{ form_start(form) }}
                 <div class="row">
                     {{ form_row(form.name) }}
                 </div>
                 <div class="row">
-                    {{ form_row(form.amount) }}
-                </div>
-                <div class="row">
                     {{ form_row(form.description) }}
                 </div>
                 <div class="row">
                     {{ form_row(form.detailed_description) }}
+                </div>
+                <div class="row">
+                    {{ form_row(form.amount) }}
+                </div>
+                <div class="row">
+                    {{ form_row(form.interval_unit) }}
                 </div>
 
                 <button class="btn btn-success">Modifier</button>

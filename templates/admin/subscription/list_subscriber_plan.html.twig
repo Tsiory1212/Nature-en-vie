@@ -8,7 +8,7 @@
 {% block body %}
     <div class="container my-5">
 		<div class="bg-glass2">
-			<h1 class="text-center fw-bold">Liste de tous les abonnés</h1>
+			<h1 class="text-center fw-bold">Liste des abonnés dans "{{ plan.name }}"</h1>
 
 			<div class="container mt-5">
 				<div class="container">
@@ -39,8 +39,8 @@
 							<thead>
 								<tr class="text-center">
 									<th scope="col">Abonné</th>
-									<th scope="col">Abonnement</th>
-									<th scope="col">Prix</th>
+									<th scope="col">Email</th>
+									<th scope="col">Phone</th>
 									<th scope="col">Cycle</th>
 									<th scope="col">Status</th>
 									<th scope="col">Pause</th>
@@ -52,8 +52,8 @@
 									
 
 										<td>{{order.user.lastname}}</td>
-										<td>{{order.subscriptionPlan.name}}</td>
-										<td>{{order.subscriptionPlan.amount}} €</td>
+										<td>{{order.user.email}}</td>
+										<td>{{order.user.phone}}</td>
 										<td>{{ constant('App\\Entity\\Order::INTERVAL_UNIT')[order.subscriptionPlan.intervalUnit] }}</td>
 										<td>{{order.subscriptionPlan.status}}</td>
 										<td>

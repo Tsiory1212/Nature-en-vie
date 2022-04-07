@@ -145,12 +145,12 @@ $(document).ready(function(){
             product_cover_quick_view.attr('src', product_cover);
 
 
-            if(product_packaging > 1){
-                price_per_unity = product_price / product_packaging;
-                product_explanation_quick_view.text(price_per_unity.toFixed(2) + '€ /'+product_quantity_unit)
-            }else{
-                product_explanation_quick_view.text(product_price + '€ /Kg')
-            }
+            // if(product_packaging > 1){
+            //     price_per_unity = product_price / product_packaging;
+            //     product_explanation_quick_view.text(price_per_unity.toFixed(2) + '€ /'+product_quantity_unit)
+            // }else{
+                product_explanation_quick_view.text(product_price + '€ /'+product_quantity_unit)
+            // }
         });
     })
    

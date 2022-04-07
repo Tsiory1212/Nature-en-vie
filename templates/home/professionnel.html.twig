@@ -231,8 +231,28 @@
         }
 
 
-
+        .under-content-plateau{
+            width: 100%;
+            margin-top: 200px;
+        }
         
+        .under-content-plateau .up-grid{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-around;
+
+        }
+
+        .under-content-plateau .up-grid .up-item{
+            max-width: 400px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 10px;
+        }
         
     </style>
 {% endblock %}
@@ -273,7 +293,7 @@
                         <img src="/assets/images/professionnel/inside-photo-2.jpg" id="content-plateau-img2" alt="">
                     </div>
                 </div>
-                <div class="under-content-plateau text-center">
+                {# <div class="under-content-plateau text-center">
                     <h2 class="text-center">Faites-nous confiance !</h2>
                     <div class="container mt-5">
                         <div class="row">
@@ -341,6 +361,61 @@
                                         <span>N’oubliez pas : des employés heureux et en bonne santé sont souvent plus performants et motivés.</span>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> #}
+
+            <div class="under-content-plateau text-center">
+                    <h2 class="text-center">Faites-nous confiance !</h2>
+                    <div class="up-grid mt-5">
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-1.png">
+                            </div>
+                            <div >
+                                <span>Nous mettons GRATUITEMENT en place le service.</span>
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-4.png">
+                            </div>
+                            <div >
+                                <span>Aucun engagement</span>
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <span>Chaque salarié est libre de gérer ses commandes par lui-même : rien ne nécessite votre intervention.</span>
+                            </div>
+                            <div >
+                                <img src="/assets/images/professionnel/icone-2.png">
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <span>Les employés bénéficient de tarifs préférentiels</span>
+                            </div>
+                            <div >
+                                <img src="/assets/images/professionnel/icone-5.png">
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-3.png">
+                            </div>
+                            <div >
+                                <span>L’entreprise est en mesure d’offrir sa participation financière à ce service.</span>
+                            </div>
+                        </div>
+                        <div class="up-item">
+                            <div >
+                                <img src="/assets/images/professionnel/icone-6.png">
+                            </div>
+                            <div >
+                                <span>N’oubliez pas : des employés heureux et en bonne santé sont souvent plus performants et motivés.</span>
                             </div>
                         </div>
                     </div>

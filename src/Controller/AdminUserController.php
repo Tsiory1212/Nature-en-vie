@@ -46,7 +46,7 @@ class AdminUserController extends AbstractController
     {
         $nbrProducts = count($this->repoProduct->findAll());
         $nbrUsers = count($this->repoUser->findAll());
-        $nbrSubscriptions = count($this->repoPlan->findBy(['active' => 1]));
+        $nbrSubscriptions = count($this->repoPlan->findBy(['status' => 'active']));
         $nbrOrders = count($this->repoOrder->findAll());
 
         $search = new UserSearch();

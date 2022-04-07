@@ -59,6 +59,7 @@ class AdminSubscriptionController extends AbstractController
         $nbrUsers = count($this->repoUser->findAll());
         $nbrSubscriptions = count($this->repoPlan->findBy(['status' => 'active']));
         $nbrSubscriptionsDisabled = count($this->repoPlan->findBy(['status' => 0]));
+        $nbrOrders = count($this->repoOrder->findAll());
 
         $subscriptions = $this->repoPlan->findBy(['status' => 'active']);
         
@@ -66,6 +67,7 @@ class AdminSubscriptionController extends AbstractController
             'subscriptions' => $subscriptions,
             'nbrProducts' => $nbrProducts,
             'nbrUsers' => $nbrUsers,
+            'nbrOrders' => $nbrOrders,
             'nbrSubscriptions' => $nbrSubscriptions,
             'nbrSubscriptionsDisabled' => $nbrSubscriptionsDisabled
         ]);

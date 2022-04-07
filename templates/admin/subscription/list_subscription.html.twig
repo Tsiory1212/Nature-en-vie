@@ -13,6 +13,7 @@
 
 		.content-table-body{
 			padding: 20px 30px;
+			margin-left: 26px;
 		}
 
 		.item-product-row:hover{
@@ -66,8 +67,12 @@
 							<div class="bg-white p-4 rounded">{{ nbrProducts }}</div>
 						</div>
 						<div class="user-block my-5">
-							<div class="font-bg-stylized-1 text-white">Utilisateurs</div>
+							<div class="font-bg-stylized-1 text-white"> <a href="{{ path('admin_user_list') }}" class="text-white">Utilisateurs</a></div>
 							<div class="bg-white p-4 rounded">{{ nbrUsers }}</div>
+						</div>
+						<div class="order-block my-5">
+							<div class="font-bg-stylized-1"> <a href="{{ path('admin_order_list') }}" class="text-white">Commandes</a></div>
+							<div class="bg-white p-4 rounded">{{ nbrOrders }}</div>
 						</div>
 					</div>
 					<div class="content-table-body col bg-white mt-2 rounded">

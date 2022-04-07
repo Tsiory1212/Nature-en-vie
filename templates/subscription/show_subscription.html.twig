@@ -126,11 +126,11 @@
                     <div class="row mt-5">
                         <div class="col-12">
                             {% if subscription.name == "Grand panier" and subscription.status == 'active' %}
-                                <img src="/assets/images/cartSubscription/cover-grand-panier.png" alt="image grand panier" width="335" class="rotate img-fluid" style="margin-top: -72px;">
+                                <img src="/biolife/assets/images/home-08/bn16-01.png" alt="image grand panier" width="335" class="img-fluid" >
                             {% elseif subscription.name == "Panier moyen" and subscription.status == 'active' %}
-                                <img src="/assets/images/cartSubscription/cover-moyen-panier.png" alt="image panier moyen" width="335"  class="img-fluid" style="margin-top: -72px;">
+                                <img src="/biolife/assets/images/home-08/bn17.png" alt="image panier moyen" width="335"  class="img-fluid" >
                             {% elseif subscription.name == "Petit panier" and subscription.status == 'active' %}
-                                <img src="/assets/images/cartSubscription/cover-petit-panier.png" alt="image petit panier" width="335"  class="rotate img-fluid" style="margin-top: -42px;">
+                                <img src="/biolife/assets/images/home-08/bn17_02.png" alt="image petit panier" width="335"  class="img-fluid">
                             {% else %}
                                 <img src="/uploads/produit/images/defaultImage.png" alt="img-plan-subscription" width="335">
                             {% endif %}
@@ -216,15 +216,18 @@
                 
                 var styleCustom ={
                     base: {
-                        fontSize: '16px',
+                        fontSize: '37px',
                         fontWeight: '500',
                         fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-                        color: '#2532d'
+                        color: '#4CAF50',
+                        '::placeholder': {
+                            color: 'black',
+                        }
                     },
                     invalid: {
                         iconColor: '#FFC7EE',
                         color: '#FFC7EE',
-                    }
+                    },
                 }
 
                 // Monter notre form à l'objet Stripe 

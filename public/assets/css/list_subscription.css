@@ -101,3 +101,13 @@
                 padding-top: 155px;
             }
         }
+
+        .discover-btn-block{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .discover-btn-block .button{
+            padding: 20px 40px;
+        }

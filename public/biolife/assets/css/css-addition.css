@@ -1353,6 +1353,88 @@ input.biolife-input__rounded {
         left: 17px;
         right: auto; } }
 
+  .biolife-banner__style-p_sur_mesure {
+    font-size: 0;
+    line-height: 0; 
+  }
+  .biolife-banner__style-p_sur_mesure .media {
+    display: inline-block;
+    width: 100%;
+    height: 380px;
+    background: #ffffff url(../images/home-08/bn_panier-sur-mesure.png) no-repeat center;
+    background-size: contain; 
+  }
+
+  .biolife-banner__style-p_sur_mesure {
+    font-size: 0;
+    line-height: 0; 
+  }
+  .biolife-banner__style-p_sur_mesure .media {
+    display: inline-block;
+    width: 100%;
+    height: 380px;
+    background: #ffffff url(../images/home-08/bn_panier-sur-mesure.png) no-repeat center; 
+    background-size: contain; 
+  }
+  .biolife-banner__style-p_sur_mesure .link-cat {
+    font-size: 20px;
+    color: #f9f9f9;
+    display: inline-block;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1;
+    top: 323px;
+    right: 40%;
+    left: 40%;
+    position: absolute;
+    z-index: 1;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    background-color: #f0f8ff73;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+  }
+
+  @media (max-width: 1199px) {
+    .biolife-banner__style-p_sur_mesure .link-cat {
+      font-size: initial; 
+    } 
+  }
+
+  @media (max-width: 1006px) {
+    .biolife-banner__style-p_sur_mesure .link-cat {
+      right: 36%;
+      left: 36%;
+    } 
+  }
+  @media (max-width: 828px) {
+    .biolife-banner__style-p_sur_mesure .link-cat {
+      font-size: 15px;
+      left: auto;
+      right: 37%;
+    } 
+  }
+
+
+  @media (max-width: 540px) {
+    .biolife-banner__style-p_sur_mesure .link-cat {
+      right: 30%;
+    } 
+  }
+  @media (max-width: 400px) {
+    .biolife-banner__style-p_sur_mesure .link-cat {
+      right: 24%;
+    } 
+  }
+  @media (max-width: 272px) {
+    .biolife-banner__style-p_sur_mesure .link-cat {
+      top: 75%;
+      right: 11%;
+    } 
+  }
+
 
 
 .biolife-banner__style-18 {

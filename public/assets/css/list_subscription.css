@@ -139,3 +139,20 @@
         }
         
     
+
+        .panier-sur-mesure-block{
+            margin-top: 95px;
+        }
+        .panier-sur-mesure-block .title-cart{
+            font-size: 30px;
+            font-weight: 700;
+            color: #222222;
+            display: block;
+            line-height: 1;
+        }
+
+        @media (min-width: 992px){
+            .panier-sur-mesure-block .title-cart {
+                font-size: 40px;
+            }
+        }

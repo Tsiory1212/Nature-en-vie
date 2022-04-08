@@ -125,7 +125,10 @@
                 var stripeToken = "{{ stripe_publishable_key_live }}"
             {% endif %}
 
-            var  stripe = Stripe(stripeToken);
+            var  stripe = Stripe(stripeToken, {
+                locale: 'fr'
+            });
+            
             var elements = stripe.elements();
             var clientSecret = "{{ intentSecret }}";
             var cardHolderName = "{{ app.user.lastname }}";

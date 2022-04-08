@@ -3,9 +3,10 @@
         <thead style="color: #37cc1d;">
             <tr class="text-center">
                 <th></th>
-                <th>Atricle</th>
+                <th>Article</th>
                 <th>Prix</th>
-                <th>Quatité</th>
+                <th>Unité</th>
+                <th>Quantité</th>
                 <th>Total</th>
                 <th></th>
             </tr>
@@ -22,8 +23,9 @@
                             {% endif %}
                         </a>
                     </td>
-                    <td> {{ item.product.name }} {% if item.product.packaging > 1 %} ---{{ item.product.packaging }} {{ item.product.quantityUnit }}---{% endif %}</td>
+                    <td> {{ item.product.name }}</td>
                     <td> {{ item.product.price }} € </td>
+                    <td> {{ item.product.quantityUnit }} </td>
                     <td> x<span class="item_quantity"> {{ item.quantity }}</span> </td>
                     <td> {{ item.product.price * item.quantity }} € </td>
                     <td>

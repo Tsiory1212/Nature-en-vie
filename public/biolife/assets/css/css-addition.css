@@ -1399,40 +1399,46 @@ input.biolife-input__rounded {
 
   @media (max-width: 1199px) {
     .biolife-banner__style-p_sur_mesure .link-cat {
-      font-size: initial; 
+      font-size: 14px; 
     } 
   }
 
   @media (max-width: 1006px) {
     .biolife-banner__style-p_sur_mesure .link-cat {
-      right: 36%;
-      left: 36%;
+      left: 35%;
+      right: 35%;
     } 
   }
   @media (max-width: 828px) {
     .biolife-banner__style-p_sur_mesure .link-cat {
       font-size: 15px;
-      left: auto;
-      right: 37%;
+      left: 30%;
+      right: 30%;
     } 
   }
 
 
-  @media (max-width: 540px) {
+  @media (max-width: 500px) {
     .biolife-banner__style-p_sur_mesure .link-cat {
-      right: 30%;
+      right: 26%;
+      left: 26%;
+      font-size: 16px;
+
     } 
   }
   @media (max-width: 400px) {
     .biolife-banner__style-p_sur_mesure .link-cat {
-      right: 24%;
+      right: 20%;
+      left: 20%;
     } 
   }
-  @media (max-width: 272px) {
+  @media (max-width: 280px) {
     .biolife-banner__style-p_sur_mesure .link-cat {
-      top: 75%;
-      right: 11%;
-    } 
+      right: 13%;
+      left: 13%;
+      top: 74%;
+      font-size: 12px;
+    }
   }
 
 

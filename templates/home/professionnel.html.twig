@@ -247,7 +247,7 @@
         }
 
         .under-content-plateau .up-grid .up-item{
-            max-width: 400px;
+            max-width: 420px;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -269,6 +269,22 @@
         #banner-img{
             width: 100% !important;
             object-fit: cover !important;
+        }
+
+        @media (min-width: 350px) and (max-width: 450px){
+            .content-plateau {
+                margin-top: -42vh;
+            }
+        }
+        
+        @media (min-width: 900px) and (max-width: 1000px){
+            .content-plateau {
+                margin-top: -62vh;
+            }
+
+            .under-content-plateau .up-grid .up-item{
+                max-width: 500px;
+            }
         }
         
     </style>

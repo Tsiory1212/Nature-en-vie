@@ -2210,6 +2210,8 @@ body.open-mobile-search .header-area.layout-02{
 .products-list.biolife-carousel.slick-initialized .contain-product .product-thumb img,
 .products-list:not(.biolife-carousel) .contain-product .product-thumb img{
     width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 .contain-product .info .categories{
     display: block;

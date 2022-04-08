@@ -74,6 +74,20 @@ class ProductService
         }
     }
 
+    /**
+     * Permet de récupérer le nom de la catégorie d'un produit
+     * Nb : La fonction renvoie null, si elle ne trouve aucune catégorie
+     * @return string
+     */
+    public function getNameCategory($category)
+    {
+        if ($category == null) {
+            return null;
+        } else {
+            return $category->getName();
+        }
+    }
+
     
     /**
      * Permet d'identifier l'id du classement par son nom
@@ -135,5 +149,36 @@ class ProductService
     {
         $arrayExpl = explode(' ', $plainText);
         return $arrayExpl[1] ?? 'null';
+    }
+
+
+    public function dividePriceIfPackagingIsGreatestONE($packaging, $pricePackaging)
+    {
+
+        // Le conditionnement devient 1 si le champ est vide ou null
+        if ($packaging === null || $packaging === '') {
+            $packaging = 1;
+        }
+        
+        // On renvoye la valeur du prix si le conditionnement est 1
+        if ($packaging == 1) {
+            $newprice = $pricePackaging;
+            return $newprice;
+        }else if($packaging > 1){
+            $calculPrice = $pricePackaging/$packaging;
+
+            // Si la division entre le prix et le conditionnement donne un nombre inférieur à 1, on NE fait PAS l'arrondissement
+            if ($calculPrice < 1) {
+                $newprice = $calculPrice ;
+            }else{
+                $newprice = round($calculPrice, 2) ;
+            }
+
+            return $newprice;
+        }else if($packaging < 1){
+            return $pricePackaging;
+        }
+
+        
     }
 }

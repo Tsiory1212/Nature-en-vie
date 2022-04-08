@@ -1,0 +1,27 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+	Import fichier Excel
+{% endblock %}
+
+
+{% block stylesheets %}
+	<style>
+
+	</style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container my-5">
+        <form action="{{ path('admin_product_excel_import_file') }}" method="post" enctype="multipart/form-data">
+			<div>
+				<label for="myfile">Importer ou glisser le fichier ici:</label>
+				<input type="file" name="myfile" id="myfile">
+			</div>
+			<button type="submit" class="button button1">Importer</button>
+		</form>
+
+    </div>
+{% endblock %}
+

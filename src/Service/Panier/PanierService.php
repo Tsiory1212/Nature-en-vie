@@ -110,9 +110,13 @@ class PanierService {
 
     public function getTotalPrice() : float
     {
+
         $total = 0;
+     
         foreach ($this->getFullcart() as $item ) {
-            $total += $item['product']->getPrice() * $item['quantity'];
+            if ($item['product'] !== null) {
+                $total += $item['product']->getPrice() * $item['quantity'];
+            }
         }
         return $total;
     }

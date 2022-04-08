@@ -37,10 +37,12 @@
 				</div>
 			{% endfor %}
 
+
 			<div class="row-table-head">
 				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);">({{ nbrProducts }}) Produits</h2>
 				<a href="{{path('admin_product_add')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Ajouter</a>
 				<a href="{{path('admin_product_excel_import')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-table"></i> Importer Excel</a>
+				<a href="{{path('admin_product_excel_export_file')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-table"></i> Exporter Excel</a>
 				<div class="bg-white p-4 mt-3">
 					<div class="row text-center fw-bold h5">
 						<div class="col-1 text-start ps-5" style="width: 22%;"> {{ nbrProducts }} </div>

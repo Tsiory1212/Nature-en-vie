@@ -8,6 +8,7 @@ use App\Form\ProductType;
 use App\Entity\SearchEntity\ProductSearch;
 use App\Form\SearchForm\ProductSearchType;
 use App\Repository\CartSubscriptionRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SampleDatasRepository;
@@ -19,6 +20,7 @@ use App\Service\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use SplFileObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -33,14 +35,16 @@ class AdminProductController extends AbstractController
     private $repoUser;
     private $repoPlan;
     private $repoOrder;
+    protected $productService;
 
-    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder)
+    public function __construct(EntityManagerInterface $em, ProductRepository $repoProduct, UserRepository $repoUser, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder, ProductService $productService)
     {
         $this->em = $em;
         $this->repoProduct = $repoProduct;
         $this->repoUser = $repoUser;
         $this->repoPlan = $repoPlan;
         $this->repoOrder = $repoOrder;
+        $this->productService = $productService;
     }
 
     
@@ -149,6 +153,26 @@ class AdminProductController extends AbstractController
         return $this->redirectToRoute('admin_product_list');
     }
 
+    // /**
+    //  * @Route("/admin/product/excel/import", name="admin_product_excel_import")
+    //  */
+    // public function admin_product_excel_import(SpreadsheetService $spreadsheetService, Request $request): Response
+    // {
+    //     $form = $this->createFormBuilder()
+    //         ->add('excel_file', FileType::class, [
+    //             'attr' => [
+    //                 'name' => 'import_excel'
+    //             ]
+    //         ])
+    //         ->getForm()
+    //     ;
+    //     $form->handleRequest($request);
+
+    //     return $this->render('admin/file/excel/import_file_excel.html.twig', [
+    //         'form' => $form->createView()
+    //     ]);
+    // }
+
     /**
      * @Route("/admin/product/excel/import", name="admin_product_excel_import")
      */
@@ -164,9 +188,108 @@ class AdminProductController extends AbstractController
         ;
         $form->handleRequest($request);
 
-        return $this->render('admin/file/excel/import_file_excel.html.twig', [
+        return $this->render('admin/file/excel/import_file_excel_to_db.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/admin/product/excel/import/file", name="admin_product_excel_import_file")
+     */
+    public function admin_product_excel_import_file(Request $request): Response
+    {
+        $oldProducts = $this->repoProduct->findAll();
+        foreach ($oldProducts as $product) {
+           $this->em->remove($product);
+           $this->em->flush();
+        }
+
+        
+        $file = $request->files->get('myfile');
+
+        if (empty($file))
+        {
+             new Response("No file specified", Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+             $this->addFlash(
+                'danger',
+                'Aucun fichier séléctionné'
+             );
+             return $this->redirectToRoute('admin_product_list', ['no-file']);
+        }
+
+        $fileObject = $file->openFile();
+        $fileObject->setFlags(SplFileObject::READ_CSV);
+        $fileObject->setCsvControl($separator=";");
+
+        $i = 0;
+        foreach  ($fileObject as $row) {
+            if($i > 0){
+                if (!array_filter($row)) { 
+                    break; 
+                } 
+
+                $sampleDatas = new Product();
+                $sampleDatas->setAvailability(1);
+                $sampleDatas->setQuantity(1);
+                $sampleDatas->setReferenceId('P-'.$i);
+                $sampleDatas->setRefCode($row[0]);
+                $sampleDatas->setProductTypeLabel($row[1]);
+                $sampleDatas->setCategory($this->productService->getIdCategoryByName($row[2]));
+                $sampleDatas->setName($row[3]);
+                $sampleDatas->setDetail($row[4]);
+                // $sampleDatas->setPackaging(intval($row[5]));
+                $sampleDatas->setPackaging(intval($row[5]));
+                $sampleDatas->setPrice($this->productService->dividePriceIfPackagingIsGreatestONE(intval($row[5]), floatval(str_replace(",", ".", $row[6]))));
+                $sampleDatas->setQuantityUnit($row[8]);
+                $sampleDatas->setOriginProduction($row[9]);
+                $sampleDatas->setPriceAcnAllier( floatval(str_replace(",", ".", $row[10])));
+                // $sampleDatas->setQuantityUnit($this->productService->getQuantityUnity($row[5]));
+                // $sampleDatas->setImageName($row[2]);
+                // $sampleDatas->setQuantity(intval($this->productService->getQuantityNumeral($row[5])));
+                // $sampleDatas->setDescription($row[6]);
+                // $sampleDatas->setClassement($this->productService->getIdClasseByName($row[9]));
+                // $sampleDatas->setGamme($this->productService->getIdGammeByName($row[10]));
+                // $sampleDatas->setVolume($row[11]);
+
+                $this->em->persist($sampleDatas);
+                $this->em->flush();
+            }
+            $i++;
+
+        }
+        return $this->redirectToRoute("admin_product_list");
+    }
+
+    
+    /**
+     * @Route("/admin/product/excel/export/file", name="admin_product_excel_export_file")
+     */
+    public function admin_product_excel_export_file(ProductRepository $repoProduct, CategoryRepository $repoCategory){
+        $products = $repoProduct->findAll();
+        $date = (new \DateTime())->format('Y-m-d');
+        $separator = ";";
+        $file = new SplFileObject("export.csv", "w");
+        $file->fputcsv(["Reférence", "Libellé type", "Famille", "Nom", "Description", "Conditionnement", "Prix", "Unité de prix", "Origine production", "Tarif ACN ALLIER"], $separator);
+        
+        /** @var Product $product */
+        foreach($products as $product){
+            $cateogry = $this->productService->getNameCategory($product->getCategory());
+
+            $row = [
+                $product->getRefCode(), 
+                $product->getProductTypeLabel(),
+                $cateogry,
+                $product->getName(), 
+                $product->getDetail(), 
+                $product->getPackaging(), 
+                str_replace(".", ",", strval($product->getPrice())), 
+                $product->getQuantityUnit(), 
+                $product->getOriginProduction(), 
+                $product->getPriceAcnAllier(), 
+            ];
+            $file->fputcsv($row, $separator);
+        }
+        return $this->file($file, "products($date).csv");
     }
 
 

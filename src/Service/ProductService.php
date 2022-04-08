@@ -169,7 +169,9 @@ class ProductService
 
             // Si la division entre le prix et le conditionnement donne un nombre inférieur à 1, on NE fait PAS l'arrondissement
             if ($calculPrice < 1) {
+                $calculPrice = round($calculPrice, 2);
                 $newprice = $calculPrice ;
+
             }else{
                 $newprice = round($calculPrice, 2) ;
             }

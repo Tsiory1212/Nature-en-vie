@@ -1,0 +1,61 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Hello MyController!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+{% endblock %}
+
+
+
+{% block body %}
+
+
+<div class="container">
+    <h1>Product import</h1>
+    <form action="{{ path('doImport') }}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="myfile">File to import:</label>
+            <input type="file" name="myfile" id="myfile">
+        </div>
+        <button type="submit">Import</button>
+    </form>
+
+    <h1>Product index</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ref</th>
+                <th>ProducerCode</th>
+                <th>ProducerName</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.referenceId }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>
+                    {# <a href="{{ path('admin_product_show', {'id': product.id}) }}">show</a> #}
+                    <a href="{{ path('admin_product_edit', {'id': product.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <a href="{{ path('doExport') }}">export</a>
+    </table>
+
+    <a href="">Create new</a>
+</div>
+{% endblock %}

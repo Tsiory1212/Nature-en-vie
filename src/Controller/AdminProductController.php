@@ -243,6 +243,8 @@ class AdminProductController extends AbstractController
                 $sampleDatas->setQuantityUnit($row[8]);
                 $sampleDatas->setOriginProduction($row[9]);
                 $sampleDatas->setPriceAcnAllier( floatval(str_replace(",", ".", $row[10])));
+                $sampleDatas->setImageName($row[11]);
+
                 // $sampleDatas->setQuantityUnit($this->productService->getQuantityUnity($row[5]));
                 // $sampleDatas->setImageName($row[2]);
                 // $sampleDatas->setQuantity(intval($this->productService->getQuantityNumeral($row[5])));

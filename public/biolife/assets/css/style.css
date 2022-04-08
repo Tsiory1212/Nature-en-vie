@@ -3171,6 +3171,31 @@ body.open-mobile-search .header-area.layout-02{
 .footer.layout-01 .copy-right-text{
     margin-top: 39px;
 }
+
+/* Conditions générales et Mentions légales */
+.footer .conditions-and-mentions-link-wrap{
+    display : flex;
+    justify-content: flex-start;
+    padding-top : 10px;
+    padding-bottom : 20px;
+}
+.footer .conditions-and-mentions-link-wrap .conditions-and-mentions-link{
+    padding : 0px 10px;
+    font-size : 15px;
+}
+.footer .conditions-and-mentions-link-wrap .conditions-and-mentions-link:first-child{
+    padding-left : 0px;
+}
+.footer .conditions-and-mentions-link-wrap .conditions-and-mentions-link:not(:last-child){
+    border-right : 1px solid #CCC;
+}
+.footer .conditions-and-mentions-link-wrap .conditions-and-mentions-link a{
+    color : #666666;
+}
+.footer .conditions-and-mentions-link-wrap .conditions-and-mentions-link a:hover{
+    color : #05a503;
+}
+
 .separator{
     display: block;
     border: none;

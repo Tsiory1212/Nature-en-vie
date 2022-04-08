@@ -44,9 +44,7 @@
                                     <div class="wrap-custom-menu vertical-menu-2">
                                         <ul class="menu">
                                             <li><a href="{{path('security_login')}}">Se connecter</a></li>
-                                            <li><a href="{{path('condition_generale_vente')}}">Conditions Générale de Vente</a></li>
-                                            <li><a href="{{path('mentions_legales')}}">Mentions légales</a></li>
-
+                                            
 
                                             {# <li><a href="#">View Cart</a></li> #}
                                             <!-- <li><a href="#">Ma liste de souhaits</a></li>
@@ -125,6 +123,11 @@
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-3">
                                         <p>Copyright ©️ 2022 <b>Christophe Regnault.</b>Tous droits réservés. Conception et marketing <a href="https://pixelsior.fr/">Pixelsior</a>.</p>
+                                        <div class="conditions-and-mentions-link-wrap">
+                                            <div class="conditions-and-mentions-link"><a href="{{path('condition_generale_vente')}}">Conditions Générale de Vente</a></div>
+                                            <div class="conditions-and-mentions-link"><a href="{{path('mentions_legales')}}">Mentions légales</a></div>
+
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -133,6 +136,7 @@
                     </div>
                 </div>
             </div>
+            
 
         </div>
     </footer>

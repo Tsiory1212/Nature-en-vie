@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Condition générale de vente{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #header {
+            position: relative !important;
+        }
+
+        body{
+            z-index: 10;
+            background-image: url('/biolife/assets/images/home-01/main-slide-02.png');
+            background-position: center center;
+            background-size: cover;
+        }
+        .bg-glass2{
+            background-color: white;
+            border-radius: 1rem;
+            padding: 40px 40px;	
+        }
+
+        .block-01 h1{
+            padding-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="demeter-container my-5">
+        <div class="block-01">
+            <div class="container">
+                <div class="bg-glass2">
+
+                    <span class="h1 text-center fw-bolder">Mentions légales</span>
+
+                    <h1>Éditeur</h1>
+                    <h3>Le site <a href="http://www.nature-en-vie.fr/"> http://www.nature-en-vie.fr/</a> est édité par la société Natur'en Vie.</h3>
+                    <h3>Capital : _______ €</h3> 
+                    <h3>Immatriculation au RCS de ______ sous le numéro : ____________ </h3>
+                    <h3>Numéro de SIRET : _______________</h3> 
+                    <h3>Numéro de TVA intracommunautaire : ________________</h3> 
+                    <h3>Adresse du siège social : ____________________________________________</h3> 
+                    <h3>Directeur de la publication : _____________________</h3> 
+                    <h3>Pour nous contacter, vous pouver vous rendre sur la rubrique contact en cliquant ici : <a href="https://nature-en-vie.fr/ferme/contact"> https://nature-en-vie.fr/ferme/contact</a></h3>
+                    <h3>Ou appeler directement au numéro : 04 70 35 08 96</h3>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

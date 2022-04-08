@@ -3175,7 +3175,7 @@ body.open-mobile-search .header-area.layout-02{
 /* Conditions générales et Mentions légales */
 .footer .conditions-and-mentions-link-wrap{
     display : flex;
-    justify-content: flex-start;
+    justify-content: center;
     padding-top : 10px;
     padding-bottom : 20px;
 }

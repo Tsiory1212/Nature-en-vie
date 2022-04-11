@@ -1,0 +1,13 @@
+nav #menu-profil-admin{
+    left: -100px;
+}
+
+.container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse {
+    margin-left: 0px;
+}
+
+@media (max-width: 766px) {
+    nav #menu-profil-admin{
+        left: 0px;
+    }
+}

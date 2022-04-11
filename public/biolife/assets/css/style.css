@@ -1505,7 +1505,8 @@ body.open-mobile-search .header-area.layout-02{
 }
 .contain-product.layout-default{
     /*padding-bottom: 12px;*/
-    padding-bottom: 2px;
+    /* padding-bottom: 2px; */
+    height: 400px;
  }
 .contain-product.layout-default .info .price{
     margin-bottom: 11px;

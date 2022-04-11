@@ -57,7 +57,7 @@ class ProductController extends AbstractController
     }
     
     /**
-     * @Route("/product/{id}/show/{slug}", name="product_show", requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/product/{id}/show/{slug}", name="product_show", requirements={"slug": "[a-z0-9\-]*"}, methods={"GET"})
      */
     public function product_show(Product $currentProduct, string $slug, SessionInterface $session, PanierService $panierService): Response
     {

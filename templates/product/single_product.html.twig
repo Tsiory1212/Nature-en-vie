@@ -57,19 +57,19 @@
                                             <img src=" {{ asset('/uploads/produit/images/defaultImage.png')}}" alt="img-{{currentProduct.category.name}}" width="400">
                                         {% endif %}
                                     </li>
-                                    {# <li><img src="assets/images/details-product/p01.jpg" alt="" width="500" height="500"></li>
-                                    <li><img src="assets/images/details-product/p02.jpg" alt="" width="500" height="500"></li>
-                                    <li><img src="assets/images/details-product/p03.jpg" alt="" width="500" height="500"></li>
-                                    <li><img src="assets/images/details-product/p06.jpg" alt="" width="500" height="500"></li>
-                                    <li><img src="assets/images/details-product/p07.jpg" alt="" width="500" height="500"></li> #}
+                                    {# <li><img src="/biolife/assets/images/details-product/p01.jpg" alt="" width="500" height="500"></li> #}
+                                    {# <li><img src="/biolife/assets/images/details-product/p02.jpg" alt="" width="500" height="500"></li> #}
+                                    {# <li><img src="/biolife/assets/images/details-product/p03.jpg" alt="" width="500" height="500"></li> #}
+                                    {# <li><img src="/biolife/assets/images/details-product/p06.jpg" alt="" width="500" height="500"></li> #}
+                                    {# <li><img src="/biolife/assets/images/details-product/p07.jpg" alt="" width="500" height="500"></li> #}
                                 </ul>
-                                <ul class="biolife-carousel slider-nav" data-slick='{"arrows":false,"dots":false,"centerMode":false,"focusOnSelect":true,"slidesMargin":10,"slidesToShow":4,"slidesToScroll":1,"asNavFor":".slider-for"}'>
-                                    {# <li><img src="assets/images/details-product/thumb_p01.jpg" alt="" width="88" height="88"></li>
-                                    <li><img src="assets/images/details-product/thumb_p02.jpg" alt="" width="88" height="88"></li>
-                                    <li><img src="assets/images/details-product/thumb_p03.jpg" alt="" width="88" height="88"></li>
-                                    <li><img src="assets/images/details-product/thumb_p06.jpg" alt="" width="88" height="88"></li>
-                                    <li><img src="assets/images/details-product/thumb_p07.jpg" alt="" width="88" height="88"></li> #}
-                                </ul>
+                                {# <ul class="biolife-carousel slider-nav" data-slick='{"arrows":false,"dots":false,"centerMode":false,"focusOnSelect":true,"slidesMargin":10,"slidesToShow":4,"slidesToScroll":1,"asNavFor":".slider-for"}'>
+                                    <li><img src="/biolife/assets/images/details-product/thumb_p01.jpg" alt="" width="88" height="88"></li>
+                                    <li><img src="/biolife/assets/images/details-product/thumb_p02.jpg" alt="" width="88" height="88"></li>
+                                    <li><img src="/biolife/assets/images/details-product/thumb_p03.jpg" alt="" width="88" height="88"></li>
+                                    <li><img src="/biolife/assets/images/details-product/thumb_p06.jpg" alt="" width="88" height="88"></li>
+                                    <li><img src="/biolife/assets/images/details-product/thumb_p07.jpg" alt="" width="88" height="88"></li>
+                                </ul> #}
                             </div>
                             <div class="product-attribute">
                                 <h3 class="title">
@@ -87,14 +87,10 @@
                                     <span class="price-amount" style="font-size: 20px">
                                         {{ currentProduct.price}} €/ {{ currentProduct.quantityUnit }}
                                     </span>
-                                    {# <ins><span class="price-amount">{{currentProduct.price}} <span class="currencySymbol">€</span></span></ins>
-                                    {% if currentProduct.weight > 1 %}
-                                        NB : {{ currentProduct.price / currentProduct.weight }} par Kilo
-                                    {% else %}
-                                       <span class="price-amount">/ {{currentProduct.weight}} Kg</span>
-                                    {% endif %} #}
                                 </div>
-                                <a  href="{{path('panier_add', {id: currentProduct.id})}}" class="button button1 mt-5 add-to-cart-btn js-add-cart-and-toast"> Ajouter au panier</a>
+                                {% if app.user %}
+                                    <a href="{{path('panier_add', {id: currentProduct.id})}}" class="button button1 mt-5 add-to-cart-btn js-add-cart-and-toast"> Ajouter au panier</a>
+                                {% endif %}
                                 
                             </div>
                                 <div class="action-form">
@@ -102,9 +98,8 @@
                                 </div>
 
 
-
-                            {% if app.user.lastname == 'sfdf'  %}
-                                <div class="action-form">
+                                <!-- Action form -->
+                                {# <div class="action-form">
                                     <div class="quantity-box">
                                         <span class="title">Quantité:</span>
                                         <div class="qty-input">
@@ -121,44 +116,16 @@
                                                 Ajouter
                                             {% endif %} 
                                         </a>
-                                        {# <p class="pull-row">
-                                            <a href="#" class="btn wishlist-btn">wishlist</a>
-                                            <a href="#" class="btn compare-btn">compare</a>
-                                        </p> #}
                                     </div>
-                                    {# <div class="location-shipping-to">
-                                        <span class="title">Ship to:</span>
-                                        <select name="shipping_to" class="country">
-                                            <option value="-1">Select Country</option>
-                                            <option value="america">America</option>
-                                            <option value="france">France</option>
-                                            <option value="germany">Germany</option>
-                                            <option value="japan">Japan</option>
-                                        </select>
-                                    </div>
-                                    <div class="social-media">
-                                        <ul class="social-list">
-                                            <li><a href="#" class="social-link"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li><a href="#" class="social-link"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li><a href="#" class="social-link"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                                            <li><a href="#" class="social-link"><i class="fa fa-share-alt" aria-hidden="true"></i></a></li>
-                                            <li><a href="#" class="social-link"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </div> #}
-                                    {# <div class="acepted-payment-methods">
+                                    <div class="acepted-payment-methods">
                                         <ul class="payment-methods">
-                                            <li><img src="assets/images/card1.jpg" alt="" width="51" height="36"></li>
-                                            <li><img src="assets/images/card2.jpg" alt="" width="51" height="36"></li>
-                                            <li><img src="assets/images/card3.jpg" alt="" width="51" height="36"></li>
-                                            <li><img src="assets/images/card4.jpg" alt="" width="51" height="36"></li>
+                                            <li><img src="/biolife/assets/images/card1.jpg" alt="" width="51" height="36"></li>
+                                            <li><img src="/biolife/assets/images/card2.jpg" alt="" width="51" height="36"></li>
+                                            <li><img src="/biolife/assets/images/card3.jpg" alt="" width="51" height="36"></li>
+                                            <li><img src="/biolife/assets/images/card4.jpg" alt="" width="51" height="36"></li>
                                         </ul>
-                                    </div> #}
-                                </div>
-                            {% elseif app.user.lastname == 'sfdsf' %}
-                                <div class="action-form">
-                                    {{currentProduct.description}}
-                                </div>
-                            {% endif %}
+                                    </div>
+                                </div> #}
                         </div>
 
                         <!-- Tab info -->

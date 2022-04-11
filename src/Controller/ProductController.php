@@ -30,7 +30,7 @@ class ProductController extends AbstractController
     }
 
      /**
-     * @Route("/account/all-products", name="all_products")
+     * @Route("/product/all", name="all_products")
      */
     public function all_products(Request $request): Response
     {

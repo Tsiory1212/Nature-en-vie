@@ -7,6 +7,7 @@
 
 {% block stylesheets %}
 	<style>
+
 		.side-bar-column{
 			margin-right: 50px;
 		}
@@ -23,12 +24,17 @@
 			padding: 5px 5px;
 		}
 
-        @media (max-width: 660px){
-			.side-bar-column{
-				display: none;
+		@media (max-width: 991px) {
+			.container{
+				max-width: 929px;
 			}
-
 		}
+		@media (max-width: 660px) {
+			.button.search-icon{
+				padding: 1px!important;
+			}
+		}
+		
 	</style>
 {% endblock %}
 
@@ -45,22 +51,30 @@
 			{% endfor %}
 
 
-			<div class="row-table-head">
-				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);">({{ nbrProducts }}) Produits</h2>
-				<a href="{{path('admin_product_add')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Ajouter</a>
-				<a href="{{path('admin_product_excel_import')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-table"></i> Importer Excel</a>
-				<a href="{{path('admin_product_excel_export_file')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-table"></i> Exporter Excel</a>
-				<div class="bg-white p-4 mt-3">
-					<div class="row text-center fw-bold h5">
-						<div class="col-1 text-start ps-5" style="width: 22%;"> {{ nbrProducts }} </div>
-						<!-- <div class="col-1"></div> -->
-						<div class="col-1">Ref</div>
-						<div class="col-3" style="width: 18%;">Nom</div>
-						<div class="col-1">Prix</div>
-						<div class="col-1">Quantité</div>
-						<div class="col-2" style="width: 13.667%;">Catégorie</div>
-						<div class="col-2" style="width: 14.667%;">ACTION</div>
+			<div class="above-row-table">
+				<div class="row">
+					<div class="col-sm-4 col-md-3 d-none d-sm-block">
+						<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);">({{ nbrProducts }}) Produits</h2>
 					</div>
+					<div class="col-sm-8 col-md-9">
+						<a href="{{path('admin_product_add')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> <span class="table-hidden-sm-col">Ajouter</span></a>
+
+						<a href="{{path('admin_product_excel_import')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-table"></i> <span class="table-hidden-sm-col"> Importer Excel</span> </a>
+
+						<a href="{{path('admin_product_excel_export_file')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-table"></i> <span class="table-hidden-sm-col"> Exporter Excel </span></a>
+					</div>
+				</div>
+			</div>
+			<div class="row-table-head bg-white p-4 px-sm-0  mt-3">
+				<div class="row text-center fw-bold h5">
+					<div class="col-1 col-sm-2 text-start ps-5 empty-col-table-head"> {{ nbrProducts }} </div>
+					<div class="col-1 item-hidden-sm"></div>
+					<div class="col-2 col-sm-2 col-md-1 col-lg-1" id="after-empty-col-table-head">Ref</div>
+					<div class="col-5 col-sm-4 col-md-3 ">Nom</div>
+					<div class="col-2 col-sm-1">Prix</div>
+					<div class="col-1 d-none d-sm-block">Quantité</div>
+					<div class="col-2 d-none d-sm-block" style="width: 13.667%;">Catégorie</div>
+					<div class="col-2"></div>
 				</div>
 			</div>
 			<div class="table-body">
@@ -79,8 +93,8 @@
 							<div class="bg-white p-4 rounded">{{ nbrOrders }}</div>
 						</div>
 					</div>
-					<div class="content-table-body col bg-white mt-2 rounded h5">
-						<div class="p-5">
+					<div class="content-table-body col bg-white mt-2 rounded h5 p-5">
+						<div class="product-list-item">
 							<div class="my-2">
 								{% if available == false %}
 									<a class="btn btn-success" href="{{ path('admin_product_list') }}">Disponible</a>
@@ -90,25 +104,25 @@
 							</div>
 							{% for produit in products %}
 								<div class="row item-product-row text-center">
-									<div class="col-1">
+									<div class="col-1 item-hidden-sm">
 										{% if produit.imageName %}
 											<img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="card-img-top" width="50" height="50">
 										{% else %}
 											<img src="/uploads/produit/images/defaultImage.png" alt="card-img-top"  width="50" height="50" >
 										{% endif %}
 									</div>
-									<div class="col-1">{{produit.referenceId}}</div>
-									<div class="col-3">{{produit.name}}</div>
-									<div class="col-1">{{produit.price}} €</div>
-									<div class="col-1">{{produit.quantity}}</div>
-									<div class="col-2">
+									<div class="col-2 col-sm-3 col-md-2">{{produit.referenceId}}</div>
+									<div class="col-5 col-sm-3 col-md-3 col-lg-3">{{produit.name}}</div>
+									<div class="col-2 col-sm-1">{{produit.price}} €</div>
+									<div class="col-1 d-none d-sm-block">{{produit.quantity}}</div>
+									<div class="col-2 d-none d-sm-block">
 										{% if produit.category.name is defined %}
 											{{produit.category.name}}
 										{% else %}
 											Autre
 										{% endif %}
 									</div>
-									<div class="col-2">
+									<div class="col-3 col-sm-2">
 										<a href="{{path('admin_product_edit', {id: produit.id})}}" class="btn btn-secondary"> <i class="fas fa-edit"></i> </a>
 										<form method="post" action="{{path('admin_product_delete', {id: produit.id})}}" style="display: inline-block;" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
 											<input type="hidden" name="_method" value="DELETE">
@@ -132,19 +146,16 @@
 											<div class="col">
 												{{form_row(form.category)}}
 											</div>
-											<div class="col">
+											<div class="col item-hidden-sm">
 												{{form_row(form.classement)}}
 											</div>
-											<div class="col">
-												{{form_row(form.gamme)}}
-											</div>
-											<div class="col">
+											<div class="col d-none d-sm-block">
 												{{form_row(form.maxPrice)}}
 											</div>
 										</div>
 									</div>
 									<div class="col-2">
-										<button class="button button1 d-inline"><i class="fas fa-search"></i></button>
+										<button class="button button1 search-icon d-inline"><i class="fas fa-search"></i></button>
 									</div>
 								</div>
 							</div>

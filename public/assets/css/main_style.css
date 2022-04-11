@@ -28,6 +28,10 @@ a{
     outline: none;
 }
 
+.d-xl-none{
+	display: none!important;
+}
+
 button.btn-close{
 	font-size: large;
 }

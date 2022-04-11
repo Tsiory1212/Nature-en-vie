@@ -1,3 +1,19 @@
+/************************
+*    Global Settings    *
+*************************/
+body{
+    background-color: #eec900 !important;
+    /* font-size: 12px; */
+}
+html{
+    font-size: 10px;
+}
+
+.row{
+    margin-right: auto;
+    margin-left: auto;
+}
+
 nav #menu-profil-admin{
     left: -100px;
 }
@@ -9,5 +25,32 @@ nav #menu-profil-admin{
 @media (max-width: 766px) {
     nav #menu-profil-admin{
         left: 0px;
+    }
+}
+
+@media (min-width: 576px){
+    .container-sm {
+        max-width: 1304px;
+    }
+}
+
+@media (max-width: 853px) {
+    .side-bar-column, .empty-col-table-head, .label-hidden-sm, .table-hidden-sm-col, .item-hidden-sm{
+        display: none;
+    }
+
+    .content-table-body {
+        padding: 0px!important;
+        margin-left: 0px!important;
+    }
+
+}
+@media (max-width: 460px) {
+    .table-hidden-xs-col{
+        display: none;
+    }
+
+    .bg-glass2{
+        padding: 4px;
     }
 }

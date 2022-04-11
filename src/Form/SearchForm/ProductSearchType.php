@@ -56,11 +56,11 @@ class ProductSearchType extends AbstractType
                 'choice_label' => 'name',
                 'choice_value' => 'name',
             ])
-            ->add('gamme', ChoiceType::class, [
-                'required' => false,
-                'label' => false,
-                'choices' => $this->getGammeChoices()
-            ])
+            // ->add('gamme', ChoiceType::class, [
+            //     'required' => false,
+            //     'label' => false,
+            //     'choices' => $this->getGammeChoices()
+            // ])
             ->add('maxPrice', IntegerType::class, [
                 'required' => false,
                 'label' => false,

@@ -7,14 +7,15 @@
 {% block stylesheets %}
 
 	<style>
+
+		.col-sm-3{
+			width: 20%;
+		}
+
 		.side-bar-column{
 			margin-right: 30px;
 		}
 
-		.content-table-body{
-			padding: 20px 30px;
-			margin-left: 26px;
-		}
 
 		.item-product-row:hover{
 			background-color: rgba(165, 163, 163, 0.287);
@@ -23,13 +24,40 @@
 			border: 1px solid #47444431;
 			padding: 5px 5px;
 		}
+
+		.row-table-head .row :first-child{
+			margin-right: 30px;
+		}
+
+		.row-table-head .row :nth-child(2){
+			margin-left: 7px;
+			padding-left: 3rem!important;
+		}
+		.row-table-head .row :last-child{
+			padding-right: 3rem!important;
+		}
+		@media (min-width: 853px){
+			#after-empty-col-table-head{
+				margin-left: 19px;
+			}
+
+			
+			
+		}
+		@media (max-width: 853px){
+			.fix-col-sm-3{
+				width: 25%!important;
+			}
+
+			
+		}
 	</style>
 {% endblock %}
 
 {% block body %}
        
 
-    <div class="container my-5">
+    <div class="container container-sm my-5">
 		<div class="bg-glass2">
 			<div class="messages-block my-5">
 				{% for label, messages in app.flashes %}
@@ -41,62 +69,60 @@
 				{% endfor %}
 			</div>
 
-			<div class="row-table-head">
+			<!-- Button on table -->
+			<div class="above-row-table">
 				<h2 class="font-bg-stylized-2 text-white d-inline" style="background-color: rgb(27, 179, 128);"> ({{ nbrSubscriptions }}) Plan</h2>
-				<a href="{{path('admin_subscription_create')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> Créer un plan</a>
-				<a href="{{path('admin_subscriber_list')}}" class="button button1 fw-bold d-inline">Liste des abonnés</a>
-				
-				<div class="bg-white p-4 mt-3 h5">
-					<div class="row text-center fw-bold">
-						<div class="col-2 text-start ps-5">   </div>
-						<div class="col-2" style="width: 11.667%;">Nom</div>
-						<div class="col-1" style="width: 6.333%;">Prix</div>
-						{# <div class="col-1">Durée en mois</div> #}
-						<div class="col-2" style="width: 19.333%;">Id-Price (Stripe)</div>
-						<div class="col-3" style="width: 20%;">Id-Product (Stripe)</div>
-						<div class="col-1" style="width: 7.333%;">Abonnés</div>
-						<div class="col-1">ACTION</div>
+				<a href="{{path('admin_subscription_create')}}" class="button button1 fw-bold d-inline"><i class="fas fa-plus"></i> <span class="label-hidden-sm">Créer un plan</span> </a>
+				<a href="{{path('admin_subscriber_list')}}" class="button button1 fw-bold d-inline"><i class="fa-solid fa-list-ul"></i> <span class="label-hidden-sm">Liste des abonnés</span></a>
+			</div>
+
+			<!-- Table head -->
+			<div class="row-table-head bg-white py-4 mt-3 h5 row text-center fw-bold">
+				<div class="col-1 empty-col-table-head">  </div>
+				<div class="col-4 col-xs-3 col-sm-3" id="after-empty-col-table-head" >Nom</div>
+				<div class="col-3 col-xs-1 col-sm-1">Prix</div>
+				{# <div class="col-1">Durée en mois</div> #}
+				<div class="col-3 col-sm-3 fix-col-sm-3 d-none d-sm-block" >Id-Price (Stripe)</div>
+				<div class="col-3 col-sm-3 fix-col-sm-3 d-none d-sm-block" >Id-Product (Stripe)</div>
+				<div class="col-2 col-xs-1 col-sm-1" >Abonnés</div>
+				<div class="col-3 col-xs-1 col-sm-1">ACTION</div>
+			</div>
+
+			<!-- Table body -->
+			<div class="table-body row mt-5">
+				<div class="side-bar-column col-1 text-center fw-bold">
+					<div class="subscription-block my-5">
+						<div class="font-bg-stylized-1"> <a href="{{ path('admin_product_list') }}" class="text-white">Produits</a> </div>
+						<div class="bg-white p-4 rounded">{{ nbrProducts }}</div>
+					</div>
+					<div class="user-block my-5">
+						<div class="font-bg-stylized-1 text-white"> <a href="{{ path('admin_user_list') }}" class="text-white">Utilisateurs</a></div>
+						<div class="bg-white p-4 rounded">{{ nbrUsers }}</div>
+					</div>
+					<div class="order-block my-5">
+						<div class="font-bg-stylized-1"> <a href="{{ path('admin_order_list') }}" class="text-white">Commandes</a></div>
+						<div class="bg-white p-4 rounded">{{ nbrOrders }}</div>
 					</div>
 				</div>
-			</div>
-			<div class="table-body">
-				<div class="row">
-					<div class="side-bar-column col-1 text-center fw-bold">
-						<div class="subscription-block my-5">
-							<div class="font-bg-stylized-1"> <a href="{{ path('admin_product_list') }}" class="text-white">Produits</a> </div>
-							<div class="bg-white p-4 rounded">{{ nbrProducts }}</div>
+				<div class="content-table-body col bg-white mt-2 rounded p-sm-5 p-5">
+					{% for subscription in subscriptions %}
+						<div class="row item-product-row text-center">
+							<div class="col-4 col-xs-3 col-sm-3">{{subscription.name}}</div>
+							<div class="col-3 col-xs-1 col-sm-1">{{subscription.amount}} €</div>
+							{# <div class="col-1">{{subscription.durationMonthSubscription}}</div> #}
+							<div class="col-3 d-none d-sm-block h5">{{subscription.priceIdStripe}}</div>
+							<div class="col-3 d-none d-sm-block h5">{{subscription.productIdStripe}}</div>
+							<div class="col-2 col-xs-1 col-sm-1"><a href="{{ path('admin_subscriber_plan_list', {id: subscription.id}) }}"><i class="fas fa-users"></i></a></div>
+							<div class="col-3 col-xs-1 col-sm-1">
+								<a class="btn btn-success" href="{{path('admin_subscription_edit', {id: subscription.id})}}" > <i class="fas fa-edit"></i> </a>
+								<a class="btn btn-warning js-modal-confirm" data-subscriptionid="{{ subscription.id }}" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-pause"></i> </a>
+							</div>
 						</div>
-						<div class="user-block my-5">
-							<div class="font-bg-stylized-1 text-white"> <a href="{{ path('admin_user_list') }}" class="text-white">Utilisateurs</a></div>
-							<div class="bg-white p-4 rounded">{{ nbrUsers }}</div>
-						</div>
-						<div class="order-block my-5">
-							<div class="font-bg-stylized-1"> <a href="{{ path('admin_order_list') }}" class="text-white">Commandes</a></div>
-							<div class="bg-white p-4 rounded">{{ nbrOrders }}</div>
-						</div>
-					</div>
-					<div class="content-table-body col bg-white mt-2 rounded">
-						<div class="p-5">
-							{% for subscription in subscriptions %}
-								<div class="row item-product-row text-center">
-									<div class="col-2">{{subscription.name}}</div>
-									<div class="col-1">{{subscription.amount}} €</div>
-									{# <div class="col-1">{{subscription.durationMonthSubscription}}</div> #}
-									<div class="col-3 h5">{{subscription.priceIdStripe}}</div>
-									<div class="col-3 h5">{{subscription.productIdStripe}}</div>
-									<div class="col-1"><a href="{{ path('admin_subscriber_plan_list', {id: subscription.id}) }}"><i class="fas fa-users"></i></a></div>
-									<div class="col-1">
-										<a class="btn btn-success" href="{{path('admin_subscription_edit', {id: subscription.id})}}" > <i class="fas fa-edit"></i> </a>
-										<a class="btn btn-warning js-modal-confirm" data-subscriptionid="{{ subscription.id }}" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-pause"></i> </a>
-									</div>
-								</div>
-							{% endfor %}
-						</div>					
-						
-						{% if nbrSubscriptionsDisabled > 0 %}
-							<a href="{{path('admin_subscription_disabled_list')}}" class="btn btn-primary float-end"> Voir les plans désactivés</a>
-						{% endif %}
-					</div>
+					{% endfor %}
+					
+					{% if nbrSubscriptionsDisabled > 0 %}
+						<a href="{{path('admin_subscription_disabled_list')}}" class="btn btn-primary float-end"> Voir les plans désactivés</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

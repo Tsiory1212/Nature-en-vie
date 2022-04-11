@@ -41,9 +41,9 @@
 									<th scope="col">Abonné</th>
 									<th scope="col">Abonnement</th>
 									<th scope="col">Prix</th>
-									<th scope="col">Cycle</th>
+									<th scope="col" class="table-hidden-sm-col">Cycle</th>
 									<th scope="col">Status</th>
-									<th scope="col">Pause</th>
+									<th scope="col" class="table-hidden-sm-col">Pause</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -54,9 +54,9 @@
 										<td>{{order.user.lastname}}</td>
 										<td>{{order.subscriptionPlan.name}}</td>
 										<td>{{order.subscriptionPlan.amount}} €</td>
-										<td>{{ constant('App\\Entity\\Order::INTERVAL_UNIT')[order.subscriptionPlan.intervalUnit] }}</td>
+										<td class="table-hidden-sm-col"> {{ constant('App\\Entity\\Order::INTERVAL_UNIT')[order.subscriptionPlan.intervalUnit] }}</td>
 										<td>{{order.subscriptionPlan.status}}</td>
-										<td>
+										<td class="table-hidden-sm-col">
 											{% if order.pauseDelivry %}
 												<i class="fas fa-exclamation-circle" style="color: red" data-bs-toggle="modal" data-bs-target="#pauseDate"></i>
 											{% else %}

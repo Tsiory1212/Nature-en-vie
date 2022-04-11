@@ -111,22 +111,27 @@
 		.modal-dialog{
 			margin-top: 47vh;
 		}
+		.form-pathLine{
+			float: right;
+		}
 	</style>
 {% endblock %}
 
 {% block body %}
 	<div class="my-5" >
-		<h1 class="text-white text-center font-bg-stylized-1">Liste des commandes" </h1>
+		<div class="title-body d-flex justify-content-center">
+			<h1 class="text-white text-center font-bg-stylized-1">Liste des commandes" </h1>
+		</div>
 		<div class="bg-glass2 p-3 mb-5">
 			<div class="row">
-				<div class="col-4">
-					<button id="js-map-large" class="button button1" onclick="largeMap()">Agrandir le Map</button>
-					<button class="button button1" onclick="getAllRoutes()">Chemin court</button>		
+				<div class="col-6 col-xs-4">
+					<button id="js-map-large" class="button button1" onclick="largeMap()"><i class="fa-solid fa-layer-group"></i> <span class="label-hidden-sm"> Agrandir le Map</span></button>
+					<button class="button button1" onclick="getAllRoutes()"><i class="fa-solid fa-wave-square"></i> <span class="label-hidden-sm"> Chemin court </span></button>		
 				</div>
-				<div class="col-8">
+				<div class="col-6 col-xs-8">
 					<div class="form-pathLine d-inine ">
 						<select id="js_pathLine"> </select>
-						<button id="btn-submit-pathLine" class="button button1">Trier</button>
+						<button id="btn-submit-pathLine" class="button button1"><i class="fa-solid fa-filter"></i> <span class="label-hidden-sm">Trier</span> </button>
 					</div>
 				</div>
 			</div>
@@ -135,12 +140,12 @@
 					<table class="table">
 						<thead>
 							<tr>
-							<th scope="col">Ordre</th>
-							<th scope="col">Nom</th>
+							<th scope="col d-none" class="table-hidden-sm-col">Ordre</th>
+							<th scope="col d-none" class="table-hidden-sm-col">Nom</th>
 							<th scope="col">Prénom</th>
 							<th scope="col">Adresse</th>
 							<th scope="col">Code Postal</th>
-							<th scope="col">Téléphone</th>
+							<th scope="col" class="d-none d-sm-block">Téléphone</th>
 							<th scope="col"></th>
 							</tr>
 						</thead>
@@ -162,12 +167,12 @@
 								data-postalcode="{{user.delivry.postalCode}}"
 								data-user="{{user.firstname}}"
 							>
-								<td>{{ loop.index}}</td>
-								<td>{{ user.lastname }}</td>
+								<td class="table-hidden-sm-col">{{ loop.index}}</td>
+								<td class="table-hidden-sm-col"> {{ user.lastname }}</td>
 								<td>{{ user.firstname }}</td>
 								<td>{{ user.delivry.address }}</td>
 								<td>{{ user.delivry.postalCode }}</td>
-								<td>{{ user.phone }}</td>
+								<td class="d-none d-sm-block">{{ user.phone }}</td>
 								<td><a href="{{path('admin_user_order', {user: user.id})}}"><i class="fa-solid fa-user"></i></a></td>
 							</tr>
 						

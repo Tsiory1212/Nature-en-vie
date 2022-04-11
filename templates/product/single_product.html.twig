@@ -17,13 +17,16 @@
         .header-bottom .row .primary-menu ul li{
             margin-left: 14px;
         }
+        .content-product-detail .row .col{
+            background-color: rgb(229 229 223);
+            margin: 5px;
+            padding: 8px;
+        }
 
     </style>
 {% endblock %}
 
 {% block body %}
-    
-
             <!--Hero Section-->
             <div class="hero-section hero-background">
                 <h1 class="page-title">Natur'en vie</h1>
@@ -132,8 +135,8 @@
                         <div class="product-tabs single-layout biolife-tab-contain">
                             <div class="tab-head">
                                 <ul class="tabs">
-                                    <li class="tab-element active"><a href="#tab_1st" class="tab-link">Description produit</a></li>
-                                    <li class="tab-element" ><a href="#tab_2nd" class="tab-link">Informations supplémentaires</a></li>
+                                    <li class="tab-element active"><a href="#tab_1st" class="tab-link">Description</a></li>
+                                    <li class="tab-element" ><a href="#tab_2nd" class="tab-link">Détail du produit</a></li>
                                     {# <li class="tab-element" ><a href="#tab_3rd" class="tab-link">Expédition & Livraison</a></li> #}
                                     {# <li class="tab-element" ><a href="#tab_4th" class="tab-link">Avis des clients<sup>(3)</sup></a></li> #}
                                 </ul>
@@ -141,12 +144,17 @@
                             <div class="tab-content">
                                 <div id="tab_1st" class="tab-contain desc-tab active">
                                     <p class="desc">
-                                        {{currentProduct.description}}
+                                        {{currentProduct.detail|nl2br}}
                                     </p>
                                 </div>
                                 <div id="tab_2nd" class="tab-contain addtional-info-tab">
-                                    {{currentProduct.detail|nl2br}}
-
+                                    <div class="content-product-detail">
+                                        <div class="row origin-production-block">
+                                            <div class="col">Origine</div>
+                                            <div class="col">{{ currentProduct.originProduction}}</div>
+                                        </div>
+                                    </div>
+                                    
                                     {# <table class="tbl_attributes">
                                         <tbody>
                                         <tr>

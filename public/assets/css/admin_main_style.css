@@ -35,7 +35,7 @@ nav #menu-profil-admin{
 }
 
 @media (max-width: 853px) {
-    .side-bar-column, .empty-col-table-head, .label-hidden-sm, .table-hidden-sm-col, .item-hidden-sm{
+    .side-bar-column, .empty-col-table-head, .table-hidden-sm-col{
         display: none;
     }
 

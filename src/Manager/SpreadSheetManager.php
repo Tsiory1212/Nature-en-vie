@@ -37,19 +37,12 @@ class SpreadSheetManager extends AbstractController{
              return $this->redirectToRoute('admin_product_excel_import');
         }
 
-        // (2) => On supprime tous les produits dans la BDD
-        $oldProducts = $this->repoProduct->findAll();
-        foreach ($oldProducts as $product) {
-           $this->em->remove($product);
-           $this->em->flush();
-        }
-
-        // (3) => On commmence à ouvrir le fichier à importer
+        // (2) => On commmence à ouvrir le fichier à importer
         $fileObject = $file->openFile();
         $fileObject->setFlags(SplFileObject::READ_CSV);
         $fileObject->setCsvControl($separator=";");
 
-        // (4) => On parcour toutes les lignes afin de les enregistrés dans la BDD
+        // (3) => On parcour toutes les lignes afin de les enregistrés dans la BDD
         $i = 0;
         foreach  ($fileObject as $row) {
             if($i > 0){
@@ -58,33 +51,15 @@ class SpreadSheetManager extends AbstractController{
                     break; 
                 } 
 
-                $product = new Product();
-                $product->setAvailability(1);
-                $product->setQuantity(1);
-                $product->setReferenceId('P-'.$i);
-                $product->setRefCode($row[0]);
-                $product->setProductTypeLabel($row[1]);
-                $product->setCategory($this->productService->getIdCategoryByName($row[2]));
-                $product->setName($row[3]);
-                $product->setDetail($row[4]);
-                // $product->setPackaging(intval($row[5]));
-                $product->setPackaging(intval($row[5]));
-                $product->setPrice($this->productService->dividePriceIfPackagingIsGreatestONE(intval($row[5]), floatval(str_replace(",", ".", $row[6]))));
-                $product->setQuantityUnit($row[8]);
-                $product->setOriginProduction($row[9]);
-                $product->setPriceAcnAllier( floatval(str_replace(",", ".", $row[10])));
-                $product->setImageName($row[11]);
-
-                // $product->setQuantityUnit($this->productService->getQuantityUnity($row[5]));
-                // $product->setImageName($row[2]);
-                // $product->setQuantity(intval($this->productService->getQuantityNumeral($row[5])));
-                // $product->setDescription($row[6]);
-                // $product->setClassement($this->productService->getIdClasseByName($row[9]));
-                // $product->setGamme($this->productService->getIdGammeByName($row[10]));
-                // $product->setVolume($row[11]);
-
-                $this->em->persist($product);
-                $this->em->flush();
+                // On vérifie les doublons 
+                $existingProduct = $this->repoProduct->findOneBy(['ref_code' => $row[0]] );
+                if ($existingProduct === null) {
+                    $product = new Product();
+                    $product->setRefCode($row[0]);
+                    $this->productSetValue($product, $i, $row);
+                }else{
+                    $this->productSetValue($existingProduct, $i, $row);
+                }
             }
             $i++;   
         }
@@ -140,5 +115,43 @@ class SpreadSheetManager extends AbstractController{
         }
 
         return $this->file($file, "produit-$date.csv");
+    }
+
+
+    /**
+     * Permet de modifier les valeurs dans un produit
+     *
+     * @param Produit $product
+     * @param int $index
+     * @param array $row
+     */
+    public function productSetValue($product, $index, $row)
+    {
+        $product->setAvailability(1);
+        $product->setQuantity(1);
+        $product->setReferenceId('P-'.$index);
+        $product->setProductTypeLabel($row[1]);
+        $product->setCategory($this->productService->getIdCategoryByName($row[2]));
+        $product->setName($row[3]);
+        $product->setDetail($row[4]);
+        // $product->setPackaging(intval($row[5]));
+
+        $product->setPackaging(intval($row[5]));
+        $product->setPrice($this->productService->dividePriceIfPackagingIsGreatestONE(intval($row[5]), floatval(str_replace(",", ".", $row[6]))));
+        $product->setQuantityUnit($row[8]);
+        $product->setOriginProduction($row[9]);
+        $product->setPriceAcnAllier( floatval(str_replace(",", ".", $row[10])));
+        $product->setImageName($row[11]);
+
+        // $product->setQuantityUnit($this->productService->getQuantityUnity($row[5]));
+        // $product->setImageName($row[2]);
+        // $product->setQuantity(intval($this->productService->getQuantityNumeral($row[5])));
+        // $product->setDescription($row[6]);
+        // $product->setClassement($this->productService->getIdClasseByName($row[9]));
+        // $product->setGamme($this->productService->getIdGammeByName($row[10]));
+        // $product->setVolume($row[11]);
+
+        $this->em->persist($product);
+        $this->em->flush();
     }
 }

@@ -4346,7 +4346,7 @@ body.open-overlay #overlay{
 }
 .sumary-product .action-form{
     display: inline-block;
-    width: 270px;
+    width: 489px;
     background-color: #f3f3f3;
     padding: 11px 20px 34px;
 }
@@ -11019,9 +11019,9 @@ body.open-quickview-block .biolife-quickview-block{
         margin-top: 70px;
         border: 1px solid #e6e6e6;
     }
-    .single-layout.product-tabs{
+    /* .single-layout.product-tabs{
         margin-top: 80px;
-    }
+    } */
     .sumary-product .product-attribute{
         padding-right: 20px;
     }

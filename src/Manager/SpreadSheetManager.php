@@ -107,7 +107,7 @@ class SpreadSheetManager extends AbstractController{
 
         // (2) => On crée un fichier CSV
         $separator = ";";
-        $file = new SplFileObject("export.csv", "w");
+        $file = new SplFileObject("uploads/export.csv", "w");
         
         // (3) => On écrit la première ligne qui sert pour noms des colonnes / Et on gère les caractère spéciaux
         $firstRow = ["Reférence", "Libellé type", "Famille", "Nom", "Description", "Conditionnement", "Prix", "Unité de prix", "Origine production", "Tarif ACN ALLIER"];

@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="{% if app.user and app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %}col-lg-6 {% else %}col-lg-9 {% endif %} col-md-10 hidden-sm hidden-xs md-possition-initial {% if app.request.get('_route') != 'all_products' and app.request.get('_route') != 'product_show' %} top-menu {% endif %}">
+                <div class="{% if app.request.get('_route') == 'all_products' or app.request.get('_route') == 'product_show' %}col-lg-6 {% else %}col-lg-9 {% endif %} col-md-10 hidden-sm hidden-xs md-possition-initial {% if app.request.get('_route') != 'all_products' and app.request.get('_route') != 'product_show' %} top-menu {% endif %}">
                     <div class="primary-menu">
                         <ul class="menu biolife-menu clone-main-menu clone-primary-menu" id="primary-menu" data-menuname="main menu">
                             {% if app.user %}

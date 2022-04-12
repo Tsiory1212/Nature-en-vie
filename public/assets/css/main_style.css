@@ -32,6 +32,12 @@ a{
 	display: none!important;
 }
 
+@media (max-width: 853px) {
+    .label-hidden-sm, .item-hidden-sm{
+        display: none;
+	}
+}
+
 button.btn-close{
 	font-size: large;
 }

@@ -18,6 +18,10 @@
             margin-left: 14px;
         }
 
+        .col-field-search{
+            padding: 3px 2px;
+        }
+
         /* Style for positioning toast */
         .toast{
             position: fixed;
@@ -25,7 +29,20 @@
             top: 250px;
             right: 10px;
             z-index: 20;
+        }   
+
+        .select2-container .select2-selection--single {
+            height: 44px !important;
         }
+
+        .select2-selection__rendered {
+            line-height: 44px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 44px !important;
+        }
+     
     </style>
 {% endblock %}
 
@@ -79,21 +96,21 @@
                                 </a>
                                 <div class="wrap-selectors">
                                     {{form_start(form)}}
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-12 col-md-3 col-field-search">
                                                 {{form_widget(form.name)}}
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-12 col-md-2 col-field-search">
                                                 {{form_widget(form.category)}}
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-12 col-md-2 col-field-search">
                                                 {{form_widget(form.classement)}}
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-12 col-md-3 col-field-search">
                                                 {{form_widget(form.maxPrice)}}
                                             </div>
-                                            <div class="col-md-1">
-                                                <button class="button button1">Filtrer</button>
+                                            <div class="col-12 col-md-2 col-field-search d-flex justify-content-center">
+                                                <button class="button button1"><i class="fa-solid fa-filter"></i> <span class="label-hidden-sm">Filtrer</span> </button>
                                             </div>
                                         </div>
                                     {{form_end(form)}}

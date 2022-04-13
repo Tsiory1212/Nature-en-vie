@@ -31,7 +31,7 @@ class AdminOrderController extends AbstractController
     {
         // Si le params url === '1', les utilisateurs sont filtré par le jour de la semaine
         if ($request->query->get('queryPathLine') === '0' or $request->query->get('queryPathLine') === 'null' or empty($request->query->get('queryPathLine'))) {
-            $orders = $this->repoOrder->findAll();
+            $orders = $this->repoOrder->findBy(['payment_type' => Order::PAYMENT_TYPE[0], 'status_delivry' => false]);
         }else if($request->query->get('queryPathLine') === '1') {
             $orders = $this->repoOrder->findAllOrder_shortByDayslotdelivry();
         }        
@@ -40,7 +40,9 @@ class AdminOrderController extends AbstractController
         $users = [];
         foreach ($orders as $order) {
             $users[] = $order->getUser();
+            
         }
+
         $users = array_unique($users, SORT_REGULAR);
         $mapbox_apikey = $_ENV['MAPBOX_API_KEY'];
         return $this->render('admin/order/all_orders.html.twig', [
@@ -68,11 +70,17 @@ class AdminOrderController extends AbstractController
             $ordersNotDelivred[] = $recurringPaymentorders;
         }
         
+        if (empty($ordersNotDelivred)) {
+            $ordersNotDelivred = $ordersNotDelivred;
+        } else {
+            $ordersNotDelivred = $ordersNotDelivred[0];
+        }
+        
 
         return $this->render('admin/order/show_user_orders.html.twig', [
             // 'orders' => $userOrders,
             'user' => $user,
-            'ordersNotDelivred' => $ordersNotDelivred[0]
+            'ordersNotDelivred' => $ordersNotDelivred
         ]);
     }
 

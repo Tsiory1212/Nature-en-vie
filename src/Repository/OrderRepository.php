@@ -29,8 +29,10 @@ class OrderRepository extends ServiceEntityRepository
     public function findAllOrder_shortByDayslotdelivry()
     {
         return $this->createQueryBuilder('o')
-            // ->andWhere('o.exampleField = :val')
-            // ->setParameter('val', $value)
+            ->andWhere('o.payment_type = :paymentType')
+            ->setParameter('paymentType', Order::PAYMENT_TYPE[0])
+            ->andWhere('o.status_delivry = :statusDelivry')
+            ->setParameter('statusDelivry', false)
             ->innerJoin('o.user','u')
             ->innerJoin('u.delivry','d')
             ->orderBy('d.day_slot', 'ASC')

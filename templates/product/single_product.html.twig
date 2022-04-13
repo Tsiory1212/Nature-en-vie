@@ -23,25 +23,44 @@
             padding: 8px;
         }
 
-        .product-attribute{
-            width: 16% !important;
-        }
         .sumary-product .action-form{
             min-height: 389px !important;
         }
         
+
+        .button{
+            padding: 5px 15px;
+            font-size: 17px;
+        }
+        @media (min-width: 983px) {
+            .product-attribute{
+                width: 16% !important;
+            }   
+        }
         @media (max-width: 1196px) {
             .sumary-product .action-form{
                 width: 45%;
             }
+            .button{
+                padding: 5px 7px;
+                font-size: 14px;
+            }
         }
-
-        @media (max-width: 984px) {
+        @media (max-width: 991px) {
             .sumary-product .action-form{
                 width: 100%;
             }
+            .button{
+                font-size: 19px;
+            }
+        }
+        @media (max-width: 767px) {
+            #img-product-single{
+                width: 290px;
+            }
         }
         
+
     </style>
 {% endblock %}
 
@@ -75,9 +94,9 @@
                                 <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
                                     <li>
                                         {% if currentProduct.imageName %}
-                                            <img src="{{ vich_uploader_asset(currentProduct, 'imageFile') }}" alt="img-{{currentProduct.category.name}}" width="400">
+                                            <img id="img-product-single" src="{{ vich_uploader_asset(currentProduct, 'imageFile') }}" alt="img-{{currentProduct.category.name}}" width="400">
                                         {% else %}
-                                            <img src=" {{ asset('/uploads/produit/images/defaultImage.png')}}" alt="img-{{currentProduct.category.name}}" width="400">
+                                            <img id="img-product-single" src=" {{ asset('/uploads/produit/images/defaultImage.png')}}" alt="img-{{currentProduct.category.name}}" width="400">
                                         {% endif %}
                                     </li>
                                     {# <li><img src="/biolife/assets/images/details-product/p01.jpg" alt="" width="500" height="500"></li> #}
@@ -111,9 +130,7 @@
                                         {{ currentProduct.price}} €/ {{ currentProduct.quantityUnit }}
                                     </span>
                                 </div>
-                                {% if app.user %}
-                                    <a href="{{path('panier_add', {id: currentProduct.id})}}" class="button button1 mt-5 add-to-cart-btn js-add-cart-and-toast"> Ajouter au panier</a>
-                                {% endif %}
+                                <a href="{{path('panier_add', {id: currentProduct.id})}}" class="button button1 mt-5 add-to-cart-btn js-add-cart-and-toast"> Ajouter au panier</a>
                                 
                             </div>
                             <div class="action-form">                          <!-- Tab info -->

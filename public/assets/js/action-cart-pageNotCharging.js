@@ -69,7 +69,8 @@ $(document).ready(function(){
         e.preventDefault();
 
         // this repésente l'élément => a 
-        const url = $(this)[0].href;
+        const url_add_product = $(this)[0].href;
+        const url_login = "{{ path('account_login') }}";
         
         var allQuantityItem =  $('.minicart-block .sub-total .quantity-item');
         var total_price =  $('.minicart-block .sub-total .total-price');
@@ -78,18 +79,29 @@ $(document).ready(function(){
         var hidden_li_item_mini_cart =  $('#hidden-li-item-mini-cart')[0];
         const a = $(this)
 
-        a.text("...") ;
-        a.addClass("disabled");
-        
-        axios.get(url)
-            .then(function(response){
 
+
+        $.ajax({
+            url: url_add_product, 
+            beforeSend: function(  ) {
+                a.text("...") ;
+                a.addClass("disabled");
+            },
+            success: function(response){
+
+                // On vérifie si l'utilisateur n'est pas encore authentifié
+                if (response.message === 'auth_before_add_product') {
+                    return window.location.replace(response.route)
+                }
+
+
+                
+                allQuantityItem.text(response.allQuantityItem);
+                console.log(response.total_price);
                 // allQuantityItem.textContent = response.data.allQuantityItem;
                 // total_price.textContent = response.data.total_price.toFixed(2);
 
-                
-                allQuantityItem.text(response.data.allQuantityItem);
-                total_price.text(response.data.total_price.toFixed(2));
+                total_price.text(response.total_price.toFixed(2));
                 
                 // On anime le bouton 
                 a.text("Ajouté") ;
@@ -99,7 +111,8 @@ $(document).ready(function(){
                 }, 500)
 
                 $("#Toast-add-product").toast("show").removeClass("fade");
-            })
+            }
+        });
     })
    
     // Delete item

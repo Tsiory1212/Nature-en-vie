@@ -4214,7 +4214,7 @@ body.open-overlay #overlay{
     display: inline-block;
     float: left;
     width: calc( 100% - 38.462% - 270px );
-    padding-left: 20px;
+    /* padding-left: 20px; */
     padding-top: 13px;
 }
 .sumary-product .product-attribute .title{
@@ -11429,6 +11429,7 @@ body.open-quickview-block .biolife-quickview-block{
     .sumary-product .product-attribute{
         width: 50%;
         padding-right: 0;
+        padding-left: 10%;
     }
     .sumary-product .media{
         width: 50%;

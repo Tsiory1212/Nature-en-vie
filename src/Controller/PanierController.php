@@ -9,14 +9,11 @@ use App\Repository\FavoriteCartRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
-/**
- * @Route("/account")
- */
 
 class PanierController extends AbstractController
 {
@@ -31,7 +28,7 @@ class PanierController extends AbstractController
 
 
     /**
-     * @Route("/panier", name="panier_show")
+     * @Route("/account/panier", name="panier_show")
      */
     public function panier_show(PanierService $panierService, Request $request)
     {
@@ -69,19 +66,35 @@ class PanierController extends AbstractController
      */
     public function panier_add(Product $product, PanierService $panierService)
     {
+        $user = $this->getUser();
         $refId =  $product->getReferenceId();
         $panierService->add($refId);
-        
-        return $this->json([
-            'code' => 200, 
-            'message' => 'produit ajouté',
-            'allQuantityItem' => $panierService->allQuantityItem(),
-            'total_price' => $panierService->getTotalPrice()
-        ]);
+        if ($user) {
+            return $this->json([
+                'code' => 200, 
+                'message' => 'product_added',
+                'allQuantityItem' => $panierService->allQuantityItem(),
+                'total_price' => $panierService->getTotalPrice()
+            ]);
+        }else{
+
+            $this->addFlash(
+               'danger',
+               'Veuillez vous connecter'
+            );
+
+            return $this->json([
+                'code' => 200, 
+                'message' => 'auth_before_add_product',
+                'route' => $this->generateUrl('account_order_step_one'),
+                'allQuantityItem' => $panierService->allQuantityItem(),
+                'total_price' => $panierService->getTotalPrice()
+            ]);
+        }
     }
 
     /**
-     * @Route("/panier/add/one/{id}", name="panier_add_one")
+     * @Route("/account/panier/add/one/{id}", name="panier_add_one")
      */
     public function panier_add_one(Product $product, PanierService $panierService)
     {
@@ -103,7 +116,7 @@ class PanierController extends AbstractController
 
     
     /**
-     * @Route("/panier/remove/one/{id}", name="panier_remove_one")
+     * @Route("/account/panier/remove/one/{id}", name="panier_remove_one")
      */
     public function panier_remove_one(Product $product, PanierService $panierService)
     {
@@ -125,7 +138,7 @@ class PanierController extends AbstractController
 
     
     /**
-     * @Route("/panier/{id}/delete", name="panier_delete_item")
+     * @Route("/account/panier/{id}/delete", name="panier_delete_item")
      */
     public function panier_delete_item( Product $product, PanierService $panierService, Request $request)
     {
@@ -143,7 +156,7 @@ class PanierController extends AbstractController
     }
 
     /**
-     * @Route("/panier/add_with_quantity/product/{id}", name="panier_quantity_edit")
+     * @Route("/account/panier/add_with_quantity/product/{id}", name="panier_quantity_edit")
      */
     public function panier_quantity_edit(Request $request, Product $product, PanierService $panierService): Response
     {
@@ -158,7 +171,7 @@ class PanierController extends AbstractController
     }
     
     /**
-     * @Route("/panier/delete/all", name="panier_delete_all")
+     * @Route("/account/panier/delete/all", name="panier_delete_all")
      */
     public function panier_delete_all(PanierService $panierService)
     {

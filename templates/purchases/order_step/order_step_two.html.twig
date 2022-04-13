@@ -35,43 +35,39 @@
                                 </h1>
                             </div>
                             <div id="delivry-choice-body">
-                                    {% if app.user.delivry %}
-                                        <table class="table">
-                                            <thead>
-                                                <tr class="h4">
-                                                <th scope="col">Type</th>
-                                                <th scope="col" class="text-center">Créneaux</th>
-                                                <th scope="col" class="text-center">Jour</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                <th> <h2> {{ myDelivryInfo.delivryType }} </h2> </th>
-                                                <td> <h2> {{ myDelivryInfo.delivryTimeSlot }} </h2></td>
-                                                <td> <h2> {{ myDelivryInfo.delivryDaySlot }} </h2> </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                {% if app.user.delivry %}
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="h4">
+                                            <th scope="col">Type</th>
+                                            <th scope="col" class="text-center">Créneaux</th>
+                                            <th scope="col" class="text-center">Jour</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            <th> <h2> {{ myDelivryInfo.delivryType }} </h2> </th>
+                                            <td> <h2> {{ myDelivryInfo.delivryTimeSlot }} </h2></td>
+                                            <td> <h2> {{ myDelivryInfo.delivryDaySlot }} </h2> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
 
-                                        <!-- Map layer -->
-                                        <div class="d-flex text-white justify-content-center mt5-3">
-                                            <h1 class="font-bg-stylized-1"> -- Position -- </h1>
-                                        </div>
-			                            <div id="detailsMap"></div>
-                                    {% else %}            
-                                        <a href="{{path('account_delivry_edit')}}" class="btn btn-primary">Definir</a>
-                                    {% endif %}
-
-
-                                
+                                    <!-- Map layer -->
+                                    <div class="d-flex text-white justify-content-center mt5-3">
+                                        <h1 class="font-bg-stylized-1"> -- Position -- </h1>
+                                    </div>
+                                    <div id="detailsMap"></div>
+                                {% else %}            
+                                    <a href="{{path('account_delivry_edit')}}" class="btn btn-primary">Definir</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
-            <a href="{{ path('account_order_step_one') }}" class="button button1" style="float: left;"><i class="fas fa-arrow-circle-left"></i> Précédant</a>
+            <a href="{{ path('account_order_step_one') }}" class="button button1" style="float: left;"><i class="fas fa-arrow-circle-left"></i> Précédent</a>
 
             <a href="{{ path('account_order_step_three') }}" class="button button1-inverse" style="float: right;">Suivant <i class="fas fa-arrow-circle-right"></i></a>
-
             </div>
 
         </div>

@@ -13,7 +13,9 @@
     <div class="info">
         
         <b class="categories">{{ product.categoryName}} </b>
-        <h4 class="product-title"><a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="pr-name">{{ product.name}}</a></h4>
+        <h4 class="product-title">
+            <a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="pr-name">{{ product.name}}</a>
+        </h4>
         <h4 class="product-description visually-hidden">{{product.description}}  </h4>
         <span class="product-packaging visually-hidden"> <span class="quantity"> {{product.packaging}}</span> <span class="quantity_unit">{{product.quantityUnit}}</span></span>
     
@@ -34,7 +36,12 @@
                 </span>
             </ins>
         </div>
-  
+        {% if product.classementName == 'NOTPROD' %}
+        <div style="display: flex; justify-content: center;">
+            <img src="/assets/images/logo/logo-bio.png" width="20" alt="">
+        </div>
+        {% endif %}
+
         <div class="shipping-info">
             {# <p class="shipping-day">3-Day Shipping</p> #}
             {# <p class="for-today">{{ product.detail}}</p> #}

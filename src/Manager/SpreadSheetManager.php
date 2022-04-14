@@ -83,7 +83,7 @@ class SpreadSheetManager extends AbstractController{
                 if ($product->getPackaging() === null || $product->getPackaging() === 0) {
                     $product->setPackaging(1);
                 }
-                $product->setPrice(($product->getPriceAcnAllier()/$product->getPackaging()) * (1+(floatval($config["tva"])/100)));
+                $product->setPrice(round(($product->getPriceAcnAllier()/$product->getPackaging()) * (1+(floatval($config["tva"])/100)), 2));
                 $product->setSourceCsv(json_encode($row));
                 $this->em->persist($product);
 

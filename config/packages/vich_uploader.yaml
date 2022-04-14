@@ -5,9 +5,9 @@ vich_uploader:
         product_image:
             uri_prefix: /uploads/produit/images
             upload_destination: '%kernel.project_dir%/public/uploads/produit/images'
-            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            # namer: Vich\UploaderBundle\Naming\UniqidNamer
 
         blog_couverture_image:
             uri_prefix: /uploads/Blog/images
             upload_destination: '%kernel.project_dir%/public/uploads/Blog/images'
-            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            # namer: Vich\UploaderBundle\Naming\UniqidNamer

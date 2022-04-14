@@ -94,6 +94,12 @@ class ProductRepository extends ServiceEntityRepository
     }
     
 
+    public function setAllUnavailable(){
+        $q = $this
+        ->getEntityManager()
+        ->createQuery('update App\Entity\Product p set p.availability = 0');
+        $q->execute();
+    }
 
 
     // /**

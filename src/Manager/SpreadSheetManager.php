@@ -4,7 +4,9 @@ namespace App\Manager;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 use App\Service\ProductService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use ReflectionMethod;
 use SplFileObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +23,9 @@ class SpreadSheetManager extends AbstractController{
         $this->em = $em;
     }
 
+    public function readIniFile($name){
+        return parse_ini_file($name, true);
+    }
     /**
      * Permet d'exécuter l'import CSV
      */
@@ -37,10 +42,16 @@ class SpreadSheetManager extends AbstractController{
              return $this->redirectToRoute('admin_product_excel_import');
         }
 
+        $config = $this->readIniFile('config/product_import.ini');
+        $excel_index = $config["excel_index"];
+
         // (2) => On commmence à ouvrir le fichier à importer
         $fileObject = $file->openFile();
         $fileObject->setFlags(SplFileObject::READ_CSV);
         $fileObject->setCsvControl($separator=";");
+
+        // set All products unavailable
+        $this->repoProduct->setAllUnavailable();
 
         // (3) => On parcour toutes les lignes afin de les enregistrés dans la BDD
         $i = 0;
@@ -54,24 +65,64 @@ class SpreadSheetManager extends AbstractController{
                 } 
 
                 // On vérifie les doublons 
-                $existingProduct = $this->repoProduct->findOneBy(['ref_code' => $row[0]] );
-                if ($existingProduct === null) {
+                $row = array_map("utf8_encode", $row);
+                $update = true;
+                $product = $this->repoProduct->findOneBy(['ref_code' => $row[$excel_index["ref_code"]["index"]]] );
+                
+                if ($product === null) {
+                    $update = false;
                     $product = new Product();
-                    $product->setRefCode($row[0]);
-                    $this->productSetValue($product, $i, $row);
-                }else{
-                    $this->productSetValue($existingProduct, $i, $row);
+                    $product->setQuantity(1);
+                    $product->setReferenceId('P-'.$i);
+                    $product->setPackaging(1);
+                    $product->setQuantityUnit('');
+        
                 }
+                $this->processProduct($product, $row, $config, $update);
+                $product->setAvailability(1);
+                $product->setUpdatedAt(new DateTime());
+                $product->setPrice(($product->getPriceAcnAllier()/$product->getPackaging()) * (1+(floatval($config["tva"])/100)));
+                $product->setSourceCsv(json_encode($row));
+                $this->em->persist($product);
+
             }
             $i++;   
         }
+
+        $this->em->flush();
+        $this->em->clear();
         $this->addFlash(
             'success',
             'Fichier CSV importé avec succès'
          );
         return $this->redirectToRoute("admin_product_list");
+        
     }
 
+
+    public function processProduct($product, $row, $config, $update=false){
+        $excel_index = $config["excel_index"];
+        foreach($excel_index as $key => $conf_value){
+            if(!$update || ($update && $conf_value["update"] == 1)){
+                $value = $row[$conf_value["index"]];
+                $type = $conf_value["type"];
+                if($type == 'int') $value = intval($value);
+                else if ($type == 'float') $value = floatval(str_replace(",", ".", $value));
+
+                $setMethod = new ReflectionMethod(Product::class, $this->getSetMethodName($key));
+                $setMethod->invoke($product, $value);
+            }
+        }
+    }
+
+    public function getSetMethodName($key){
+        $tab = explode('_', $key);
+        $setMethod = "set";
+        foreach($tab as $part){
+            $setMethod .= strtoupper(substr($part, 0, 1)).substr($part, 1);
+        }
+        return $setMethod;
+    }
 
     /**
      * Permet d'exécuter l'export de fichier CSV
@@ -129,7 +180,6 @@ class SpreadSheetManager extends AbstractController{
      */
     public function productSetValue($product, $index, $row)
     {
-        $product->setAvailability(1);
         $product->setQuantity(1);
         $product->setReferenceId('P-'.$index);
         $product->setProductTypeLabel($row[1]);

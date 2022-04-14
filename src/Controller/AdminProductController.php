@@ -157,26 +157,7 @@ class AdminProductController extends AbstractController
         return $this->redirectToRoute('admin_product_list');
     }
 
-    // /**
-    //  * @Route("/admin/product/excel/import", name="admin_product_excel_import")
-    //  */
-    // public function admin_product_excel_import(SpreadsheetService $spreadsheetService, Request $request): Response
-    // {
-    //     $form = $this->createFormBuilder()
-    //         ->add('excel_file', FileType::class, [
-    //             'attr' => [
-    //                 'name' => 'import_excel'
-    //             ]
-    //         ])
-    //         ->getForm()
-    //     ;
-    //     $form->handleRequest($request);
-
-    //     return $this->render('admin/file/excel/import_file_excel.html.twig', [
-    //         'form' => $form->createView()
-    //     ]);
-    // }
-
+  
     /**
      * @Route("/admin/product/excel/import", name="admin_product_excel_import")
      */
@@ -230,6 +211,27 @@ class AdminProductController extends AbstractController
     //         ['result'=> $result],
     //         200
     //     );
+    // }
+
+
+      // /**
+    //  * @Route("/admin/product/excel/import", name="admin_product_excel_import")
+    //  */
+    // public function admin_product_excel_import(SpreadsheetService $spreadsheetService, Request $request): Response
+    // {
+    //     $form = $this->createFormBuilder()
+    //         ->add('excel_file', FileType::class, [
+    //             'attr' => [
+    //                 'name' => 'import_excel'
+    //             ]
+    //         ])
+    //         ->getForm()
+    //     ;
+    //     $form->handleRequest($request);
+
+    //     return $this->render('admin/file/excel/import_file_excel.html.twig', [
+    //         'form' => $form->createView()
+    //     ]);
     // }
 
 }

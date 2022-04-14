@@ -44,8 +44,10 @@ class SpreadSheetManager extends AbstractController{
 
         // (3) => On parcour toutes les lignes afin de les enregistrés dans la BDD
         $i = 0;
-        foreach  ($fileObject as $row) {
+        foreach  ($fileObject as $key => $row) {
             if($i > 0){
+
+                
                 // On ignore les lignes vides
                 if (!array_filter($row)) { 
                     break; 
@@ -137,7 +139,7 @@ class SpreadSheetManager extends AbstractController{
         // $product->setPackaging(intval($row[5]));
 
         $product->setPackaging(intval($row[5]));
-        $product->setPrice($this->productService->dividePriceIfPackagingIsGreatestONE(intval($row[5]), floatval(str_replace(",", ".", $row[6]))));
+        $product->setPrice($this->productService->dividePriceIfPackagingIsGreatestONE(intval($row[5]), floatval(str_replace(",", ".", $row[10]))));
         $product->setQuantityUnit($row[8]);
         $product->setOriginProduction($row[9]);
         $product->setPriceAcnAllier( floatval(str_replace(",", ".", $row[10])));

@@ -152,20 +152,28 @@ class ProductService
     }
 
 
-    public function dividePriceIfPackagingIsGreatestONE($packaging, $pricePackaging)
+    /**
+     * Permet d'obtenir le prix en divisant le tarif ACN ALLIER par le conditionnement, si ce dernier est suppérieur à 1
+     *
+     * @param int $packaging
+     * @param float $pricePackaging
+     * @return float
+     */
+    public function dividePriceIfPackagingIsGreatestONE($packaging, $price_ACN_ALLIER)
     {
+        $tva = 0.055 ; // 5,5%
 
         // Le conditionnement devient 1 si le champ est vide ou null
         if ($packaging === null || $packaging === '') {
             $packaging = 1;
         }
         
-        // On renvoye la valeur du prix si le conditionnement est 1
-        if ($packaging == 1) {
-            $newprice = $pricePackaging;
+        // On renvoye tout de suite la valeur du prix si le conditionnement est 1
+        if ($packaging == 1 || $packaging < 1) {
+            $newprice = $price_ACN_ALLIER;
             return $newprice;
         }else if($packaging > 1){
-            $calculPrice = $pricePackaging/$packaging;
+            $calculPrice = ($price_ACN_ALLIER/$packaging) * (1+$tva);
 
             // Si la division entre le prix et le conditionnement donne un nombre inférieur à 1, on NE fait PAS l'arrondissement
             if ($calculPrice < 1) {
@@ -177,10 +185,6 @@ class ProductService
             }
 
             return $newprice;
-        }else if($packaging < 1){
-            return $pricePackaging;
         }
-
-        
     }
 }

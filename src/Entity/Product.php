@@ -143,6 +143,11 @@ class Product
      */
     private $product_type_label;
 
+    /**
+     * @ORM\Column(type="string", length=600, nullable=true)
+     */
+    private $source_csv;
+
 
     public function __construct()
     {
@@ -423,4 +428,24 @@ class Product
         return $this;
     }
 
+
+    /**
+     * Get the value of source_csv
+     */ 
+    public function getSourceCsv(): ?string
+    {
+        return $this->source_csv;
+    }
+
+    /**
+     * Set the value of source_csv
+     *
+     * @return  self
+     */ 
+    public function setSourceCsv(string $source_csv): self
+    {
+        $this->source_csv = $source_csv;
+
+        return $this;
+    }
 }

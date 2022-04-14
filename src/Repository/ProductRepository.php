@@ -41,7 +41,7 @@ class ProductRepository extends ServiceEntityRepository
         }
         if ($search->getCategory()) {
             // dd($search->getCategory());
-            var_dump($search->getCategory()->getName());
+            
             $query = $query
                 ->andwhere("lower(p.category_name) LIKE lower(concat('%',:category,'%')) or lower(:category) LIKE lower(concat('%', p.category_name, '%')) ")
                 ->setParameter('category', $search->getCategory()->getName());
@@ -72,6 +72,10 @@ class ProductRepository extends ServiceEntityRepository
                 ->andwhere('p.gamme = :gamme')
                 ->setParameter('gamme', $search->getGamme());
         }
+
+        $query = $query->orderBy('p.classement_name', 'DESC')
+            ->orderBy('p.name', 'ASC');
+            
         return $query->getQuery();
     }
 

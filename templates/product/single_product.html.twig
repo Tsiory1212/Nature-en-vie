@@ -127,7 +127,7 @@
                                 <p class="excerpt">{{currentProduct.description|nl2br}}</p>   
                                 <div class="price">
                                     <span class="price-amount" style="font-size: 20px">
-                                        {{ currentProduct.price}} €/ {{ currentProduct.quantityUnit }}
+                                        {{ currentProduct.price|number_format(2)}} €/ {{ currentProduct.quantityUnit }}
                                     </span>
                                 </div>
                                 <a href="{{path('panier_add', {id: currentProduct.id})}}" class="button button1 mt-5 add-to-cart-btn js-add-cart-and-toast"> Ajouter au panier</a>

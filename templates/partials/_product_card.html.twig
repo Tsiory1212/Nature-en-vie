@@ -11,7 +11,14 @@
         <a class="js-quick-view-block lookup btn_call_quickview" href="#"><i class="biolife-icon icon-search"></i></a>
     </div>
     <div class="info">
-        <b class="categories">{{ product.category.name}} </b>
+        
+        <b class="categories">
+            {% if  product.category %} 
+                {{ product.category.name}} 
+            {% else %}  
+            
+            {% endif %} 
+        </b>
         <h4 class="product-title"><a href="{{path('product_show', {id: product.id, slug: product.slug})}}" class="pr-name">{{ product.name}}</a></h4>
         <h4 class="product-description visually-hidden">{{product.description}}  </h4>
         <span class="product-packaging visually-hidden"> <span class="quantity"> {{product.packaging}}</span> <span class="quantity_unit">{{product.quantityUnit}}</span></span>
@@ -21,7 +28,7 @@
             <ins>
                 <span class="price-amount"> 
                     <span id="js-price-amount">
-                        {{ product.price}}                        
+                        {{ product.price|number_format(2)}}                        
                     </span> 
                     <span class="price-unity"> €/ {{ product.quantityUnit }}</span>
                 </span>

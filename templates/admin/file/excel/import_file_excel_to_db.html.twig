@@ -23,15 +23,32 @@
 			</div>
 		{% endfor %}
 
-		<!-- Import Form -->
-        <form action="{{ path('admin_product_excel_import_file') }}" method="post" enctype="multipart/form-data">
-			<div>
-				<label for="myfile">Importer ou glisser le fichier ici:</label>
-				<input type="file" name="myfile" id="myfile">
+		<div class="row text-center">
+					
+			<div class="col" style="border: 5px solid black; padding: 52px;">
+				<!-- Import Form -->
+				<h1 class="text-white">1- Csv Depuis Nature en vie (Drive)</h1>
+				<form action="{{ path('admin_product_excel_import_file_tsiory') }}" method="post" enctype="multipart/form-data">
+					<div>
+						<label for="myfile_tsiory">Importer ou glisser le fichier ici:</label>
+						<input type="file" name="myfile_tsiory" id="myfile_tsiory">
+					</div>
+					<button type="submit" class="button button1">Importer</button>
+				</form>
 			</div>
-			<button type="submit" class="button button1">Importer</button>
-		</form>
 
+			<div class="col" style="border: 5px solid black; padding: 52px;">
+				<!-- Import Form -->
+				<h1 class="text-center text-white">2- Csv Depuis Au coin Nature</h1>
+				<form action="{{ path('admin_product_excel_import_file') }}" method="post" enctype="multipart/form-data">
+					<div>
+						<label for="myfile">Importer ou glisser le fichier ici:</label>
+						<input type="file" name="myfile" id="myfile">
+					</div>
+					<button type="submit" class="button button1">Importer</button>
+				</form>
+			</div>
+		</div>
     </div>
 {% endblock %}
 

@@ -163,18 +163,7 @@ class AdminProductController extends AbstractController
      */
     public function admin_product_excel_import(SpreadsheetService $spreadsheetService, Request $request): Response
     {
-        $form = $this->createFormBuilder()
-            ->add('excel_file', FileType::class, [
-                'attr' => [
-                    'name' => 'import_excel'
-                ]
-            ])
-            ->getForm()
-        ;
-        $form->handleRequest($request);
-
         return $this->render('admin/file/excel/import_file_excel_to_db.html.twig', [
-            'form' => $form->createView()
         ]);
     }
 
@@ -186,6 +175,16 @@ class AdminProductController extends AbstractController
         $file = $request->files->get('myfile');
 
         return $this->spreadSheetManager->persistImportCsv($file);
+    }
+
+    /**
+     * @Route("/admin/product/excel/import/file/tsiory", name="admin_product_excel_import_file_tsiory")
+     */
+    public function admin_product_excel_import_file_tsiory(Request $request): Response
+    {
+        $file = $request->files->get('myfile_tsiory');
+
+        return $this->spreadSheetManager->persistImportCsvTsiory($file);
     }
 
     

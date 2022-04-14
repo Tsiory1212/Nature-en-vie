@@ -58,7 +58,6 @@ class SpreadSheetManager extends AbstractController{
         foreach  ($fileObject as $key => $row) {
             if($i > 0){
 
-                
                 // On ignore les lignes vides
                 if (!array_filter($row)) { 
                     break; 
@@ -81,6 +80,9 @@ class SpreadSheetManager extends AbstractController{
                 $this->processProduct($product, $row, $config, $update);
                 $product->setAvailability(1);
                 $product->setUpdatedAt(new DateTime());
+                if ($product->getPackaging() === null || $product->getPackaging() === 0) {
+                    $product->setPackaging(1);
+                }
                 $product->setPrice(($product->getPriceAcnAllier()/$product->getPackaging()) * (1+(floatval($config["tva"])/100)));
                 $product->setSourceCsv(json_encode($row));
                 $this->em->persist($product);
@@ -98,7 +100,6 @@ class SpreadSheetManager extends AbstractController{
         return $this->redirectToRoute("admin_product_list");
         
     }
-
 
     public function processProduct($product, $row, $config, $update=false){
         $excel_index = $config["excel_index"];
@@ -123,6 +124,66 @@ class SpreadSheetManager extends AbstractController{
         }
         return $setMethod;
     }
+
+        /**
+     * Permet d'exécuter l'import CSV
+     */
+    public function persistImportCsvTsiory($file)
+    {
+           // (1) => On vérifie si aucun fichier n'est séléctionné
+           if (empty($file))
+           {
+                new Response("No file specified", Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+                $this->addFlash(
+                   'danger',
+                   'Aucun fichier séléctionné'
+                );
+                return $this->redirectToRoute('admin_product_excel_import');
+           }
+   
+   
+           // (2) => On commmence à ouvrir le fichier à importer
+           $fileObject = $file->openFile();
+           $fileObject->setFlags(SplFileObject::READ_CSV);
+           $fileObject->setCsvControl($separator=";");
+
+   
+           // (3) => On parcour toutes les lignes afin de les enregistrés dans la BDD
+           $i = 0;
+           foreach  ($fileObject as $row) {
+               if($i > 0){
+                   // On ignore les lignes vides
+                   if (!array_filter($row)) { 
+                       break; 
+                   } 
+   
+                   
+                   // On vérifie les doublons 
+                   $row = array_map("utf8_encode", $row);
+                   $existingProduct = $this->repoProduct->findOneBy(['ref_code' => $row[0]] );
+                   if ($existingProduct === null) {
+                        $product = new Product();
+                        $product->setRefCode($row[0]);
+                        $this->productSetValue($product, $i, $row);
+                   }else{
+                        $product = $existingProduct;
+                        $this->productSetValue($product, $i, $row);
+                   }
+               }
+               $i++;   
+           }
+   
+           $this->em->flush();
+           $this->em->clear();
+
+           $this->addFlash(
+               'success',
+               'Fichier CSV importé avec succès'
+            );
+           return $this->redirectToRoute("admin_product_list");
+    }
+
+
 
     /**
      * Permet d'exécuter l'export de fichier CSV
@@ -186,6 +247,9 @@ class SpreadSheetManager extends AbstractController{
         $product->setCategory($this->productService->getIdCategoryByName($row[2]));
         $product->setName($row[3]);
         $product->setDetail($row[4]);
+        
+        
+        $product->setAvailability(1);
         // $product->setPackaging(intval($row[5]));
 
         $product->setPackaging(intval($row[5]));
@@ -204,6 +268,5 @@ class SpreadSheetManager extends AbstractController{
         // $product->setVolume($row[11]);
 
         $this->em->persist($product);
-        $this->em->flush();
     }
 }

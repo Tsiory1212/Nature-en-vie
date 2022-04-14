@@ -73,7 +73,6 @@ class SpreadSheetManager extends AbstractController{
                     $product = new Product();
                     $product->setQuantity(1);
                     $product->setReferenceId('P-'.$i);
-                    $product->setPackaging(1);
                     $product->setQuantityUnit('');
         
                 }

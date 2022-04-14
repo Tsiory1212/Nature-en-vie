@@ -148,6 +148,16 @@ class Product
      */
     private $source_csv;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $category_name;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $classement_name;
+
 
     public function __construct()
     {
@@ -445,6 +455,46 @@ class Product
     public function setSourceCsv(string $source_csv): self
     {
         $this->source_csv = $source_csv;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of category_name
+     */ 
+    public function getCategoryName()
+    {
+        return $this->category_name;
+    }
+
+    /**
+     * Set the value of category_name
+     *
+     * @return  self
+     */ 
+    public function setCategoryName($category_name)
+    {
+        $this->category_name = $category_name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of classement_name
+     */ 
+    public function getClassementName()
+    {
+        return $this->classement_name;
+    }
+
+    /**
+     * Set the value of classement_name
+     *
+     * @return  self
+     */ 
+    public function setClassementName($classement_name)
+    {
+        $this->classement_name = $classement_name;
 
         return $this;
     }

@@ -25,6 +25,11 @@ class Classement
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ref;
+
+    /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="classement")
      */
     private $products;
@@ -77,6 +82,26 @@ class Classement
                 $product->setClassement(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ref
+     */ 
+    public function getRef()
+    {
+        return $this->ref;
+    }
+
+    /**
+     * Set the value of ref
+     *
+     * @return  self
+     */ 
+    public function setRef($ref)
+    {
+        $this->ref = $ref;
 
         return $this;
     }

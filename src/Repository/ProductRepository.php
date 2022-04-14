@@ -41,19 +41,17 @@ class ProductRepository extends ServiceEntityRepository
         }
         if ($search->getCategory()) {
             // dd($search->getCategory());
-
+            var_dump($search->getCategory()->getName());
             $query = $query
-                ->innerJoin('p.category','cat')
-                ->andwhere('cat.id LIKE :category')
-                ->setParameter('category', $search->getCategory()->getId());
+                ->andwhere("lower(p.category_name) LIKE lower(concat('%',:category,'%')) or lower(:category) LIKE lower(concat('%', p.category_name, '%')) ")
+                ->setParameter('category', $search->getCategory()->getName());
         }
         if ($search->getClassement()) {
             // dd($search->getClassement());
-
+            
             $query = $query
-                ->innerJoin('p.classement','cl')
-                ->andwhere('cl.id LIKE :classement')
-                ->setParameter('classement', $search->getClassement()->getId());
+                ->andwhere("lower(p.classement_name) LIKE lower(concat('%',:classement,'%')) or lower(:classement) LIKE lower(concat('%',p.classement_name,'%')) ")
+                ->setParameter('classement', $search->getClassement()->getRef());
         }
         if ($search->getMaxPrice()) {
             $query = $query

@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @Vich\Uploadable()
  * 
  * @UniqueEntity(
- *      fields={"referenceId"},
+ *      fields={"ref_code"},
  *      message="{{ value }} existe déjà"
  * )
  */

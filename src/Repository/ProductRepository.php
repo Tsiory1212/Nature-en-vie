@@ -73,8 +73,8 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('gamme', $search->getGamme());
         }
 
-        $query = $query->orderBy('p.classement_name', 'DESC')
-            ->orderBy('p.name', 'ASC');
+        $query = $query->addOrderBy('p.classement_name', 'DESC')
+            ->addOrderBy('p.name', 'ASC');
             
         return $query->getQuery();
     }

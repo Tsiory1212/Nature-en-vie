@@ -72,12 +72,13 @@ class SpreadSheetManager extends AbstractController{
                     $update = false;
                     $product = new Product();
                     $product->setQuantity(1);
-                    $product->setReferenceId('P-'.$i);
-                    $product->setQuantityUnit('');
-        
+                    $product->setReferenceId('P-'.$i);        
                 }
                 $this->processProduct($product, $row, $config, $update);
                 $product->setAvailability(1);
+                if($product->getCategoryName() === null || trim($product->getCategoryName()) == ''){
+                    $product->setAvailability(0);
+                }
                 $product->setUpdatedAt(new DateTime());
                 if ($product->getPackaging() === null || $product->getPackaging() === 0) {
                     $product->setPackaging(1);

@@ -12,3 +12,6 @@ function activeInput(){
         _refIdBtn.html('<i class="fa-solid fa-pen"></i>');
     }
 }
+
+var _product_refCode = $('#product_refCode').attr('readonly', true);
+

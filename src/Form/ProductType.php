@@ -40,13 +40,13 @@ class ProductType extends AbstractType
                     'min' => 0
                 ]
             ])    
-            ->add('price_acn_allier',  TextType::class, [
-                'attr' => [
-                    'step' => '0.01',
-                    'type' => 'number',
-                    'min' => 0
-                ]
-            ])    
+            // ->add('price_acn_allier',  TextType::class, [
+            //     'attr' => [
+            //         'step' => '0.01',
+            //         'type' => 'number',
+            //         'min' => 0
+            //     ]
+            // ])    
             // ->add('quantity', IntegerType::class, [
             //     'required' => false,
             //     'attr' => ['min' => 0]

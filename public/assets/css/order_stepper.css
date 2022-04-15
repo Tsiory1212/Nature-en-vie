@@ -13,13 +13,25 @@
 } */
 
 .progressbar {  
+    position: relative;
     counter-reset: step;  
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     max-width: 500px;
     margin: 0 auto;
     margin-top: 30px;
+}
+
+.progressbar:before {
+    content: '';
+    position: absolute;
+    height: 5px;
+    width: calc(100% - 45px);
+    top: 18px;
+    left: 32px;
+    background-color: rgb(255, 254, 254);
+    z-index: -1;
 }
 
 .progressbar li{  

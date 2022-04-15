@@ -25,7 +25,11 @@ class ProductType extends AbstractType
                     'readonly' => true
                 ]
             ])
-            ->add('refCode', TextType::class)
+            ->add('refCode', TextType::class, [
+                'attr' => [
+                    'readonly' => true
+                ]
+            ])
             ->add('name')
             ->add('packaging', null, [
                 'label' => 'Conditionnement',

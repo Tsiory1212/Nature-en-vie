@@ -33,7 +33,13 @@
                     </label>
                     {{ form_widget(form.referenceId, { 'attr' : { 'placeholder' : 'Réference du produit'} } ) }}
                 {% endif %}
-                {{ form_row(form.refCode) }}
+                <label for="product_refCode">
+                    Ref-code
+                    <button id="btn-refCode-edit" class="btn btn-success"  onclick="writeRefCode(); return false;">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </label>
+                {{ form_widget(form.refCode) }}
                 {{ form_row(form.name) }}
                 {{ form_row(form.packaging) }}
                 {{ form_row(form.price) }}

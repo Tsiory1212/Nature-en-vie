@@ -32,7 +32,7 @@
                                 <!-- <a href="{{ path('cart_subscription_show', {id: panierMoyen.id}) }}" class="link-cat button button1">Acheter</a> -->
                             </div>
                             <div class="row mt-2">
-                                    <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="button button1 button_subscription">Acheter : {{ panierMoyen.amount }} € </a>
+                                    <a href="{{ path('cart_subscription_show', {id: panierMoyen.id}) }}" class="button button1 button_subscription">Acheter : {{ panierMoyen.amount }} € </a>
                             </div>
                         </div>
                         {% endif %}
@@ -43,7 +43,7 @@
                                 <!-- <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}" class="link-cat button button1">Acheter</a> -->
                             </div>
                             <div class="row mt-2">
-                                <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="button button1 button_subscription">Acheter : {{ petitPanier.amount }} € </a>
+                                <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}" class="button button1 button_subscription">Acheter : {{ petitPanier.amount }} € </a>
                             </div>
                         </div>
                         {% endif %}
@@ -61,7 +61,7 @@
             <!-- <a href="{{ path('all_products') }}" class="link-cat button button1">Je fais mon marché</a> -->
         </div>
         <div class="row mt-2">
-            <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="button button1 button_subscription">Je fais mon marché</a>
+            <a href="{{ path('all_products') }}" class="button button1 button_subscription">Je fais mon marché</a>
         </div>
     </div>
 

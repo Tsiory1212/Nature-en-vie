@@ -65,6 +65,7 @@ class ProductType extends AbstractType
             ])
             ->add('description')
             ->add('availability', null, ['label' => 'Disponible'])
+            ->add('display', null, ['label' => 'Display'])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'required' => false,

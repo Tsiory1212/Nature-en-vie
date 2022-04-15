@@ -158,6 +158,11 @@ class Product
      */
     private $classement_name;
 
+    /**
+     * @ORM\Column(type="boolean",options={"default"= 1})
+     */
+    private $display;
+
 
     public function __construct()
     {
@@ -495,6 +500,18 @@ class Product
     public function setClassementName($classement_name)
     {
         $this->classement_name = $classement_name;
+
+        return $this;
+    }
+
+    public function getDisplay(): ?bool
+    {
+        return $this->display;
+    }
+
+    public function setDisplay(bool $display): self
+    {
+        $this->display = $display;
 
         return $this;
     }

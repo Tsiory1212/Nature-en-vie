@@ -11,6 +11,13 @@
     	#detailsMap{
 			height: 300px;
 		}
+
+        .footer-btn{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
     </style>
 {% endblock %}
 
@@ -65,9 +72,12 @@
                         </div>
                     </div>
                 </div>
-            <a href="{{ path('account_order_step_one') }}" class="button button1" style="float: left;"><i class="fas fa-arrow-circle-left"></i> Précédent</a>
+            <div>
+            
+            <div class="footer-btn">    
+                <a href="{{ path('account_order_step_one') }}" class="button button1" ><i class="fas fa-arrow-circle-left"></i> Précédent</a>
 
-            <a href="{{ path('account_order_step_three') }}" class="button button1-inverse" style="float: right;">Suivant <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ path('account_order_step_three') }}" class="button button1-inverse" >Suivant <i class="fas fa-arrow-circle-right"></i></a>
             </div>
 
         </div>

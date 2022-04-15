@@ -11,12 +11,14 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="grand-panier-block biolife-banner__style-16 biolife-banner__style-16--elm-01 biolife-banner__effect-overlay">
                         <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}"class="media"></a>
-                        <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="link-cat button button1">Acheter</a>
+                        {# <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="link-cat button button1">Acheter</a> #}
 
                         <!-- <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="link-cat">{{ grandPanier.name }}</a> -->
                         <!-- <p class="plan-description">Assortiment de fruits et légumes frais, brio et de saison, assez pour 2 personnes.</p> -->
                         <!-- <p class="plan-amount">Prix : {{ grandPanier.amount }}€</p> -->
-                        <!-- <button class="button button1">Plus de détails</button> -->
+                    </div>
+                    <div class="row">
+                        <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="button button1 w-100 button_sub_grand_panier">Acheter : {{ grandPanier.amount }} €</a>
                     </div>
                 </div>
                 {% endif %}
@@ -27,9 +29,10 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-5">
                             <div class="biolife-banner__style-17 biolife-banner__effect-overlay">
                                 <a href="{{ path('cart_subscription_show', {id: panierMoyen.id}) }}"class="media"></a>
-                                <a href="{{ path('cart_subscription_show', {id: panierMoyen.id}) }}" class="link-cat button button1">Acheter</a>
-
-                                <!-- <a href="{{ path('cart_subscription_show', {id: panierMoyen.id}) }}" class="link-cat">{{ panierMoyen.name }}</a> -->
+                                <!-- <a href="{{ path('cart_subscription_show', {id: panierMoyen.id}) }}" class="link-cat button button1">Acheter</a> -->
+                            </div>
+                            <div class="row mt-2">
+                                    <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="button button1 button_subscription">Acheter : {{ panierMoyen.amount }} € </a>
                             </div>
                         </div>
                         {% endif %}
@@ -37,8 +40,10 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="biolife-banner__style-17_02 biolife-banner__effect-overlay">
                                 <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}"class="media"></a>
-                                <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}" class="link-cat button button1">Acheter</a>
-                                <!-- <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}" class="link-cat">{{ petitPanier.name }}</a> -->
+                                <!-- <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}" class="link-cat button button1">Acheter</a> -->
+                            </div>
+                            <div class="row mt-2">
+                                <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="button button1 button_subscription">Acheter : {{ petitPanier.amount }} € </a>
                             </div>
                         </div>
                         {% endif %}
@@ -53,8 +58,12 @@
 
         <div class="biolife-banner__style-p_sur_mesure biolife-banner__effect-overlay">
             <a href="{{ path('all_products') }}"class="media"></a>
-            <a href="{{ path('all_products') }}" class="link-cat button button1">Je fais mon marché</a>
-            <!-- <a href="{{ path('cart_subscription_show', {id: petitPanier.id}) }}" class="link-cat">{{ petitPanier.name }}</a> -->
+            <!-- <a href="{{ path('all_products') }}" class="link-cat button button1">Je fais mon marché</a> -->
+        </div>
+        <div class="row mt-2">
+            <a href="{{ path('cart_subscription_show', {id: grandPanier.id}) }}" class="button button1 button_subscription">Je fais mon marché</a>
         </div>
     </div>
+
+
 </div>

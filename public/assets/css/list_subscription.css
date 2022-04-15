@@ -1,4 +1,11 @@
 
+        .button1{
+            background-color: #72ad43;
+            color: white;
+            font-weight: 700;
+        }
+
+
         .biolife-banner__style-16 .link-cat{
             top: 492px;
             left: 27%;
@@ -16,8 +23,66 @@
             font-size: large;
         }
 
-    
+        .button_subscription{
+            margin: auto;
+            width: 50%;
+            font-size: 23px;
+            padding: 2px;
+        }
+
+        .button_sub_grand_panier{
+            margin: auto;
+            font-size: 23px;
+            padding: 2px;
+            z-index: 90;
+        }
+
+        .panier-sur-mesure-block .button_subscription{
+            width: 29%;
+        }
+
+
         /** Desktop device */
+        @media (max-width: 1214px) and (min-width: 991px){
+            .button_subscription{
+                width: 57%;
+            }
+            .button_sub_grand_panier{
+                margin-top: -50px;
+                z-index: 50000000;
+                position: absolute;
+            }
+            .panier-sur-mesure-block .button_subscription{
+                width: 33%;
+            }
+        }
+        @media (max-width: 992px) and (min-width: 768px){  
+            .button_subscription{
+                width: 75%;
+            }
+
+            .button_sub_grand_panier{
+                margin-top: -111px;
+            }
+            .panier-sur-mesure-block .button_subscription{
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 768px) and (min-width: 575px){  
+            .button_subscription{
+                width: 94%;
+            }
+
+            .button_sub_grand_panier{
+                margin-top: -150px;
+            }
+            .panier-sur-mesure-block .button_subscription{
+                width: 60%;
+            }
+        }
+        
+    
         @media (max-width: 1199px){
             .biolife-banner__style-16 .link-cat{
                 top: 464px;
@@ -77,10 +142,32 @@
             .biolife-banner__style-17_02 .media{
                 height: 571px;
             }         
+            .biolife-banner__style-p_sur_mesure .media{
+                height: 571px;
+            }
 
             .biolife-banner__style-16 .link-cat, .biolife-banner__style-17 .link-cat, .biolife-banner__style-17_02 .link-cat{
                 top: 469px;
             }  
+
+
+            .button_subscription{
+                width: 100%;
+                margin-top: -81px;
+                z-index: 90;
+            }
+
+            .button_sub_grand_panier{
+                width: 100%;
+                margin-top: -81px;
+
+            }
+            .panier-sur-mesure-block .button_subscription{
+                width: 100%;
+                margin-top: -81px;
+                z-index: 90;
+
+            }
             
         }
         

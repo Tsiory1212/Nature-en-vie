@@ -69,7 +69,7 @@ class ProductType extends AbstractType
             ])
             ->add('description')
             ->add('availability', null, ['label' => 'Disponible'])
-            ->add('display', null, ['label' => 'Display'])
+            ->add('display', null, ['label' => 'Affiché'])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'required' => false,
@@ -91,7 +91,8 @@ class ProductType extends AbstractType
                 'choices' => $this->getGammeChoices()
             ])
             ->add('imageFile', FileType::class, [
-                'required' => false
+                'required' => false,
+                'label' => 'Image produit'
             ])
         ;
     }

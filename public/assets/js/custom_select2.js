@@ -1,4 +1,3 @@
-
 $( document ).ready(function() {
     // Customisation select2 
     $("select#category").select2({

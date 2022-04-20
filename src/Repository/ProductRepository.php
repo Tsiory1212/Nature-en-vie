@@ -137,7 +137,8 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
         // à revoir 
-        ->where('p.availability = true')
+        ->andwhere('p.availability = true')
+        ->andwhere('p.display = true')
         // ->orderBy('p.name', 'ASC')
         ;
     }

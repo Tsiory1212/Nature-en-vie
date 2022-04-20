@@ -98,9 +98,9 @@
 						<div class="product-list-item">
 							<div class="my-2">
 								{% if available == false %}
-									<a class="btn btn-success" href="{{ path('admin_product_list') }}">Disponible</a>
+									<a class="btn btn-success" href="{{ path('admin_product_list') }}">Afficher que produits disponibles</a>
 								{% else %}
-									<a class="btn btn-primary" href="{{ path('admin_product_list', {available: 'false'}) }}">Tout</a>
+									<a class="btn btn-primary" href="{{ path('admin_product_list', {available: 'false'}) }}">Afficher tous</a>
 								{% endif %}
 							</div>
 							{% for produit in products %}

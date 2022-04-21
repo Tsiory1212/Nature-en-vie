@@ -42,9 +42,9 @@ class PlansController extends AbstractController
             $petitPanier = $this->repoPlan->findOneBy(['name' => 'Petit panier', 'status' => 'active']);
 
             $plans = [
-                'grand_panier'=> $grandPanier,
-                'panier_moyen'=> $panierMoyen,
-                'petit_panier'=> $petitPanier
+                $grandPanier,
+                $panierMoyen,
+                $petitPanier
             ];
             return $this->api->success("List of Plans", $plans);
         }

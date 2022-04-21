@@ -63,6 +63,7 @@ class SubscriptionController extends AbstractController
     public function cart_subscription_show(SubscriptionPlan $plan, StripeService $stripeService): Response
     {  
         $user = $this->getUser();
+
         $paypal_env = $_ENV['PAYPAL_ENV'];
         $paypalClientId = $this->paypalService->clientId;
         

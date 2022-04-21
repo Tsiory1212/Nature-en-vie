@@ -10,7 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Cocur\Slugify\Slugify;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -22,7 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      message="{{ value }} existe déjà"
  * )
  */
-class Product
+class Product implements JsonSerializable
 {
     const GAMME = [
         0 => 'Bio',
@@ -514,5 +514,11 @@ class Product
         $this->display = $display;
 
         return $this;
+    }
+    
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
     }
 }

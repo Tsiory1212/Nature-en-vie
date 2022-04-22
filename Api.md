@@ -22,6 +22,9 @@ php bin/console make:controller api\AuthController
 ## Order Controller :
 php bin/console make:controller api\OrderController
 
+## Stripe Controller :
+php bin/console make:controller api\StripeController
+
 composer create-project symfony/website-skeleton web-service
 php bin/console make:controller ProductController
 composer require api

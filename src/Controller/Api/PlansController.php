@@ -111,34 +111,9 @@ class PlansController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/subscription", name="subscription")
-     */
-    public function subscription(Request $request): Response
-    {
-        try{
-            $bearer = $request->headers->get('Authorization');
-            $jwt_secret = $this->getParameter('jwt_secret');
-            $payload = $this->api->decode($bearer, $jwt_secret);
-            $user = null;
-            if(isset($payload)){
-                $userId = $payload->userId;
-                $user = $this->repoUser->find($userId);
-            }
-            $body =  json_decode($request->getContent(), true);
-        
-            $stripePriceId = $body["stripePriceId"];
-            $paymentMethodId = $body["paymentMethodId"];
-            $planSubscriptionName = $body["planSubscriptionName"]; 
-            $planSubscriptionId = $body["planSubscriptionId"]; 
-            $this->stripeManager->persistSubscriptionPlan($stripePriceId, $paymentMethodId, $planSubscriptionName, $planSubscriptionId, $user);
-            
-            return $this->api->success("Subscription success", null);
-        }
-        catch(\Exception $error){
-            return $this->api->response($error->getCode(), $error->getMessage());
-        }
-    }
+
+
+
     // /**
     //  * @Route("/{id}/subscription/{subcriptionId}", name="subscription", methods={"GET"})
     //  */

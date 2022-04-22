@@ -90,20 +90,6 @@ class StripeController extends AbstractController
     }
     
     /**
-     * @Route("/intent_secret", name="intentSecret")
-     */
-    public function intentSecret(Request $request,  StripeService $stripeService): Response
-    { 
-        try{
-            $intentSecret = $stripeService->intentSecret();
-            return $this->api->success("Intent Secret", $intentSecret);
-        }
-        catch(\Exception $error){
-            return $this->api->response($error->getCode(), $error->getMessage());
-        }
-    }
-
-    /**
      * @Route("/payment_intent", name="paymentIntent", methods={"POST"})
      */
     public function paymentIntent(Request $request,  StripeService $stripeService): Response
@@ -113,6 +99,37 @@ class StripeController extends AbstractController
             $body =  json_decode($request->getContent(), true);
             $intentStripe = \Stripe\PaymentIntent::create($body);
             return $this->api->success("Payment Intent", $intentStripe);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+    }
+    
+    /**
+     * @Route("/datas_after_payment", name="datas_after_payment", methods={"POST"})
+     */
+    public function getDatasAfterPayment(Request $request,  StripeService $stripeService)
+    {
+        try{
+            $body =  json_decode($request->getContent(), true);
+            \Stripe\Stripe::setApiKey($stripeService->getSecretKey());
+
+            // (1) => On récupère le IntentId        
+            $stripeIntentId = $body['id'];
+            
+            // (2) => On récupère le PaymentIntent via le IntentId        
+            $payment_intent = null;
+            if (isset($stripeIntentId)) {
+                $payment_intent = \Stripe\PaymentIntent::retrieve($stripeIntentId);
+            }
+
+            // (3) => On gère les status du paiement        
+            if ($body['status'] === 'succeeded') {
+                //TODO 
+            } else {
+                $payment_intent->cancel();
+            }
+            return $this->api->success("Payment Intent Datas", $payment_intent);
         }
         catch(\Exception $error){
             return $this->api->response($error->getCode(), $error->getMessage());

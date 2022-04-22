@@ -19,6 +19,9 @@ php bin/console make:controller api\ProductsController
 ## Auth Controller :
 php bin/console make:controller api\AuthController
 
+## Order Controller :
+php bin/console make:controller api\OrderController
+
 composer create-project symfony/website-skeleton web-service
 php bin/console make:controller ProductController
 composer require api

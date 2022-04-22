@@ -4,6 +4,8 @@ namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\SubscriptionPlanRepository;
@@ -15,6 +17,8 @@ use App\Entity\SubscriptionPlan;
 use App\Service\Paypal\PaypalService;
 use App\Service\SubscriptionService;
 use App\Service\ApiService;
+use App\Repository\UserRepository;
+use App\Manager\StripeManager;
 /**
  * @Route("/api/plans", name="api_plans_")
  */
@@ -22,13 +26,15 @@ class PlansController extends AbstractController
 {
     protected $repoPlan;
 
-    public function __construct( ApiService $api, PaypalService $paypalService, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder, SubscriptionService $subscriptionService)
+    public function __construct( ApiService $api, PaypalService $paypalService, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder,StripeManager $stripeManager, SubscriptionService $subscriptionService, UserRepository $repoUser)
     {
         $this->repoPlan = $repoPlan;
         $this->repoOrder = $repoOrder;
         $this->paypalService = $paypalService;
         $this->subscriptionService = $subscriptionService;
         $this->api = $api;
+        $this->repoUser = $repoUser;
+        $this->stripeManager = $stripeManager;
     }
 
     /**
@@ -44,6 +50,7 @@ class PlansController extends AbstractController
             $plans = [
                 $grandPanier,
                 $panierMoyen,
+                
                 $petitPanier
             ];
             return $this->api->success("List of Plans", $plans);
@@ -56,10 +63,18 @@ class PlansController extends AbstractController
     /**
      * @Route("/{id}", name="details", methods={"GET"})
      */
-    public function findDetails(SubscriptionPlan $plan, StripeService $stripeService): JsonResponse
+    public function findDetails(Request $request, SubscriptionPlan $plan, StripeService $stripeService): JsonResponse
     {  
         try{
-            $user = $this->getUser();
+            $bearer = $request->headers->get('Authorization');
+            $jwt_secret = $this->getParameter('jwt_secret');
+            $payload = $this->api->decode($bearer, $jwt_secret);
+            $user = null;
+            if(isset($payload)){
+                $userId = $payload->userId;
+                $user = $this->repoUser->find($userId);
+            }
+            
             $paypal_env = $_ENV['PAYPAL_ENV'];
             $paypalClientId = $this->paypalService->clientId;
             
@@ -96,6 +111,34 @@ class PlansController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/subscription", name="subscription")
+     */
+    public function subscription(Request $request): Response
+    {
+        try{
+            $bearer = $request->headers->get('Authorization');
+            $jwt_secret = $this->getParameter('jwt_secret');
+            $payload = $this->api->decode($bearer, $jwt_secret);
+            $user = null;
+            if(isset($payload)){
+                $userId = $payload->userId;
+                $user = $this->repoUser->find($userId);
+            }
+            $body =  json_decode($request->getContent(), true);
+        
+            $stripePriceId = $body["stripePriceId"];
+            $paymentMethodId = $body["paymentMethodId"];
+            $planSubscriptionName = $body["planSubscriptionName"]; 
+            $planSubscriptionId = $body["planSubscriptionId"]; 
+            $this->stripeManager->persistSubscriptionPlan($stripePriceId, $paymentMethodId, $planSubscriptionName, $planSubscriptionId, $user);
+            
+            return $this->api->success("Subscription success", null);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+    }
     // /**
     //  * @Route("/{id}/subscription/{subcriptionId}", name="subscription", methods={"GET"})
     //  */

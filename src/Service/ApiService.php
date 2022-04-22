@@ -45,7 +45,9 @@ class ApiService
         return $jwt;
     }
     public function decode($bearer, $jwt_secret){
-        $jwt = explode(' ', $bearer)[1];
+        $tmp = explode(' ', $bearer);
+        if(!isset($tmp[1])) return null;
+        $jwt = $tmp[1];
         $payload = JWT::decode($jwt, new Key($jwt_secret, 'HS256'));
         return $payload;
     }

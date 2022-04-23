@@ -65,6 +65,49 @@ class StripeController extends AbstractController
             return $this->api->response($error->getCode(), $error->getMessage());
         }
     }
+     /**
+     * @Route("/recurring_payment", name="recurring_payment")
+     */
+    public function recurring_payment(Request $request, StripeService $stripeService): Response
+    { 
+        try{
+            $bearer = $request->headers->get('Authorization');
+            $jwt_secret = $this->getParameter('jwt_secret');
+            $payload = $this->api->decode($bearer, $jwt_secret);
+            $user = null;
+            if(isset($payload)){
+                $userId = $payload->userId;
+                $user = $this->repoUser->find($userId);
+            }
+            $body =  json_decode($request->getContent(), true);
+            $amountSubscription = (int) $body["price"];
+            $interva_unit = $body["interval_unit"];
+            $paymentMethodId = $body["paymentMethodId"];
+            $iteration = $body["iteration"];
+            
+            $resource = null;
+            $data = $stripeService->getDatasAfterSubscription($paymentMethodId, $amountSubscription, $interva_unit, $iteration, $user);
+
+            if ($data) {
+                $resource = [
+                    'stripe_subscription_id' => $data['id'],
+                    'stripe_customer_id' => $data['customer'],
+                    'stripe_price_id' => $data['items']['data'][0]['plan']['id'],
+                    'stripe_product_id' => $data['items']['data'][0]['plan']['product'],
+                    'stripe_amount' => $data['items']['data'][0]['plan']['amount'],
+                    'stripe_subscription_interval' => $data['items']['data'][0]['plan']['interval'],
+                    'stripe_subscription_status' => $data['status']
+                ];
+            }
+            return $this->api->success("Reccurring payment success", $resource);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+    }
+
+
+
     /**
      * @Route("/checkout", name="checkout")
      */

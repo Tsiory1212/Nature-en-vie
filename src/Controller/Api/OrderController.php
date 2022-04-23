@@ -76,7 +76,7 @@ class OrderController extends AbstractController
             }
             $body = json_decode($request->getContent(), true);
             $order = new Order();
-            $paymentType = $order::PAYMENT_TYPE[0];
+            $paymentType = $order::PAYMENT_TYPE[$body['paymentTypeIndice']];
 
             $order->setUser($user);
             $order->setCart($body['cart']);

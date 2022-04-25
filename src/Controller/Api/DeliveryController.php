@@ -75,7 +75,13 @@ class DeliveryController extends AbstractController
     {  
         try{
             $body =  json_decode($request->getContent(), true);
-            if(!isset($body['address']) || !isset($body['postal_code'])) throw new \Exception("Veuillez remplir les informations.");
+            if(!isset($body['address']) || 
+                !isset($body['postal_code']) || 
+                !isset($body['lat_position']) || 
+                !isset($body['lng_position']) || 
+                !isset($body['type']) || 
+                !isset($body['time_slot']) || 
+                !isset($body['day_slot'])) throw new \Exception("Veuillez remplir les informations.");
 
             $bearer = $request->headers->get('Authorization');
             $jwt_secret = $this->getParameter('jwt_secret');
@@ -87,9 +93,9 @@ class DeliveryController extends AbstractController
             $delivry->setPostalCode($body['postal_code']);
             $delivry->setLatPosition($body['lat_position']);
             $delivry->setLngPosition($body['lng_position']);
-            $delivry->setType(0);
-            $delivry->setTimeSlot(0);
-            $delivry->setDaySlot(0);
+            $delivry->setType($body['type']);
+            $delivry->setTimeSlot($body['time_slot']);
+            $delivry->setDaySlot($body['day_slot']);
 
 
             if(isset($payload)){

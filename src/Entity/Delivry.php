@@ -4,11 +4,11 @@ namespace App\Entity;
 
 use App\Repository\DelivryRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use JsonSerializable;
 /**
  * @ORM\Entity(repositoryClass=DelivryRepository::class)
  */
-class Delivry
+class Delivry implements JsonSerializable
 {
     const TYPE = [
         0 => 'A domicile',
@@ -209,6 +209,10 @@ class Delivry
 
         return $this;
     }
-
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
 }

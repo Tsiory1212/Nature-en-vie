@@ -6,11 +6,12 @@ use App\Repository\SubscriptionPlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=SubscriptionPlanRepository::class)
  */
-class SubscriptionPlan
+class SubscriptionPlan implements JsonSerializable
 {
     const INTERVAL_UNIT = [
         'day' => 'Jour',
@@ -90,7 +91,7 @@ class SubscriptionPlan
         $this->orders = new ArrayCollection();
         $this->subscription_plan_orders = new ArrayCollection();
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -239,4 +240,10 @@ class SubscriptionPlan
 
         return $this;
     }
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
+
 }

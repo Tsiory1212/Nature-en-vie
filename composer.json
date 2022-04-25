@@ -13,8 +13,10 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
+        "firebase/php-jwt": "^6.1",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "knplabs/knp-paginator-bundle": "^5.7",
+        "lexik/jwt-authentication-bundle": "^2.15",
         "liip/imagine-bundle": "^2.7",
         "paypal/paypal-checkout-sdk": "^1.0",
         "phpdocumentor/reflection-docblock": "^5.2",
@@ -68,7 +70,11 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {

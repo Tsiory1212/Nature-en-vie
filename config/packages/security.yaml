@@ -58,6 +58,10 @@ security:
             logout:
                 path: security_logout
                 target: home
+            
+            json_login:
+                # api_login is a route we will create below
+                check_path: api_auth_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -73,3 +77,6 @@ security:
         - { path: ^/account, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        
+parameters:
+    jwt_secret: bIolIfE_MaDaPiXeL_2022

@@ -5,12 +5,12 @@ namespace App\Entity;
 use App\Repository\OrderRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-
+use JsonSerializable;
 /**
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`")
  */
-class Order
+class Order implements JsonSerializable
 {
     const PAYMENT_TYPE = [
         0 => 'paiement_unique',
@@ -286,5 +286,11 @@ class Order
             return true;
         }
         return false;
+    }
+
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
     }
 }

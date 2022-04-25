@@ -57,7 +57,6 @@ class SpreadSheetManager extends AbstractController{
         $i = 0;
         foreach  ($fileObject as $key => $row) {
             if($i > 0){
-
                 // On ignore les lignes vides
                 if (!array_filter($row)) { 
                     break; 
@@ -125,7 +124,7 @@ class SpreadSheetManager extends AbstractController{
         return $setMethod;
     }
 
-        /**
+    /**
      * Permet d'exécuter l'import CSV
      */
     public function persistImportCsvTsiory($file)

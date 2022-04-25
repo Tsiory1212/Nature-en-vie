@@ -14,6 +14,8 @@ use App\Repository\OrderRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\StripeService;
 use App\Entity\SubscriptionPlan;
+use App\Entity\Order;
+
 use App\Service\Paypal\PaypalService;
 use App\Service\SubscriptionService;
 use App\Service\ApiService;
@@ -59,7 +61,31 @@ class PlansController extends AbstractController
             return $this->api->response($error->getCode(), $error->getMessage());
         }
     }
-
+/**
+     * @Route("/active", name="active", methods={"GET"})
+     */
+    public function activePlans(Request $request, SubscriptionService $subscriptionService): JsonResponse
+    {  
+        try{
+            $bearer = $request->headers->get('Authorization');
+            $jwt_secret = $this->getParameter('jwt_secret');
+            $payload = $this->api->decode($bearer, $jwt_secret);
+            $user = null;
+            $myOrderPlanSubscriptionsActive = [];
+            if(isset($payload)){
+                $userId = $payload->userId;
+                $user = $this->repoUser->find($userId);
+                
+                $myOrderPlanSubscriptions = $this->repoOrder->findBy(['user' => $user, 'payment_type' => Order::PAYMENT_TYPE[2]]);
+                $myOrderPlanSubscriptionsActive = $subscriptionService->getActiveOrderPlanSubscription($myOrderPlanSubscriptions);
+            }
+            
+            return $this->api->success("List of active plans", $myOrderPlanSubscriptionsActive);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+    }
     /**
      * @Route("/{id}", name="details", methods={"GET"})
      */
@@ -111,7 +137,7 @@ class PlansController extends AbstractController
         }
     }
 
-
+    
 
 
     // /**

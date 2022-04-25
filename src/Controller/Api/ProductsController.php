@@ -61,16 +61,17 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="search", methods={"GET"})
+     * @Route("/search", name="search", methods={"POST"})
      */
     public function search(Request $request): JsonResponse
     {
         try{
             $search = new ProductSearch();
-            $name = $request->query->get("name");
-            $categoryName = $request->query->get("category");
-            $classementRef = $request->query->get("classement");
-            $maxPrice = $request->query->get("maxPrice");
+            $body =  json_decode($request->getContent(), true);
+            $name = isset($body["name"]) ? $body["name"] : null;
+            $categoryName = isset($body["category"]) ? $body["category"] : null;
+            $classementRef = isset($body["classement"]) ? $body["classement"] : null;
+            $maxPrice = isset($body["maxPrice"]) ? $body["maxPrice"] : null;
             
             $search->setName($name);
             $search->setMaxPrice($maxPrice);
@@ -84,11 +85,13 @@ class ProductsController extends AbstractController
                 $classement->setRef($classementRef);
                 $search->setClassement($classement);
             } 
+            $offset = $request->query->getInt('offset', 1);
+            $limit = $request->query->getInt('limit', 10);
 
             $products = $this->paginator->paginate(
-                $this->repoProduct->findAllQuery($search, false),
-                $request->query->getInt('page', 1),
-                30
+                $this->repoProduct->findAllQuery($search),
+                $offset,
+                $limit
             );
             
             return $this->api->success("Product : Search results", $products->getItems());

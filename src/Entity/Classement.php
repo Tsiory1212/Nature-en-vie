@@ -6,11 +6,11 @@ use App\Repository\ClassementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use JsonSerializable;
 /**
  * @ORM\Entity(repositoryClass=ClassementRepository::class)
  */
-class Classement
+class Classement implements JsonSerializable
 {
     /**
      * @ORM\Id
@@ -104,5 +104,10 @@ class Classement
         $this->ref = $ref;
 
         return $this;
+    }
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
     }
 }

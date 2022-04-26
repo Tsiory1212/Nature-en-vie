@@ -55,7 +55,7 @@
                             <div class="row mt-5">
                                 <div class="col-md-2">
                                     {% if stripeData.stripe_subscription_status == 'canceled' %}
-                                        <a class="btn btn-danger" disabled>Désaboné !</a> 
+                                        <a class="btn btn-danger" disabled>Désabonné !</a> 
                                     {% else %}
                                         <a id="btn-cancel-subscription-plan" href="{{ path('account_subscription_cancel', {orderId: orderPlan.id, stripeSubscriptionId: stripeData.stripe_subscription_id })  }}" onclick="cancelSubscriptionPlan(event)" class="btn btn-danger">Se désabonner !<span id="spinner-cancel-subscription"></span></a> 
                                     {% endif %}

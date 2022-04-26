@@ -20,12 +20,13 @@ use App\Repository\DelivryRepository;
 use App\Repository\UserRepository;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Manager\StripeManager;
 /**
  * @Route("/api/orders", name="api_orders_")
  */
 class OrderController extends AbstractController
 {
-    public function __construct( EntityManagerInterface $em, ApiService $api, PaypalService $paypalService, DelivryRepository $repoDelivry, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder, SubscriptionService $subscriptionService, UserRepository $repoUser)
+    public function __construct( StripeManager $stripeManager, EntityManagerInterface $em, ApiService $api, PaypalService $paypalService, DelivryRepository $repoDelivry, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder, SubscriptionService $subscriptionService, UserRepository $repoUser)
     {
         $this->repoPlan = $repoPlan;
         $this->repoOrder = $repoOrder;
@@ -35,8 +36,25 @@ class OrderController extends AbstractController
         $this->repoDelivry = $repoDelivry;
         $this->repoUser = $repoUser;
         $this->em = $em;
+        $this->stripeManager = $stripeManager;
 
     }
+
+    /**
+     * @Route("/{id}", name="details", methods={"GET"})
+     */
+    public function findById($id): JsonResponse
+    {
+        try{
+            $order = $this->repoOrder->findOneBy(['id' => $id]);
+
+            return $this->api->success("Details of Order", $order);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+    }
+
     /**
      * @Route("/delivery_infos", name="delivery_infos", methods={"GET"})
      */
@@ -122,5 +140,21 @@ class OrderController extends AbstractController
         catch(\Exception $error){
             return $this->api->response($error->getCode(), $error->getMessage());
         }
+    }
+
+     /**
+     * @Route("/cancel", name="cancel", methods={"POST"})
+     */
+    public function cancel(Request $request): Response
+    {
+        try{
+            $body = json_decode($request->getContent(), true);
+            $subscription = $this->stripeManager->cancelSubscription($body['orderId'], $body['stripeSubscriptionId']);
+            return $this->api->success("Subscription cancelled",  $subscription->status);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+        
     }
 }

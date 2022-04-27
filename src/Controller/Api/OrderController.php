@@ -39,7 +39,30 @@ class OrderController extends AbstractController
         $this->stripeManager = $stripeManager;
 
     }
+/**
+     * @Route("/not_delivered", name="not_delivered", methods={"GET"})
+     */
+    public function notDelivered(Request $request): JsonResponse
+    {
+        try{
+            $bearer = $request->headers->get('Authorization');
+            $jwt_secret = $this->getParameter('jwt_secret');
+            $payload = $this->api->decode($bearer, $jwt_secret);
+            $user = null;
+            $ordersNotDelivred = [];
+            if(isset($payload)){
+                $userId = $payload->userId;
+                $user = $this->repoUser->find($userId);
+                $ordersNotDelivred = $this->repoOrder->findBy(['user' => $user, 'status_delivry' => 0]);
+            }
+            
 
+            return $this->api->success("Order not delivered", $ordersNotDelivred);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+    }
     /**
      * @Route("/{id}", name="details", methods={"GET"})
      */
@@ -77,7 +100,7 @@ class OrderController extends AbstractController
             return $this->api->response($error->getCode(), $error->getMessage());
         }
     }
-
+    
     
      /**
      * @Route("/", name="save", methods={"POST"})

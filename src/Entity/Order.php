@@ -73,7 +73,7 @@ class Order implements JsonSerializable
     private $updated_at;
 
     /**
-     * @ORM\OneToOne(targetEntity=PauseDelivry::class, inversedBy="order_paused", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=PauseDelivry::class, mappedBy="order_paused")
      */
     private $pause_delivry;
 

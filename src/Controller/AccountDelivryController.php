@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Delivry;
+use App\Entity\Order;
 use App\Entity\User;
 use App\Form\OrderDelivryType;
 use App\Repository\OrderRepository;
+use App\Repository\PauseDelivryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,4 +77,27 @@ class AccountDelivryController extends AbstractController
 
 
 
+
+    /**
+     * @Route("/account/plan/commande/{id}/delivry/continue", name="account_plan_delivry_continue")
+     */
+    public function account_plan_delivry_continue($id, OrderRepository $repoOrder, PauseDelivryRepository $repoPause)
+    {
+        $user = $this->getUser();
+       
+        $currentOrder = $repoOrder->find($id);
+        
+        if ($user !== $currentOrder->getUser() ) {
+           return $this->redirectToRoute('dashboard');
+        };
+
+        $this->em->remove($currentOrder->getPauseDelivry());
+        $this->em->flush();
+        $this->addFlash(
+            'success',
+            'Votre livraison continue'
+        );
+        return $this->redirectToRoute('account_order_plan_show_detail', ['orderId' => $currentOrder->getId()]);
+
+    }
 }

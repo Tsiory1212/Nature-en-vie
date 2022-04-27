@@ -7,6 +7,7 @@ use App\Entity\Order;
 use App\Entity\PauseDelivry;
 use App\Entity\PauseLivraison;
 use App\Entity\SubscriptionPlan;
+use App\Form\PauseDelivryType;
 use App\Form\PauseLivraisonType;
 use App\Manager\StripeManager;
 use App\Repository\FactureAbonnementRepository;
@@ -42,78 +43,34 @@ class AccountSubscriptionController extends AbstractController
         $this->stripeManager = $stripeManager;
     }
 
-    /**
-     * @Route("/account/livraison/continue/mais/abonnement/{id}/continue", name="account_delivery_suspend")
-     */
-    public function account_delivery_suspend($id, Request $request, FactureAbonnementRepository $repoFacture)
-    {
-        $pauseDelivry = new PauseDelivry();
 
-        /**
-         * @var FactureAbonnement $currentFacture 
-         */
-        $currentFacture = $repoFacture->find($id);
-
-        $form = $this->createForm(PauseDelivryType::class, $pauseDelivry);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $currentFacture->setPauseLivraison($pauseDelivry);
-            $pauseDelivry->setFactureAbonnement($currentFacture);
-            
-            $this->em->persist($pauseDelivry);
-            $this->em->flush();
-            $this->addFlash(
-               'success',
-               'Livraison en pause'
-            );
-            return $this->redirectToRoute('dashboard');
-        }
-        return $this->render('account/subscription/pause_delivry.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
-        /**
-     * @Route("/account/livraison/continue/abonnement/{id}", name="account_delivery_continue")
-     */
-    public function account_delivery_continue($id, FactureAbonnementRepository $repoFacture)
-    {
-        $user = $this->getUser();
-       
-        /**
-         * @var FactureAbonnement $currentFacture 
-         */
-        $currentFacture = $repoFacture->find($id);
-        
-        if ($user !== $currentFacture->getUser() ) {
-           return $this->redirectToRoute('dashboard');
-        }
-
-        // $currentFacture->setPauseLivraison(null);
-        
-        $this->em->remove($currentFacture->getPauseLivraison());
-        $this->em->flush();
-        $this->addFlash(
-            'success',
-            'Livraison continue'
-        );
-        return $this->redirectToRoute('dashboard');
-
-    }
 
     /**
      * @Route("/account/order/{orderId}/plan/show/detail", name="account_order_plan_show_detail")
      */
-    public function account_order_plan_show_detail(Order $orderId ): Response
+    public function account_order_plan_show_detail(Order $orderId, Request $request ): Response
     {
 
         $orderPlan = $this->repoOrder->findOneBy(['id' => $orderId]);
+        $pausePlan = new PauseDelivry();
+        $form = $this->createForm(PauseDelivryType::class, $pausePlan);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $pausePlan->setOrderPaused($orderId);
+            $this->em->persist($pausePlan);
+            $this->em->flush();
+            $this->addFlash(
+               'success',
+               'Vous avez defini une pause de temps'
+            );
+            return $this->redirectToRoute('account_order_plan_show_detail', ['orderId' => $orderId->getId()]);
+        }
 
         $intervalUnitSubscription = SubscriptionPlan::INTERVAL_UNIT[$orderPlan->getStripeData()['stripe_subscription_interval']] ;
-        return $this->render('/account/subscription/plan/show_subscription_plan_detail.html.twig', [
+        return $this->renderForm('/account/subscription/plan/show_subscription_plan_detail.html.twig', [
             'orderPlan' => $orderPlan,
-            'intervalUnitSubscription' => $intervalUnitSubscription
+            'intervalUnitSubscription' => $intervalUnitSubscription,
+            'form' => $form
         ]);
     }
 

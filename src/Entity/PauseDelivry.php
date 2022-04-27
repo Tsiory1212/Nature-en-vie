@@ -31,7 +31,7 @@ class PauseDelivry
     private $end_date;
 
     /**
-     * @ORM\OneToOne(targetEntity=Order::class, mappedBy="pause_delivry", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Order::class, inversedBy="pause_delivry")
      */
     private $order_paused;
 

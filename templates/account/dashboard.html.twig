@@ -57,7 +57,11 @@
                                     {% for myOrderSubscription in myOrderPlanSubscriptions %}
                                         <h2> 
                                             <a href="{{path('account_order_plan_show_detail', {orderId : myOrderSubscription.id})}}" style="color:#7d8181">
-                                                <i class="fa-solid fa-circle-info me-3"></i>
+                                                {% if myOrderSubscription.pauseDelivry %}
+                                                    <i class="fa-solid fa-circle-info me-3" style="color: red"></i>                                                
+                                                {% else %}
+                                                    <i class="fa-solid fa-circle-info me-3"></i>                                                
+                                                {% endif %}
                                                 {{ myOrderSubscription.subscriptionPlan.name }} 
                                             </a>
                                         </h2>

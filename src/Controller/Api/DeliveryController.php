@@ -114,4 +114,51 @@ class DeliveryController extends AbstractController
             return $this->api->response($error->getCode(), $error->getMessage());
         }
     }
+
+    /**
+     * @Route("/", name="update", methods={"PUT"})
+     */
+    public function update(Request $request): JsonResponse
+    {  
+        try{
+            $body =  json_decode($request->getContent(), true);
+            if(!isset($body['address']) || 
+                !isset($body['postal_code']) || 
+                !isset($body['lat_position']) || 
+                !isset($body['lng_position']) || 
+                !isset($body['type']) || 
+                !isset($body['time_slot']) || 
+                !isset($body['day_slot'])) throw new \Exception("Veuillez remplir les informations.");
+
+            $bearer = $request->headers->get('Authorization');
+            $jwt_secret = $this->getParameter('jwt_secret');
+            $payload = $this->api->decode($bearer, $jwt_secret);
+            $user = null;
+
+
+            if(isset($payload)){
+                $userId = $payload->userId;
+                $user = $this->repoUser->find($userId);
+                $delivry = $this->repoDelivery->findOneBy(['user' => $user]);
+                if($delivry == null)   throw new \Exception("Vous n'avez pas encore configurer votre adresse de livraison");
+                $delivry->setAddress($body['address']);
+                $delivry->setPostalCode($body['postal_code']);
+                $delivry->setLatPosition($body['lat_position']);
+                $delivry->setLngPosition($body['lng_position']);
+                $delivry->setType($body['type']);
+                $delivry->setTimeSlot($body['time_slot']);
+                $delivry->setDaySlot($body['day_slot']);
+
+                $delivry->setUser($user);                
+                $this->em->persist($delivry);
+                $this->em->flush();
+            }
+            else  throw new \Exception("Utilisateur invalide.");
+            
+            return $this->api->success("Saving deliveryInfo successful", $delivry);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+    }
 }

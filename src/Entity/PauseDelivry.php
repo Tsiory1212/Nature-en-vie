@@ -5,11 +5,11 @@ namespace App\Entity;
 use App\Repository\PauseDelivryRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-
+use JsonSerializable;
 /**
  * @ORM\Entity(repositoryClass=PauseDelivryRepository::class)
  */
-class PauseDelivry
+class PauseDelivry implements JsonSerializable
 {
     /**
      * @ORM\Id
@@ -84,5 +84,15 @@ class PauseDelivry
         $this->order_paused = $order_paused;
 
         return $this;
+    }
+    public function jsonSerialize()
+    {
+        $vars = [
+            "id"=> $this->id,
+            "start_date"=> $this->start_date,
+            "end_date"=> $this->end_date,
+            "order_paused_id"=> $this->order_paused->getId()
+        ];
+        return $vars;
     }
 }

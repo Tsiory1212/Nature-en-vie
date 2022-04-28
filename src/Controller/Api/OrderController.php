@@ -21,6 +21,7 @@ use App\Repository\UserRepository;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Manager\StripeManager;
+use App\Entity\PauseDelivry;
 /**
  * @Route("/api/orders", name="api_orders_")
  */
@@ -180,4 +181,27 @@ class OrderController extends AbstractController
         }
         
     }
+    /**
+     * @Route("/pause", name="pause", methods={"POST"})
+     */
+    public function pause(Request $request): Response
+    {
+        try{
+            $body = json_decode($request->getContent(), true);
+            $pausePlan = new PauseDelivry();
+            $orderPlan = $this->repoOrder->findOneBy(['id' => $body['order_paused_id']]);
+            $pausePlan->setOrderPaused($orderPlan);
+            $pausePlan->setStartDate(new \DateTime($body['start_date']));
+            $pausePlan->setEndDate(new \DateTime($body['end_date']));
+
+            $this->em->persist($pausePlan);
+            $this->em->flush();
+            return $this->api->success("Subscription paused",  $pausePlan);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+        
+    }
+    
 }

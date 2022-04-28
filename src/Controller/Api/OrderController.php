@@ -17,6 +17,7 @@ use App\Service\Paypal\PaypalService;
 use App\Service\SubscriptionService;
 use App\Service\ApiService;
 use App\Repository\DelivryRepository;
+use App\Repository\PauseDelivryRepository;
 use App\Repository\UserRepository;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,8 +28,9 @@ use App\Entity\PauseDelivry;
  */
 class OrderController extends AbstractController
 {
-    public function __construct( StripeManager $stripeManager, EntityManagerInterface $em, ApiService $api, PaypalService $paypalService, DelivryRepository $repoDelivry, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder, SubscriptionService $subscriptionService, UserRepository $repoUser)
+    public function __construct( PauseDelivryRepository $repoPauseDelivry, StripeManager $stripeManager, EntityManagerInterface $em, ApiService $api, PaypalService $paypalService, DelivryRepository $repoDelivry, SubscriptionPlanRepository $repoPlan, OrderRepository $repoOrder, SubscriptionService $subscriptionService, UserRepository $repoUser)
     {
+        $this->repoPauseDelivry = $repoPauseDelivry;
         $this->repoPlan = $repoPlan;
         $this->repoOrder = $repoOrder;
         $this->paypalService = $paypalService;
@@ -197,6 +199,22 @@ class OrderController extends AbstractController
             $this->em->persist($pausePlan);
             $this->em->flush();
             return $this->api->success("Subscription paused",  $pausePlan);
+        }
+        catch(\Exception $error){
+            return $this->api->response($error->getCode(), $error->getMessage());
+        }
+        
+    }
+
+    /**
+     * @Route("/resume/{pauseDeliveryId}", name="resume", methods={"DELETE"})
+     */
+    public function resume($pauseDeliveryId): Response
+    {
+        try{
+            $pausePlan = $this->repoPauseDelivry->findOneBy(['id' => $pauseDeliveryId]);
+            $this->repoPauseDelivry->remove($pausePlan);
+            return $this->api->success("Resumed",  $pauseDeliveryId);
         }
         catch(\Exception $error){
             return $this->api->response($error->getCode(), $error->getMessage());
